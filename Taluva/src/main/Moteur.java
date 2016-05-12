@@ -14,21 +14,7 @@ public class Moteur {
 	}
 	
 	//
-	public int placer_tuile(Tuile t/*, Position P*/){
-		return 0;
-	}
 	
-	public boolean placement_tuile_autorise(Tuile t/*, Position P*/){
-		return true;
-	}
-	
-	public int placer_batiment(Case.Type_Batiment b/*, Position P*/){
-		return 0;
-	}
-	
-	public boolean placement_batiment_autorise(Case.Type_Batiment b/*, Position P*/){
-		return true;
-	}
 	
 	public Terrain getT(){
 		return T;
