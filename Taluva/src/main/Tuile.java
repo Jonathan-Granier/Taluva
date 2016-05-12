@@ -2,10 +2,10 @@ package main;
 
 public class Tuile {
 	
-	private char [] t;
+	private Case.Type [] t;
 	private int TYPE;	// 0 ou 1
 	
-	//		  Indices :
+	//		  	Indices :
 	//		     _	    _
 	//		   _/2\    /1\_
 	// Type 0 /0\_/    \_/3\ Type 1
@@ -13,10 +13,10 @@ public class Tuile {
 	//		    \_/    \_/
 	
 	// Crée une tuile (type 0) avec le volcan à gauche, typeb en bas et typeh en haut.
-	Tuile(char typeb, char typeh){
-		t = new char[6];
+	Tuile(Case.Type typeb, Case.Type typeh){
+		t = new Case.Type[6];
 		TYPE = 0;
-		t[0] = Case.VOLCAN;
+		t[0] = Case.Type.VOLCAN;
 		t[2] = typeh;
 		t[4] = typeb;
 	}
@@ -34,10 +34,10 @@ public class Tuile {
 	}
 	
 	public void tourner_anti_horaire(){
-		for(int i=TYPE+1;i<=5;i+=2){
-			t[i-1]=t[i];
-		}
-		if(TYPE == 1) t[0] = t[5];
 		swap_type();
+		for(int i=TYPE;i<5;i+=2){
+			t[i]=t[i+1];
+		}
+		if(TYPE == 1) t[5] = t[0];
 	}
 }
