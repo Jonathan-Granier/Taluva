@@ -2,7 +2,7 @@ package main;
 
 public class Tuile {
 	
-	private Case.Type_c [] t;
+	private Case.Type [] t;
 	private int TYPE;	// 0 ou 1
 	
 	//		  	Indices :
@@ -13,10 +13,10 @@ public class Tuile {
 	//		    \_/    \_/
 	
 	// Crée une tuile (type 0) avec le volcan à gauche, typeb en bas et typeh en haut.
-	Tuile(Case.Type_c typeb, Case.Type_c typeh){
-		t = new Case.Type_c[6];
+	Tuile(Case.Type typeb, Case.Type typeh){
+		t = new Case.Type[6];
 		TYPE = 0;
-		t[0] = Case.Type_c.VOLCAN;
+		t[0] = Case.Type.VOLCAN;
 		t[2] = typeh;
 		t[4] = typeb;
 	}
