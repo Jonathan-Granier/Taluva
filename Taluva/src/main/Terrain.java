@@ -18,6 +18,31 @@ public class Terrain {
 		}
 	}
 	
+	public Terrain clone(){
+		Terrain tmp = new Terrain();
+		for(int i=0;i<TAILLE;i++){
+			for(int j=0;j<TAILLE;j++){
+				tmp.t[i][j] = t[i][j];
+			}
+		}
+		return tmp;
+	}
+	
+	//
+	//	 /
+	//	/
+	//
+	//
+	//
+	//
+	
+	//	Position pour le placement :
+	//		     _	    _
+	//		   _/X\    /X\_
+	// GAUCHE / \_/    \_/ \ DROITE
+	//	 	  \_/ \    / \_/
+	//		    \_/    \_/
+	
 	public int placer_tuile(Tuile t, Point P){
 		return 0;
 	}
