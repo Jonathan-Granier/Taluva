@@ -33,7 +33,6 @@ public class FPS {
     
     public static void updateFPS() {
         if (getTime() - lastFPS > 1000) {
-        	System.out.println(fps);
         	Display.setTitle("Engine: " + fps);
             fps = 0;
             lastFPS += 1000;
