@@ -36,17 +36,19 @@ public class Terrain {
 		return t;
 	}
 	
-	//		  __      __
+	//			  __/3,0 \
+	//			 /  \    /
+	//		  __/2,0 \__/
 	//		 /  \    /  \
-	//	  __/1,0 \__/3,0 \
+	//	  __/1,0 \__/3,1 \
 	//	 /	\    /  \    /
-	//	/0,0 \__/2,0 \__/
+	//	/0,0 \__/2,1 \__/
 	//  \    /  \    /  \
-	//   \__/1,1 \__/3,1 \
+	//   \__/1,1 \__/3,2 \
 	//   /  \    /  \    /
-	//  /0,1 \__/2,1 \__/
+	//  /0,1 \__/2,2 \__/
 	//  \    /  \    /  \
-	//   \__/1,2 \__/3,2 \
+	//   \__/1,2 \__/3,3 \
 	
 	//	Position pour le placement :
 	//		     _	    _
@@ -71,72 +73,45 @@ public class Terrain {
 		return P.x >= 0 && P.y >= 0 && P.x < TAILLE && P.y < TAILLE;
 	}
 	
-	private ArrayList<Point> cases(Tuile.Orientation o, Point P){
+	// Renvoie les 3 cases de la tuile
+	private Point [] cases_tuile(Tuile.Orientation o, Point P){
 		int x = P.x;
 		int y = P.y;
-		ArrayList<Point> res = new ArrayList<Point>();
-		res.add(new Point(x,y));
-		res.add(new Point(x,y+1));
+		Point [] res = new Point[3];
+		res[0] = new Point(x,y);
+		res[1] = new Point(x,y+1);
 		if(o == Tuile.Orientation.GAUCHE){
-			if(x%2 == 0){
-				res.add(new Point(x-1,y+1));				
-			}
-			else{
-				res.add(new Point(x-1,y));
-			}
+			res[2] = new Point(x-1,y);
 		}
 		else{
-			if(x%2 == 0){
-				res.add(new Point(x+1,y+1));
-			}
-			else{
-				res.add(new Point(x+1,y));
-			}
+			res[2] = new Point(x+1,y+1);
 		}
 		return res;
 	}
 	
+	// Renvoie la liste des cases en contact avec la tuile
 	private ArrayList<Point> contact(Tuile.Orientation o, Point P){
 		int x = P.x;
 		int y = P.y;
 		ArrayList<Point> res = new ArrayList<Point>();
 		res.add(new Point(x,y-1));
 		res.add(new Point(x,y+2));
+		res.add(new Point(x+1,y));
+		res.add(new Point(x-1,y+1));
 		if(o == Tuile.Orientation.GAUCHE){
 			res.add(new Point(x-2,y));
-			res.add(new Point(x-2,y+1));
 			res.add(new Point(x+1,y+1));
-			res.add(new Point(x+1,y));
-			if(x%2 == 0){
-				res.add(new Point(x-1,y));
-				res.add(new Point(x-1,y+2));
-				res.add(new Point(x+1,y+2));
-			}
-			else{
-				res.add(new Point(x-1,y-1));
-				res.add(new Point(x-1,y+1));
-				res.add(new Point(x+1,y-1));
-			}
+			res.add(new Point(x-1,y-1));
 		}
 		else{
-			res.add(new Point(x+2,y));
+			res.add(new Point(x+1,y+2));
 			res.add(new Point(x+2,y+1));
-			res.add(new Point(x-1,y+1));
 			res.add(new Point(x-1,y));
-			if(x%2 == 0){
-				res.add(new Point(x+1,y));
-				res.add(new Point(x-1,y+2));
-				res.add(new Point(x+1,y+2));
-			}
-			else{
-				res.add(new Point(x+1,y+1));
-				res.add(new Point(x-1,y+1));
-				res.add(new Point(x+1,y-1));
-			}
 		}
 		return res;
 	}
 	
+	// Renvoie vrai ssi la tuile est en contact avec au moins une case non vide
 	private boolean en_contact(Tuile.Orientation o, Point P){
 		boolean trouve = false;
 		ArrayList<Point> voisins;
@@ -148,21 +123,31 @@ public class Terrain {
 		return trouve;
 	}
 	
+	// Renvoie vrai ssi le placement de cette tuile est autorisé.
 	public boolean placement_tuile_autorise(Tuile t, Point P){
 		if(empty) return dans_terrain(t.getOrientation(),P);
 		else{
-			boolean eleve = true;
-			int i = 0;
-			ArrayList<Point> cases = cases(t.getOrientation(),P);
-			while(eleve && i<3){
-				eleve = !this.t[cases.get(i).x][cases.get(i).y].est_Vide();
-			}
-			if(!eleve){
-				return en_contact(t.getOrientation(),P);
+			// Teste si la tuile est posée sur d'autres tuiles
+			boolean s0,s1,s2;
+			Point [] cases_t = cases_tuile(t.getOrientation(),P);
+			s0 = !this.t[cases_t[0].x][cases_t[0].y].est_Vide();
+			s1 = !this.t[cases_t[1].x][cases_t[1].y].est_Vide();
+			s2 = !this.t[cases_t[2].x][cases_t[2].y].est_Vide();
+			if(s0 || s1 || s2){
+				if(s0 && s1 && s2){
+					// On joue alors sur des tuiles, on vérifie la disposition des volcans
+					//TODO
+					
+					return true;
+				}
+				else{
+					// On essaye de jouer partiellement sur de tuiles : interdit
+					return false;
+				}
 			}
 			else{
-				//TODO
-				return true;
+				// On joue au niveau 1, il faut que ce soit en contact
+				return en_contact(t.getOrientation(),P);
 			}
 		}
 	}
