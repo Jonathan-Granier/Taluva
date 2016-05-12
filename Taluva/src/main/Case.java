@@ -61,6 +61,10 @@ public class Case {
 		type = t;
 	}
 	
+	public boolean est_Vide(){
+		return type == Type.VIDE;
+	}
+	
 	// Renvoie l'orientation de la case. N'a de sens que si getType()=OrientationCase.VOLCAN
 	public Orientation getOrientation(){
 		return orientation;
