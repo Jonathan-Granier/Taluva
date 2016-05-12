@@ -3,6 +3,7 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -13,6 +14,7 @@ import entities.Light;
 import entities.Object3D;
 import gui.Drawable;
 import gui.Texture;
+import main.Terrain;
 import renderEngine.Renderer;
 import renderEngine.Window;
 import shaders.StaticShader;
@@ -21,6 +23,21 @@ import utils.MousePicker;
 
 public class Game {
 
+	private static float SIZE_OF_HEXA = 68;
+	private static float HEIGHT_OF_TILE = 2;
+	
+	private Terrain terrain;
+
+	public List<Object3D> createTerrain(Loader loader){
+		terrain = new Terrain();
+		List<Object3D> Tiles = new ArrayList<Object3D>();
+		for(int i=0; i<4;i++)
+
+				Tiles.add(new Object3D("","Tile",loader,new Vector3f((i+1)*SIZE_OF_HEXA,0,0),0,0,0,0.5f));
+			
+		return Tiles;
+	}
+	
 	public void play(){
 		Window.createDislay();
 		
@@ -31,19 +48,8 @@ public class Game {
 		
 		FPS.start();
 		
-		//Init guis
-		Texture gui = new Texture(loader.loadTexture("fond.png"),new Vector2f(Display.getWidth()-250,0), new Vector2f(250,Display.getHeight()));
-		MyButton buttonA = new MyButton(loader.loadTexture("Button_A.png"),new Vector2f(Display.getWidth()-200,50), new Vector2f(124,64),"A" );
-		MyButton buttonB = new MyButton(loader.loadTexture("Button_B.png"),new Vector2f(Display.getWidth()-200,200), new Vector2f(124,64),"B" );
-		
-		Drawable drawable = new Drawable(loader);
-		drawable.bindTexture(gui);
-		drawable.bindTexture(buttonA.getTexture());
-		drawable.bindTexture(buttonB.getTexture());
-		
-		Object3D king = new Object3D("1","king", loader,new Vector3f(0,0,0),0,0,0,0.1f);
-		Object3D plateau = new Object3D("plateau","plateau",loader, new Vector3f(0,0,0),0,0,0,0.1f);
-		Object3D king2 = new Object3D("3","king_tex",loader, new Vector3f(0,0,20),0,0,0,0.1f);
+		Object3D Tile = new Object3D("1","Tile", loader,new Vector3f(0,0,0),0,0,0,0.5f);
+		List<Object3D> Tiles = new ArrayList<Object3D>(createTerrain(loader));
 
 		List<Light> lights = new ArrayList<Light>();
 		Light sun = new Light(new Vector3f(20000,15000,-1000),new Vector3f(1,1,1));
@@ -58,10 +64,9 @@ public class Game {
 		lights.add(light4);*/
 		
 		List<Object3D> objects = new ArrayList<Object3D>();
-		objects.add(king);
-		objects.add(king2);
+		objects.add(Tile);
 		
-		MousePicker picker = new MousePicker(camera,renderer.getProjectionMatrix(),plateau);
+		MousePicker picker = new MousePicker(camera,renderer.getProjectionMatrix());
 		
 		while(!Display.isCloseRequested()){
 			FPS.updateFPS();
@@ -71,12 +76,12 @@ public class Game {
 			picker.update();
 			Vector3f point = picker.getCurrentObjectPoint();
 			if(point!=null){
-				king.setPosition(point);
+				Tile.setPosition(new Vector3f(point.x,HEIGHT_OF_TILE,point.z));
 			}
 
-			buttonA.update();
-			buttonB.update();
-			
+			if(Mouse.isButtonDown(1))
+				Tile.setRotY(Tile.getRotY()+45);
+				
 			renderer.prepare();
 			
 			renderer.renderShadowMap(objects, sun);
@@ -85,18 +90,16 @@ public class Game {
 			shader.loadLights(lights);
 			
 			shader.loadViewMatrix(camera);
-			renderer.draw(king,shader);
-			renderer.draw(plateau,shader);
-			renderer.draw(king2,shader);
+			renderer.draw(Tile,shader);
+			for(Object3D tile:Tiles)
+				renderer.draw(tile, shader);
 			shader.stop();
 			
-			drawable.draw();
 			
 			Window.updateDisplay();
 			
 		}
 		
-		drawable.cleanUp();
 		renderer.cleanUp();
 		shader.cleanUp();
 		loader.cleanUp();
