@@ -8,7 +8,8 @@ public class Piece {
 	}
 	
 	private Type_p type_p;
-
+	
+	//Une Piece
 	Piece(Type_p type, Type_p type_p){
 		this.type_p = type_p;
 	}
