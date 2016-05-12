@@ -14,16 +14,16 @@ Tuile :
 	Tuile(Case.Type t1, Case.Type t2); 
 	
 	// Retourne l'orientation Gauche/Droite de la tuile.
-	getOrientation();	
+	public Orientation getOrientation();	
 	
 	// tourne la tuile dans le sens Horaire. Renvoie 1 si opération réussie.
-	public int Tourner_horaire()
+	public int Tourner_horaire();
 	
 	// tourne la tuile dans le sens anti-Horaire. Renvoie 1 si opération réussie.
-	public int Tourner_anti_horaire()
+	public int Tourner_anti_horaire();
 	
 	// Retourne l'orientation du volcan
-	public Case.Orientation get_Orientation_Volcan()
+	public Case.Orientation get_Orientation_Volcan();
 	
 	// Renvoie le type de la case désigné par la direction indiqué.
-	public Case.Type get_type_case(Case.Orientation orientation)
+	public Case.Type get_type_case(Case.Orientation orientation);
