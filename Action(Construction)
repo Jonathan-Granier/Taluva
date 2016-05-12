@@ -6,6 +6,10 @@ Cliquer sur une piece:
     Cliquer sur case
       -> Si possible -> Effectuer action
       -> Sinon -> afficher conditions nécessaire pour l'effectuer
+    Cliquer sur Action
+      -> mode action
+    Clique Droit
+    -> Repasser en posture neutre
       
 Cliquer sur Action
   -> mode action
@@ -15,6 +19,10 @@ Cliquer sur Action
     Cliquer sur case
       -> Si possible -> Effectuer action
       -> Sinon -> afficher conditions nécessaire pour l'effectuer
+    Cliquer sur Piece
+      -> mode piece
+    Clique Droit
+    -> Repasser en posture neutre
   
   Cliquer sur une case
     -> afficher menu des options

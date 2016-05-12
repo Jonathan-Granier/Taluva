@@ -17,7 +17,7 @@ public class Tuile {
 //		    \_/    \_/
 
 // Crée une tuile (OUEST) avec le volcan à OUEST, le type 2 au NORD, et le type3 au SUD.
-	Tuile (Case.Type case2, Case.Type case3)
+	public Tuile (Case.Type case2, Case.Type case3)
 	{
 		type_case = new Case.Type[3];
 		type_case[0] = Case.Type.VOLCAN;

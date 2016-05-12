@@ -10,31 +10,36 @@ import org.lwjgl.util.vector.Vector3f;
 
 import Loaders.Loader;
 import entities.Camera;
+import entities.GraphicTile;
 import entities.Light;
 import entities.Object3D;
 import gui.Drawable;
 import gui.Texture;
+import main.Case;
+import main.Moteur;
 import main.Terrain;
+import main.Tuile;
 import renderEngine.Renderer;
 import renderEngine.Window;
 import shaders.StaticShader;
 import utils.FPS;
+import utils.InputHandler;
 import utils.MousePicker;
 
 public class Game {
-
-	private static float SIZE_OF_HEXA = 68;
-	private static float HEIGHT_OF_TILE = 2;
 	
+	private static float SIZE_OF_HEXA = 68;
 	private Terrain terrain;
-
-	public List<Object3D> createTerrain(Loader loader){
+	private Moteur moteur;
+	
+	public List<GraphicTile> createTerrain(Loader loader){
 		terrain = new Terrain();
-		List<Object3D> Tiles = new ArrayList<Object3D>();
+		//moteur = new Moteur(terrain);
+		Case [][] t = terrain.getT();
+		List<GraphicTile> Tiles = new ArrayList<GraphicTile>();
 		for(int i=0; i<4;i++)
-
-				Tiles.add(new Object3D("","Tile",loader,new Vector3f((i+1)*SIZE_OF_HEXA,0,0),0,0,0,0.5f));
-			
+			Tiles.add(new GraphicTile(new Tuile(Case.Type.VOLCAN,Case.Type.VOLCAN), loader,new Vector3f((i+1)*SIZE_OF_HEXA,0,0)));
+		
 		return Tiles;
 	}
 	
@@ -48,8 +53,8 @@ public class Game {
 		
 		FPS.start();
 		
-		Object3D Tile = new Object3D("1","Tile", loader,new Vector3f(0,0,0),0,0,0,0.5f);
-		List<Object3D> Tiles = new ArrayList<Object3D>(createTerrain(loader));
+		GraphicTile Tile = new GraphicTile(new Tuile(Case.Type.VOLCAN,Case.Type.VOLCAN),loader,new Vector3f(0,0,0));
+		List<GraphicTile> Tiles = new ArrayList<GraphicTile>(createTerrain(loader));
 
 		List<Light> lights = new ArrayList<Light>();
 		Light sun = new Light(new Vector3f(20000,15000,-1000),new Vector3f(1,1,1));
@@ -62,10 +67,7 @@ public class Game {
 		lights.add(light2);
 		lights.add(light3);
 		lights.add(light4);*/
-		
-		List<Object3D> objects = new ArrayList<Object3D>();
-		objects.add(Tile);
-		
+
 		MousePicker picker = new MousePicker(camera,renderer.getProjectionMatrix());
 		
 		while(!Display.isCloseRequested()){
@@ -76,23 +78,21 @@ public class Game {
 			picker.update();
 			Vector3f point = picker.getCurrentObjectPoint();
 			if(point!=null){
-				Tile.setPosition(new Vector3f(point.x,HEIGHT_OF_TILE,point.z));
+				Tile.getObject3D().setPosition(new Vector3f(point.x,0,point.z));
 			}
 
-			if(Mouse.isButtonDown(1))
-				Tile.setRotY(Tile.getRotY()+45);
+			if(InputHandler.isButtonDown(1))
+				Tile.rotate();
 				
 			renderer.prepare();
-			
-			renderer.renderShadowMap(objects, sun);
 			
 			shader.start();
 			shader.loadLights(lights);
 			
 			shader.loadViewMatrix(camera);
-			renderer.draw(Tile,shader);
-			for(Object3D tile:Tiles)
-				renderer.draw(tile, shader);
+			renderer.draw(Tile.getObject3D(),shader);
+			for(GraphicTile tile:Tiles)
+				renderer.draw(tile.getObject3D(), shader);
 			shader.stop();
 			
 			

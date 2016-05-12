@@ -37,21 +37,20 @@ public class Case {
 	private int nb_b;
 	private int niveau;
 	
-	Case(Type type){
+	public Case(Type type){
 		this.type = type;
 		orientation = Orientation.NONE;
 		nb_b = 0;
 		bt = Type_Batiment.VIDE;
-		niveau = 1;
+		niveau = (type == Type.VIDE) ? 0 : 1;
 	}
 	
 	Case(Type type, Orientation orientation){
 		this.type = type;
-		if(type != Type.VOLCAN) this.orientation = Orientation.NONE;
-		else this.orientation = orientation;
+		this.orientation = (type == Type.VOLCAN) ? orientation : Orientation.NONE;
 		nb_b = 0;
 		bt = Type_Batiment.VIDE;
-		niveau = 1;
+		niveau = (type == Type.VIDE) ? 0 : 1;
 	}
 	
 	// Renvoie le type de la case
@@ -60,7 +59,7 @@ public class Case {
 	}
 	
 	public void setType(Type t){
-		type = t;
+		if(t != Type.VIDE || niveau > 0) type = t;
 	}
 	
 	public boolean est_Vide(){
