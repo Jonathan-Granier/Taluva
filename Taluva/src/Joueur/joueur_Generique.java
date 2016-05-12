@@ -16,24 +16,29 @@ import main.Moteur;
 
 
 
-
-
 public abstract class joueur_Generique {
-	private int tour, hutte, temple, score;
+	private int temple, tour, hutte,hutteDetruite , score;
 	private Color c;
 	private Moteur m;
 	
 	public joueur_Generique(Color couleur_joueur, Moteur m)
 	{
+		temple = 3;
 		tour = 2;
 		hutte = 20;
-		temple = 3;
-		this.c = couleur_joueur;
+		hutteDetruite = 0;
 		score = 0;
-		
+		this.c = couleur_joueur;
 		this.m = m;
 		
 	}
+	// -------------- Fonction Get ---------------------
+	
+	public int getTemple()
+	{
+		return temple;
+	}
+	
 	public int getTour()
 	{
 		return tour;
@@ -43,27 +48,49 @@ public abstract class joueur_Generique {
 	{
 		return hutte;
 	}
-	public int getTemple()
+	
+	public int getHutteDetruite()
 	{
-		return temple;
+		return hutteDetruite;
 	}
+	
 	public int getScore()
 	{
 		return score;
 	}
 	
-	public void setTour(int tour)
+	// -------------- Fonction Set ---------------------
+	
+	public void decrementeTemple()
 	{
-		this.tour = tour;
+		if(temple > 0)
+		{
+			this.temple = temple;
+		}
 	}
-	public void setHutte(int hutte)
+
+	
+	public void decrementeTour()
 	{
-		this.hutte = hutte;
+		if(tour > 0)
+		{
+			this.tour = tour;
+		}
+		
 	}
-	public void setTemple(int temple)
+	public void decrementeHutte(int n)
 	{
-		this.temple = temple;
+		if(hutte - n > 0)
+		{
+			this.hutte = hutte - n;
+		}
 	}
+	
+	public void incrementeHutteDetruite(int n)
+	{
+		this.hutteDetruite = hutteDetruite + n;
+	}
+	
 	public void setScore(int score)
 	{
 		this.score = score;

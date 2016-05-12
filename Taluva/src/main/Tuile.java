@@ -21,11 +21,14 @@ public class Tuile {
 		t = new Case.Type[6];
 		o = Orientation.GAUCHE;
 		t[0] = Case.Type.VOLCAN;
+		t[1] = Case.Type.VOLCAN;
 		t[2] = typeh;
+		t[3] = typeh;
 		t[4] = typeb;
+		t[5] = typeb;
 	}
 	
-	private void swap_type(){
+	private void swap_Orientation(){
 		o = (o == Orientation.GAUCHE) ? Orientation.DROITE : Orientation.GAUCHE;
 	}
 	
@@ -40,16 +43,32 @@ public class Tuile {
 			t[i+1]=t[i];
 		}
 		if(o == Orientation.DROITE) t[0] = t[5];
-		swap_type();
+		swap_Orientation();
 	}
 
 	// Tourne la tuile d'1/6 de tour en sens anti-horaire
 	public void tourner_anti_horaire(){
-		swap_type();
+		swap_Orientation();
 		int i = (o == Orientation.GAUCHE) ? 0 : 1;
 		for(;i<5;i+=2){
 			t[i]=t[i+1];
 		}
 		if(o == Orientation.DROITE) t[5] = t[0];
+	}
+	
+	public Case.Type get(int i)
+	{
+		if(0<=i && i <3)
+		{
+			if(o == Orientation.GAUCHE)
+				return t[2*i];
+			else
+				return t[2*i +1];
+		}
+		else
+		{
+			System.out.println("Tuile: Erreur l'index est inccorect. (get)");
+			return Case.Type.VIDE;
+		}
 	}
 }
