@@ -25,6 +25,7 @@ public class Tuile {
 		TYPE = 1-TYPE;
 	}
 	
+	// Tourne la tuile d'1/6 de tour en sens horaire
 	public void tourner_horaire(){
 		for(int i=TYPE;i<5;i+=2){
 			t[i+1]=t[i];
@@ -32,7 +33,8 @@ public class Tuile {
 		if(TYPE == 1) t[0] = t[5];
 		swap_type();
 	}
-	
+
+	// Tourne la tuile d'1/6 de tour en sens anti-horaire
 	public void tourner_anti_horaire(){
 		swap_type();
 		for(int i=TYPE;i<5;i+=2){
