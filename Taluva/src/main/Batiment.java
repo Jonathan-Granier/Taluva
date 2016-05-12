@@ -15,12 +15,12 @@ public class Batiment {
 	}
 	
 	//Renvoie le type du batiment
-	public Type get_Type() {
+	public Type getType() {
 		return t;
 	}
 
 	//Modifie le type du batiment
-	public void set_Type(Type t) {
+	public void setType(Type t) {
 		this.t = t;
 	}
 		
