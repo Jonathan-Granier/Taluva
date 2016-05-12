@@ -120,21 +120,61 @@ public class Terrain {
 	}
 	
 	// Renvoie vrai ssi le placement de cette tuile est autorisé.
-	public boolean placement_tuile_autorise(Tuile t, Point P){
-		if(empty) return dans_terrain(t.getOrientation(),P);
+	public boolean placement_tuile_autorise(Tuile tuile, Point P){
+		if(empty) return dans_terrain(tuile.getOrientation(),P);
 		else{
 			// Teste si la tuile est posée sur d'autres tuiles
+			int x = P.x;
+			int y = P.y;
 			boolean s0,s1,s2;
-			Point [] cases_t = cases_tuile(t.getOrientation(),P);
-			s0 = !this.t[cases_t[0].x][cases_t[0].y].est_Vide();
-			s1 = !this.t[cases_t[1].x][cases_t[1].y].est_Vide();
-			s2 = !this.t[cases_t[2].x][cases_t[2].y].est_Vide();
+			Point [] cases_t = cases_tuile(tuile.getOrientation(),P);
+			s0 = !t[cases_t[0].x][cases_t[0].y].est_Vide();
+			s1 = !t[cases_t[1].x][cases_t[1].y].est_Vide();
+			s2 = !t[cases_t[2].x][cases_t[2].y].est_Vide();
 			if(s0 || s1 || s2){
 				if(s0 && s1 && s2){
 					// On joue alors sur des tuiles, on vérifie la disposition des volcans
-					//TODO
-					
-					return true;
+					if(tuile.get_type_case(Case.Orientation.N)==Case.Type.VOLCAN){
+						// Si le Volcan est au Nord
+						if(t[x][y].getType()==Case.Type.VOLCAN){
+							return t[x][y].getOrientation() != tuile.get_Orientation_Volcan();
+						}
+						else return false;
+					}
+					else if(tuile.get_type_case(Case.Orientation.S)==Case.Type.VOLCAN){
+						// Si le Volcan est au Sud
+						if(t[x][y+1].getType()==Case.Type.VOLCAN){
+							return t[x][y+1].getOrientation() != tuile.get_Orientation_Volcan();
+						}
+						else return false;
+					}
+					else{
+						// Si le Volcan est sur le coté
+						if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
+							if(tuile.get_type_case(Case.Orientation.E)==Case.Type.VOLCAN){
+								if(t[x-1][y].getType()==Case.Type.VOLCAN){
+									return t[x-1][y].getOrientation() != tuile.get_Orientation_Volcan();
+								}
+								else return false;
+							}
+							else{
+								System.out.println("Erreur : pas de Volcan sur cette tuile !");
+								return false;
+							}
+						}
+						else{
+							if(tuile.get_type_case(Case.Orientation.O)==Case.Type.VOLCAN){
+								if(t[x+1][y+1].getType()==Case.Type.VOLCAN){
+									return t[x+1][y+1].getOrientation() != tuile.get_Orientation_Volcan();
+								}
+								else return false;
+							}
+							else{
+								System.out.println("Erreur : Pas de volcan sur cette tuile !");
+								return false;
+							}
+						}
+					}
 				}
 				else{
 					// On essaye de jouer partiellement sur de tuiles : interdit
@@ -143,7 +183,7 @@ public class Terrain {
 			}
 			else{
 				// On joue au niveau 1, il faut que ce soit en contact
-				return en_contact(t.getOrientation(),P);
+				return en_contact(tuile.getOrientation(),P);
 			}
 		}
 	}
