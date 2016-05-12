@@ -19,6 +19,8 @@ public class Case {
 		S,
 		S_O,
 		S_E,
+		E,
+		O,
 		NONE;
 	}
 	
