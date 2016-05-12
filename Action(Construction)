@@ -1,0 +1,28 @@
+Cliquer sur une piece:
+  -> mode piece
+  -> Afficher les possibilités liés a la pièce
+    Passer sur Case 
+      -> Afficher prévision & coût
+    Cliquer sur case
+      -> Si possible -> Effectuer action
+      -> Sinon -> afficher conditions nécessaire pour l'effectuer
+      
+Cliquer sur Action
+  -> mode action
+  -> afficher les possibilités sur les action
+    Passer sur case
+      -> afficher Prévisions & coût
+    Cliquer sur case
+      -> Si possible -> Effectuer action
+      -> Sinon -> afficher conditions nécessaire pour l'effectuer
+  
+  Cliquer sur une case
+    -> afficher menu des options
+      Passe sur Option
+      -> Cout & prévision
+      Cliquer sur option
+      -> Si possible -> Effectuer action
+      -> Sinon -> afficher conditions nécessaire pour l'effectuer
+      
+  Clique Droit
+    -> Repasser en posture neutre (posture pour cliquer sur une case.)
