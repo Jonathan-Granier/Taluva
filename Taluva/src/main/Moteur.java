@@ -21,9 +21,22 @@ public class Moteur {
 	joueur_Humain j1;
 	joueur_Humain j2;
 	
-	//
+	public Moteur(Terrain T,int nb_tuiles,joueur_Humain j1,joueur_Humain j2){
+		this.T = T;
+		this.nbTuiles = nb_tuiles;
+		annul = new ArrayList<Terrain>();
+		annul.add(T.clone());
+		redo = new ArrayList<Terrain>();
+		tuiles = new ArrayList<Tuile>();
+		init_tuiles(tuiles);
+		this.j1 = j1;
+		j_courant = j1;
+		this.j2 = j2;
+	}
+	
+	///////////////////////////////////////////////////////////////
 	//LECTURE DES PIECES ET INITIALISATION DE L'ENSEMBLE DE TUILES
-	//
+	///////////////////////////////////////////////////////////////
 	public Case.Type switch_case(char c){
 		switch (c){
 			case 'V' :	return Case.Type.VOLCAN;
@@ -44,9 +57,8 @@ public class Moteur {
 	}
 	
 	//Ajout à l'ensemble de tuiles
-	public void traiter(String line,ArrayList<Tuile> tuiles){
+	public void rajout(String line,ArrayList<Tuile> tuiles){
 		int nb;
-		char c;
 		nb = Character.getNumericValue(line.charAt(0));
 		for(int i=1; i<=nb;i++){
 			tuiles.add(new Tuile(switch_case(line.charAt(2)),switch_case(line.charAt(4))));
@@ -63,33 +75,23 @@ public class Moteur {
 			try {
 				while ((line = br.readLine()) != null) {
 					System.out.println(line);
-					traiter(line,tuiles);
+					rajout(line,tuiles);
 				}
 				br.close();
 			}
 			catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
-	public Moteur(Terrain T,int nb_tuiles,joueur_Humain j1,joueur_Humain j2){
-		this.T = T;
-		this.nbTuiles = nb_tuiles;
-		annul = new ArrayList<Terrain>();
-		annul.add(T.clone());
-		redo = new ArrayList<Terrain>();
-		this.j1 = j1;
-		j_courant = j1;
-		this.j2 = j2;
-	}
-	
+	///////////////////////
+	// Getters / Setters
+	///////////////////////
 	public Terrain getT(){
 		return T;
 	}
@@ -125,22 +127,22 @@ public class Moteur {
 	}
 	
 	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
-	// A COMPLETER!!!
+	//TODO
 	public boolean a_perdu(){
 		return false;
 	}
 	
 	//Renvoie une tuile piochée aléatoirement dans la pioche
-	// A COMPLETER!!!
+	//TODO
 	public Tuile piocher(){
 		Random r = new Random();
-		return null;
+		return tuiles.remove(r.nextInt(tuiles.size()-1)+1);
 	}
 	
 	//Permet de jouer un tour
 	//i.e poser une tuile (et une pièce) sur le terrain T.
 	//Renvoie 0 si l'opération à réussi, 1 sinon.
-	// A COMPLETER!!!
+	//TODO
 	public int jouer_tour(){
 		if(partie_terminee()){
 			if(j1.getScore()>j2.getScore())System.out.println("Joueur 1 gagne");
