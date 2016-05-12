@@ -44,7 +44,7 @@ public class GraphicTile {
 				object3d.setRotY(300);
 				break;
 			default:
-				System.out.println("rotate cannot be done");
+				System.out.println("Rotate cannot be done");
 		}
 	}
 	
