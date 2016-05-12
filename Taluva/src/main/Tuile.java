@@ -17,7 +17,6 @@ public class Tuile {
 //		    \_/    \_/
 
 // Crée une tuile (OUEST) avec le volcan à OUEST, le type 2 au NORD, et le type3 au SUD.
-	
 	Tuile (Case.Type case2, Case.Type case3)
 	{
 		type_case = new Case.Type[3];
@@ -27,6 +26,7 @@ public class Tuile {
 		o = Case.Orientation.O;
 	}
 
+	// Retourne l'orientation Gauche/Droite de la tuile.
 	public Orientation getOrientation()
 	{
 		if(OrienteDroite())
@@ -36,6 +36,7 @@ public class Tuile {
 		return Orientation.GAUCHE;
 	}
 	
+	// tourne la tuile dans le sens Horaire. Renvoie 1 si opération réussie.
 	public int Tourner_horaire()
 	{
 		switch (o)
@@ -62,6 +63,8 @@ public class Tuile {
 				return 0;
 		}
 	}
+	
+	// tourne la tuile dans le sens anti-Horaire. Renvoie 1 si opération réussie.
 	public int Tourner_anti_horaire()
 	{
 		switch (o)
@@ -89,16 +92,19 @@ public class Tuile {
 		}
 	}
 	
+	// Retourne l'orientation du volcan
 	public Case.Orientation get_Orientation_Volcan()
 	{
 		return o;
 	}
 	
+	// Renvoie vrai si la pointe est vers la droite.
 	private boolean OrienteDroite()
 	{
 		return o == Case.Orientation.E || o == Case.Orientation.N_O || o == Case.Orientation.S_O;
 	}
 	
+	// Renvoie le type de la case désigné par la direction indiqué.
 	public Case.Type get_type_case(Case.Orientation orientation)
 	{
 		if(OrienteDroite())
