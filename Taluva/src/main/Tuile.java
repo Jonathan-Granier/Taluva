@@ -36,7 +36,7 @@ public class Tuile {
 		return Orientation.GAUCHE;
 	}
 	
-	// tourne la tuile dans le sens Horaire. Renvoie 1 si opération réussie.
+	// Tourne la tuile dans le sens Horaire. Renvoie 1 si opération réussie.
 	public int Tourner_horaire()
 	{
 		switch (o)
@@ -64,7 +64,7 @@ public class Tuile {
 		}
 	}
 	
-	// tourne la tuile dans le sens anti-Horaire. Renvoie 1 si opération réussie.
+	// Tourne la tuile dans le sens anti-Horaire. Renvoie 1 si opération réussie.
 	public int Tourner_anti_horaire()
 	{
 		switch (o)
