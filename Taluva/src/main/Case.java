@@ -2,7 +2,7 @@ package main;
 
 public class Case {
 	
-	public enum Type{
+	public enum Type_c{
 		VOLCAN,
 		MONTAGNE,
 		PLAINE,
@@ -20,22 +20,22 @@ public class Case {
 		S_E;
 	}
 	
-	private Type type;
+	private Type_c type_c;
 	private Orientation orientation;
 	
-	Case(Type type){
-		this.type = type;
+	Case(Type_c type_c){
+		this.type_c = type_c;
 		orientation = Orientation.N;
 	}
 	
-	Case(Type type, Orientation orientation){
-		this.type = type;
+	Case(Type_c type_c, Orientation orientation){
+		this.type_c = type_c;
 		this.orientation = orientation;
 	}
 	
 	// Renvoie le type de la case
-	public Type getType(){
-		return type;
+	public Type_c getType(){
+		return type_c;
 	}
 	
 	// Renvoie l'orientation de la case. N'a de sens que si getType()=OrientationCase.VOLCAN

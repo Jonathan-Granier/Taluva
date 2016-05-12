@@ -1,24 +1,26 @@
 package main;
 
 public class Piece {
-	public enum Type{
+	public enum Type_p{
 		HUTTE,
 		TEMPLE,
 		TOUR;
 	}
 	
-	private Type type;
+	private Type_p type_p;
 
-	Piece(Type type){
-		this.type = type;
+	Piece(Type_p type, Type_p type_p){
+		this.type_p = type_p;
 	}
 	
-	public Type get_Type() {
-		return type;
+	//Renvoie le type de la piece
+	public Type_p get_Type() {
+		return type_p;
 	}
 
-	public void set_Type(Type type) {
-		this.type = type;
+	//Modifie le type de la piece
+	public void set_Type(Type_p type_p) {
+		this.type_p = type_p;
 	}
 	
 }
