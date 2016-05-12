@@ -12,12 +12,12 @@ public class Case {
 	}
 	
 	public enum Orientation{
-		NORD,
-		NORD_EST,
-		NORD_OUEST,
-		SUD,
-		SUD_OUEST,
-		SUD_EST;
+		N,
+		N_E,
+		N_O,
+		S,
+		S_O,
+		S_E;
 	}
 	
 	private Type type;
@@ -25,7 +25,7 @@ public class Case {
 	
 	Case(Type type){
 		this.type = type;
-		orientation = Orientation.NORD;
+		orientation = Orientation.N;
 	}
 	
 	Case(Type type, Orientation orientation){
