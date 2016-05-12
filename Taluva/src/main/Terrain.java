@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Terrain {
 	
 	private final static int TAILLE = 200;
-	private final static Point CENTRE = new Point(TAILLE/2,TAILLE/2);
+	public final static Point CENTRE = new Point(TAILLE/2,TAILLE/2);
 	
 	private Case [][] t;
 	private boolean empty;
@@ -68,11 +68,7 @@ public class Terrain {
 		else
 			return P.x >= 1 && P.y >= 1 && P.x < TAILLE-2 && P.y < TAILLE-2;
 	}
-	
-	private boolean dans_terrain(Point P){
-		return P.x >= 0 && P.y >= 0 && P.x < TAILLE && P.y < TAILLE;
-	}
-	
+
 	// Renvoie les 3 cases de la tuile
 	private Point [] cases_tuile(Tuile.Orientation o, Point P){
 		int x = P.x;

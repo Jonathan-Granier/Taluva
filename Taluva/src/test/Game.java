@@ -3,6 +3,7 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -78,7 +79,9 @@ public class Game {
 				Tile.setPosition(new Vector3f(point.x,HEIGHT_OF_TILE,point.z));
 			}
 
-			
+			if(Mouse.isButtonDown(1))
+				Tile.setRotY(Tile.getRotY()+45);
+				
 			renderer.prepare();
 			
 			renderer.renderShadowMap(objects, sun);
