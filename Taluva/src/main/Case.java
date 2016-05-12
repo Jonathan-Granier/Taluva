@@ -8,7 +8,8 @@ public class Case {
 		PLAINE,
 		LAC,
 		SABLE,
-		FORET;
+		FORET,
+		VIDE;
 	}
 	
 	public enum Orientation{
