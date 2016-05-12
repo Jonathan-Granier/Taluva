@@ -37,7 +37,7 @@ public class Case {
 	private int nb_b;
 	private int niveau;
 	
-	Case(Type type){
+	public Case(Type type){
 		this.type = type;
 		orientation = Orientation.NONE;
 		nb_b = 0;
