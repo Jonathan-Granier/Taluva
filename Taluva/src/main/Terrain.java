@@ -57,8 +57,29 @@ public class Terrain {
 	//	 	  \_/ \    / \_/
 	//		    \_/    \_/
 	
-	public int placer_tuile(Tuile t, Point P){
-		return 0;
+	
+	// Place la tuile donnée au point P. Renvoie 0 si la tuile a pu etre placée, 1 sinon.
+	public int placer_tuile(Tuile tuile, Point P){
+		int x = P.x;
+		int y = P.y;
+		if(placement_tuile_autorise(tuile,P)){
+			t[x][y].setType((tuile.get_type_case(Case.Orientation.N)));
+			t[x][y].incrNiveau();
+			t[x][y+1].setType((tuile.get_type_case(Case.Orientation.S)));
+			t[x][y+1].incrNiveau();
+			if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
+				t[x-1][y].setType((tuile.get_type_case(Case.Orientation.E)));
+				t[x-1][y].incrNiveau();
+			}
+			else{
+				t[x+1][y+1].setType((tuile.get_type_case(Case.Orientation.O)));
+				t[x+1][y+1].incrNiveau();
+			}
+			return 0;
+		}
+		else{
+			return 1;
+		}
 	}
 	
 	// Renvoie vrai ssi la tuile est dans le terrain
@@ -188,11 +209,15 @@ public class Terrain {
 		}
 	}
 	
-	public int placer_batiment(Case.Type_Batiment b, Point P){
+	// Place n batiments de type b au point P. Renvoie 0 si le placement a réussi, 1 sinon.
+	public int placer_batiment(Case.Type_Batiment b, int n, Point P){
+		// TODO
 		return 0;
 	}
 	
-	public boolean placement_batiment_autorise(Case.Type_Batiment b, Point P){
+	// Renvoie vrai ssi le placement de n batiments de type b au point P est autorisé.
+	public boolean placement_batiment_autorise(Case.Type_Batiment b, int n, Point P){
+		// TODO
 		return true;
 	}
 }
