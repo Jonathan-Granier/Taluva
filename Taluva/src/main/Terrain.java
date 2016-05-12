@@ -31,6 +31,11 @@ public class Terrain {
 		tmp.empty = this.empty;
 		return tmp;
 	}
+	
+	public Case [][] getT(){
+		return t;
+	}
+	
 	//		  __      __
 	//		 /  \    /  \
 	//	  __/1,0 \__/3,0 \
