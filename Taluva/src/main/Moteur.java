@@ -1,6 +1,7 @@
 package main;
 import java.util.ArrayList;
 import java.util.Random;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,18 +13,17 @@ import Joueur.*;
 
 public class Moteur {
 	private Terrain T;
-	private int nbTuiles;
 	private ArrayList<Terrain> annul;
 	private ArrayList<Terrain> redo;
 	private ArrayList<Tuile> tuiles;
+	private Tuile pioche;
 	joueur_Humain j_courant;
 	
 	joueur_Humain j1;
 	joueur_Humain j2;
 	
-	public Moteur(Terrain T,int nb_tuiles,joueur_Humain j1,joueur_Humain j2){
+	public Moteur(Terrain T,joueur_Humain j1,joueur_Humain j2){
 		this.T = T;
-		this.nbTuiles = nb_tuiles;
 		annul = new ArrayList<Terrain>();
 		annul.add(T.clone());
 		redo = new ArrayList<Terrain>();
@@ -102,13 +102,9 @@ public class Moteur {
 	}
 	
 	public int get_nbTuiles(){
-		return nbTuiles;
+		return tuiles.size();
 	}
 	
-	public int set_nbTuiles(int nbTuiles){
-		this.nbTuiles = nbTuiles;
-		return 0;
-	}
 	//Echange le joueur courant
 	public void swap_joueur(){
 		j_courant = (j_courant==j1)? j1 : j2;
@@ -116,7 +112,7 @@ public class Moteur {
 	
 	//Si en début de tour on n'a plus de tuile à jouer
 	public boolean partie_terminee(){
-		return nbTuiles==0;
+		return tuiles.size()==0;
 	}
 	
 	//Test si un joueur qui vient de jouer a gagné
@@ -133,17 +129,18 @@ public class Moteur {
 	}
 	
 	//Renvoie une tuile piochée aléatoirement dans la pioche
-	//TODO
 	public Tuile piocher(){
 		Random r = new Random();
-		return tuiles.remove(r.nextInt(tuiles.size()-1)+1);
+		pioche = tuiles.remove(r.nextInt(tuiles.size()-1)+1);
+		return pioche;
 	}
 	
 	//Permet de jouer un tour
 	//i.e poser une tuile (et une pièce) sur le terrain T.
 	//Renvoie 0 si l'opération à réussi, 1 sinon.
 	//TODO
-	public int jouer_tour(){
+	public int jouer_tour(Point p){
+		//Devra potentiellement être exécuté dans l'écouteur de "Piocher"
 		if(partie_terminee()){
 			if(j1.getScore()>j2.getScore())System.out.println("Joueur 1 gagne");
 			else if (j1.getScore()<j2.getScore())System.out.println("Joueur 2 gagne");
@@ -151,12 +148,10 @@ public class Moteur {
 			return 0;
 		}
 		else{
-			Tuile t = piocher();
-			if(a_perdu()){
-				if(j_courant==j1)System.out.println("Joueur 2 gagne");
-				else if (j_courant==j2)System.out.println("Joueur 1 gagne");
+			if(T.placer_tuile(pioche, p)==0){
+				//Il faut ensuite placer le batiment
+				//TODO
 			}
-			
 		}
 		return 1;
 	}
