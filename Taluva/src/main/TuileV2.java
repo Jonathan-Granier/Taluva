@@ -3,10 +3,10 @@ package main;
 import main.Tuile.Orientation;
 
 	public class TuileV2 {
-	/*public enum Orientation{
+	public enum Orientation{
 		GAUCHE,
 		DROITE;
-	}  Déjà importé*/
+	}
 	
 	private Case.Type[] type_case;
 	private Case.Orientation o;
