@@ -25,8 +25,7 @@ public class Camera {
 		float cap = angleAroundPivot % 360;
 		if(cap<0)
 			cap = 360 + cap;
-		System.out.println(cap);
-		if(cap > start && cap < end)
+		if(cap >= start && cap <= end)
 			return true;
 		return false;
 	}
@@ -64,22 +63,44 @@ public class Camera {
 		float offsetZ = (float) (horizontalDistance * Math.cos(Math.toRadians(angleAroundPivot)));
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_Z)){
-			if(between(0,90) || between(270,360) )
+			if(between(0,45) || between(315,360) )
 				lookAt.z += 0.8f;
-			else
-				lookAt.x += 0.8f;
-		}
-		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			if(between(0,90) || between(270,360) )
+			else if(between(180,255) || between(135,180))
 				lookAt.z -= 0.8f;
-			else
+			else if(between(90,135) || between(45,90))
+				lookAt.x += 0.8f;
+			else if(between(270,315) || between(225,270))
 				lookAt.x -= 0.8f;
 		}
+		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+			if(between(0,45) || between(315,360) )
+				lookAt.z -= 0.8f;
+			else if(between(180,255) || between(135,180))
+				lookAt.z += 0.8f;
+			else if(between(90,135) || between(45,90))
+				lookAt.x -= 0.8f;
+			else if(between(270,315) || between(225,270))
+				lookAt.x += 0.8f;
+		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
-			lookAt.x += 0.8f;
+			if(between(0,45) || between(315,360) )
+				lookAt.x += 0.8f;
+			else if(between(180,255) || between(135,180))
+				lookAt.x -= 0.8f;
+			else if(between(90,135) || between(45,90))
+				lookAt.z -= 0.8f;
+			else if(between(270,315) || between(225,270))
+				lookAt.z += 0.8f;
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-			lookAt.x -= 0.8f;
+			if(between(0,45) || between(315,360) )
+				lookAt.x -= 0.8f;
+			else if(between(180,255) || between(135,180))
+				lookAt.x += 0.8f;
+			else if(between(90,135) || between(45,90))
+				lookAt.z += 0.8f;
+			else if(between(270,315) || between(225,270))
+				lookAt.z -= 0.8f;
 		}
 		
 	}
