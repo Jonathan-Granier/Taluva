@@ -22,11 +22,11 @@ public class Moteur {
 		return true;
 	}
 	
-	public int placer_batiment(Batiment b/*, Position P*/){
+	public int placer_batiment(Case.Type_Batiment b/*, Position P*/){
 		return 0;
 	}
 	
-	public boolean placement_batiment_autorise(Batiment b/*, Position P*/){
+	public boolean placement_batiment_autorise(Case.Type_Batiment b/*, Position P*/){
 		return true;
 	}
 	

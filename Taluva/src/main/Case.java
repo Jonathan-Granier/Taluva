@@ -17,26 +17,37 @@ public class Case {
 		N_O,
 		S,
 		S_O,
-		S_E;
+		S_E,
+		NONE;
+	}
+	
+	public enum Type_Batiment{
+		HUTTE,
+		TOUR,
+		TEMPLE,
+		VIDE;
 	}
 	
 	private Type type;
 	private Orientation orientation;
-	private Batiment.Type bt;
+	private Type_Batiment bt;
 	private int nb_b;
 	private int niveau;
 	
 	Case(Type type){
 		this.type = type;
-		orientation = Orientation.N;
+		orientation = Orientation.NONE;
 		nb_b = 0;
+		bt = Type_Batiment.VIDE;
 		niveau = 1;
 	}
 	
 	Case(Type type, Orientation orientation){
 		this.type = type;
-		this.orientation = orientation;
+		if(type != Type.VOLCAN) this.orientation = Orientation.NONE;
+		else this.orientation = orientation;
 		nb_b = 0;
+		bt = Type_Batiment.VIDE;
 		niveau = 1;
 	}
 	
@@ -73,18 +84,19 @@ public class Case {
 		return nb_b;
 	}
 	
-	// Renvoie le type de batiment sur la case. N'a de sens que si getBNb()>0.
-	public Batiment.Type getBType(){
+	// Renvoie le type de batiment sur la case.
+	public Type_Batiment getBType(){
 		return bt;
 	}
 
 	// Ajoute n batiments b sur la case. n n'est pris en compte que si b est une HUTTE.
 	// Renvoie 0 si le placement était autorisé et a réussi, 1 sinon.
-	public int ajouter_batiment(Batiment.Type bt, int n){
+	public int ajouter_batiment(Type_Batiment bt, int n){
+		
 		// Si on peut ajouter un batiment (la case est valide et libre)
 		if(type != Type.VOLCAN && nb_b == 0 && n>0){
 			// Si c'est une hutte, on peut uniquement en ajouter le meme nombre que le niveau de la case
-			if(bt==Batiment.Type.HUTTE){
+			if(bt==Type_Batiment.HUTTE){
 				if(n == niveau){
 					nb_b = n;
 					this.bt = bt;
@@ -104,6 +116,7 @@ public class Case {
 	public int retirer_batiments(){
 		if(nb_b > 0){
 			nb_b = 0;
+			bt = Type_Batiment.VIDE;
 			return 0;
 		}
 		else return 1;
