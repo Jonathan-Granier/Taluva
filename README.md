@@ -7,6 +7,7 @@ Terrain :
 Terrain(); // Constructeur de terrain vide  
 
 Tuile :
+  
   // Constructeur d'une tuile triple (orienté ouest, avec un volcan)
   Tuile(Case.Type t1, Case.Type t2); 
   
