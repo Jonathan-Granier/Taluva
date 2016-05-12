@@ -6,7 +6,9 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 	
-	private static final float ZOOM_OUT_MAX = 200;
+	private static final float ZOOM_OUT_MAX = 400;
+	
+	private static final float SPEED = 1.5f;
 	
 	private Vector3f position = new Vector3f(0,0,0);
 	private Vector3f lookAt = new Vector3f(0,0,0);
@@ -64,43 +66,43 @@ public class Camera {
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_Z)){
 			if(between(0,45) || between(315,360) )
-				lookAt.z += 0.8f;
+				lookAt.z += SPEED;
 			else if(between(180,255) || between(135,180))
-				lookAt.z -= 0.8f;
+				lookAt.z -= SPEED;
 			else if(between(90,135) || between(45,90))
-				lookAt.x += 0.8f;
+				lookAt.x += SPEED;
 			else if(between(270,315) || between(225,270))
-				lookAt.x -= 0.8f;
+				lookAt.x -= SPEED;
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
 			if(between(0,45) || between(315,360) )
-				lookAt.z -= 0.8f;
+				lookAt.z -= SPEED;
 			else if(between(180,255) || between(135,180))
-				lookAt.z += 0.8f;
+				lookAt.z += SPEED;
 			else if(between(90,135) || between(45,90))
-				lookAt.x -= 0.8f;
+				lookAt.x -= SPEED;
 			else if(between(270,315) || between(225,270))
-				lookAt.x += 0.8f;
+				lookAt.x += SPEED;
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
 			if(between(0,45) || between(315,360) )
-				lookAt.x += 0.8f;
+				lookAt.x += SPEED;
 			else if(between(180,255) || between(135,180))
-				lookAt.x -= 0.8f;
+				lookAt.x -= SPEED;
 			else if(between(90,135) || between(45,90))
-				lookAt.z -= 0.8f;
+				lookAt.z -= SPEED;
 			else if(between(270,315) || between(225,270))
-				lookAt.z += 0.8f;
+				lookAt.z += SPEED;
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 			if(between(0,45) || between(315,360) )
-				lookAt.x -= 0.8f;
+				lookAt.x -= SPEED;
 			else if(between(180,255) || between(135,180))
-				lookAt.x += 0.8f;
+				lookAt.x += SPEED;
 			else if(between(90,135) || between(45,90))
-				lookAt.z += 0.8f;
+				lookAt.z += SPEED;
 			else if(between(270,315) || between(225,270))
-				lookAt.z -= 0.8f;
+				lookAt.z -= SPEED;
 		}
 		
 	}
