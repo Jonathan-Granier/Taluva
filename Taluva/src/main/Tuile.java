@@ -88,6 +88,7 @@ public class Tuile {
 				o = Case.Orientation.O;
 				return 1;
 			default:
+				System.out.println("Nouveau sens: incorrect");
 				return 0;
 		}
 	}

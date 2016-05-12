@@ -23,20 +23,26 @@ public class GraphicTile {
 	}
 
 	public void rotate(){
-		tile.Tourner_anti_horaire();
+		tile.Tourner_horaire();
 		switch(tile.get_Orientation_Volcan()){
 			case O:
-				object3d.setRotY(270);
+				object3d.setRotY(0);
+				break;
 			case S_O:
-				object3d.setRotY(330);
-			case S_E:
 				object3d.setRotY(60);
-			case E:
-				object3d.setRotY(90);
-			case N_E:
+				break;
+			case S_E:
 				object3d.setRotY(120);
-			case N_O:
+				break;
+			case E:
+				object3d.setRotY(180);
+				break;
+			case N_E:
 				object3d.setRotY(240);
+				break;
+			case N_O:
+				object3d.setRotY(300);
+				break;
 			default:
 				System.out.println("rotate cannot be done");
 		}
