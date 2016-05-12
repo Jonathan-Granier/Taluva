@@ -1,7 +1,7 @@
 package main;
 
 public class Moteur {
-	Terrain T;
+	private Terrain T;
 	
 	Moteur(Terrain T){
 		this.T = T;
@@ -22,6 +22,15 @@ public class Moteur {
 	
 	public boolean placement_batiment_autorise(Batiment b/*, Position P*/){
 		return true;
+	}
+	
+	public Terrain getT(){
+		return T;
+	}
+	
+	public int setT(Terrain T){
+		this.T = T;
+		return 0;
 	}
 }
 

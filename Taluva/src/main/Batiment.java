@@ -8,7 +8,7 @@ public class Batiment {
 		TEMPLE;
 	}
 	
-	Type t;
+	private Type t;
 	
 	Batiment(Type t){
 		this.t = t;

@@ -9,7 +9,7 @@ public class Terrain {
 		
 	}
 	
-	Case [][] t;
+	private Case [][] t;
 	
 	Terrain(){
 		t = new Case[TAILLE][TAILLE];
