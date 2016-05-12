@@ -26,8 +26,7 @@ public class Tuile {
 	}
 	
 	private void swap_type(){
-		if(o == Orientation.GAUCHE) o = Orientation.DROITE;
-		else o = Orientation.GAUCHE;
+		o = (o == Orientation.GAUCHE) ? Orientation.DROITE : Orientation.GAUCHE;
 	}
 	
 	public Orientation getOrientation(){
@@ -36,9 +35,7 @@ public class Tuile {
 	
 	// Tourne la tuile d'1/6 de tour en sens horaire
 	public void tourner_horaire(){
-		int i;
-		if(o == Orientation.GAUCHE) i = 0;
-		else i = 1;
+		int i = (o == Orientation.GAUCHE) ? 0 : 1;
 		for(;i<5;i+=2){
 			t[i+1]=t[i];
 		}
@@ -49,9 +46,7 @@ public class Tuile {
 	// Tourne la tuile d'1/6 de tour en sens anti-horaire
 	public void tourner_anti_horaire(){
 		swap_type();
-		int i;
-		if(o == Orientation.GAUCHE) i = 0;
-		else i = 1;
+		int i = (o == Orientation.GAUCHE) ? 0 : 1;
 		for(;i<5;i+=2){
 			t[i]=t[i+1];
 		}
