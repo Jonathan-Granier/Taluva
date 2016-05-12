@@ -77,6 +77,7 @@ public class Tuile {
 				return 1;
 			case E:
 				o = Case.Orientation.N_E;
+				return 1;
 			case N_E:
 				o = Case.Orientation.N_O;
 				return 1;
