@@ -1,6 +1,7 @@
 package main;
 import java.util.ArrayList;
 import java.util.Random;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,18 +13,30 @@ import Joueur.*;
 
 public class Moteur {
 	private Terrain T;
-	private int nbTuiles;
 	private ArrayList<Terrain> annul;
 	private ArrayList<Terrain> redo;
 	private ArrayList<Tuile> tuiles;
+	private Tuile pioche;
 	joueur_Humain j_courant;
 	
 	joueur_Humain j1;
 	joueur_Humain j2;
 	
-	//
+	public Moteur(Terrain T,joueur_Humain j1,joueur_Humain j2){
+		this.T = T;
+		annul = new ArrayList<Terrain>();
+		annul.add(T.clone());
+		redo = new ArrayList<Terrain>();
+		tuiles = new ArrayList<Tuile>();
+		init_tuiles(tuiles);
+		this.j1 = j1;
+		j_courant = j1;
+		this.j2 = j2;
+	}
+	
+	///////////////////////////////////////////////////////////////
 	//LECTURE DES PIECES ET INITIALISATION DE L'ENSEMBLE DE TUILES
-	//
+	///////////////////////////////////////////////////////////////
 	public Case.Type switch_case(char c){
 		switch (c){
 			case 'V' :	return Case.Type.VOLCAN;
@@ -44,9 +57,8 @@ public class Moteur {
 	}
 	
 	//Ajout à l'ensemble de tuiles
-	public void traiter(String line,ArrayList<Tuile> tuiles){
+	public void rajout(String line,ArrayList<Tuile> tuiles){
 		int nb;
-		char c;
 		nb = Character.getNumericValue(line.charAt(0));
 		for(int i=1; i<=nb;i++){
 			tuiles.add(new Tuile(switch_case(line.charAt(2)),switch_case(line.charAt(4))));
@@ -63,33 +75,23 @@ public class Moteur {
 			try {
 				while ((line = br.readLine()) != null) {
 					System.out.println(line);
-					traiter(line,tuiles);
+					rajout(line,tuiles);
 				}
 				br.close();
 			}
 			catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
-	public Moteur(Terrain T,int nb_tuiles,joueur_Humain j1,joueur_Humain j2){
-		this.T = T;
-		this.nbTuiles = nb_tuiles;
-		annul = new ArrayList<Terrain>();
-		annul.add(T.clone());
-		redo = new ArrayList<Terrain>();
-		this.j1 = j1;
-		j_courant = j1;
-		this.j2 = j2;
-	}
-	
+	///////////////////////
+	// Getters / Setters
+	///////////////////////
 	public Terrain getT(){
 		return T;
 	}
@@ -100,13 +102,9 @@ public class Moteur {
 	}
 	
 	public int get_nbTuiles(){
-		return nbTuiles;
+		return tuiles.size();
 	}
 	
-	public int set_nbTuiles(int nbTuiles){
-		this.nbTuiles = nbTuiles;
-		return 0;
-	}
 	//Echange le joueur courant
 	public void swap_joueur(){
 		j_courant = (j_courant==j1)? j1 : j2;
@@ -114,7 +112,7 @@ public class Moteur {
 	
 	//Si en début de tour on n'a plus de tuile à jouer
 	public boolean partie_terminee(){
-		return nbTuiles==0;
+		return tuiles.size()==0;
 	}
 	
 	//Test si un joueur qui vient de jouer a gagné
@@ -125,23 +123,24 @@ public class Moteur {
 	}
 	
 	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
-	// A COMPLETER!!!
+	//TODO
 	public boolean a_perdu(){
 		return false;
 	}
 	
 	//Renvoie une tuile piochée aléatoirement dans la pioche
-	// A COMPLETER!!!
 	public Tuile piocher(){
 		Random r = new Random();
-		return null;
+		pioche = tuiles.remove(r.nextInt(tuiles.size()-1)+1);
+		return pioche;
 	}
 	
 	//Permet de jouer un tour
 	//i.e poser une tuile (et une pièce) sur le terrain T.
 	//Renvoie 0 si l'opération à réussi, 1 sinon.
-	// A COMPLETER!!!
-	public int jouer_tour(){
+	//TODO
+	public int jouer_tour(Point p){
+		//Devra potentiellement être exécuté dans l'écouteur de "Piocher"
 		if(partie_terminee()){
 			if(j1.getScore()>j2.getScore())System.out.println("Joueur 1 gagne");
 			else if (j1.getScore()<j2.getScore())System.out.println("Joueur 2 gagne");
@@ -149,12 +148,10 @@ public class Moteur {
 			return 0;
 		}
 		else{
-			Tuile t = piocher();
-			if(a_perdu()){
-				if(j_courant==j1)System.out.println("Joueur 2 gagne");
-				else if (j_courant==j2)System.out.println("Joueur 1 gagne");
+			if(T.placer_tuile(pioche, p)==0){
+				//Il faut ensuite placer le batiment
+				//TODO
 			}
-			
 		}
 		return 1;
 	}
