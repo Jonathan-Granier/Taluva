@@ -48,6 +48,7 @@ public class Moteur {
 	///////////////////////////////////////////////////////////////
 	//LECTURE DES PIECES ET INITIALISATION DE L'ENSEMBLE DE TUILES
 	///////////////////////////////////////////////////////////////
+	
 	private Case.Type switch_case(char c){
 		switch (c){
 			case 'V' :	return Case.Type.VOLCAN;
@@ -62,7 +63,7 @@ public class Moteur {
 	}
 	
 	//Ajout à l'ensemble de tuiles
-	private void rajout(String line,ArrayList<Tuile> tuiles){
+	private void rajoute_tuile(String line,ArrayList<Tuile> tuiles){
 		int nb;
 		nb = Character.getNumericValue(line.charAt(0));
 		for(int i=1; i<=nb;i++){
@@ -80,7 +81,7 @@ public class Moteur {
 			try {
 				while ((line = br.readLine()) != null) {
 					System.out.println(line);
-					rajout(line,tuiles);
+					rajoute_tuile(line,tuiles);
 				}
 				br.close();
 			}
@@ -112,6 +113,14 @@ public class Moteur {
 	
 	public Tuile get_tuile_pioche(){
 		return tuile_pioche;
+	}
+	
+	public joueur_Humain get_Jcourant(){
+		return j_courant;
+	}
+	
+	public Etat get_etat_jeu(){
+		return etat;
 	}
 	
 	public Case.Type_Batiment get_bat_choisi(){
@@ -151,8 +160,9 @@ public class Moteur {
 	
 	//Renvoie une tuile piochée aléatoirement dans la pioche
 	public Tuile piocher(){
+		if(annul.size()==0)annul.add(T.clone());
 		Random r = new Random();
-		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()-1)+1);
+		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()));
 		etat = Etat.POSER_TUILE;
 		return tuile_pioche;
 	}
@@ -162,13 +172,14 @@ public class Moteur {
 		return T.placement_tuile_autorise(tuile_pioche,P);
 	}
 	
-	//Renvoie 0 si la tuile piochée a pu être placée, 1 sinon
+	//Renvoie 0 si la tuile piochée a pu être placée, -1 si elle est placée, mais le joueur ne peux plus jouer, 1 sinon
 	public int placer_tuile(Point P){
 		if(T.placer_tuile(tuile_pioche, P) == 0){
+			if(joueur_elimine())return -1;
 			etat = Etat.CONSTRUIRE_BATIMENT;
 			return 0;
 		}
-		return 1;
+		else return 1;
 	}
 	
 	//SELECTEURS DES BATIMENTS DU JOUEUR
@@ -204,12 +215,11 @@ public class Moteur {
 			etat = Etat.FIN_DE_TOUR;
 			return 0;
 		}
-		return 1;
+		else return 1;
 	}
 	
 	//Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
 	//Actualise aussi les données et change de joueur
-	//TODO
 	public int fin_de_tour(){
 		if(victoire_aux_batiments()){
 			if(j_courant == j1)System.out.println("Le joueur 1 a gagné!!!");
@@ -233,14 +243,19 @@ public class Moteur {
 			return 0;
 		}
 		else{
+			annul.clear();
+			redo.clear();
+			swap_joueur();
+			etat = Etat.DEBUT_DE_TOUR;
+			bat_choisi = Case.Type_Batiment.VIDE;
 			return 1;
 		}
 	}
 	
-	//Permet d'annuler un tuile posée, et de la récupérer
-	//Renvoie 1 si tout s'est bien passé, 0 sinon.
+	//Permet d'annuler une tuile posée, et de la récupérer
+	//Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int annuler(){
-		if(annul.size()==1)return 1;
+		if(annul.size()<=1)return 1;
 		redo.add(annul.remove(annul.size()-1));
 		T = annul.get(annul.size()-1);
 		if (etat == Etat.FIN_DE_TOUR)etat = Etat.CONSTRUIRE_BATIMENT;
