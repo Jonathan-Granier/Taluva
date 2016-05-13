@@ -253,7 +253,7 @@ public class Terrain {
 	// Renvoie vrai ssi le placement de n batiments de type b au point P est autorisé.
 	public boolean placement_batiment_autorise(Case.Type_Batiment b, int n, Point P){
 		// TODO
-		return true;
+		return t[P.x][P.y].ajout_batiment_autorise(b, n);
 	}
 	
 	// Affiche le terrain en un rectangle entre min et max :

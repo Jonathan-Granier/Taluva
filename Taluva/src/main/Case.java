@@ -95,27 +95,28 @@ public class Case {
 		return bt;
 	}
 
-	// Ajoute n batiments b sur la case. n n'est pris en compte que si b est une HUTTE.
+	// Ajoute n batiments bt sur la case.
 	// Renvoie 0 si le placement était autorisé et a réussi, 1 sinon.
 	public int ajouter_batiment(Type_Batiment bt, int n){
-		
-		// Si on peut ajouter un batiment (la case est valide et libre)
-		if(type != Type.VOLCAN && nb_b == 0 && n>0){
-			// Si c'est une hutte, on peut uniquement en ajouter le meme nombre que le niveau de la case
-			if(bt==Type_Batiment.HUTTE){
-				if(n == niveau){
-					nb_b = n;
-					this.bt = bt;
-				}
-				else return 1;
-			}
-			else{
-				nb_b = 1;
-				this.bt = bt;
-			}
+		if(n>0 && ajout_batiment_autorise(bt,n)){
+			nb_b = n;
+			this.bt = bt;
 			return 0;
 		}
 		else return 1;
+	}
+	
+	// Renvoie vrai ssi le placement de n batiments de type bt est autorise sur cette case.
+	public boolean ajout_batiment_autorise(Type_Batiment bt, int n){
+		if(type != Type.VOLCAN && nb_b == 0 && n>=0){
+			if(bt==Type_Batiment.HUTTE){
+				return (n == niveau);
+			}
+			else{
+				return (n == 1);
+			}
+		}
+		else return false;
 	}
 	
 	// Retire tous les batiments de la case. Renvoie 1 si aucun batiment n'était présent, 0 sinon.
