@@ -5,11 +5,25 @@ import java.util.ArrayList;
 
 public class Terrain {
 	
+	public class Coord{
+		public int xmin,ymin,xmax,ymax;
+		public Coord(int xmin, int ymin, int xmax, int ymax){
+			this.xmin = xmin;
+			this.ymin = ymin;
+			this.xmax = xmax;
+			this.ymax = ymax;
+		}
+		public Coord clone(){
+			return new Coord(xmin,ymin,xmax,ymax);
+		}
+	}
+	
 	public final static int TAILLE = 200;
 	public final static Point CENTRE = new Point(TAILLE/2,TAILLE/2);
 	
 	private Case [][] t;
 	private boolean empty;
+	private Coord limites;
 	
 	public Terrain(){
 		t = new Case[TAILLE][TAILLE];
@@ -18,6 +32,7 @@ public class Terrain {
 				t[i][j] = new Case(Case.Type.VIDE);
 			}
 		}
+		limites  = new Coord(CENTRE.x,CENTRE.y,CENTRE.x,CENTRE.y);
 		empty = true;
 	}
 	
@@ -28,6 +43,7 @@ public class Terrain {
 				tmp.t[i][j] = this.t[i][j].clone();
 			}
 		}
+		tmp.limites  = this.limites.clone();
 		tmp.empty = this.empty;
 		return tmp;
 	}
@@ -38,6 +54,10 @@ public class Terrain {
 	
 	public boolean isEmpty(){
 		return empty;
+	}
+	
+	public Coord getLimites(){
+		return limites;
 	}
 	
 	//			    ___/ 3,0 \
@@ -84,12 +104,18 @@ public class Terrain {
 			t[x][y+1].setType(tuile.get_type_case(Case.Orientation.S));
 			t[x][y+1].setOrientation(tuile.get_Orientation_Volcan());
 			t[x][y+1].incrNiveau();
+			if(y+1>limites.ymax) limites.ymax = y+1;
+			if(y<limites.ymin) limites.ymin = y;
 			if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
+				if(x>limites.xmax) limites.xmax = x;
+				if(x-1<limites.xmin) limites.xmin = x-1;
 				t[x-1][y].setType(tuile.get_type_case(Case.Orientation.O));
 				t[x-1][y].setOrientation(tuile.get_Orientation_Volcan());
 				t[x-1][y].incrNiveau();
 			}
 			else{
+				if(x+1>limites.xmax) limites.xmax = x+1;
+				if(x<limites.xmin) limites.xmin = x;
 				t[x+1][y+1].setType((tuile.get_type_case(Case.Orientation.E)));
 				t[x+1][y+1].setOrientation(tuile.get_Orientation_Volcan());
 				t[x+1][y+1].incrNiveau();
