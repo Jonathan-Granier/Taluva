@@ -13,8 +13,7 @@ import Joueur.*;
 
 public class Moteur {
 	private Terrain T;
-	private ArrayList<Terrain> annul;
-	private ArrayList<Terrain> redo;
+	private ArrayList<Terrain> annul, redo;
 	private ArrayList<Tuile> tuiles;
 	private Tuile pioche;
 	joueur_Humain j_courant;
@@ -22,13 +21,18 @@ public class Moteur {
 	joueur_Humain j1;
 	joueur_Humain j2;
 	
+	public enum Etat{
+		POSER_TUILE,
+		CONSTRUIRE_BATIMENT;
+	}
+	
 	public Moteur(Terrain T,joueur_Humain j1,joueur_Humain j2){
 		this.T = T;
 		annul = new ArrayList<Terrain>();
 		annul.add(T.clone());  // Verifier que les reference soit different : Une modification dans T , ne modifie pas ce qu'il y a dans annul
 		redo = new ArrayList<Terrain>();
 		tuiles = new ArrayList<Tuile>();
-		init_tuiles(tuiles);
+		inits(tuiles);
 		this.j1 = j1;
 		j_courant = j1;
 		this.j2 = j2;
@@ -66,7 +70,7 @@ public class Moteur {
 	}
 	
 	
-	private void init_tuiles(ArrayList<Tuile> tuiles){
+	private void inits(ArrayList<Tuile> tuiles){
 		try {
 			File file = new File("PIECES.txt");
 			FileInputStream fis = new FileInputStream(file);
@@ -135,6 +139,11 @@ public class Moteur {
 		return pioche;
 	}
 	
+	//Appelle la méthode placer_tuile du terrain, renvoie 0 si la tuile piochée a pu être placée, 1 sinon
+	public int placer_tuile(Point P){
+		return T.placer_tuile(pioche, P);
+	}
+	
 	//Permet de jouer un tour
 	//i.e poser une tuile (et une pièce) sur le terrain T.
 	//Renvoie 0 si l'opération à réussi, 1 sinon.
@@ -156,7 +165,7 @@ public class Moteur {
 		return 1;
 	}
 	
-	//Permet d'annuler un coup, i.e de revenir dans une position antérieure
+	//Permet d'annuler un tuile posée, et de la récupérer
 	//Renvoie 1 si tout s'est bien passé, 0 sinon.
 	public int annuler(){
 		if(annul.size()==1)return 1;
@@ -166,7 +175,7 @@ public class Moteur {
 		return 0;
 	}
 	
-	//Permet de revenir dans une position qui a été annulée
+	//Permet de reposer une tuile qui a été annulée qui a été annulée
 	//Renvoie 1 si tout s'est bien passé, 0 sinon.
 	public int refaire(){
 		if(redo.isEmpty())return 1;
