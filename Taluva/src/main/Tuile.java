@@ -12,11 +12,11 @@ public class Tuile {
 //  	Indices :
 //		     _	    _
 //		   _/N\    /N\_
-// GAUCHE /E\_/    \_/O\ DROITE
+// GAUCHE /O\_/    \_/E\ DROITE
 //	 	  \_/S\    /S\_/
 //		    \_/    \_/
 
-// Crée une tuile (OUEST) avec le volcan à OUEST, le type 2 au NORD, et le type3 au SUD.
+// Crée une tuile (GAUCHE) avec le volcan à OUEST, le type 2 au NORD, et le type3 au SUD.
 	public Tuile (Case.Type case2, Case.Type case3)
 	{
 		type_case = new Case.Type[3];
