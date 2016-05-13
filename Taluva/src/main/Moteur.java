@@ -16,7 +16,7 @@ public class Moteur {
 	private ArrayList<Terrain> annul, redo;
 	private ArrayList<Tuile> tuiles;
 	private Tuile tuile_pioche;
-	private Case.Type_Batiment case_pioche;
+	private Case.Type_Batiment bat_pioche;
 	joueur_Humain j_courant;
 	
 	joueur_Humain j1;
@@ -41,7 +41,7 @@ public class Moteur {
 		j_courant = j1;
 		this.j2 = j2;
 		etat = Etat.DEBUT_DE_TOUR;
-		case_pioche = Case.Type_Batiment.VIDE;
+		bat_pioche = Case.Type_Batiment.VIDE;
 	}
 	
 	///////////////////////////////////////////////////////////////
@@ -115,6 +115,14 @@ public class Moteur {
 		return tuiles.size();
 	}
 	
+	public Tuile get_tuile_pioche(){
+		return tuile_pioche;
+	}
+	
+	public Case.Type_Batiment get_bat_pioche(){
+		return bat_pioche;
+	}
+	
 	//Echange le joueur courant
 	public void swap_joueur(){
 		j_courant = (j_courant==j1)? j1 : j2;
@@ -163,15 +171,15 @@ public class Moteur {
 	//SELECTEURS DES BATIMENTS DU JOUEUR
 	//La cas piochée est une choisie
 	public void select_hutte(){
-		case_pioche = Case.Type_Batiment.HUTTE;
+		bat_pioche = Case.Type_Batiment.HUTTE;
 	}
 	//La cas piochée est une choisie
 	public void select_temple(){
-		case_pioche = Case.Type_Batiment.TEMPLE;
+		bat_pioche = Case.Type_Batiment.TEMPLE;
 	}
 	//La cas piochée est une choisie
 	public void select_tour(){
-		case_pioche = Case.Type_Batiment.TOUR;
+		bat_pioche = Case.Type_Batiment.TOUR;
 	}
 	
 	
@@ -190,7 +198,6 @@ public class Moteur {
 		else{
 			if(T.placer_tuile(tuile_pioche, p)==0){
 				//Il faut ensuite placer le batiment
-				//TODO
 			}
 		}
 		return 1;
