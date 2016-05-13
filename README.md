@@ -5,12 +5,20 @@ Mettez ici vos spécifications et prototypes ici : (pensez à les consulter !)
 
 Terrain :
 
+	public final static int TAILLE;
+	public final static Point CENTRE;
+
 	// Constructeur de terrain vide  
 	Terrain();
 	
-	public Terrain clone();
-	public Case [][] getT();
-	public boolean isEmpty();
+	public Terrain clone();   // Renvoie une copie du terrain, avec référence différente
+	public Case [][] getT();  // Renvoie le tableau de cases : [TAILLE] [TAILLE]
+	public boolean isEmpty(); 
+	
+	// PLACEMENT TUILE
+	
+	// Renvoie le Terrain après placement de tuile au point P. Ne modifie pas la structure actuelle.
+	public Terrain consulter_coup_tuile(Tuile tuile, Point P)
 	
 	// Place la tuile donnée au point P. Renvoie 0 si la tuile a pu etre placée, 1 sinon.
 	public int placer_tuile(Tuile tuile, Point P);
@@ -18,11 +26,18 @@ Terrain :
 	// Renvoie vrai ssi le placement de cette tuile est autorisé au point P.
 	public boolean placement_tuile_autorise(Tuile tuile, Point P);
 	
+	// PLACEMENT BATIMENTS
+	
+	// Renvoie le Terrain après placement de n batiments b au point P. Ne modifie pas la structure actuelle.
+	public Terrain consulter_coup_batiment(Case.Type_Batiment b, int n, Point P);
+	
 	// Place n batiments de type b au point P. Renvoie 0 si le placement a réussi, 1 sinon.
 	public int placer_batiment(Case.Type_Batiment b, int n, Point P);
 	
 	// Renvoie vrai ssi le placement de n batiments de type b au point P est autorisé.
 	public boolean placement_batiment_autorise(Case.Type_Batiment b, int n, Point P);
+	
+	// AFFICHAGE CONSOLE
 	
 	// Affiche le terrain en un rectangle entre min et max :
 	// min -----|
