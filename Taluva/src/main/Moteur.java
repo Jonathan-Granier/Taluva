@@ -31,6 +31,7 @@ public class Moteur {
 	}
 	private Etat etat;
 	
+	// Constructeur du moteur
 	public Moteur(Terrain T,joueur_Humain j1,joueur_Humain j2){
 		this.T = T;
 		annul = new ArrayList<Terrain>();
@@ -98,35 +99,44 @@ public class Moteur {
 	///////////////////////
 	// Getters / Setters
 	///////////////////////
+	
+	// Récupère le terrain courant
 	public Terrain getT(){
 		return T;
 	}
 	
+	//Affecte un terrain au moteur
 	public int setT(Terrain T){
 		this.T = T;
 		return 0;
 	}
 	
+	//Renvoie le nombre de Tuiles restantes
 	public int get_nbTuiles(){
 		return tuiles.size();
 	}
 	
+	//Renvoie la tuile piochée 
 	public Tuile get_tuile_pioche(){
 		return tuile_pioche;
 	}
 	
+	//Renvoie le joueur courant
 	public joueur_Humain get_Jcourant(){
 		return j_courant;
 	}
 	
+	//Renvoie l'état actuel du tour du jeu
 	public Etat get_etat_jeu(){
 		return etat;
 	}
 	
+	//Renvoie le type de batiment choisi par le joueur
 	public Case.Type_Batiment get_bat_choisi(){
 		return bat_choisi;
 	}
 	
+	//Renvoie le joueur qui a gagné la partie
 	public joueur_Humain getGagnant(){
 		return j_gagnant;
 	}
@@ -208,7 +218,7 @@ public class Moteur {
 		return T.placement_batiment_autorise(bat_choisi,switch_case_color(j_courant.getCouleur()), P);
 	}
 	
-	//Appelle placer_batiment du terrain, renvoie 0 si le batiment a pu être placé, 1 sinon
+	//Renvoie 0 si le batiment a pu être placé, 1 sinon
 	public int placer_batiment(Point P){
 		if(T.placer_batiment(bat_choisi,switch_case_color(j_courant.getCouleur()), P) == 0){
 			etat = Etat.FIN_DE_TOUR;
@@ -265,7 +275,7 @@ public class Moteur {
 	}
 	
 	//Permet de reposer une tuile qui a été annulée qui a été annulée
-	//Renvoie 1 si tout s'est bien passé, 0 sinon.
+	//Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int refaire(){
 		if(redo.isEmpty())return 1;
 		annul.add(redo.remove(redo.size()-1));
