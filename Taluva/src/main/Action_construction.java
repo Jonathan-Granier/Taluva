@@ -39,6 +39,7 @@ public class Action_construction {
 	}
 	public Case.Type get_type_extension()
 	{
+		if(this.ty)
 		return this.type_extenstion;
 	}
 }
