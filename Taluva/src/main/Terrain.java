@@ -86,8 +86,8 @@ public class Terrain {
 		int x = P.x;
 		int y = P.y;
 		res[0] = t[x-1][y-1];
-		res[1] = t[x][y-1];
-		res[2] = t[x-1][y];
+		res[1] = t[x-1][y];
+		res[2] = t[x][y-1];
 		res[3] = t[x+1][y];
 		res[4] = t[x][y+1];
 		res[5] = t[x+1][y+1];
@@ -397,16 +397,23 @@ public class Terrain {
 		int y = P.y;
 		if(t[x][y].ajout_batiment_autorise(b)){
 			// Si le placement est autorise sur la case (indépendemment du reste du terrain)
+			Point [] ptsVoisins = getPtsVoisins(P);
 			Case [] voisins = getVoisins(P);
 			int i = 0;
 			boolean cite_trouvee = false;
+			Point coord_cite = new Point();
 			while(!cite_trouvee && i<6){
-				cite_trouvee = !voisins[i].est_Libre() && voisins[i].getCouleur()==c;
+				if(!voisins[i].est_Libre() && voisins[i].getCouleur()==c){
+					cite_trouvee = true;
+					coord_cite = ptsVoisins[i];
+					// TODO : il faut que getPtsVoisins et getVoisins donnent le meme ordre
+				}
+				// TODO : on ne gère pas le cas de connexion de deux cites
 				i++;
 			}
 			if(cite_trouvee){
 				// C'est l'ajout d'une tour ou d'un temple (sinon c'est interdit)
-				ArrayList<Case> cite = getCite(P);
+				ArrayList<Case> cite = getCite(coord_cite);
 				if(b == Case.Type_Batiment.TOUR)
 					return (t[x][y].getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
 				if(b == Case.Type_Batiment.TEMPLE)
@@ -459,6 +466,29 @@ public class Terrain {
 			System.out.print("  ");
 			for(int j=limites.xmin;j<=limites.xmax;j++){
 				System.out.print(t[j][i].getNiveau());
+			}
+			System.out.print("  ");
+			for(int j=limites.xmin;j<=limites.xmax;j++){
+				switch (t[j][i].getBType()){
+				case HUTTE: 
+					System.out.print("H");
+					break;
+				case TEMPLE:
+					System.out.print("T");
+					break;
+				case TOUR:
+					System.out.print("A");
+					break;
+				case VIDE:
+					System.out.print("_");
+					break;
+				default:
+					break;
+				}
+			}
+			System.out.print("  ");
+			for(int j=limites.xmin;j<=limites.xmax;j++){
+				System.out.print(t[j][i].getBNb());
 			}
 			System.out.println("");
 		}
