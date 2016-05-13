@@ -9,15 +9,24 @@ Terrain :
 
 	public final static int TAILLE;
 	public final static Point CENTRE;
+	public class Coord{
+		public int xmin,ymin,xmax,ymax;
+		public Coord(int xmin, int ymin, int xmax, int ymax);
+		public Coord clone();
+	}
 
 	// Constructeur de terrain vide  
 	Terrain();
 	
 	public Terrain clone();   // Renvoie une copie du terrain, avec référence différente
 	public Case [][] getT();  // Renvoie le tableau de cases : [TAILLE] [TAILLE]
-	public boolean isEmpty(); 
+	public boolean isEmpty();
+	public Coord getLimites(); // Renvoie les coordonnées limites du terrain : toutes les tuiles sont comprises dans
+		  	     	   // (xmin,ymin)--------|
+				   //      |             |
+				   //      |--------(xmax,ymax)
 	
-	// PLACEMENT TUILE
+
 	
 	//              ___/ 3,0 \
 	//             /   \     /
@@ -33,6 +42,11 @@ Terrain :
 	//  \     /   \     /   \
 	//   \___/ 1,2 \___/ 3,3 \
 	
+	// Renvoie les 6 voisins de la case au Point P
+	public Case [] getVoisins(Point P);
+	
+		// PLACEMENT TUILE
+		
 	//	Position pour le placement :
 	//           _      _
 	//         _/X\    /X\_
@@ -62,14 +76,8 @@ Terrain :
 	
 	// AFFICHAGE CONSOLE
 	
-	// Affiche le terrain en un rectangle entre min et max :
-	// min -----|
-	//  |       |
-	//  |------max
-	public void afficher(Point min, Point max);
-	
-	// Affiche le terrain en un rectangle entre xmin,ymin et xmax,ymax :
-	public void afficher(int xmin, int ymin, int xmax, int ymax);
+	// Affiche le terrain dans la console
+	public void afficher();
 
 Tuile :
   
