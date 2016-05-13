@@ -1,5 +1,6 @@
 package main;
 import java.util.ArrayList;
+import java.awt.Color;
 import java.util.Random;
 import java.awt.Point;
 import java.io.BufferedReader;
@@ -16,7 +17,7 @@ public class Moteur {
 	private ArrayList<Terrain> annul, redo;
 	private ArrayList<Tuile> tuiles;
 	private Tuile tuile_pioche;
-	private Case.Type_Batiment bat_pioche;
+	private Case.Type_Batiment bat_choisi;
 	joueur_Humain j_courant;
 	
 	joueur_Humain j1;
@@ -41,7 +42,7 @@ public class Moteur {
 		j_courant = j1;
 		this.j2 = j2;
 		etat = Etat.DEBUT_DE_TOUR;
-		bat_pioche = Case.Type_Batiment.VIDE;
+		bat_choisi = Case.Type_Batiment.VIDE;
 	}
 	
 	///////////////////////////////////////////////////////////////
@@ -119,8 +120,8 @@ public class Moteur {
 		return tuile_pioche;
 	}
 	
-	public Case.Type_Batiment get_bat_pioche(){
-		return bat_pioche;
+	public Case.Type_Batiment get_bat_choisi(){
+		return bat_choisi;
 	}
 	
 	//Echange le joueur courant
@@ -161,7 +162,7 @@ public class Moteur {
 	
 	//Appelle la méthode placer_tuile du terrain, renvoie 0 si la tuile piochée a pu être placée, 1 sinon
 	public int placer_tuile(Point P){
-		if(T.placer_tuile(tuile_pioche, P) ==1){
+		if(T.placer_tuile(tuile_pioche, P) == 0){
 			etat = Etat.CONSTRUIRE_BATIMENT;
 			return 0;
 		}
@@ -169,36 +170,32 @@ public class Moteur {
 	}
 	
 	//SELECTEURS DES BATIMENTS DU JOUEUR
-	//La cas piochée est une choisie
+	//Le batiment choisi est une hutte
 	public void select_hutte(){
-		bat_pioche = Case.Type_Batiment.HUTTE;
+		bat_choisi = Case.Type_Batiment.HUTTE;
 	}
-	//La cas piochée est une choisie
+	//La cas piochée est un temple
 	public void select_temple(){
-		bat_pioche = Case.Type_Batiment.TEMPLE;
+		bat_choisi = Case.Type_Batiment.TEMPLE;
 	}
-	//La cas piochée est une choisie
+	//La cas piochée est une tour
 	public void select_tour(){
-		bat_pioche = Case.Type_Batiment.TOUR;
+		bat_choisi = Case.Type_Batiment.TOUR;
 	}
 	
+	private Case.Couleur_Joueur switch_case_color(Color c){
+		if(c == Color.red) return Case.Couleur_Joueur.ROUGE;
+		else if(c == Color.yellow) return Case.Couleur_Joueur.JAUNE;
+		else if(c == Color.white) return Case.Couleur_Joueur.BLANC;
+		else if(c == Color.gray) return Case.Couleur_Joueur.MARRON;
+		else return Case.Couleur_Joueur.NEUTRE;
+	}
 	
-	//Permet de jouer un tour
-	//i.e poser une tuile (et une pièce) sur le terrain T.
-	//Renvoie 0 si l'opération à réussi, 1 sinon.
-	//TODO
-	public int jouer_tour(Point p){
-		//Devra potentiellement être exécuté dans l'écouteur de "Piocher"
-		if(pioche_vide()){
-			if(j1.getScore()>j2.getScore())System.out.println("Joueur 1 gagne");
-			else if (j1.getScore()<j2.getScore())System.out.println("Joueur 2 gagne");
-			else System.out.println("Il y a egalite");
+	//Appelle placer_batiment du terrain, renvoie 0 si le batiment a pu être placé, 1 sinon
+	public int placer_batiment(int n, Point P){
+		if(T.placer_batiment(bat_choisi,1,switch_case_color(j_courant.getCouleur()), P) == 0){
+			etat = Etat.FIN_DE_TOUR;
 			return 0;
-		}
-		else{
-			if(T.placer_tuile(tuile_pioche, p)==0){
-				//Il faut ensuite placer le batiment
-			}
 		}
 		return 1;
 	}
