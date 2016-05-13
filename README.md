@@ -117,6 +117,10 @@ Moteur :
 	// Constructeur du moteur
 	Moteur(Terrain T,joueur_Humain j1, joueur_Humain j2);
 	
+	///////////////////////
+	// Getters / Setters
+	///////////////////////
+	
 	// Récupère le terrain courant
 	public Terrain getT();
 	
@@ -125,7 +129,26 @@ Moteur :
 	
 	//Renvoie le nombre de Tuiles restantes
 	public int get_nbTuiles();
-		
+	
+	//Renvoie la tuile piochée 
+	public Tuile get_tuile_pioche();
+	
+	//Renvoie le joueur courant
+	public joueur_Humain get_Jcourant();
+	
+	//Renvoie l'état actuel du tour du jeu
+	public Etat get_etat_jeu();
+	
+	//Renvoie le type de batiment choisi par le joueur
+	public Case.Type_Batiment get_bat_choisi();
+	
+	//Renvoie le joueur qui a gagné la partie
+	public joueur_Humain getGagnant()
+	
+	//////////////////////////////////////////////////
+	//	FONCTIONS RELATIVES A UN TOUR DE JEU
+	/////////////////////////////////////////////////
+	
 	//Echange le joueur courant;
 	swap_joueur();
 
@@ -141,17 +164,38 @@ Moteur :
 	//Renvoie une tuile piochée aléatoirement dans la pioche
 	public Tuile piocher();
 	
-	//Permet de jouer un tour
-	//i.e poser une tuile (et une pièce) sur le terrain T.
-	//Renvoie 0 si l'opération à réussi, 1 sinon.
-	public int jouer_tour(Point p);
+	// Renvoie vrai ssi le placement de la tuile piochée est autorisé au point P.
+	public boolean placement_tuile_autorise(Point P);
+	
+	//Renvoie 0 si la tuile piochée a pu être placée, -1 si elle est placée, mais le joueur ne peux plus jouer, 1 sinon
+	public int placer_tuile(Point P);
+	
+	//SELECTEURS DES BATIMENTS DU JOUEUR
+	//Le batiment choisi est une hutte
+	public void select_hutte();
+	
+	//Le batiment choisi est un temple
+	public void select_temple();
+	
+	//Le batiment choisi est une tour
+	public void select_tour();
+	
+	//Renvoie vrai ssi le placement du batiment choisi est autorisé au point P.
+	public boolean placement_batiment_autorise(Point P);
+	
+	//Renvoie 0 si le batiment a pu être placé, 1 sinon
+	public int placer_batiment(Point P);
+	
+	//Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
+	//Actualise aussi les données et change de joueur
+	public int fin_de_tour();
 	
 	//Permet d'annuler un tuile posée, et de la récupérer
-	//Renvoie 1 si tout s'est bien passé, 0 sinon.
+	//Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int annuler();
 	
 	//Permet de reposer une tuile qui a été annulée qui a été annulée
-	//Renvoie 1 si tout s'est bien passé, 0 sinon.
+	//Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int refaire();
 	
 List_coup_tuile :
