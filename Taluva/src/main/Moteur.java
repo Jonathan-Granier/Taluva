@@ -22,9 +22,11 @@ public class Moteur {
 	joueur_Humain j2;
 	
 	public enum Etat{
+		DEBUT_DE_TOUR,
 		POSER_TUILE,
 		CONSTRUIRE_BATIMENT;
 	}
+	private Etat etat;
 	
 	public Moteur(Terrain T,joueur_Humain j1,joueur_Humain j2){
 		this.T = T;
@@ -36,6 +38,7 @@ public class Moteur {
 		this.j1 = j1;
 		j_courant = j1;
 		this.j2 = j2;
+		etat = Etat.DEBUT_DE_TOUR;
 	}
 	
 	///////////////////////////////////////////////////////////////
@@ -139,9 +142,18 @@ public class Moteur {
 		return pioche;
 	}
 	
+	// Renvoie vrai ssi le placement de la tuile piochée est autorisé au point P.
+	public boolean placement_tuile_autorise(Point P){
+		return T.placement_tuile_autorise(pioche,P);
+	}
+	
 	//Appelle la méthode placer_tuile du terrain, renvoie 0 si la tuile piochée a pu être placée, 1 sinon
 	public int placer_tuile(Point P){
-		return T.placer_tuile(pioche, P);
+		if(T.placer_tuile(pioche, P) ==1){
+			etat = Etat.CONSTRUIRE_BATIMENT;
+			return 0;
+		}
+		return 1;
 	}
 	
 	//Permet de jouer un tour
