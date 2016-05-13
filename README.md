@@ -165,3 +165,8 @@ List_coup_construction :
 	
 	//Renvoie vrai si le coup est possible
 	public boolean coup_possible (Action_construction a)
+	
+Action_construction :
+
+	//constructeur
+	
