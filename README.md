@@ -7,6 +7,31 @@ Terrain :
 
 	// Constructeur de terrain vide  
 	Terrain();
+	
+	public Terrain clone();
+	public Case [][] getT();
+	public boolean isEmpty();
+	
+	// Place la tuile donnée au point P. Renvoie 0 si la tuile a pu etre placée, 1 sinon.
+	public int placer_tuile(Tuile tuile, Point P);
+	
+	// Renvoie vrai ssi le placement de cette tuile est autorisé au point P.
+	public boolean placement_tuile_autorise(Tuile tuile, Point P);
+	
+	// Place n batiments de type b au point P. Renvoie 0 si le placement a réussi, 1 sinon.
+	public int placer_batiment(Case.Type_Batiment b, int n, Point P);
+	
+	// Renvoie vrai ssi le placement de n batiments de type b au point P est autorisé.
+	public boolean placement_batiment_autorise(Case.Type_Batiment b, int n, Point P);
+	
+	// Affiche le terrain en un rectangle entre min et max :
+	// min -----|
+	//  |       |
+	//  |------max
+	public void afficher(Point min, Point max);
+	
+	// Affiche le terrain en un rectangle entre xmin,ymin et xmax,ymax :
+	public void afficher(int xmin, int ymin, int xmax, int ymax);
 
 Tuile :
   
