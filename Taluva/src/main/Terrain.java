@@ -19,7 +19,7 @@ public class Terrain {
 	}
 	
 	public final static int TAILLE = 200;
-	public final static Point CENTRE = new Point(2,2);//new Point(TAILLE/2,TAILLE/2);
+	public final static Point CENTRE = new Point(TAILLE/2,TAILLE/2);
 	
 	private Case [][] t;
 	private boolean empty;
@@ -347,7 +347,6 @@ public class Terrain {
 	
 	// Affiche le terrain dans la console
 	public void afficher(){
-		System.out.println("(" + limites.xmin + "," + limites.ymin + ") - (" + limites.xmax + "," + limites.ymax + ")");
 		for(int i=limites.ymin;i<=limites.ymax;i++){
 			for(int j=limites.xmin;j<=limites.xmax;j++){
 				switch (t[j][i].getType()){
