@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class List_coup_construction {
 	private ArrayList<Point> huttes;
-	private ArrayList<Action_construction> extension;
+	private ArrayList<Action_Construction> extension;
 	private ArrayList<Point> tour;
 	private ArrayList<Point> temple;
 	
@@ -14,7 +14,7 @@ public class List_coup_construction {
 		
 	}
 	
-	public boolean coup_possible (Action_construction a)
+	public boolean coup_possible (Action_Construction a)
 	{
 		switch(a.get_type())
 		{

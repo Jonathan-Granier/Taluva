@@ -2,7 +2,7 @@ package main;
 
 import java.awt.Point;
 
-public class Action_construction {
+public class Action_Construction {
 
 	public enum Type{
 		HUTTE,
@@ -11,22 +11,24 @@ public class Action_construction {
 		TEMPLE;
 	}
 	private Type type;
-	private Case.Type type_extenstion;
+	private Case.Type type_extension;
 	private Point coord;
 	
 	// Constructeur d'une action-construction hors extension
-	Action_construction(Type t, Point coord)
+	Action_Construction(Type t, Point coord)
 	{
 		this.coord = coord;
 		this.type =t;
+		this.type_extension = Case.Type.VIDE;
+		
 	}
 	
 	// Constructeur d'une action-construction d'extension (en coordonnée: mettre une case de la cité à étendre).
-	Action_construction(Type t, Point coord, Case.Type type_extension)
+	Action_Construction(Type t, Point coord, Case.Type type_extension)
 	{
 		this.coord = coord;
 		this.type = t;
-		this.type_extenstion = type_extenstion;
+		this.type_extension = type_extension;
 	}
 	
 	public Point get_coord()
@@ -39,8 +41,6 @@ public class Action_construction {
 	}
 	public Case.Type get_type_extension()
 	{
-		if(this.type == Type.EXTENSION)
-		return this.type_extenstion;
-		return Case.Type.VIDE;
+		return this.type_extension;
 	}
 }

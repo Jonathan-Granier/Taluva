@@ -421,6 +421,11 @@ public class Terrain {
 		else return false;
 	}
 	
+	public ArrayList<Action_Construction> liste_coups_construction_possibles(){
+		ArrayList<Action_Construction> res = new  ArrayList<Action_Construction>();
+		return res;
+	}
+	
 	// Affiche le terrain dans la console
 	public void afficher(){
 		for(int i=limites.ymin;i<=limites.ymax;i++){
