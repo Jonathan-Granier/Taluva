@@ -18,6 +18,7 @@ public class Window {
 			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
 			Display.create();
 			Display.setTitle("Engine");
+			System.out.println("OpenGL version: " + GL11.glGetString(GL11.GL_VERSION));
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}

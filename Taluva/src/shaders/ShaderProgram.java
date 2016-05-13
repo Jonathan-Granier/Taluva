@@ -20,6 +20,10 @@ public abstract class ShaderProgram {
 	private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
 	
 	public ShaderProgram(String vertexFile,String fragmentFile){
+		if(GL11.glGetString(GL11.GL_VERSION).charAt(0) == '4'){
+			vertexFile = "src/shaders/vertexShader400.txt";
+			fragmentFile = "src/shaders/fragmentShader400.txt";
+		}	
 		vertexShaderID = loadShader(vertexFile,GL20.GL_VERTEX_SHADER);
 		fragmentShaderID = loadShader(fragmentFile,GL20.GL_FRAGMENT_SHADER);
 		programID = GL20.glCreateProgram();

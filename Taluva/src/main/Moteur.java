@@ -25,7 +25,7 @@ public class Moteur {
 	public Moteur(Terrain T,joueur_Humain j1,joueur_Humain j2){
 		this.T = T;
 		annul = new ArrayList<Terrain>();
-		annul.add(T.clone());
+		annul.add(T.clone());  // Verifier que les reference soit different : Une modification dans T , ne modifie pas ce qu'il y a dans annul
 		redo = new ArrayList<Terrain>();
 		tuiles = new ArrayList<Tuile>();
 		init_tuiles(tuiles);
@@ -37,7 +37,7 @@ public class Moteur {
 	///////////////////////////////////////////////////////////////
 	//LECTURE DES PIECES ET INITIALISATION DE L'ENSEMBLE DE TUILES
 	///////////////////////////////////////////////////////////////
-	public Case.Type switch_case(char c){
+	private Case.Type switch_case(char c){
 		switch (c){
 			case 'V' :	return Case.Type.VOLCAN;
 				//break;
@@ -57,7 +57,7 @@ public class Moteur {
 	}
 	
 	//Ajout à l'ensemble de tuiles
-	public void rajout(String line,ArrayList<Tuile> tuiles){
+	private void rajout(String line,ArrayList<Tuile> tuiles){
 		int nb;
 		nb = Character.getNumericValue(line.charAt(0));
 		for(int i=1; i<=nb;i++){
@@ -66,7 +66,7 @@ public class Moteur {
 	}
 	
 	
-	public void init_tuiles(ArrayList<Tuile> tuiles){
+	private void init_tuiles(ArrayList<Tuile> tuiles){
 		try {
 			File file = new File("PIECES.txt");
 			FileInputStream fis = new FileInputStream(file);
@@ -110,13 +110,13 @@ public class Moteur {
 		j_courant = (j_courant==j1)? j1 : j2;
 	}
 	
-	//Si en début de tour on n'a plus de tuile à jouer
-	public boolean partie_terminee(){
+	//Renvoi vrai si la pioche est vide
+	public boolean pioche_vide(){
 		return tuiles.size()==0;
 	}
 	
-	//Test si un joueur qui vient de jouer a gagné
-	public boolean a_gagne(){
+	//Test si le joueur courant a posé tous les batiments de 2 types differents
+	public boolean victoire_aux_batiments(){
 		return (j_courant.getTour()==0 && j_courant.getTemple()==0)
 				||(j_courant.getTour()==0 && j_courant.getHutte()==0)
 				||(j_courant.getTemple()==0 && j_courant.getHutte()==0);
@@ -124,7 +124,7 @@ public class Moteur {
 	
 	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
 	//TODO
-	public boolean a_perdu(){
+	public boolean joueur_elimine (){
 		return false;
 	}
 	
@@ -141,7 +141,7 @@ public class Moteur {
 	//TODO
 	public int jouer_tour(Point p){
 		//Devra potentiellement être exécuté dans l'écouteur de "Piocher"
-		if(partie_terminee()){
+		if(pioche_vide()){
 			if(j1.getScore()>j2.getScore())System.out.println("Joueur 1 gagne");
 			else if (j1.getScore()<j2.getScore())System.out.println("Joueur 2 gagne");
 			else System.out.println("Il y a egalite");

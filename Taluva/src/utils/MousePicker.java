@@ -20,6 +20,8 @@ public class MousePicker {
 	private Matrix4f viewMatrix;
 	private Camera camera;
 	
+	private float height;
+	
 	private Vector3f currentObjectPoint;
 	
 	public MousePicker(Camera camera, Matrix4f projection){
@@ -36,7 +38,8 @@ public class MousePicker {
 		return currentRay;
 	}
 	
-	public void update(){
+	public void update(float height){
+		this.height = height;
 		viewMatrix = Matrix.createViewMatrix(camera);
 		currentRay = calculateMouseRay();
 		if (intersectionInRange(0, RAY_RANGE, currentRay)) {
@@ -112,7 +115,6 @@ public class MousePicker {
 	}
 
 	private boolean isUnderGround(Vector3f testPoint) {
-		float height = 0;
 
 		if (testPoint.y < height) {
 			return true;
