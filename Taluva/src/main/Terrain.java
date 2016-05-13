@@ -128,7 +128,7 @@ public class Terrain {
 		return res;
 	}
 	
-	// Renvoie vrai ssi la tuile est en contact avec au moins une case non vide
+	// Renvoie vrai ssi la tuile est en contact avec au moins une autre tuile
 	private boolean en_contact(Tuile.Orientation o, Point P){
 		boolean trouve = false;
 		ArrayList<Point> voisins;
@@ -147,13 +147,15 @@ public class Terrain {
 			// Teste si la tuile est posée sur d'autres tuiles
 			int x = P.x;
 			int y = P.y;
-			boolean s0,s1,s2;
-			Point [] cases_t = cases_tuile(tuile.getOrientation(),P);
-			s0 = !t[cases_t[0].x][cases_t[0].y].est_Vide();
-			s1 = !t[cases_t[1].x][cases_t[1].y].est_Vide();
-			s2 = !t[cases_t[2].x][cases_t[2].y].est_Vide();
-			if(s0 || s1 || s2){
-				if(s0 && s1 && s2){
+			int n0,n1,n2;
+			Point [] cases_t = cases_tuile(tuile.getOrientation(),P);	// Les cases de la tuile
+			n0 = t[cases_t[0].x][cases_t[0].y].getNiveau();
+			n1 = t[cases_t[1].x][cases_t[1].y].getNiveau();		// On regarde les niveaux en-dessous de la tuile
+			n2 = t[cases_t[2].x][cases_t[2].y].getNiveau();
+			if(n0>0 || n1>0 || n2>0){
+				// Si on tente de jouer sur au moins une tuile
+				if(n0==n1 && n1==n2){
+					// Si les 3 cases dessous sont au même niveau
 					// On joue alors sur des tuiles, on vérifie la disposition des volcans
 					if(tuile.get_type_case(Case.Orientation.N)==Case.Type.VOLCAN){
 						// Si le Volcan est au Nord
@@ -198,7 +200,7 @@ public class Terrain {
 					}
 				}
 				else{
-					// On essaye de jouer partiellement sur de tuiles : interdit
+					// On essaye de jouer partiellement sur de tuiles ou de niveaux différents : interdit
 					return false;
 				}
 			}

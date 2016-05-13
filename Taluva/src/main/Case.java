@@ -9,7 +9,7 @@ public class Case {
 		LAC,
 		SABLE,
 		FORET,
-		VIDE;
+		VIDE; // <=> niveau = 0
 	}
 	
 	public enum Orientation{
@@ -31,11 +31,11 @@ public class Case {
 		VIDE;
 	}
 	
-	private Type type;
+	private Type type;	// type = VIDE ssi niveau = 0
 	private Orientation orientation;
 	private Type_Batiment bt;
 	private int nb_b;
-	private int niveau;
+	private int niveau; // niveau = 0 ssi type = VIDE
 	
 	public Case(Type type){
 		this.type = type;
@@ -45,7 +45,7 @@ public class Case {
 		niveau = (type == Type.VIDE) ? 0 : 1;
 	}
 	
-	Case(Type type, Orientation orientation){
+	public Case(Type type, Orientation orientation){
 		this.type = type;
 		this.orientation = (type == Type.VOLCAN) ? orientation : Orientation.NONE;
 		nb_b = 0;
@@ -63,7 +63,7 @@ public class Case {
 	}
 	
 	public boolean est_Vide(){
-		return type == Type.VIDE;
+		return niveau==0;
 	}
 	
 	// Renvoie l'orientation de la case. N'a de sens que si getType()=OrientationCase.VOLCAN
