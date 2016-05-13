@@ -59,7 +59,7 @@ public abstract class joueur_Generique {
 		return score;
 	}
 	
-	public Color get_couleur()
+	public Color getCouleur()
 	{
 		return c;
 	}
