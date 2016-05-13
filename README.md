@@ -17,6 +17,27 @@ Terrain :
 	
 	// PLACEMENT TUILE
 	
+	//              ___/ 3,0 \
+	//             /   \     /
+	//         ___/ 2,0 \___/
+	//        /   \     /   \
+	//    ___/ 1,0 \___/ 3,1 \
+	//   /	 \     /   \     /
+	//  / 0,0 \___/ 2,1 \___/
+	//  \     /   \     /   \
+	//   \___/ 1,1 \___/ 3,2 \
+	//   /   \     /   \     /
+	//  / 0,1 \___/ 2,2 \___/
+	//  \     /   \     /   \
+	//   \___/ 1,2 \___/ 3,3 \
+	
+	//	Position pour le placement :
+	//           _      _
+	//         _/X\    /X\_
+	// GAUCHE / \_/    \_/ \ DROITE
+	//        \_/ \    / \_/
+	//          \_/    \_/
+	
 	// Renvoie le Terrain après placement de tuile au point P. Ne modifie pas la structure actuelle.
 	public Terrain consulter_coup_tuile(Tuile tuile, Point P)
 	
