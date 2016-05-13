@@ -2,6 +2,14 @@ package main;
 
 public class Case {
 	
+	public enum Couleur_Joueur{
+		ROUGE,
+		JAUNE,
+		BLANC,
+		MARRON,
+		NEUTRE;
+	}
+	
 	public enum Type{
 		VOLCAN,
 		MONTAGNE,
@@ -35,6 +43,7 @@ public class Case {
 	private Orientation orientation;
 	private Type_Batiment bt;
 	private int nb_b;
+	private Couleur_Joueur c;
 	private int niveau; // niveau = 0 ssi type = VIDE
 	
 	public Case(Type type){
@@ -42,6 +51,7 @@ public class Case {
 		orientation = Orientation.NONE;
 		nb_b = 0;
 		bt = Type_Batiment.VIDE;
+		c = Couleur_Joueur.NEUTRE;
 		niveau = (type == Type.VIDE) ? 0 : 1;
 	}
 	
@@ -50,6 +60,7 @@ public class Case {
 		this.orientation = (type == Type.VOLCAN) ? orientation : Orientation.NONE;
 		nb_b = 0;
 		bt = Type_Batiment.VIDE;
+		c = Couleur_Joueur.NEUTRE;
 		niveau = (type == Type.VIDE) ? 0 : 1;
 	}
 	
@@ -58,6 +69,7 @@ public class Case {
 		tmp.bt = this.bt;
 		tmp.nb_b = this.nb_b;
 		tmp.niveau = this.niveau;
+		tmp.c = this.c;
 		return tmp;
 	}
 	
@@ -70,8 +82,14 @@ public class Case {
 		if(t != Type.VIDE || niveau > 0) type = t;
 	}
 	
+	// Renvoie vrai ssi la case est vide (c'est un trou)
 	public boolean est_Vide(){
 		return niveau==0;
+	}
+	
+	// Renvoie vrai ssi la case est libre (pas de batiments dessus)
+	public boolean est_Libre(){
+		return nb_b==0;
 	}
 	
 	// Renvoie l'orientation de la case. N'a de sens que si getType()=OrientationCase.VOLCAN
@@ -102,13 +120,19 @@ public class Case {
 	public Type_Batiment getBType(){
 		return bt;
 	}
+	
+	// Renvoie la couleur des batiments sur la case.
+	public Couleur_Joueur getCouleur(){
+		return c;
+	}
 
-	// Ajoute n batiments bt sur la case.
+	// Ajoute n batiments bt de couleur c sur la case.
 	// Renvoie 0 si le placement était autorisé et a réussi, 1 sinon.
-	public int ajouter_batiment(Type_Batiment bt, int n){
+	public int ajouter_batiment(Type_Batiment bt, int n, Couleur_Joueur c){
 		if(n>0 && ajout_batiment_autorise(bt,n)){
 			nb_b = n;
 			this.bt = bt;
+			this.c = c;
 			return 0;
 		}
 		else return 1;
@@ -132,6 +156,7 @@ public class Case {
 		if(nb_b > 0){
 			nb_b = 0;
 			bt = Type_Batiment.VIDE;
+			c = Couleur_Joueur.NEUTRE;
 			return 0;
 		}
 		else return 1;

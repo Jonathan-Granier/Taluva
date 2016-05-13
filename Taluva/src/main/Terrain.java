@@ -111,17 +111,17 @@ public class Terrain {
 	}
 
 	// Renvoie les 3 cases de la tuile
-	private Point [] cases_tuile(Tuile.Orientation o, Point P){
+	private Case [] cases_tuile(Tuile.Orientation o, Point P){
 		int x = P.x;
 		int y = P.y;
-		Point [] res = new Point[3];
-		res[0] = new Point(x,y);
-		res[1] = new Point(x,y+1);
+		Case [] res = new Case[3];
+		res[0] = t[x][y];
+		res[1] = t[x][y+1];
 		if(o == Tuile.Orientation.GAUCHE){
-			res[2] = new Point(x-1,y);
+			res[2] = t[x-1][y];
 		}
 		else{
-			res[2] = new Point(x+1,y+1);
+			res[2] = t[x+1][y+1];
 		}
 		return res;
 	}
@@ -169,10 +169,10 @@ public class Terrain {
 			int x = P.x;
 			int y = P.y;
 			int n0,n1,n2;
-			Point [] cases_t = cases_tuile(tuile.getOrientation(),P);	// Les cases de la tuile
-			n0 = t[cases_t[0].x][cases_t[0].y].getNiveau();
-			n1 = t[cases_t[1].x][cases_t[1].y].getNiveau();		// On regarde les niveaux en-dessous de la tuile
-			n2 = t[cases_t[2].x][cases_t[2].y].getNiveau();
+			Case [] cases_t = cases_tuile(tuile.getOrientation(),P);	// Les cases de la tuile
+			n0 = cases_t[0].getNiveau();
+			n1 = cases_t[1].getNiveau();		// On regarde les niveaux en-dessous de la tuile
+			n2 = cases_t[2].getNiveau();
 			if(n0>0 || n1>0 || n2>0){
 				// Si on tente de jouer sur au moins une tuile
 				if(n0==n1 && n1==n2){
@@ -232,28 +232,87 @@ public class Terrain {
 		}
 	}
 	
-	// Renvoie le Terrain après placement de n batiments b au point P. Ne modifie pas la structure actuelle.
-	public Terrain consulter_coup_batiment(Case.Type_Batiment b, int n, Point P){
-		if(placement_batiment_autorise(b,n,P)){
-			Terrain T = this.clone();
-			T.placer_batiment(b,n,P);
-			return T;
-		}
-		else{
-			return this;
-		}
+	// Renvoie le Terrain après placement de n batiments b de couleur c au point P.
+	// Ne modifie pas la structure actuelle.
+	public Terrain consulter_coup_batiment(Case.Type_Batiment b, int n, Case.Couleur_Joueur c, Point P){
+		Terrain T = this.clone();
+		T.placer_batiment(b,n,c,P);
+		return T;
 	}
 	
 	// Place n batiments de type b au point P. Renvoie 0 si le placement a réussi, 1 sinon.
-	public int placer_batiment(Case.Type_Batiment b, int n, Point P){
+	public int placer_batiment(Case.Type_Batiment b, int n, Case.Couleur_Joueur c, Point P){
 		// TODO
 		return 0;
 	}
 	
+	public Case [] getVoisins(Point P){
+		Case [] res = new Case[6];
+		int x = P.x;
+		int y = P.y;
+		res[0] = t[x-1][y-1];
+		res[1] = t[x][y-1];
+		res[2] = t[x-1][y];
+		res[3] = t[x+1][y];
+		res[4] = t[x][y+1];
+		res[5] = t[x+1][y+1];
+		return res;
+	}
+	
+	// Renvoie vrai ssi la cite donnee contient au moins un batiment de type b
+	private boolean cite_contient(ArrayList<Case> cite, Case.Type_Batiment b){
+		boolean trouve = false;
+		int i = 0;
+		while(!trouve && i<cite.size()){
+			trouve = cite.get(i).getBType() == b;
+			i++;
+		}
+		return trouve;
+	}
+	
+	// Renvoie vrai ssi la cite donnee est de taille >=3
+	private boolean cite_taille_3(ArrayList<Case> cite){
+		return cite.size()>=3;
+	}
+	
+	// Renvoie la liste des cases associées à la cite en P
+	private ArrayList<Case> getCite(Point P){
+		int x = P.x;
+		int y = P.y;
+		ArrayList<Case> res = new ArrayList<Case>();
+		res.add(t[x][y]);
+		
+		return res;
+	}
+	
 	// Renvoie vrai ssi le placement de n batiments de type b au point P est autorisé.
-	public boolean placement_batiment_autorise(Case.Type_Batiment b, int n, Point P){
-		// TODO
-		return t[P.x][P.y].ajout_batiment_autorise(b, n);
+	public boolean placement_batiment_autorise(Case.Type_Batiment b, int n, Case.Couleur_Joueur c, Point P){
+		int x = P.x;
+		int y = P.y;
+		if(t[x][y].ajout_batiment_autorise(b, n)){
+			// Si le placement est autorise sur la case (indépendemment du reste du terrain)
+			Case [] voisins = getVoisins(P);
+			int i = 0;
+			boolean cite_trouvee = false;
+			while(!cite_trouvee && i<6){
+				cite_trouvee = !voisins[i].est_Libre() && voisins[i].getCouleur()==c;
+				i++;
+			}
+			if(cite_trouvee){
+				ArrayList<Case> cite = getCite(P);
+				if(b == Case.Type_Batiment.TOUR)
+					return (t[x][y].getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
+				if(b == Case.Type_Batiment.TEMPLE)
+					return (cite_taille_3(cite) && !cite_contient(cite,Case.Type_Batiment.TEMPLE));
+				//TODO
+				return true;
+			}
+			else{
+				// C'est une nouvelle cité : ce doit être une hutte au niveau 1
+				return (b == Case.Type_Batiment.HUTTE) && t[x][y].getNiveau()==1;
+			}
+		}
+		else return false;
 	}
 	
 	// Affiche le terrain en un rectangle entre min et max :
