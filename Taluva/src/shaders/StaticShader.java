@@ -2,6 +2,7 @@ package shaders;
 
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -31,7 +32,7 @@ public class StaticShader extends ShaderProgram{
 	private int location_reciveShadow;
 	
 	public StaticShader() {
-		super(VERTEX_FILE, FRAGMENT_FILE);
+			super(VERTEX_FILE, FRAGMENT_FILE);
 	}
 
 	@Override

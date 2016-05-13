@@ -12,9 +12,9 @@ public class Camera {
 	
 	private Vector3f position = new Vector3f(0,0,0);
 	private Vector3f lookAt = new Vector3f(0,0,0);
-	private float pitch=20;
+	private float pitch=40;
 	private float angleAroundPivot=0;
-	private float distanceFromPivot=50;
+	private float distanceFromPivot=200;
 	private float yangle;
 	private float roll;
 	
@@ -40,7 +40,7 @@ public class Camera {
 			distanceFromPivot -= zoomLevel;
 		
 		
-		if(Mouse.isButtonDown(0)){
+		if(Mouse.isButtonDown(0) && Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 			float pitchChange = Mouse.getDY() * 0.3f;
 			if(pitch - pitchChange >1 && pitch - pitchChange <85)
 				pitch -= pitchChange;
