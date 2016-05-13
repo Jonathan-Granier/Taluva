@@ -19,7 +19,7 @@ public class Terrain {
 	}
 	
 	public final static int TAILLE = 200;
-	public final static Point CENTRE = new Point(TAILLE/2,TAILLE/2);
+	public final static Point CENTRE = new Point(2,2);//new Point(TAILLE/2,TAILLE/2);
 	
 	private Case [][] t;
 	private boolean empty;
@@ -56,6 +56,10 @@ public class Terrain {
 		return empty;
 	}
 	
+	// Renvoie les coordonnées limites du terrain : toutes les tuiles sont comprises dans
+	// (xmin,ymin)--------|
+	//      |             |
+	//      |--------(xmax,ymax)
 	public Coord getLimites(){
 		return limites;
 	}
@@ -341,18 +345,11 @@ public class Terrain {
 		else return false;
 	}
 	
-	// Affiche le terrain en un rectangle entre min et max :
-	// min -----|
-	//  |       |
-	//  |------max
-	public void afficher(Point min, Point max){
-		afficher(min.x,min.y,max.x,max.y);
-	}
-	
-	// Affiche le terrain en un rectangle entre xmin,ymin et xmax,ymax :
-	public void afficher(int xmin, int ymin, int xmax, int ymax){
-		for(int i=xmin;i<xmax;i++){
-			for(int j=ymin;j<ymax;j++){
+	// Affiche le terrain dans la console
+	public void afficher(){
+		System.out.println("(" + limites.xmin + "," + limites.ymin + ") - (" + limites.xmax + "," + limites.ymax + ")");
+		for(int i=limites.ymin;i<=limites.ymax;i++){
+			for(int j=limites.xmin;j<=limites.xmax;j++){
 				switch (t[j][i].getType()){
 				case FORET:
 					System.out.print("F");
@@ -379,7 +376,8 @@ public class Terrain {
 					break;
 				}
 			}
-			for(int j=ymin;j<ymax;j++){
+			System.out.print("  ");
+			for(int j=limites.xmin;j<=limites.xmax;j++){
 				System.out.print(t[j][i].getNiveau());
 			}
 			System.out.println("");
