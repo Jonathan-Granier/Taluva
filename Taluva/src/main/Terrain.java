@@ -25,7 +25,7 @@ public class Terrain {
 		Terrain tmp = new Terrain();
 		for(int i=0;i<TAILLE;i++){
 			for(int j=0;j<TAILLE;j++){
-				tmp.t[i][j] = this.t[i][j];
+				tmp.t[i][j] = this.t[i][j].clone();
 			}
 		}
 		tmp.empty = this.empty;

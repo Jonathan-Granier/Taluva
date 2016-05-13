@@ -53,6 +53,14 @@ public class Case {
 		niveau = (type == Type.VIDE) ? 0 : 1;
 	}
 	
+	public Case clone(){
+		Case tmp = new Case(this.type, this.orientation);
+		tmp.bt = this.bt;
+		tmp.nb_b = this.nb_b;
+		tmp.niveau = this.niveau;
+		return tmp;
+	}
+	
 	// Renvoie le type de la case
 	public Type getType(){
 		return type;
