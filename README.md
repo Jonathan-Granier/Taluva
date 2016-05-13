@@ -67,13 +67,18 @@ Terrain :
 	// PLACEMENT BATIMENTS
 	
 	// Renvoie le Terrain après placement de n batiments b au point P. Ne modifie pas la structure actuelle.
+	// ATTENTION VA ETRE MODIFIE
 	public Terrain consulter_coup_batiment(Case.Type_Batiment b, int n, Point P);
 	
-	// Place n batiments de type b au point P. Renvoie 0 si le placement a réussi, 1 sinon.
-	public int placer_batiment(Case.Type_Batiment b, int n, Point P);
+	// Place directement un batiment de type b au point P (hors extension de cite).
+	// Renvoie 0 si le placement a réussi, 1 sinon.
+	public int placer_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P);
 	
-	// Renvoie vrai ssi le placement de n batiments de type b au point P est autorisé.
-	public boolean placement_batiment_autorise(Case.Type_Batiment b, int n, Point P);
+	// Etend la cité présente au point P sur les cases de Type type.
+	public int etendre_cite(Point P, Case.Type type);
+	
+	// Renvoie vrai ssi le placement direct d'un batiment de type b au point P est autorisé.
+	public boolean placement_batiment_autorise(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P);
 	
 	// AFFICHAGE CONSOLE
 	
