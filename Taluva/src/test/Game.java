@@ -3,6 +3,7 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
@@ -37,8 +38,8 @@ public class Game {
 		//moteur = new Moteur(terrain);
 		Case [][] t = terrain.getT();
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>();
-		for(int i=0; i<4;i++)
-			Tiles.add(new GraphicTile(new Tuile(Case.Type.VOLCAN,Case.Type.VOLCAN), loader,new Vector3f((i+1)*SIZE_OF_HEXA,0,0)));
+		//for(int i=0; i<4;i++)
+		//	Tiles.add(new GraphicTile(new Tuile(Case.Type.VOLCAN,Case.Type.VOLCAN), loader,new Vector3f((i+1)*SIZE_OF_HEXA,0,0)));
 		
 		return Tiles;
 	}
@@ -69,20 +70,25 @@ public class Game {
 		lights.add(light4);*/
 
 		MousePicker picker = new MousePicker(camera,renderer.getProjectionMatrix());
-		
+		Keyboard.enableRepeatEvents(false);
 		while(!Display.isCloseRequested()){
 			FPS.updateFPS();
 			//entity.increaseRotation(1, 1, 0);
 			camera.move();
 			
-			picker.update();
+			picker.update(Tile.getHeight());
 			Vector3f point = picker.getCurrentObjectPoint();
 			if(point!=null){
-				Tile.getObject3D().setPosition(new Vector3f(point.x,0,point.z));
+				Tile.getObject3D().setPosition(new Vector3f(point.x,Tile.getHeight(),point.z));
 			}
 
 			if(InputHandler.isButtonDown(1))
 				Tile.rotate();
+			InputHandler.isKeyDown(Tile);
+
+			if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+				Tiles.add(new GraphicTile(Tile));
+			}
 				
 			renderer.prepare();
 			

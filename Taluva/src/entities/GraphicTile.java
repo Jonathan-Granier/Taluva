@@ -22,6 +22,23 @@ public class GraphicTile {
 		this.height = 0;
 	}
 
+	public GraphicTile(GraphicTile tile){
+		this.object3d = new Object3D(tile.getObject3D());
+		this.tile = tile.getTile();
+		this.angle = tile.getAngle();
+		this.height = tile.getHeight();
+	}
+	
+	public void increaseHeight(){
+		height += HEIGHT_OF_TILE;
+	}
+	
+	public void decreaseHeight(){
+		if(height>0){
+			height -= HEIGHT_OF_TILE;
+		}
+	}
+	
 	public void rotate(){
 		tile.Tourner_horaire();
 		switch(tile.get_Orientation_Volcan()){

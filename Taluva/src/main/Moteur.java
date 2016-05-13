@@ -141,7 +141,7 @@ public class Moteur {
 	//TODO
 	public int jouer_tour(Point p){
 		//Devra potentiellement être exécuté dans l'écouteur de "Piocher"
-		if(partie_terminee()){
+		if(pioche_vide()){
 			if(j1.getScore()>j2.getScore())System.out.println("Joueur 1 gagne");
 			else if (j1.getScore()<j2.getScore())System.out.println("Joueur 2 gagne");
 			else System.out.println("Il y a egalite");
