@@ -94,36 +94,42 @@ Moteur :
 	// Constructeur du moteur
 	Moteur(Terrain T,joueur_Humain j1, joueur_Humain j2);
 	
+	// Récupère le terrain courant
+	public Terrain getT();
+	
+	//Affecte un terrain au moteur
+	public int setT(Terrain T);
+	
+	//Renvoie le nombre de Tuiles restantes
+	public int get_nbTuiles();
+		
 	//Echange le joueur courant;
 	swap_joueur();
-	
-	//Renvoi vrai si la pioche est vide
-	boolean pioche_vide();
+
+	//Renvoie vrai si il ne reste plus de tuiles
+	public boolean pioche_vide();
 	
 	//Test si le joueur courant a posé tous les batiments de 2 types differents
-	boolean victoire_aux_batiments();
+	public boolean victoire_aux_batiments();
 	
 	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
-	boolean joueur_elimine ();
+	public boolean joueur_elimine ();
 	
 	//Renvoie une tuile piochée aléatoirement dans la pioche
-	Tuile piocher();
+	public Tuile piocher();
 	
-	//
-	int jouer_tour(Point p);
+	//Permet de jouer un tour
+	//i.e poser une tuile (et une pièce) sur le terrain T.
+	//Renvoie 0 si l'opération à réussi, 1 sinon.
+	public int jouer_tour(Point p);
 	
-	//
-	int annuler();
+	//Permet d'annuler un tuile posée, et de la récupérer
+	//Renvoie 1 si tout s'est bien passé, 0 sinon.
+	public int annuler();
 	
-	//
-	int refaire();
-	
-	//Set et Get
-	Terrain getT();
-	int setT(Terrain T);
-	get_nbTuiles();
-	
-	
+	//Permet de reposer une tuile qui a été annulée qui a été annulée
+	//Renvoie 1 si tout s'est bien passé, 0 sinon.
+	public int refaire();
 	
 	
 	
