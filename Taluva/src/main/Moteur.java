@@ -15,7 +15,8 @@ public class Moteur {
 	private Terrain T;
 	private ArrayList<Terrain> annul, redo;
 	private ArrayList<Tuile> tuiles;
-	private Tuile pioche;
+	private Tuile tuile_pioche;
+	private Case.Type_Batiment bat_pioche;
 	joueur_Humain j_courant;
 	
 	joueur_Humain j1;
@@ -24,7 +25,8 @@ public class Moteur {
 	public enum Etat{
 		DEBUT_DE_TOUR,
 		POSER_TUILE,
-		CONSTRUIRE_BATIMENT;
+		CONSTRUIRE_BATIMENT,
+		FIN_DE_TOUR;
 	}
 	private Etat etat;
 	
@@ -39,6 +41,7 @@ public class Moteur {
 		j_courant = j1;
 		this.j2 = j2;
 		etat = Etat.DEBUT_DE_TOUR;
+		bat_pioche = Case.Type_Batiment.VIDE;
 	}
 	
 	///////////////////////////////////////////////////////////////
@@ -112,6 +115,14 @@ public class Moteur {
 		return tuiles.size();
 	}
 	
+	public Tuile get_tuile_pioche(){
+		return tuile_pioche;
+	}
+	
+	public Case.Type_Batiment get_bat_pioche(){
+		return bat_pioche;
+	}
+	
 	//Echange le joueur courant
 	public void swap_joueur(){
 		j_courant = (j_courant==j1)? j1 : j2;
@@ -138,23 +149,39 @@ public class Moteur {
 	//Renvoie une tuile piochée aléatoirement dans la pioche
 	public Tuile piocher(){
 		Random r = new Random();
-		pioche = tuiles.remove(r.nextInt(tuiles.size()-1)+1);
-		return pioche;
+		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()-1)+1);
+		etat = Etat.POSER_TUILE;
+		return tuile_pioche;
 	}
 	
 	// Renvoie vrai ssi le placement de la tuile piochée est autorisé au point P.
 	public boolean placement_tuile_autorise(Point P){
-		return T.placement_tuile_autorise(pioche,P);
+		return T.placement_tuile_autorise(tuile_pioche,P);
 	}
 	
 	//Appelle la méthode placer_tuile du terrain, renvoie 0 si la tuile piochée a pu être placée, 1 sinon
 	public int placer_tuile(Point P){
-		if(T.placer_tuile(pioche, P) ==1){
+		if(T.placer_tuile(tuile_pioche, P) ==1){
 			etat = Etat.CONSTRUIRE_BATIMENT;
 			return 0;
 		}
 		return 1;
 	}
+	
+	//SELECTEURS DES BATIMENTS DU JOUEUR
+	//La cas piochée est une choisie
+	public void select_hutte(){
+		bat_pioche = Case.Type_Batiment.HUTTE;
+	}
+	//La cas piochée est une choisie
+	public void select_temple(){
+		bat_pioche = Case.Type_Batiment.TEMPLE;
+	}
+	//La cas piochée est une choisie
+	public void select_tour(){
+		bat_pioche = Case.Type_Batiment.TOUR;
+	}
+	
 	
 	//Permet de jouer un tour
 	//i.e poser une tuile (et une pièce) sur le terrain T.
@@ -169,9 +196,8 @@ public class Moteur {
 			return 0;
 		}
 		else{
-			if(T.placer_tuile(pioche, p)==0){
+			if(T.placer_tuile(tuile_pioche, p)==0){
 				//Il faut ensuite placer le batiment
-				//TODO
 			}
 		}
 		return 1;
@@ -183,7 +209,10 @@ public class Moteur {
 		if(annul.size()==1)return 1;
 		redo.add(annul.remove(annul.size()-1));
 		T = annul.get(annul.size()-1);
-		//swap_joueur();
+		if (etat == Etat.FIN_DE_TOUR)etat = Etat.CONSTRUIRE_BATIMENT;
+		else if(etat == Etat.CONSTRUIRE_BATIMENT)etat = Etat.POSER_TUILE;
+		else return 1;
+		
 		return 0;
 	}
 	
@@ -193,7 +222,10 @@ public class Moteur {
 		if(redo.isEmpty())return 1;
 		annul.add(redo.remove(redo.size()-1));
 		T = annul.get(annul.size()-1);
-		//swap_joueur();
+		if (etat == Etat.POSER_TUILE)etat = Etat.CONSTRUIRE_BATIMENT;
+		else if(etat == Etat.CONSTRUIRE_BATIMENT)etat = Etat.FIN_DE_TOUR;
+		else return 1;
+		
 		return 0;
 	}
 }
