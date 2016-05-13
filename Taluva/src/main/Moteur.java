@@ -74,7 +74,7 @@ public class Moteur {
 	
 	private void init(ArrayList<Tuile> tuiles){
 		try {
-			File file = new File("PIECES.txt");
+			File file = new File("../../../PIECES");
 			FileInputStream fis = new FileInputStream(file);
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 			String line = null;
@@ -153,10 +153,8 @@ public class Moteur {
 	}
 	
 	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
-	//TODO
 	public boolean joueur_elimine (){
-		//return (T.coups_autorises().size() == 0);
-		return false;
+		return (T.liste_coups_construction_possibles().size() == 0);
 	}
 	
 	//Renvoie une tuile piochée aléatoirement dans la pioche
