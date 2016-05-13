@@ -107,6 +107,7 @@ Tuile :
 
 
 Moteur :
+	
 	// Constructeur du moteur
 	Moteur(Terrain T,joueur_Humain j1, joueur_Humain j2);
 	
@@ -148,6 +149,7 @@ Moteur :
 	public int refaire();
 	
 List_coup_tuile :
+	
 	//Constructeur:
 	List_coup_tuile(Terrain t)
 	
@@ -155,3 +157,11 @@ List_coup_tuile :
 	public boolean coup_possible(Case.orientation o, Point coord);
 	
 	public void affichage();
+	
+List_coup_construction :
+	
+	//constructeur
+	List_coup_construction(Terrain t)
+	
+	//Renvoie vrai si le coup est possible
+	public boolean coup_possible (Action_construction a)
