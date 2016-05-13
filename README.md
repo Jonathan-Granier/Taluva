@@ -133,5 +133,11 @@ Moteur :
 	//Renvoie 1 si tout s'est bien passé, 0 sinon.
 	public int refaire();
 	
+List_coup_tuile :
+	//Constructeur:
+	List_coup_tuile(Terrain t)
 	
+	//Renvoie vrai si un coup est possible
+	public boolean coup_possible(Case.orientation o, Point coord);
 	
+	public void affichage();
