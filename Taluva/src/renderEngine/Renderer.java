@@ -16,7 +16,6 @@ import entities.Light;
 import models.Mesh;
 import models.Model;
 import shaders.StaticShader;
-import shadows.ShadowMapMasterRenderer;
 import utils.Matrix;
 
 public class Renderer {
@@ -26,7 +25,7 @@ public class Renderer {
 	public static final float FAR_PLANE = 1000;
 	
 	private Matrix4f projectionMatrix;
-	private ShadowMapMasterRenderer shadowMapRender;
+
 	
 	public Renderer(StaticShader shader, Camera camera){
 		createProjectionMatrix();

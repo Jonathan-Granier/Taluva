@@ -24,6 +24,7 @@ import renderEngine.Renderer;
 import renderEngine.Window;
 import shaders.StaticShader;
 import utils.FPS;
+import utils.Grid;
 import utils.InputHandler;
 import utils.MousePicker;
 
@@ -57,6 +58,8 @@ public class Game {
 		GraphicTile Tile = new GraphicTile(new Tuile(Case.Type.VOLCAN,Case.Type.VOLCAN),loader,new Vector3f(0,0,0));
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>(createTerrain(loader));
 
+		Grid grid = new Grid(terrain,loader);
+		
 		List<Light> lights = new ArrayList<Light>();
 		Light sun = new Light(new Vector3f(20000,15000,-1000),new Vector3f(1,1,1));
 		Light light = new Light(new Vector3f(-20,10,10),new Vector3f(1,1,1));
@@ -86,16 +89,24 @@ public class Game {
 				Tile.rotate();
 			InputHandler.isKeyDown(Tile);
 
+			//Snap
+			Tile.setPostionVolcano();
+			Vector3f snap = grid.snap(Tile.getPostionVolcano());
+			if(snap!=null)
+			
 			if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 				Tiles.add(new GraphicTile(Tile));
+				Tiles.get(Tiles.size()-1).getObject3D().setPosition(snap);
 			}
-				
+			
 			renderer.prepare();
 			
 			shader.start();
 			shader.loadLights(lights);
 			
 			shader.loadViewMatrix(camera);
+			grid.draw(renderer, shader);
+			
 			renderer.draw(Tile.getObject3D(),shader);
 			for(GraphicTile tile:Tiles)
 				renderer.draw(tile.getObject3D(), shader);

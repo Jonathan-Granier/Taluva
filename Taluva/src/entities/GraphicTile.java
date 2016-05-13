@@ -8,12 +8,14 @@ import main.Tuile;
 
 public class GraphicTile {
 	
-	private static float HEIGHT_OF_TILE = 2;
+	private static final float RAY = 45;
+	private static final float HEIGHT_OF_TILE = 2;
 	
 	private Object3D object3d;
 	private Tuile tile;
 	private float angle;
 	private float height;
+	private Vector3f postionVolcano;
 	
 	public GraphicTile(Tuile tile,Loader loader,Vector3f position){
 		this.object3d = new Object3D("","Tile",loader,position,0,0,0,0.5f);
@@ -65,6 +67,37 @@ public class GraphicTile {
 		}
 	}
 	
+	public Vector3f getPostionVolcano() {
+		return postionVolcano;
+	}
+
+	public void setPostionVolcano() {
+		Vector3f center = new Vector3f(object3d.getPosition());
+		//postionVolcano
+		switch(tile.get_Orientation_Volcan()){
+			case O:
+				postionVolcano = new Vector3f(center.x-RAY,0,center.z);
+				break;
+			case S_O:
+				postionVolcano = new Vector3f((float) (center.x-RAY*Math.cos(60)),0,(float) (center.z+RAY*Math.sin(60)));
+				break;
+			case S_E:
+				postionVolcano = new Vector3f((float) (center.x+RAY*Math.cos(60)),0,(float) (center.z+RAY*Math.sin(60)));
+				break;
+			case E:
+				postionVolcano = new Vector3f(center.x+RAY,0,center.z);
+				break;
+			case N_E:
+				postionVolcano = new Vector3f((float) (center.x+RAY*Math.cos(60)),0,(float) (center.z-RAY*Math.sin(60)));
+				break;
+			case N_O:
+				postionVolcano = new Vector3f((float) (center.x-RAY*Math.cos(60)),0,(float) (center.z-RAY*Math.sin(60)));
+				break;
+			default:
+				System.out.println("Orientation unknow");
+		}
+	}
+
 	public Object3D getObject3D() {
 		return object3d;
 	}
