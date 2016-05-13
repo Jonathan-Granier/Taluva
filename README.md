@@ -43,9 +43,6 @@ Terrain :
 	//  \     /   \     /   \
 	//   \___/ 1,2 \___/ 3,3 \
 	
-	// Renvoie les 6 voisins de la case au Point P
-	public Case [] getVoisins(Point P);
-	
 		// PLACEMENT TUILE
 		
 	//	Position pour le placement :
@@ -66,19 +63,28 @@ Terrain :
 	
 	// PLACEMENT BATIMENTS
 	
-	// Renvoie le Terrain après placement de n batiments b au point P. Ne modifie pas la structure actuelle.
-	// ATTENTION VA ETRE MODIFIE
-	public Terrain consulter_coup_batiment(Case.Type_Batiment b, int n, Point P);
+	// PLACEMENT DIRECT (HORS EXTENSION)
+	
+	// Renvoie le Terrain après placement direct d'un batiment b de couleur c au point P.
+	// Ne modifie pas la structure actuelle.
+	public Terrain consulter_coup_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P);
 	
 	// Place directement un batiment de type b au point P (hors extension de cite).
 	// Renvoie 0 si le placement a réussi, 1 sinon.
 	public int placer_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P);
 	
-	// Etend la cité présente au point P sur les cases de Type type.
-	public int etendre_cite(Point P, Case.Type type);
-	
 	// Renvoie vrai ssi le placement direct d'un batiment de type b au point P est autorisé.
 	public boolean placement_batiment_autorise(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P);
+	
+	// EXTENSION
+	
+	// Renvoie le Terrain après extension d'une cité présente au point P sur les cases de Type type.
+	// Ne modifie pas la structure actuelle.
+	public Terrain consulter_extension_cite(Point P, Case.Type type);
+	
+	// Etend la cité présente au point P sur les cases de Type type.
+	// Renvoie 0 si l'extension a réussi, 1 sinon
+	public int etendre_cite(Point P, Case.Type type);
 	
 	// AFFICHAGE CONSOLE
 	
@@ -165,3 +171,8 @@ List_coup_construction :
 	
 	//Renvoie vrai si le coup est possible
 	public boolean coup_possible (Action_construction a)
+	
+Action_construction :
+
+	//constructeur
+	

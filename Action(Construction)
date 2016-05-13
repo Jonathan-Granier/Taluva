@@ -3,8 +3,12 @@ Cliquer sur une piece:
   -> Afficher les possibilités liés a la pièce
     Passer sur Case 
       -> Afficher prévision & coût
+      -> ville -> proposer extension
+      -> a côté de ville -> proposer extension
+      -> sur niveau 1 -> proposer Hutte.
     Cliquer sur case
-      -> Si possible -> Effectuer action
+      -> Si possible  && non ville-> Effectuer action
+      -> si ville -> proposer type de terrain pour extension
       -> Sinon -> afficher conditions nécessaire pour l'effectuer
     Cliquer sur Action
       -> mode action
@@ -17,6 +21,7 @@ Cliquer sur Action
     Passer sur case
       -> afficher Prévisions & coût
     Cliquer sur case
+      -> Si extension sur ville -> proposer le type de terrain
       -> Si possible -> Effectuer action
       -> Sinon -> afficher conditions nécessaire pour l'effectuer
     Cliquer sur Piece
@@ -27,6 +32,7 @@ Cliquer sur Action
   Cliquer sur une case
     -> afficher menu des options
       Passe sur Option
+      -> Si sur ville -> Extension option type: terrain.
       -> Cout & prévision
       Cliquer sur option
       -> Si possible -> Effectuer action

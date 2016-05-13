@@ -1,6 +1,5 @@
 package main;
 import java.util.ArrayList;
-import java.awt.Color;
 import java.util.Random;
 import java.awt.Point;
 import java.io.BufferedReader;
@@ -9,7 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import java.awt.Color;
 import Joueur.*;
 
 public class Moteur {
@@ -22,6 +21,7 @@ public class Moteur {
 	
 	joueur_Humain j1;
 	joueur_Humain j2;
+	joueur_Humain j_gagnant;
 	
 	public enum Etat{
 		DEBUT_DE_TOUR,
@@ -34,10 +34,10 @@ public class Moteur {
 	public Moteur(Terrain T,joueur_Humain j1,joueur_Humain j2){
 		this.T = T;
 		annul = new ArrayList<Terrain>();
-		annul.add(T.clone());  // Verifier que les reference soit different : Une modification dans T , ne modifie pas ce qu'il y a dans annul
+		annul.add(T.clone());
 		redo = new ArrayList<Terrain>();
 		tuiles = new ArrayList<Tuile>();
-		inits(tuiles);
+		init(tuiles);
 		this.j1 = j1;
 		j_courant = j1;
 		this.j2 = j2;
@@ -48,27 +48,22 @@ public class Moteur {
 	///////////////////////////////////////////////////////////////
 	//LECTURE DES PIECES ET INITIALISATION DE L'ENSEMBLE DE TUILES
 	///////////////////////////////////////////////////////////////
+	
 	private Case.Type switch_case(char c){
 		switch (c){
 			case 'V' :	return Case.Type.VOLCAN;
-				//break;
 			case 'M' :	return Case.Type.MONTAGNE;
-				//break;
 			case 'P' :	return Case.Type.PLAINE;
-				//break;
 			case 'L' :	return Case.Type.LAC;
-				//break;
 			case 'S' :	return Case.Type.SABLE;
-				//break;
 			case 'F' :	return Case.Type.FORET;
-				//break;
 			default :	System.out.println("Erreur de type dans le fichier");
 						return null;
 		}
 	}
 	
 	//Ajout à l'ensemble de tuiles
-	private void rajout(String line,ArrayList<Tuile> tuiles){
+	private void rajoute_tuile(String line,ArrayList<Tuile> tuiles){
 		int nb;
 		nb = Character.getNumericValue(line.charAt(0));
 		for(int i=1; i<=nb;i++){
@@ -77,7 +72,7 @@ public class Moteur {
 	}
 	
 	
-	private void inits(ArrayList<Tuile> tuiles){
+	private void init(ArrayList<Tuile> tuiles){
 		try {
 			File file = new File("PIECES.txt");
 			FileInputStream fis = new FileInputStream(file);
@@ -86,7 +81,7 @@ public class Moteur {
 			try {
 				while ((line = br.readLine()) != null) {
 					System.out.println(line);
-					rajout(line,tuiles);
+					rajoute_tuile(line,tuiles);
 				}
 				br.close();
 			}
@@ -120,16 +115,32 @@ public class Moteur {
 		return tuile_pioche;
 	}
 	
+	public joueur_Humain get_Jcourant(){
+		return j_courant;
+	}
+	
+	public Etat get_etat_jeu(){
+		return etat;
+	}
+	
 	public Case.Type_Batiment get_bat_choisi(){
 		return bat_choisi;
 	}
 	
-	//Echange le joueur courant
-	public void swap_joueur(){
-		j_courant = (j_courant==j1)? j1 : j2;
+	public joueur_Humain getGagnant(){
+		return j_gagnant;
 	}
 	
-	//Renvoi vrai si la pioche est vide
+	//////////////////////////////////////////////////
+	//	FONCTIONS RELATIVES A UN TOUR DE JEU
+	/////////////////////////////////////////////////
+	
+	//Echange le joueur courant
+		public void swap_joueur(){
+			j_courant = (j_courant==j1)? j1 : j2;
+		}
+	
+	//Renvoie vrai si la pioche est vide
 	public boolean pioche_vide(){
 		return tuiles.size()==0;
 	}
@@ -144,13 +155,15 @@ public class Moteur {
 	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
 	//TODO
 	public boolean joueur_elimine (){
+		//return (T.coups_autorises().size() == 0);
 		return false;
 	}
 	
 	//Renvoie une tuile piochée aléatoirement dans la pioche
 	public Tuile piocher(){
+		if(annul.size()==0)annul.add(T.clone());
 		Random r = new Random();
-		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()-1)+1);
+		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()));
 		etat = Etat.POSER_TUILE;
 		return tuile_pioche;
 	}
@@ -160,13 +173,14 @@ public class Moteur {
 		return T.placement_tuile_autorise(tuile_pioche,P);
 	}
 	
-	//Appelle la méthode placer_tuile du terrain, renvoie 0 si la tuile piochée a pu être placée, 1 sinon
+	//Renvoie 0 si la tuile piochée a pu être placée, -1 si elle est placée, mais le joueur ne peux plus jouer, 1 sinon
 	public int placer_tuile(Point P){
 		if(T.placer_tuile(tuile_pioche, P) == 0){
+			if(joueur_elimine())return -1;
 			etat = Etat.CONSTRUIRE_BATIMENT;
 			return 0;
 		}
-		return 1;
+		else return 1;
 	}
 	
 	//SELECTEURS DES BATIMENTS DU JOUEUR
@@ -174,11 +188,11 @@ public class Moteur {
 	public void select_hutte(){
 		bat_choisi = Case.Type_Batiment.HUTTE;
 	}
-	//La cas piochée est un temple
+	//Le batiment choisi est un temple
 	public void select_temple(){
 		bat_choisi = Case.Type_Batiment.TEMPLE;
 	}
-	//La cas piochée est une tour
+	//Le batiment choisi est une tour
 	public void select_tour(){
 		bat_choisi = Case.Type_Batiment.TOUR;
 	}
@@ -191,19 +205,58 @@ public class Moteur {
 		else return Case.Couleur_Joueur.NEUTRE;
 	}
 	
+	//Renvoie vrai ssi le placement du batiment choisi est autorisé au point P.
+	public boolean placement_batiment_autorise(Point P){
+		return T.placement_batiment_autorise(bat_choisi,switch_case_color(j_courant.getCouleur()), P);
+	}
+	
 	//Appelle placer_batiment du terrain, renvoie 0 si le batiment a pu être placé, 1 sinon
-	public int placer_batiment(int n, Point P){
-		if(T.placer_batiment(bat_choisi,1,switch_case_color(j_courant.getCouleur()), P) == 0){
+	public int placer_batiment(Point P){
+		if(T.placer_batiment(bat_choisi,switch_case_color(j_courant.getCouleur()), P) == 0){
 			etat = Etat.FIN_DE_TOUR;
 			return 0;
 		}
-		return 1;
+		else return 1;
 	}
 	
-	//Permet d'annuler un tuile posée, et de la récupérer
-	//Renvoie 1 si tout s'est bien passé, 0 sinon.
+	//Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
+	//Actualise aussi les données et change de joueur
+	public int fin_de_tour(){
+		if(victoire_aux_batiments()){
+			if(j_courant == j1)System.out.println("Le joueur 1 a gagné!!!");
+			else System.out.println("Le joueur 2 a gagné!!!");
+			j_gagnant = j_courant;
+			return 0;
+		}
+		else if(pioche_vide()){
+			if(j1.getScore()>j2.getScore()){
+				System.out.println("Le joueur 1 a gagné!!!");
+				j_gagnant = j1;
+			}
+			else if(j1.getScore()<j2.getScore()){
+				System.out.println("Le joueur 1 a gagné!!!");
+				j_gagnant = j2;
+			}
+			else {
+				System.out.println("Il y a une égalité parfaite, vous avez tous les 2 gagné!!!");
+				j_gagnant = j_courant;
+			}
+			return 0;
+		}
+		else{
+			annul.clear();
+			redo.clear();
+			swap_joueur();
+			etat = Etat.DEBUT_DE_TOUR;
+			bat_choisi = Case.Type_Batiment.VIDE;
+			return 1;
+		}
+	}
+	
+	//Permet d'annuler une tuile posée, et de la récupérer
+	//Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int annuler(){
-		if(annul.size()==1)return 1;
+		if(annul.size()<=1)return 1;
 		redo.add(annul.remove(annul.size()-1));
 		T = annul.get(annul.size()-1);
 		if (etat == Etat.FIN_DE_TOUR)etat = Etat.CONSTRUIRE_BATIMENT;
