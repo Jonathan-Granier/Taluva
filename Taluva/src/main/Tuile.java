@@ -43,24 +43,24 @@ public class Tuile {
 		{
 			case O:
 				o = Case.Orientation.N_O;
-				return 1;
+				return 0;
 			case N_O:
 				o = Case.Orientation.N_E;
-				return 1;
+				return 0;
 			case N_E:
 				o = Case.Orientation.E;
-				return 1;
+				return 0;
 			case E:
 				o = Case.Orientation.S_E;
-				return 1;
+				return 0;
 			case S_E:
 				o = Case.Orientation.S_O;
-				return 1;
+				return 0;
 			case S_O:
 				o = Case.Orientation.O;
-				return 1;
-			default:
 				return 0;
+			default:
+				return 1;
 		}
 	}
 	
@@ -71,25 +71,25 @@ public class Tuile {
 		{
 			case O:
 				o = Case.Orientation.S_O;
-				return 1;
+				return 0;
 			case S_O:
 				o = Case.Orientation.S_E;
-				return 1;
+				return 0;
 			case S_E:
 				o = Case.Orientation.E;
-				return 1;
+				return 0;
 			case E:
 				o = Case.Orientation.N_E;
-				return 1;
+				return 0;
 			case N_E:
 				o = Case.Orientation.N_O;
-				return 1;
+				return 0;
 			case N_O:
 				o = Case.Orientation.O;
-				return 1;
+				return 0;
 			default:
 				System.out.println("Nouveau sens: incorrect");
-				return 0;
+				return 1;
 		}
 	}
 	

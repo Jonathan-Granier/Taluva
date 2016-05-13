@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Terrain {
 	
-	private final static int TAILLE = 200;
+	public final static int TAILLE = 200;
 	public final static Point CENTRE = new Point(TAILLE/2,TAILLE/2);
 	
 	private Case [][] t;
@@ -25,7 +25,7 @@ public class Terrain {
 		Terrain tmp = new Terrain();
 		for(int i=0;i<TAILLE;i++){
 			for(int j=0;j<TAILLE;j++){
-				tmp.t[i][j] = this.t[i][j];
+				tmp.t[i][j] = this.t[i][j].clone();
 			}
 		}
 		tmp.empty = this.empty;
@@ -36,19 +36,23 @@ public class Terrain {
 		return t;
 	}
 	
-	//			  __/3,0 \
-	//			 /  \    /
-	//		  __/2,0 \__/
-	//		 /  \    /  \
-	//	  __/1,0 \__/3,1 \
-	//	 /	\    /  \    /
-	//	/0,0 \__/2,1 \__/
-	//  \    /  \    /  \
-	//   \__/1,1 \__/3,2 \
-	//   /  \    /  \    /
-	//  /0,1 \__/2,2 \__/
-	//  \    /  \    /  \
-	//   \__/1,2 \__/3,3 \
+	public boolean isEmpty(){
+		return empty;
+	}
+	
+	//			    ___/ 3,0 \
+	//			   /   \     /
+	//		   ___/ 2,0 \___/
+	//		  /   \     /   \
+	//	  ___/ 1,0 \___/ 3,1 \
+	//	 /	 \     /   \     /
+	//	/ 0,0 \___/ 2,1 \___/
+	//  \     /   \     /   \
+	//   \___/ 1,1 \___/ 3,2 \
+	//   /   \     /   \     /
+	//  / 0,1 \___/ 2,2 \___/
+	//  \     /   \     /   \
+	//   \___/ 1,2 \___/ 3,3 \
 	
 	//	Position pour le placement :
 	//		     _	    _
@@ -57,12 +61,23 @@ public class Terrain {
 	//	 	  \_/ \    / \_/
 	//		    \_/    \_/
 	
+	// Renvoie le Terrain après placement de tuile au point P. Ne modifie pas la structure actuelle.
+	public Terrain consulter_coup_tuile(Tuile tuile, Point P){
+		if(placement_tuile_autorise(tuile,P)){
+			Terrain T = this.clone();
+			T.placer_tuile(tuile, P);
+			return T;
+		}
+		else{
+			return this;
+		}
+	}
 	
 	// Place la tuile donnée au point P. Renvoie 0 si la tuile a pu etre placée, 1 sinon.
 	public int placer_tuile(Tuile tuile, Point P){
-		int x = P.x;
-		int y = P.y;
 		if(placement_tuile_autorise(tuile,P)){
+			int x = P.x;
+			int y = P.y;
 			t[x][y].setType(tuile.get_type_case(Case.Orientation.N));
 			t[x][y].setOrientation(tuile.get_Orientation_Volcan());
 			t[x][y].incrNiveau();
@@ -146,7 +161,7 @@ public class Terrain {
 		return trouve;
 	}
 	
-	// Renvoie vrai ssi le placement de cette tuile est autorisé.
+	// Renvoie vrai ssi le placement de cette tuile est autorisé au point P.
 	public boolean placement_tuile_autorise(Tuile tuile, Point P){
 		if(empty) return dans_terrain(tuile.getOrientation(),P);
 		else{
@@ -217,6 +232,18 @@ public class Terrain {
 		}
 	}
 	
+	// Renvoie le Terrain après placement de n batiments b au point P. Ne modifie pas la structure actuelle.
+	public Terrain consulter_coup_batiment(Case.Type_Batiment b, int n, Point P){
+		if(placement_batiment_autorise(b,n,P)){
+			Terrain T = this.clone();
+			T.placer_batiment(b,n,P);
+			return T;
+		}
+		else{
+			return this;
+		}
+	}
+	
 	// Place n batiments de type b au point P. Renvoie 0 si le placement a réussi, 1 sinon.
 	public int placer_batiment(Case.Type_Batiment b, int n, Point P){
 		// TODO
@@ -226,7 +253,7 @@ public class Terrain {
 	// Renvoie vrai ssi le placement de n batiments de type b au point P est autorisé.
 	public boolean placement_batiment_autorise(Case.Type_Batiment b, int n, Point P){
 		// TODO
-		return true;
+		return t[P.x][P.y].ajout_batiment_autorise(b, n);
 	}
 	
 	// Affiche le terrain en un rectangle entre min et max :
