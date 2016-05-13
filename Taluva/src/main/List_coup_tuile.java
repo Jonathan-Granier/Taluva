@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import main.Terrain.Coord;
 
-public class List_coup_Tuile {
+public class List_coup_tuile {
 
 	private ArrayList<Point> coup_O;
 	private ArrayList<Point> coup_N_O;
@@ -20,7 +20,7 @@ public class List_coup_Tuile {
 	//								&& il n'a pas la même direction.
 	// 								&& il ne recouvre pas une cité entière.
 	
-	List_coup_Tuile (Terrain t)
+	List_coup_tuile (Terrain t)
 	{
 		// Stratégie: Parcours de toutes les cases.
 		Tuile tuile = new Tuile(Case.Type.VIDE, Case.Type.VIDE);
@@ -69,6 +69,7 @@ public class List_coup_Tuile {
 	}
 	
 	// renvoie vrai si le placement de la tuile est valide.
+	// Risque de devoir changer le .contains, ce n'est pas sur qu'il fonctionnera.
 	public boolean coup_possible ( Case.Orientation o, Point p)
 	{
 		switch(o)
