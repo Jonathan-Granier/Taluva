@@ -81,7 +81,7 @@ public class Terrain {
 
 	
 	// Renvoie les 6 voisins de la case au Point P
-	public Case [] getVoisins(Point P){
+	private Case [] getVoisins(Point P){
 		Case [] res = new Case[6];
 		int x = P.x;
 		int y = P.y;
@@ -359,7 +359,7 @@ public class Terrain {
 	}
 	
 	// Renvoie l'ensemble des cases concernées par l'extension de la cite sur les cases de Type type.
-	public ArrayList<Case> getCases_extension_cite(ArrayList<Point> ptsCite, Case.Type type){
+	private ArrayList<Case> getCases_extension_cite(ArrayList<Point> ptsCite, Case.Type type){
 		ArrayList<Case> res = new ArrayList<Case>();
 		if(type != Case.Type.VIDE){
 			for(int i=0;i<ptsCite.size();i++){
