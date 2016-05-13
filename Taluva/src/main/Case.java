@@ -128,9 +128,9 @@ public class Case {
 
 	// Ajoute n batiments bt de couleur c sur la case.
 	// Renvoie 0 si le placement était autorisé et a réussi, 1 sinon.
-	public int ajouter_batiment(Type_Batiment bt, int n, Couleur_Joueur c){
-		if(n>0 && ajout_batiment_autorise(bt,n)){
-			nb_b = n;
+	public int ajouter_batiment(Type_Batiment bt, Couleur_Joueur c){
+		if(ajout_batiment_autorise(bt)){
+			nb_b = (bt == Type_Batiment.HUTTE) ? niveau : 1;
 			this.bt = bt;
 			this.c = c;
 			return 0;
@@ -138,17 +138,9 @@ public class Case {
 		else return 1;
 	}
 	
-	// Renvoie vrai ssi le placement de n batiments de type bt est autorise sur cette case.
-	public boolean ajout_batiment_autorise(Type_Batiment bt, int n){
-		if(type != Type.VOLCAN && nb_b == 0 && n>=0){
-			if(bt==Type_Batiment.HUTTE){
-				return (n == niveau);
-			}
-			else{
-				return (n == 1);
-			}
-		}
-		else return false;
+	// Renvoie vrai ssi le placement de batiments de type bt est autorise sur cette case.
+	public boolean ajout_batiment_autorise(Type_Batiment bt){
+		return type != Type.VOLCAN && nb_b == 0;
 	}
 	
 	// Retire tous les batiments de la case. Renvoie 1 si aucun batiment n'était présent, 0 sinon.
