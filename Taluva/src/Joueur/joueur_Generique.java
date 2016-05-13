@@ -59,6 +59,11 @@ public abstract class joueur_Generique {
 		return score;
 	}
 	
+	public Color getCouleur()
+	{
+		return c;
+	}
+	
 	// -------------- Fonction Set ---------------------
 	
 	public void decrementeTemple()
