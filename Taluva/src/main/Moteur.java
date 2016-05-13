@@ -155,6 +155,7 @@ public class Moteur {
 	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
 	//TODO
 	public boolean joueur_elimine (){
+		//return (T.coups_autorises().size() == 0);
 		return false;
 	}
 	
