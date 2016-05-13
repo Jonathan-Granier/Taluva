@@ -1,5 +1,7 @@
 # Taluva
 
+## Prochain RDV : mercredi 18 en  milieu d'aprèm
+
 Spécifications :  
 Mettez ici vos spécifications et prototypes ici : (pensez à les consulter !)
 
