@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import main.Terrain.Coord;
 
-public class list_coup_Tuile {
+public class List_coup_Tuile {
 
 	private ArrayList<Point> coup_O;
 	private ArrayList<Point> coup_N_O;
@@ -20,7 +20,7 @@ public class list_coup_Tuile {
 	//								&& il n'a pas la même direction.
 	// 								&& il ne recouvre pas une cité entière.
 	
-	list_coup_Tuile (Terrain t)
+	List_coup_Tuile (Terrain t)
 	{
 		// Stratégie: Parcours de toutes les cases.
 		Tuile tuile = new Tuile(Case.Type.VIDE, Case.Type.VIDE);
