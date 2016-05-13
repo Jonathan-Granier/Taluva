@@ -78,6 +78,22 @@ public class Terrain {
 	//  \     /   \     /   \
 	//   \___/ 1,2 \___/ 3,3 \
 	
+
+	
+	// Renvoie les 6 voisins de la case au Point P
+	public Case [] getVoisins(Point P){
+		Case [] res = new Case[6];
+		int x = P.x;
+		int y = P.y;
+		res[0] = t[x-1][y-1];
+		res[1] = t[x][y-1];
+		res[2] = t[x-1][y];
+		res[3] = t[x+1][y];
+		res[4] = t[x][y+1];
+		res[5] = t[x+1][y+1];
+		return res;
+	}
+	
 	//	Position pour le placement :
 	//		     _	    _
 	//		   _/X\    /X\_
@@ -87,14 +103,9 @@ public class Terrain {
 	
 	// Renvoie le Terrain après placement de tuile au point P. Ne modifie pas la structure actuelle.
 	public Terrain consulter_coup_tuile(Tuile tuile, Point P){
-		if(placement_tuile_autorise(tuile,P)){
-			Terrain T = this.clone();
-			T.placer_tuile(tuile, P);
-			return T;
-		}
-		else{
-			return this;
-		}
+		Terrain T = this.clone();
+		T.placer_tuile(tuile, P);
+		return T;
 	}
 	
 	// Place la tuile donnée au point P. Renvoie 0 si la tuile a pu etre placée, 1 sinon.
@@ -270,23 +281,23 @@ public class Terrain {
 		return T;
 	}
 	
-	// Place n batiments de type b au point P. Renvoie 0 si le placement a réussi, 1 sinon.
-	public int placer_batiment(Case.Type_Batiment b, int n, Case.Couleur_Joueur c, Point P){
-		// TODO
+	// Place directement un batiment de type b au point P (hors extension de cite).
+	// Renvoie 0 si le placement a réussi, 1 sinon.
+	public int placer_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
+		//TODO
 		return 0;
 	}
 	
-	public Case [] getVoisins(Point P){
-		Case [] res = new Case[6];
-		int x = P.x;
-		int y = P.y;
-		res[0] = t[x-1][y-1];
-		res[1] = t[x][y-1];
-		res[2] = t[x-1][y];
-		res[3] = t[x+1][y];
-		res[4] = t[x][y+1];
-		res[5] = t[x+1][y+1];
-		return res;
+	// Etend la cité présente au point P sur les cases de Type type.
+	public int etendre_cite(Point P, Case.Type type){
+		//TODO
+		return 0;
+	}
+	
+	// Place n batiments de type b au point P. Renvoie 0 si le placement a réussi, 1 sinon.
+	private int placer_batiment(Case.Type_Batiment b, int n, Case.Couleur_Joueur c, Point P){
+		// TODO
+		return 0;
 	}
 	
 	// Renvoie vrai ssi la cite donnee contient au moins un batiment de type b
@@ -311,15 +322,15 @@ public class Terrain {
 		int y = P.y;
 		ArrayList<Case> res = new ArrayList<Case>();
 		res.add(t[x][y]);
-		
+		// TODO
 		return res;
 	}
 	
-	// Renvoie vrai ssi le placement de n batiments de type b au point P est autorisé.
-	public boolean placement_batiment_autorise(Case.Type_Batiment b, int n, Case.Couleur_Joueur c, Point P){
+	// Renvoie vrai ssi le placement direct d'un batiment de type b au point P est autorisé.
+	public boolean placement_batiment_autorise(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
 		int x = P.x;
 		int y = P.y;
-		if(t[x][y].ajout_batiment_autorise(b, n)){
+		if(t[x][y].ajout_batiment_autorise(b, 1)){
 			// Si le placement est autorise sur la case (indépendemment du reste du terrain)
 			Case [] voisins = getVoisins(P);
 			int i = 0;
@@ -329,13 +340,13 @@ public class Terrain {
 				i++;
 			}
 			if(cite_trouvee){
+				// C'est l'ajout d'une tour ou d'un temple (sinon c'est interdit)
 				ArrayList<Case> cite = getCite(P);
 				if(b == Case.Type_Batiment.TOUR)
 					return (t[x][y].getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
 				if(b == Case.Type_Batiment.TEMPLE)
 					return (cite_taille_3(cite) && !cite_contient(cite,Case.Type_Batiment.TEMPLE));
-				//TODO
-				return true;
+				return false;
 			}
 			else{
 				// C'est une nouvelle cité : ce doit être une hutte au niveau 1
