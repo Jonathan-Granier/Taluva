@@ -21,10 +21,11 @@ Terrain :
 	public Terrain clone();   // Renvoie une copie du terrain, avec référence différente
 	public Case [][] getT();  // Renvoie le tableau de cases : [TAILLE] [TAILLE]
 	public boolean isEmpty();
-	public Coord getLimites(); // Renvoie les coordonnées limites du terrain : toutes les tuiles sont comprises dans
-		  	     	   // (xmin,ymin)--------|
-				   //      |             |
-				   //      |--------(xmax,ymax)
+	public Coord getLimites();
+	// Renvoie les coordonnées limites du terrain : toutes les tuiles sont comprises dans
+	// (xmin,ymin)--------|
+	//      |             |
+	//      |--------(xmax,ymax)
 	
 
 	
