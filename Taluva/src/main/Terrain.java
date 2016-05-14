@@ -48,8 +48,12 @@ public class Terrain {
 		return tmp;
 	}
 	
-	public Case [][] getT(){
-		return t;
+	public Case getCase(Point P){
+		return t[P.x][P.y];
+	}
+	
+	public Case getCase(int i, int j){
+		return t[i][j];
 	}
 	
 	public boolean isEmpty(){
@@ -104,6 +108,15 @@ public class Terrain {
 		res[3] = new Point(x+1,y);
 		res[4] = new Point(x,y+1);
 		res[5] = new Point(x+1,y+1);
+		return res;
+	}
+	
+	// Renvoie la liste des cases calculee depuis une liste de points
+	private ArrayList<Case> getCases(ArrayList<Point> pts){
+		ArrayList<Case> res = new ArrayList<Case>();
+		for(int i=0;i<pts.size();i++){
+			res.add(t[pts.get(i).x][pts.get(i).y]);
+		}
 		return res;
 	}
 	
@@ -286,7 +299,7 @@ public class Terrain {
 		}
 	}
 	
-	// Renvoie le Terrain après extension d'une cité présente au point P sur les cases de Type type.
+	// Renvoie le Terrain apres extension d'une cite presente au point P sur les cases de Type type.
 	// Ne modifie pas la structure actuelle.
 	public Terrain consulter_extension_cite(Point P, Case.Type type){
 		Terrain T = this.clone();
@@ -294,8 +307,8 @@ public class Terrain {
 		return T;
 	}
 	
-	// Etend la cité présente au point P sur les cases de Type type.
-	// Renvoie 0 si l'extension a réussi, 1 sinon
+	// Etend la cite presente au point P sur les cases de Type type.
+	// Renvoie 0 si l'extension a reussi, 1 sinon
 	public int etendre_cite(Point P, Case.Type type){
 		Case.Couleur_Joueur c = t[P.x][P.y].getCouleur();
 		ArrayList<Point> ptsCite = getPtsCite(P);
@@ -307,6 +320,28 @@ public class Terrain {
 			return 0;
 		}
 		else return 1;
+	}
+	
+	// Renvoie l'ensemble des cases concernees par l'extension de la cite sur les cases de Type type.
+	private ArrayList<Case> getCases_extension_cite(ArrayList<Point> ptsCite, Case.Type type){
+		ArrayList<Case> res = new ArrayList<Case>();
+		boolean [][] appartient_res = new boolean[TAILLE][TAILLE];
+		for(int i=0;i<TAILLE;i++){
+			for(int j=0;j<TAILLE;j++){
+				appartient_res[i][j] = false;
+			}
+		}
+		if(type != Case.Type.VIDE){
+			for(int i=0;i<ptsCite.size();i++){
+				Point [] voisins = getPtsVoisins(ptsCite.get(i));
+				for(int j=0;j<6;j++){
+					if(getCase(voisins[j]).getType() == type && !appartient_res[voisins[j].x][voisins[j].y] && getCase(voisins[j]).getBNb() == 0){
+						res.add(getCase(voisins[j]));
+					}
+				}
+			}
+		}
+		return res;
 	}
 	
 	// Renvoie vrai ssi la cite donnee contient au moins un batiment de type b
@@ -324,57 +359,39 @@ public class Terrain {
 	private boolean cite_taille_3(ArrayList<Case> cite){
 		return cite.size()>=3;
 	}
-	
-	// Renvoie la liste des cases associées à la cite en P
+
+	// Renvoie la liste des cases associees a la cite en P
 	private ArrayList<Case> getCite(Point P){
 		return getCases(getPtsCite(P));
 	}
 	
-	// Renvoie la liste des cases calculée depuis une liste de points
-	private ArrayList<Case> getCases(ArrayList<Point> pts){
-		ArrayList<Case> res = new ArrayList<Case>();
-		for(int i=0;i<pts.size();i++){
-			res.add(t[pts.get(i).x][pts.get(i).y]);
-		}
-		return res;
-	}
-
-	// Calcule dans res l'ensemble des points de la cite liée à P
+	// Calcule dans res l'ensemble des points de la cite liee a P
 	private ArrayList<Point> getPtsCite(Point P){
 		ArrayList<Point> ptsCite = new ArrayList<Point>();
-		getPtsCite_rec(P,ptsCite);
+		boolean [][] appartient_cite = new boolean[TAILLE][TAILLE];
+		for(int i=0;i<TAILLE;i++){
+			for(int j=0;j<TAILLE;j++){
+				appartient_cite[i][j] = false;
+			}
+		}
+		getPtsCite_rec(P,ptsCite,appartient_cite);
 		return ptsCite;
 	}
 	
 	// Recursion de la fonction ci-dessus
-	private void getPtsCite_rec(Point P, ArrayList<Point> res){
+	private void getPtsCite_rec(Point P, ArrayList<Point> res, boolean [][] appartient_cite){
 		Point [] voisins = getPtsVoisins(P);
 		res.add(P);
+		appartient_cite[P.x][P.y] = true;
 		Case.Couleur_Joueur c = t[P.x][P.y].getCouleur();
 		for(int i=0;i<6;i++){
-			if(t[voisins[i].x][voisins[i].y].getCouleur() == c && !res.contains(voisins[i])){
-				getPtsCite_rec(voisins[i],res);
+			if(t[voisins[i].x][voisins[i].y].getCouleur() == c && !appartient_cite[voisins[i].x][voisins[i].y]){
+				getPtsCite_rec(voisins[i],res,appartient_cite);
 			}
 		}
 	}
 	
-	// Renvoie l'ensemble des cases concernées par l'extension de la cite sur les cases de Type type.
-	private ArrayList<Case> getCases_extension_cite(ArrayList<Point> ptsCite, Case.Type type){
-		ArrayList<Case> res = new ArrayList<Case>();
-		if(type != Case.Type.VIDE){
-			for(int i=0;i<ptsCite.size();i++){
-				Point [] voisins = getPtsVoisins(ptsCite.get(i));
-				for(int j=0;j<6;j++){
-					if(t[voisins[j].x][voisins[j].y].getType() == type && !res.contains(voisins[j]) && !ptsCite.contains(voisins[j])){
-						res.add(t[voisins[j].x][voisins[j].y]);
-					}
-				}
-			}
-		}
-		return res;
-	}
-	
-	// Renvoie le Terrain après placement direct d'un batiment b de couleur c au point P.
+	// Renvoie le Terrain apres placement direct d'un batiment b de couleur c au point P.
 	// Ne modifie pas la structure actuelle.
 	public Terrain consulter_coup_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
 		Terrain T = this.clone();
@@ -383,7 +400,7 @@ public class Terrain {
 	}
 	
 	// Place directement un batiment de type b au point P (hors extension de cite).
-	// Renvoie 0 si le placement a réussi, 1 sinon.
+	// Renvoie 0 si le placement a reussi, 1 sinon.
 	public int placer_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
 		if(placement_batiment_autorise(b,c,P)){
 			return t[P.x][P.y].ajouter_batiment(b,c);
@@ -391,24 +408,22 @@ public class Terrain {
 		else return 1;
 	}
 	
-	// Renvoie vrai ssi le placement direct d'un batiment de type b au point P est autorisé.
+	// Renvoie vrai ssi le placement direct d'un batiment de type b au point P est autorise.
 	public boolean placement_batiment_autorise(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
 		int x = P.x;
 		int y = P.y;
 		if(t[x][y].ajout_batiment_autorise(b)){
-			// Si le placement est autorise sur la case (indépendemment du reste du terrain)
+			// Si le placement est autorise sur la case (independemment du reste du terrain)
 			Point [] ptsVoisins = getPtsVoisins(P);
-			Case [] voisins = getVoisins(P);
 			int i = 0;
 			boolean cite_trouvee = false;
 			Point coord_cite = new Point();
 			while(!cite_trouvee && i<6){
-				if(!voisins[i].est_Libre() && voisins[i].getCouleur()==c){
+				if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c){
 					cite_trouvee = true;
 					coord_cite = ptsVoisins[i];
-					// TODO : il faut que getPtsVoisins et getVoisins donnent le meme ordre
 				}
-				// TODO : on ne gère pas le cas de connexion de deux cites
+				// TODO : on ne gere pas le cas de connexion de deux cites
 				i++;
 			}
 			if(cite_trouvee){
@@ -421,7 +436,7 @@ public class Terrain {
 				return false;
 			}
 			else{
-				// C'est une nouvelle cité : ce doit être une hutte au niveau 1
+				// C'est une nouvelle cite : ce doit etre une hutte au niveau 1
 				return (b == Case.Type_Batiment.HUTTE) && t[x][y].getNiveau()==1;
 			}
 		}
