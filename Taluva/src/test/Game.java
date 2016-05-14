@@ -82,19 +82,22 @@ public class Game {
 			picker.update(Tile.getHeight());
 			Vector3f point = picker.getCurrentObjectPoint();
 			if(point!=null){
+				System.out.println(point);
 				Tile.getObject3D().setPosition(new Vector3f(point.x,Tile.getHeight(),point.z));
 			}
 
 			if(InputHandler.isButtonDown(1))
 				Tile.rotate();
+
 			InputHandler.isKeyDown(Tile);
 
 			//Snap
 			Tile.setPostionVolcano();
-			Vector3f snap = grid.snap(Tile.getPostionVolcano());
+			Vector3f snap = grid.snap(Tile.getObject3D().getPosition(),Tile.getObject3D().getRotY());
 			if(snap!=null)
-			
-			if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+				Tile.getObject3D().setPosition(snap);
+				
+			if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) && snap!=null){
 				Tiles.add(new GraphicTile(Tile));
 				Tiles.get(Tiles.size()-1).getObject3D().setPosition(snap);
 			}
