@@ -77,17 +77,13 @@ public class Renderer {
 		shader.loadDiffuse(texture.getDiffuse());
 		shader.loadShineVariable(texture.getShineDamper(), texture.getReflectivity());
 		shader.loadTextured(texturedModel.getTexture().getIsTextured());
-		boolean receiveShadow = object3D.getLabel().equals("plateau");
-		shader.loadReceiveShadow(receiveShadow);
-		
+		shader.loadNotAllow(!object3D.isAllow());
+
 		if(texturedModel.getTexture().getIsTextured()){
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturedModel.getTexture().getID());
 		}
-		if(receiveShadow){
-			GL13.glActiveTexture(GL13.GL_TEXTURE1);
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D, getShadowMapTexture());
-		}
+
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);

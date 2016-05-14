@@ -48,7 +48,7 @@ public class Test_Taluva {
          
 
         game = new Game();
-        game.play();
+        game.play(frame);
 	}
 		
 	public static void main(String[] args) {

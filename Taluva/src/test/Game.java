@@ -3,6 +3,8 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -45,7 +47,7 @@ public class Game {
 		return Tiles;
 	}
 	
-	public void play(){
+	public void play(JFrame frame){
 		Window.createDislay();
 		
 		Camera camera = new Camera();
@@ -53,7 +55,7 @@ public class Game {
 		StaticShader shader = new StaticShader();
 		Renderer renderer = new Renderer(shader,camera);
 		
-		FPS.start();
+		FPS.start(frame);
 		
 		GraphicTile Tile = new GraphicTile(new Tuile(Case.Type.VOLCAN,Case.Type.VOLCAN),loader,new Vector3f(0,0,0));
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>(createTerrain(loader));
@@ -82,19 +84,22 @@ public class Game {
 			picker.update(Tile.getHeight());
 			Vector3f point = picker.getCurrentObjectPoint();
 			if(point!=null){
+				System.out.println(point);
 				Tile.getObject3D().setPosition(new Vector3f(point.x,Tile.getHeight(),point.z));
 			}
 
 			if(InputHandler.isButtonDown(1))
 				Tile.rotate();
+
 			InputHandler.isKeyDown(Tile);
 
 			//Snap
 			Tile.setPostionVolcano();
-			Vector3f snap = grid.snap(Tile.getPostionVolcano());
+			Vector3f snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getObject3D().getRotY());
 			if(snap!=null)
-			
-			if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+				Tile.getObject3D().setPosition(snap);
+				
+			if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) && snap!=null){
 				Tiles.add(new GraphicTile(Tile));
 				Tiles.get(Tiles.size()-1).getObject3D().setPosition(snap);
 			}

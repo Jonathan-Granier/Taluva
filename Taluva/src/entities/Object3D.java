@@ -15,6 +15,7 @@ public class Object3D {
 	private float rotX,rotY,rotZ;
 	private float scale;
 	private String label;
+	private boolean allow = true;
 	
 	public Object3D(Object3D object3d){
 		this.label = object3d.getLabel();
@@ -131,7 +132,13 @@ public class Object3D {
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
-	
-	
 
+	public boolean isAllow() {
+		return allow;
+	}
+
+	public void setAllow(boolean allow) {
+		this.allow = allow;
+	}
+	
 }

@@ -30,6 +30,7 @@ public class StaticShader extends ShaderProgram{
 	private int location_shadowMap;
 	private int location_diffuseMap;
 	private int location_reciveShadow;
+	private int loacation_notAllow;
 	
 	public StaticShader() {
 			super(VERTEX_FILE, FRAGMENT_FILE);
@@ -55,6 +56,7 @@ public class StaticShader extends ShaderProgram{
 		location_shadowMap = super.getUniformLocation("shadowMap"); 
 		location_diffuseMap = super.getUniformLocation("diffuseMap"); 
 		location_reciveShadow = super.getUniformLocation("reciveShadow");
+		loacation_notAllow = super.getUniformLocation("notAllow");
 		
 		location_lightPosition = new int[MAX_LIGHTS];
 		location_lightColour = new int[MAX_LIGHTS];
@@ -88,6 +90,10 @@ public class StaticShader extends ShaderProgram{
 	public void loadShineVariable(float damper, Vector3f relectivity){
 		super.loadFloat(location_shineDamper, damper);
 		super.loadVector(location_reflectivity, relectivity);
+	}
+	
+	public void loadNotAllow(boolean notAllow){
+		super.loadBoolean(loacation_notAllow, notAllow);
 	}
 	
 	public void loadReceiveShadow(boolean reciveShadow){

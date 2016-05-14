@@ -18,6 +18,7 @@ uniform vec3 reflectivity;
 uniform vec3 diffuseColour;
 uniform bool textured;
 uniform bool reciveShadow;
+uniform bool notAllow;
 
 const float shadowOpacity = 0.4;
 
@@ -68,5 +69,8 @@ void main(void){
 		totalDiffuse *= diffuseColour;
 		out_Color = vec4(totalDiffuse,1.0) + vec4(totalSpecular,1.0);
 	}
+
+	if(notAllow)
+		out_Color.r += 0.5;
 
 }
