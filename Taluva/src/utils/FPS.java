@@ -1,5 +1,7 @@
 package utils;
 
+import javax.swing.JFrame;
+
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 
@@ -14,9 +16,12 @@ public class FPS {
     /** last fps time */
     static long lastFPS;
     
-    public static void start(){
+    static JFrame frame;
+    
+    public static void start(JFrame f){
     	getDelta(); // call once before loop to initialise lastFrame
         lastFPS = getTime(); // call before loop to initialise fps timer
+        frame = f;
     }
     
     public static long getTime() {
@@ -33,7 +38,7 @@ public class FPS {
     
     public static void updateFPS() {
         if (getTime() - lastFPS > 1000) {
-        	Display.setTitle("Engine: " + fps);
+        	frame.setTitle("Taluva: " + fps);
             fps = 0;
             lastFPS += 1000;
         }
