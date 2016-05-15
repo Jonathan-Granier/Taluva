@@ -1,5 +1,7 @@
 package utils;
 
+import java.awt.Point;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -10,6 +12,16 @@ import renderEngine.Renderer;
 import shaders.StaticShader;
 
 public class Grid {
+	
+	public class Coords{
+		public Vector3f worldPos;
+		public Point indices;
+		
+		public Coords(Vector3f worldPos,Point indices){
+			this.worldPos = worldPos;
+			this.indices = indices;
+		}
+	}
 	
 	private static final float WIDTH_OF_HEXA = 34;
 	private static final float HEIGHT_OF_HEXA = 39;
@@ -54,7 +66,7 @@ public class Grid {
 	}
 	
 	//racine((x_centre - x_point)² + (y_centre - y_point)²)<rayon
-	public Vector3f snap(Object3D object3d,Vector3f positionVolcano,float angle){
+	public Coords snap(Object3D object3d,Vector3f positionVolcano,float angle){
 		float offsetX = 0;
 		float offsetY = 0;
 		
@@ -67,7 +79,8 @@ public class Grid {
 			for(int j=0 ;j<terrain.TAILLE-190;j++){
 				if( Math.pow(positionVolcano.x - (coords[i][j].x+offsetX),2) + Math.pow(positionVolcano.z - (coords[i][j].y+offsetY),2) <= Math.pow(RAY,2) ){
 					object3d.setAllow(true);
-					return new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY);
+					System.out.println("Incices:" + i +" " + j);
+					return new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),new Point(i,j));
 				}
 			}
 		}

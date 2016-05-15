@@ -27,6 +27,7 @@ import renderEngine.Window;
 import shaders.StaticShader;
 import utils.FPS;
 import utils.Grid;
+import utils.Grid.Coords;
 import utils.InputHandler;
 import utils.MousePicker;
 
@@ -36,10 +37,18 @@ public class Game {
 	private Terrain terrain;
 	private Moteur moteur;
 	
+	public void putTile(List<GraphicTile> Tiles, GraphicTile Tile,Coords coords){
+		if(terrain.placement_tuile_autorise(Tile.getTile(), coords.indices)){
+			Tiles.add(new GraphicTile(Tile));
+			Tiles.get(Tiles.size()-1).getObject3D().setPosition(coords.worldPos);
+			terrain.placer_tuile(Tile.getTile(), coords.indices);
+		}
+	}
+	
 	public List<GraphicTile> createTerrain(Loader loader){
 		terrain = new Terrain();
 		//moteur = new Moteur(terrain);
-		Case [][] t = terrain.getT();
+		//Case [][] t = terrain.getT();
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>();
 		//for(int i=0; i<4;i++)
 		//	Tiles.add(new GraphicTile(new Tuile(Case.Type.VOLCAN,Case.Type.VOLCAN), loader,new Vector3f((i+1)*SIZE_OF_HEXA,0,0)));
@@ -57,7 +66,7 @@ public class Game {
 		
 		FPS.start(frame);
 		
-		GraphicTile Tile = new GraphicTile(new Tuile(Case.Type.VOLCAN,Case.Type.VOLCAN),loader,new Vector3f(0,0,0));
+		GraphicTile Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0));
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>(createTerrain(loader));
 
 		Grid grid = new Grid(terrain,loader);
@@ -84,7 +93,6 @@ public class Game {
 			picker.update(Tile.getHeight());
 			Vector3f point = picker.getCurrentObjectPoint();
 			if(point!=null){
-				System.out.println(point);
 				Tile.getObject3D().setPosition(new Vector3f(point.x,Tile.getHeight(),point.z));
 			}
 
@@ -95,13 +103,16 @@ public class Game {
 
 			//Snap
 			Tile.setPostionVolcano();
-			Vector3f snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getObject3D().getRotY());
-			if(snap!=null)
-				Tile.getObject3D().setPosition(snap);
-				
+			Coords snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getObject3D().getRotY());
+			if(snap!=null){
+				Tile.getObject3D().setPosition(snap.worldPos);
+				if(!terrain.placement_tuile_autorise(Tile.getTile(), snap.indices)){
+					Tile.getObject3D().setAllow(false);
+				}
+			}
+			
 			if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) && snap!=null){
-				Tiles.add(new GraphicTile(Tile));
-				Tiles.get(Tiles.size()-1).getObject3D().setPosition(snap);
+				putTile(Tiles,Tile,snap);
 			}
 			
 			renderer.prepare();
