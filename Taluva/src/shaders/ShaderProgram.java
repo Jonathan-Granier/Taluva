@@ -20,7 +20,7 @@ public abstract class ShaderProgram {
 	private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
 	
 	public ShaderProgram(String vertexFile,String fragmentFile){
-		if(GL11.glGetString(GL11.GL_VERSION).charAt(0) == '4'){
+		if(vertexFile.equals("src/shaders/vertexShader.txt") && GL11.glGetString(GL11.GL_VERSION).charAt(0) == '4'){
 			vertexFile = "src/shaders/vertexShader400.txt";
 			fragmentFile = "src/shaders/fragmentShader400.txt";
 		}	

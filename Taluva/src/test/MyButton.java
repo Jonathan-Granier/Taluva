@@ -2,21 +2,20 @@ package test;
 
 import org.lwjgl.util.vector.Vector2f;
 
+import entities.GraphicConstruction.GraphicType;
 import gui.Button;
 
 public class MyButton extends Button {
 
-	String message;
+	public GraphicType type = GraphicType.NULL;
 	
-	public MyButton(int textureId, Vector2f position, Vector2f dimension, String label) {
+	public MyButton(int textureId, Vector2f position, Vector2f dimension) {
 		super(textureId, position, dimension);
-		this.message = label;
 	}
 
 	@Override
 	protected void action() {
-			System.out.println("Button " + message + " pressed");
-			
+		type = GraphicType.TOWER;
 	}
 	
 	

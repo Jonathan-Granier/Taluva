@@ -90,5 +90,23 @@ public class Grid {
 		return null;
 	}
 	
+	public Coords snap(Object3D object3d,Vector3f positionVolcano){
+
+		
+		for(int i=0 ;i<terrain.TAILLE-190;i++){
+			for(int j=0 ;j<terrain.TAILLE-190;j++){
+				if( Math.pow(positionVolcano.x - coords[i][j].x,2) + Math.pow(positionVolcano.z - (coords[i][j].y-HEIGHT_OF_HEXA/2),2) <= Math.pow(RAY,2) ){
+					object3d.setAllow(true);
+					System.out.println("Incices:" + i +" " + j);
+					return new Coords(new Vector3f(coords[i][j].x,0,coords[i][j].y-HEIGHT_OF_HEXA/2),new Point(i,j));
+				}
+			}
+		}
+		
+		object3d.setAllow(false);
+		
+		return null;
+	}
+	
 	
 }
