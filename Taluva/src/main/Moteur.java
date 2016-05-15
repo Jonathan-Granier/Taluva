@@ -164,7 +164,8 @@ public class Moteur {
 	
 	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
 	public boolean joueur_elimine (){
-		return (T.liste_coups_construction_possibles().size() == 0);
+		// TODO
+		return (T.liste_coups_construction_possibles(Case.Couleur_Joueur.BLANC).size() == 0);
 	}
 	
 	//Renvoie une tuile piochée aléatoirement dans la pioche

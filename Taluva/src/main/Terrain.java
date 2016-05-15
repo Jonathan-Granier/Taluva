@@ -49,18 +49,22 @@ public class Terrain {
 	}
 	
 	public Case getCase(Point P){
-		return t[P.x][P.y];
+		return getCase(P.x,P.y);
 	}
 	
 	public Case getCase(int i, int j){
-		return t[i][j];
+		if(i>=0 && j>=0 && i<TAILLE && j<TAILLE)
+			return t[i][j];
+		else
+			System.out.println("Erreur : Terrain.get(" + i + "," + j + ")");
+			return new Case(Case.Type.VIDE);
 	}
 	
 	public boolean isEmpty(){
 		return empty;
 	}
 	
-	// Renvoie les coordonnÃ©es limites du terrain : toutes les tuiles sont comprises dans
+	// Renvoie les coordonnees limites du terrain : toutes les tuiles sont comprises dans
 	// (xmin,ymin)--------|
 	//      |             |
 	//      |--------(xmax,ymax)
@@ -87,14 +91,10 @@ public class Terrain {
 	// Renvoie les 6 voisins de la case au Point P
 	private Case [] getVoisins(Point P){
 		Case [] res = new Case[6];
-		int x = P.x;
-		int y = P.y;
-		res[0] = t[x-1][y-1];
-		res[1] = t[x-1][y];
-		res[2] = t[x][y-1];
-		res[3] = t[x+1][y];
-		res[4] = t[x][y+1];
-		res[5] = t[x+1][y+1];
+		Point [] pts = getPtsVoisins(P);
+		for(int i=0; i<6; i++){
+			res[i]=getCase(pts[i]);
+		}
 		return res;
 	}
 	
@@ -120,6 +120,10 @@ public class Terrain {
 		return res;
 	}
 	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////// PLACEMENT TUILE /////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
 	//	Position pour le placement :
 	//		     _	    _
 	//		   _/X\    /X\_
@@ -127,14 +131,14 @@ public class Terrain {
 	//	 	  \_/ \    / \_/
 	//		    \_/    \_/
 	
-	// Renvoie le Terrain aprÃ¨s placement de tuile au point P. Ne modifie pas la structure actuelle.
+	// Renvoie le Terrain apres placement de tuile au point P. Ne modifie pas la structure actuelle.
 	public Terrain consulter_coup_tuile(Tuile tuile, Point P){
 		Terrain T = this.clone();
 		T.placer_tuile(tuile, P);
 		return T;
 	}
 	
-	// Place la tuile donnÃ©e au point P. Renvoie 0 si la tuile a pu etre placÃ©e, 1 sinon.
+	// Place la tuile donnee au point P. Renvoie 0 si la tuile a pu etre placee, 1 sinon.
 	public int placer_tuile(Tuile tuile, Point P){
 		if(placement_tuile_autorise(tuile,P)){
 			int x = P.x;
@@ -142,9 +146,11 @@ public class Terrain {
 			t[x][y].setType(tuile.get_type_case(Case.Orientation.N));
 			t[x][y].setOrientation(tuile.get_Orientation_Volcan());
 			t[x][y].incrNiveau();
+			t[x][y].retirer_batiments();
 			t[x][y+1].setType(tuile.get_type_case(Case.Orientation.S));
 			t[x][y+1].setOrientation(tuile.get_Orientation_Volcan());
 			t[x][y+1].incrNiveau();
+			t[x][y+1].retirer_batiments();
 			if(y+1>limites.ymax) limites.ymax = y+1;
 			if(y<limites.ymin) limites.ymin = y;
 			if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
@@ -153,6 +159,7 @@ public class Terrain {
 				t[x-1][y].setType(tuile.get_type_case(Case.Orientation.O));
 				t[x-1][y].setOrientation(tuile.get_Orientation_Volcan());
 				t[x-1][y].incrNiveau();
+				t[x-1][y].retirer_batiments();
 			}
 			else{
 				if(x+1>limites.xmax) limites.xmax = x+1;
@@ -160,6 +167,7 @@ public class Terrain {
 				t[x+1][y+1].setType((tuile.get_type_case(Case.Orientation.E)));
 				t[x+1][y+1].setOrientation(tuile.get_Orientation_Volcan());
 				t[x+1][y+1].incrNiveau();
+				t[x+1][y+1].retirer_batiments();
 			}
 			empty=false;
 			return 0;
@@ -218,11 +226,10 @@ public class Terrain {
 	// Renvoie vrai ssi la tuile est en contact avec au moins une autre tuile
 	private boolean en_contact(Tuile.Orientation o, Point P){
 		boolean trouve = false;
-		ArrayList<Point> voisins;
-		voisins=contact(o,P);
+		ArrayList<Point> voisins = contact(o,P);
 		int i = 0;
 		while(!trouve && i<voisins.size()){
-			trouve = !t[voisins.get(i).x][voisins.get(i).y].est_Vide();
+			trouve = !getCase(voisins.get(i)).est_Vide();
 			i++;
 		}
 		return trouve;
@@ -230,6 +237,7 @@ public class Terrain {
 	
 	// Renvoie vrai ssi le placement de cette tuile est autorisÃ© au point P.
 	public boolean placement_tuile_autorise(Tuile tuile, Point P){
+		//TODO on ne gère pas le cas d'écraser une cité entière
 		if(empty) return dans_terrain(tuile.getOrientation(),P);
 		else{
 			// Teste si la tuile est posÃ©e sur d'autres tuiles
@@ -298,6 +306,10 @@ public class Terrain {
 			}
 		}
 	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////// EXTENSION CITE //////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 	
 	// Renvoie le Terrain apres extension d'une cite presente au point P sur les cases de Type type.
 	// Ne modifie pas la structure actuelle.
@@ -391,6 +403,10 @@ public class Terrain {
 		}
 	}
 	
+	///////////////////////////////////////////////////////////////////////////
+	/////////////////////////// PLACEMENT BATIMENT ////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+	
 	// Renvoie le Terrain apres placement direct d'un batiment b de couleur c au point P.
 	// Ne modifie pas la structure actuelle.
 	public Terrain consulter_coup_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
@@ -443,8 +459,19 @@ public class Terrain {
 		else return false;
 	}
 	
-	public ArrayList<Action_Construction> liste_coups_construction_possibles(){
+	public ArrayList<Action_Construction> liste_coups_construction_possibles(Case.Couleur_Joueur c){
 		ArrayList<Action_Construction> res = new  ArrayList<Action_Construction>();
+		//TODO
+		return res;
+	}
+	
+	// Renvoie la liste des emplacements possibles pour la Tuile tuile
+	public ArrayList<Action_Tuile> liste_coups_tuile_possibles(Tuile tuile){
+		ArrayList<Action_Tuile> res = new  ArrayList<Action_Tuile>();
+		for(int k=0;k<6;k++){
+			//TODO
+			tuile.Tourner_horaire();
+		}
 		return res;
 	}
 	
@@ -469,7 +496,7 @@ public class Terrain {
 					System.out.print("S");
 					break;
 				case VIDE:
-					System.out.print("_");
+					System.out.print(" ");
 					break;
 				case VOLCAN:
 					System.out.print("V");
@@ -489,13 +516,13 @@ public class Terrain {
 					System.out.print("H");
 					break;
 				case TEMPLE:
-					System.out.print("T");
-					break;
-				case TOUR:
 					System.out.print("A");
 					break;
+				case TOUR:
+					System.out.print("T");
+					break;
 				case VIDE:
-					System.out.print("_");
+					System.out.print(" ");
 					break;
 				default:
 					break;
