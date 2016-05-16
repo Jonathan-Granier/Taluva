@@ -2,14 +2,12 @@ package Joueur;
 
 import java.awt.Color;
 
-import main.Moteur;
+//import main.Moteur;
 
 /*
  * Un joueur est défini par :
  *  Son nombre de pions (Tour, Temple , Hutte)
  * 	Sa Couleur
- * 
- * La fonction Jouer() est défini par ses fils
  * 
  * 
  */
@@ -19,9 +17,8 @@ import main.Moteur;
 public abstract class joueur_Generique {
 	private int temple, tour, hutte,hutteDetruite , score;
 	private Color c;
-	private Moteur m;
 	
-	public joueur_Generique(Color couleur_joueur, Moteur m)
+	public joueur_Generique(Color couleur_joueur)
 	{
 		temple = 3;
 		tour = 2;
@@ -29,7 +26,6 @@ public abstract class joueur_Generique {
 		hutteDetruite = 0;
 		score = 0;
 		this.c = couleur_joueur;
-		this.m = m;
 		
 	}
 	// -------------- Fonction Get ---------------------
@@ -100,10 +96,5 @@ public abstract class joueur_Generique {
 	{
 		this.score = score;
 	}
-	
-	public abstract void jouer();
-	
-	
-
 	
 }
