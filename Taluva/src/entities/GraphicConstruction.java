@@ -3,6 +3,7 @@ package entities;
 import org.lwjgl.util.vector.Vector3f;
 
 import Loaders.Loader;
+import main.Case;
 
 public class GraphicConstruction {
 	
@@ -36,6 +37,22 @@ public class GraphicConstruction {
 		
 	}
 
+	public Case.Type_Batiment getType_Batiment(){
+		switch(type){
+			case HUT:
+				return Case.Type_Batiment.HUTTE;
+			case TOWER:
+				return Case.Type_Batiment.TOUR;
+			case TEMPLE:
+				return Case.Type_Batiment.TEMPLE;
+			case NULL:
+				return Case.Type_Batiment.VIDE;
+			default:
+				System.out.println("Unknow construction type");	
+		}
+		return Case.Type_Batiment.VIDE;
+	}
+	
 	public GraphicConstruction(GraphicConstruction gc){
 		this.object3d = new Object3D(gc.getObject3d());
 		this.type = gc.getType();

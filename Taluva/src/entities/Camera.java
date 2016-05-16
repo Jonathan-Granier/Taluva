@@ -6,15 +6,15 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 	
-	private static final float ZOOM_OUT_MAX = 400;
+	private static final float ZOOM_OUT_MAX = 600;
 	
-	private static final float SPEED = 1.5f;
+	private static final float SPEED = 3f;
 	
 	private Vector3f position = new Vector3f(0,0,0);
 	private Vector3f lookAt = new Vector3f(0,0,0);
 	private float pitch=40;
 	private float angleAroundPivot=0;
-	private float distanceFromPivot=200;
+	private float distanceFromPivot=400;
 	private float yangle;
 	private float roll;
 	

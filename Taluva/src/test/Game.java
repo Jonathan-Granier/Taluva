@@ -1,5 +1,6 @@
 package test;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import entities.Object3D;
 import gui.Drawable;
 import gui.Texture;
 import main.Case;
+import main.Case.Couleur_Joueur;
 import main.Moteur;
 import main.Terrain;
 import main.Tuile;
@@ -48,8 +50,8 @@ public class Game {
 		Coords snap = grid.snap(construction.getObject3d(),construction.getObject3d().getPosition());
 		if(snap!=null){
 			construction.getObject3d().setPosition(snap.worldPos);
-			/*if(!terrain.placement_tuile_autorise(Tile.getTile(), snap.indices)){
-				construction.getObject3D().setAllow(false);
+			/*if(!terrain.placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, snap.indices)){
+				construction.getObject3d().setAllow(false);
 			}*/
 		}
 		
@@ -74,9 +76,9 @@ public class Game {
 		Coords snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getObject3D().getRotY());
 		if(snap!=null){
 			Tile.getObject3D().setPosition(snap.worldPos);
-			if(!terrain.placement_tuile_autorise(Tile.getTile(), snap.indices)){
+			/*if(!terrain.placement_tuile_autorise(Tile.getTile(), snap.indices)){
 				Tile.getObject3D().setAllow(false);
-			}
+			}*/
 		}
 		
 		if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) && snap!=null){
@@ -85,10 +87,10 @@ public class Game {
 	}
 	
 	public void putConstruction(List<GraphicConstruction> constructions, GraphicConstruction construction,Coords coords){
-		//if(terrain.placement_tuile_autorise(construction.getTile(), coords.indices)){
+		//if(terrain.placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, coords.indices)){
 			constructions.add(new GraphicConstruction(construction));
 			constructions.get(constructions.size()-1).getObject3d().setPosition(coords.worldPos);
-			//terrain.placer_tuile(Tile.getTile(), coords.indices);
+			//terrain.placer_batiment(construction.getType_Batiment(), Couleur_Joueur.JAUNE, coords.indices);
 		//}
 	}
 	
@@ -135,6 +137,8 @@ public class Game {
 		drawable.bindTexture(fond);
 		drawable.bindTexture(button_tower.getTexture());
 		
+		Object3D table = new Object3D("","Table",loader,new Vector3f(0,0,0),0,0,0,0.3f);
+		
 		List<Light> lights = new ArrayList<Light>();
 		Light sun = new Light(new Vector3f(20000,15000,-1000),new Vector3f(1,1,1));
 		lights.add(sun);
@@ -174,6 +178,8 @@ public class Game {
 				renderer.draw(tile.getObject3D(), shader);
 			for(GraphicConstruction construction:Constructions)
 				renderer.draw(construction.getObject3d(), shader);
+			
+			renderer.draw(table, shader);
 			
 			shader.stop();
 			

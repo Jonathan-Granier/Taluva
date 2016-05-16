@@ -13,7 +13,7 @@ import entities.Object3D;
 public class MousePicker {
 
 	private static final int RECURSION_COUNT = 200;
-	private static final float RAY_RANGE = 600;
+	private static final float RAY_RANGE = 1000;
 	
 	private Vector3f currentRay;
 	private Matrix4f projectionMatrix;
