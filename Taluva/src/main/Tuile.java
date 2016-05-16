@@ -112,42 +112,62 @@ public class Tuile {
 		{
 			switch(orientation)
 			{
-				case N_O:
-					return type_case[0];
 				case N:
-					return type_case[0];
+					switch(o){
+					case E: return type_case[2];
+					case N_O: return type_case[0];
+					case S_O: return type_case[1];
+					default:
+					}
 				case E:
-					return type_case[1];
+					switch(o){
+					case E: return type_case[0];
+					case N_O: return type_case[1];
+					case S_O: return type_case[2];
+					default:
+					}
 				case S:
-					return type_case[2];
-				case S_O:
-					return type_case[2];
+					switch(o){
+					case E: return type_case[1];
+					case N_O: return type_case[2];
+					case S_O: return type_case[0];
+					default:
+					}
 				default:
-					System.out.println(" L'orientation demandée semble ne pas convenir à  l'orientation de la tuile");
+					System.out.println(" L'orientation demandee semble ne pas convenir a l'orientation de la tuile");
 					return Case.Type.VIDE;
 			}
 		}
-		
-		switch(orientation)
-		{
-			case O:
-				return type_case[0];
-			case N:
-				return type_case[1];
-			case N_E:
-				return type_case[1];
-			case S:
-				return type_case[2];
-			case S_O:
-				return type_case[2];
-			default:
-				System.out.println(" L'orientation demandée semble ne pas convenir à  l'orientation de la tuile");
-				return Case.Type.VIDE;
+		else{
+			switch(orientation)
+			{
+				case O:
+					switch(o){
+					case O: return type_case[0];
+					case N_E: return type_case[2];
+					case S_E: return type_case[1];
+					default:
+					}
+				case N:
+					switch(o){
+					case O: return type_case[1];
+					case N_E: return type_case[0];
+					case S_E: return type_case[2];
+					default:
+					}
+				case S:
+					switch(o){
+					case O: return type_case[2];
+					case N_E: return type_case[1];
+					case S_E: return type_case[0];
+					default:
+					}
+				default:
+					System.out.println(" L'orientation demandee semble ne pas convenir a l'orientation de la tuile");
+					return Case.Type.VIDE;
+			}
 		}
 	}
-	
-	
-	
 }
 /*
 public class Tuile {

@@ -87,7 +87,7 @@ public class Terrain {
 	//   \___/ 1,2 \___/ 3,3 \
 	
 
-	
+/*	
 	// Renvoie les 6 voisins de la case au Point P
 	private Case [] getVoisins(Point P){
 		Case [] res = new Case[6];
@@ -97,6 +97,7 @@ public class Terrain {
 		}
 		return res;
 	}
+*/
 	
 	private Point [] getPtsVoisins(Point P){
 		Point [] res = new Point[6];
@@ -115,7 +116,7 @@ public class Terrain {
 	private ArrayList<Case> getCases(ArrayList<Point> pts){
 		ArrayList<Case> res = new ArrayList<Case>();
 		for(int i=0;i<pts.size();i++){
-			res.add(t[pts.get(i).x][pts.get(i).y]);
+			res.add(getCase(pts.get(i)));
 		}
 		return res;
 	}
@@ -140,9 +141,18 @@ public class Terrain {
 	
 	// Place la tuile donnee au point P. Renvoie 0 si la tuile a pu etre placee, 1 sinon.
 	public int placer_tuile(Tuile tuile, Point P){
+		int x;
+		int y;
 		if(placement_tuile_autorise(tuile,P)){
-			int x = P.x;
-			int y = P.y;
+			if(empty){
+				empty = false;
+				x = CENTRE.x;
+				y = CENTRE.y;
+			}
+			else{
+				x = P.x;
+				y = P.y;
+			}
 			t[x][y].setType(tuile.get_type_case(Case.Orientation.N));
 			t[x][y].setOrientation(tuile.get_Orientation_Volcan());
 			t[x][y].incrNiveau();
@@ -169,7 +179,6 @@ public class Terrain {
 				t[x+1][y+1].incrNiveau();
 				t[x+1][y+1].retirer_batiments();
 			}
-			empty=false;
 			return 0;
 		}
 		else{
@@ -238,7 +247,8 @@ public class Terrain {
 	// Renvoie vrai ssi le placement de cette tuile est autorisÃ© au point P.
 	public boolean placement_tuile_autorise(Tuile tuile, Point P){
 		//TODO on ne gère pas le cas d'écraser une cité entière
-		if(empty) return dans_terrain(tuile.getOrientation(),P);
+		if(empty) return true;
+		if(!dans_terrain(tuile.getOrientation(),P)) return false;
 		else{
 			// Teste si la tuile est posÃ©e sur d'autres tuiles
 			int x = P.x;
@@ -322,7 +332,7 @@ public class Terrain {
 	// Etend la cite presente au point P sur les cases de Type type.
 	// Renvoie 0 si l'extension a reussi, 1 sinon
 	public int etendre_cite(Point P, Case.Type type){
-		Case.Couleur_Joueur c = t[P.x][P.y].getCouleur();
+		Case.Couleur_Joueur c = getCase(P).getCouleur();
 		ArrayList<Point> ptsCite = getPtsCite(P);
 		ArrayList<Case> cases_extension = getCases_extension_cite(ptsCite,type);
 		if(cases_extension.size()>0){
