@@ -20,7 +20,7 @@ public class Terrain {
 		}
 	}
 	
-	public final static int TAILLE = 200;
+	public final static int TAILLE = 10;
 	public final static Point CENTRE = new Point(TAILLE/2,TAILLE/2);
 	
 	private Case [][] t;
@@ -191,7 +191,7 @@ public class Terrain {
 				t[x+1][y+1].incrNiveau();
 				t[x+1][y+1].retirer_batiments();
 			}
-			histo_tuiles.add(new Action_Tuile(tuile,P,t[x][y].getNiveau()));
+			histo_tuiles.add(new Action_Tuile(tuile,new Point(x,y),t[x][y].getNiveau()));
 			return 0;
 		}
 		else{
