@@ -2,6 +2,8 @@ package Joueur;
 
 import java.awt.Color;
 
+import terrain.Case.Couleur_Joueur;
+
 
 /*
  * joueur_Humain : Hérite de joueur_Générique 
@@ -10,9 +12,9 @@ import java.awt.Color;
 
 public class joueur_Humain extends joueur_Generique {
 
-	public joueur_Humain(Color couleur_joueur)
+	public joueur_Humain(Couleur_Joueur c)
 	{
-		super(couleur_joueur);
+		super(c);
 	}
 	
 

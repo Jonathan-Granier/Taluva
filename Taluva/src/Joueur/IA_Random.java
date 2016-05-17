@@ -1,7 +1,7 @@
 package Joueur;
 
-import java.awt.Color;
 import main.Moteur;
+import terrain.Case.Couleur_Joueur;
 /*
  * IA Random : Hérite de joueur_Générique
  * 	la fonction jouer joue des coups aléatoires parmis tous les coups possible à l'instant t.
@@ -13,9 +13,9 @@ import main.Moteur;
 
 public class IA_Random extends joueur_Generique {
 	private Moteur m;
-	public IA_Random(Color couleur_joueur, Moteur m)
+	public IA_Random(Couleur_Joueur c, Moteur m)
 	{
-		super(couleur_joueur);//, m);
+		super(c);//, m);
 		this.m = m;
 	}
 	

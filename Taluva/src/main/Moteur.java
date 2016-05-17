@@ -1,6 +1,5 @@
 package main;
-import java.util.ArrayList;
-import java.util.Random;
+import java.awt.Color;
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,8 +7,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.awt.Color;
-import Joueur.*;
+import java.util.ArrayList;
+import java.util.Random;
+
+import Joueur.joueur_Humain;
 import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;
@@ -214,22 +215,15 @@ public class Moteur {
 		bat_choisi = Case.Type_Batiment.TOUR;
 	}
 	
-	private Case.Couleur_Joueur switch_case_color(Color c){
-		if(c == Color.red) return Case.Couleur_Joueur.ROUGE;
-		else if(c == Color.yellow) return Case.Couleur_Joueur.JAUNE;
-		else if(c == Color.white) return Case.Couleur_Joueur.BLANC;
-		else if(c == Color.gray) return Case.Couleur_Joueur.MARRON;
-		else return Case.Couleur_Joueur.NEUTRE;
-	}
 	
 	//Renvoie vrai ssi le placement du batiment choisi est autorisé au point P.
 	public boolean placement_batiment_autorise(Point P){
-		return T.placement_batiment_autorise(bat_choisi,switch_case_color(j_courant.getCouleur()), P);
+		return T.placement_batiment_autorise(bat_choisi,j_courant.getCouleur(), P);
 	}
 	
 	//Renvoie 0 si le batiment a pu être placé, 1 sinon
 	public int placer_batiment(Point P){
-		if(T.placer_batiment(bat_choisi,switch_case_color(j_courant.getCouleur()), P) == 0){
+		if(T.placer_batiment(bat_choisi,j_courant.getCouleur(), P) == 0){
 			annul.add(T.clone());
 			etat = Etat.FIN_DE_TOUR;
 			return 0;
@@ -293,6 +287,20 @@ public class Moteur {
 		if (etat == Etat.POSER_TUILE)etat = Etat.CONSTRUIRE_BATIMENT;
 		else if(etat == Etat.CONSTRUIRE_BATIMENT)etat = Etat.FIN_DE_TOUR;
 		else return 1;
+		
+		
+		switch (etat){
+		case POSER_TUILE:
+			etat = Etat.CONSTRUIRE_BATIMENT;
+			break;
+		case CONSTRUIRE_BATIMENT:
+			etat = Etat.FIN_DE_TOUR;
+			break;
+		default:
+			return 1;
+		}
+		
+	
 		
 		return 0;
 	}

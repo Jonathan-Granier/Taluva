@@ -3,6 +3,8 @@ package main;
 import java.awt.Point;
 import terrain.Case;
 
+import terrain.Case;
+
 public class Action_Construction {
 
 	public enum Type{

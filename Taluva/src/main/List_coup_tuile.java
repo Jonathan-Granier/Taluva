@@ -30,7 +30,7 @@ public class List_coup_tuile {
 		Coord limites = t.getLimites();
 		for(int o =0; o <6; o++)
 		{
-			orientation = tuile.get_Orientation_Volcan();
+			
 			for(int h = limites.xmin -2; h < limites.xmax +1; h++)
 			{
 				for( int l= limites.ymin -2; l < limites.ymax +2 ; l++)
@@ -38,6 +38,7 @@ public class List_coup_tuile {
 					p = new Point(l,h);
 					if(t.placement_tuile_autorise(tuile,p))
 					{
+						orientation = tuile.get_Orientation_Volcan();
 						switch(orientation)
 						{
 							case O:
