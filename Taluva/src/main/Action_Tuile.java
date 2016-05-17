@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Point;
+import terrain.Tuile;
 
 public class Action_Tuile {
 	private Tuile tuile;

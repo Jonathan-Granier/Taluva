@@ -1,4 +1,4 @@
-package main;
+package terrain;
 
 public class Tuile {
 	public enum Orientation{
