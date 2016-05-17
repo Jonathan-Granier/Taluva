@@ -77,11 +77,11 @@ public class Case {
 	public Type getType(){
 		return type;
 	}
-	
+
 	public void setType(Type t){
-		if(t != Type.VIDE || niveau > 0) type = t;
+		if(t != Type.VIDE) type = t;
 	}
-	
+
 	// Renvoie vrai ssi la case est vide (c'est un trou)
 	public boolean est_Vide(){
 		return niveau==0;
@@ -108,7 +108,7 @@ public class Case {
 	
 	// Augmente le niveau de la case de 1
 	public void incrNiveau(){
-		niveau ++ ;
+		if(type != Type.VIDE) niveau ++;
 	}
 	
 	// Renvoie le nombre de batiments sur la case.
