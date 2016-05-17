@@ -475,15 +475,45 @@ public class Terrain {
 	
 	public ArrayList<Action_Construction> liste_coups_construction_possibles(Case.Couleur_Joueur c){
 		ArrayList<Action_Construction> res = new  ArrayList<Action_Construction>();
-		//TODO
+		Point P;
+		int nb;
+		for(int i=limites.xmin;i<limites.xmax;i++){
+			for(int j=limites.ymin;j<limites.ymax;j++){
+				P = new Point(i,j);
+				if(placement_batiment_autorise(Case.Type_Batiment.HUTTE, c, P))
+					res.add(new Action_Construction(Action_Construction.Type.HUTTE, P));
+				if(placement_batiment_autorise(Case.Type_Batiment.TOUR, c, P))
+					res.add(new Action_Construction(Action_Construction.Type.TOUR, P));
+				if(placement_batiment_autorise(Case.Type_Batiment.TEMPLE, c, P))
+					res.add(new Action_Construction(Action_Construction.Type.TEMPLE, P));
+				if(getCase(P).getCouleur() == c){
+					if((nb = nb_huttes_extension(P,Case.Type.FORET))>0)
+						res.add(new Action_Construction(P,Case.Type.FORET,nb));
+					if((nb = nb_huttes_extension(P,Case.Type.LAC))>0)
+						res.add(new Action_Construction(P,Case.Type.LAC,nb));
+					if((nb = nb_huttes_extension(P,Case.Type.PLAINE))>0)
+						res.add(new Action_Construction(P,Case.Type.PLAINE,nb));
+					if((nb = nb_huttes_extension(P,Case.Type.SABLE))>0)
+						res.add(new Action_Construction(P,Case.Type.SABLE,nb));
+					if((nb = nb_huttes_extension(P,Case.Type.MONTAGNE))>0)
+						res.add(new Action_Construction(P,Case.Type.MONTAGNE,nb));
+				}
+					
+			}
+		}
 		return res;
 	}
 	
 	// Renvoie la liste des emplacements possibles pour la Tuile tuile
 	public ArrayList<Action_Tuile> liste_coups_tuile_possibles(Tuile tuile){
 		ArrayList<Action_Tuile> res = new  ArrayList<Action_Tuile>();
-		for(int k=0;k<6;k++){
-			//TODO
+		for(int o=0;o<6;o++){
+			for(int i=limites.xmin-2;i<limites.xmax+2;i++){
+				for(int j=limites.ymin-2;j<limites.ymax+1;j++){
+					if(placement_tuile_autorise(tuile, new Point(i,j)))
+						res.add(new Action_Tuile(tuile.clone(),new Point(i,j)));
+				}
+			}
 			tuile.Tourner_horaire();
 		}
 		return res;
