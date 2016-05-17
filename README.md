@@ -231,4 +231,20 @@ List_coup_construction :
 Action_construction :
 
 	//constructeur
+	// Constructeur d'une action-construction hors extension
+	Action_Construction(Type t, Point coord)
+	// Constructeur d'une action-construction d'extension (en coordonnée: mettre une case de la cité à étendre et le nb de huttes nécessaire).
+	Action_Construction(Point coord, Case.Type type_extension, int nb_huttes)
 	
+	// Retourne la coordonné de la construction
+	public Point get_coord()
+
+	// Retourne le type de la construction
+	public Type get_type()
+
+	// Si le type est une extension renvoie sur qu'elle type de terrain elle prend place.
+	public Case.Type get_type_extension()
+	
+	// Renvoie le nombre de batiment nécessaire. (surtout interessant pour extension)
+	public int get_nb_batiments()
+
