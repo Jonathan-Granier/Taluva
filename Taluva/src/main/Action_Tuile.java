@@ -6,10 +6,12 @@ import terrain.Tuile;
 public class Action_Tuile {
 	private Tuile tuile;
 	private Point P;
+	private int niveau;
 	
-	public Action_Tuile(Tuile tuile, Point P){
+	public Action_Tuile(Tuile tuile, Point P, int niveau){
 		this.tuile = tuile;
 		this.P = P;
+		this.niveau = niveau;
 	}
 	
 	public Tuile getTuile(){
@@ -18,5 +20,9 @@ public class Action_Tuile {
 	
 	public Point getPosition(){
 		return P;
+	}
+	
+	public int getNiveau(){
+		return niveau;
 	}
 }

@@ -27,6 +27,8 @@ public class Terrain {
 	private boolean empty;
 	private Coord limites;
 	
+	private ArrayList<Action_Tuile> histo_tuiles;
+	
 	public Terrain(){
 		t = new Case[TAILLE][TAILLE];
 		for(int i=0;i<TAILLE;i++){
@@ -36,8 +38,10 @@ public class Terrain {
 		}
 		limites  = new Coord(CENTRE.x,CENTRE.y,CENTRE.x,CENTRE.y);
 		empty = true;
+		histo_tuiles = new ArrayList<Action_Tuile>();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Terrain clone(){
 		Terrain tmp = new Terrain();
 		for(int i=0;i<TAILLE;i++){
@@ -47,6 +51,8 @@ public class Terrain {
 		}
 		tmp.limites  = this.limites.clone();
 		tmp.empty = this.empty;
+		tmp.histo_tuiles = (ArrayList<Action_Tuile>) this.histo_tuiles.clone();
+		if(!tmp.histo_tuiles.equals(this.histo_tuiles)) System.out.println("Erreur clone Terrain");
 		return tmp;
 	}
 	
@@ -64,6 +70,10 @@ public class Terrain {
 	
 	public boolean isEmpty(){
 		return empty;
+	}
+	
+	public ArrayList<Action_Tuile> getHistoTuiles(){
+		return histo_tuiles;
 	}
 	
 	// Renvoie les coordonnees limites du terrain : toutes les tuiles sont comprises dans
@@ -181,6 +191,7 @@ public class Terrain {
 				t[x+1][y+1].incrNiveau();
 				t[x+1][y+1].retirer_batiments();
 			}
+			histo_tuiles.add(new Action_Tuile(tuile,P,t[x][y].getNiveau()));
 			return 0;
 		}
 		else{
@@ -512,7 +523,7 @@ public class Terrain {
 			for(int i=limites.xmin-2;i<limites.xmax+2;i++){
 				for(int j=limites.ymin-2;j<limites.ymax+1;j++){
 					if(placement_tuile_autorise(tuile, new Point(i,j)))
-						res.add(new Action_Tuile(tuile.clone(),new Point(i,j)));
+						res.add(new Action_Tuile(tuile.clone(),new Point(i,j),getCase(i,j).getNiveau()+1));
 				}
 			}
 			tuile.Tourner_horaire();
