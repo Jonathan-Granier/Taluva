@@ -271,11 +271,8 @@ public class Moteur {
 		if(annul.size()<=1)return 1;
 		redo.add(annul.remove(annul.size()-1));
 		T = annul.get(annul.size()-1);
-		if (etat == Etat.FIN_DE_TOUR)etat = Etat.CONSTRUIRE_BATIMENT;
-		else if(etat == Etat.CONSTRUIRE_BATIMENT)etat = Etat.POSER_TUILE;
-		else return 1;
-		
-		return 0;
+		int code_erreur = DecrementeEtat();
+		return code_erreur;
 	}
 	
 	//Permet de reposer une tuile qui a été annulée qui a été annulée
@@ -284,25 +281,54 @@ public class Moteur {
 		if(redo.isEmpty())return 1;
 		annul.add(redo.remove(redo.size()-1));
 		T = annul.get(annul.size()-1);
-		if (etat == Etat.POSER_TUILE)etat = Etat.CONSTRUIRE_BATIMENT;
-		else if(etat == Etat.CONSTRUIRE_BATIMENT)etat = Etat.FIN_DE_TOUR;
-		else return 1;
-		
-		
-		switch (etat){
-		case POSER_TUILE:
-			etat = Etat.CONSTRUIRE_BATIMENT;
-			break;
-		case CONSTRUIRE_BATIMENT:
-			etat = Etat.FIN_DE_TOUR;
-			break;
-		default:
-			return 1;
-		}
-		
+		int code_erreur = IncrementeEtat();
+		return code_erreur;
+	}
 	
-		
+	// ---------------- Fonction Pour le type Etat -------------------
+	
+	
+	public int IncrementeEtat()
+	{
+		switch (etat)
+		{
+			case DEBUT_DE_TOUR:
+				etat = Etat.POSER_TUILE;
+				break;
+			case POSER_TUILE:
+				etat = Etat.CONSTRUIRE_BATIMENT;
+				break;
+			case CONSTRUIRE_BATIMENT:
+				etat = Etat.FIN_DE_TOUR;
+				break;
+			case FIN_DE_TOUR:
+				etat = Etat.DEBUT_DE_TOUR;
+				break;
+			default:
+				return 1;
+		}
 		return 0;
 	}
+	
+	public int DecrementeEtat()
+	{
+		switch (etat)
+		{
+			case DEBUT_DE_TOUR:
+				break;
+			case POSER_TUILE:
+				break;
+			case CONSTRUIRE_BATIMENT:
+				etat = Etat.POSER_TUILE;
+				break;
+			case FIN_DE_TOUR:
+				etat = Etat.CONSTRUIRE_BATIMENT;
+				break;
+			default:
+				return 1;
+		}
+		return 0;
+	}
+	
 }
 
