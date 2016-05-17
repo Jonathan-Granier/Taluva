@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Random;
 
 import terrain.*;
 import terrain.Terrain.Coord;
@@ -14,6 +15,8 @@ public class List_coup_tuile {
 	private ArrayList<Point> coup_E;
 	private ArrayList<Point> coup_S_E;
 	private ArrayList<Point> coup_S_O;
+	private Point coup_rand_coord;
+	private Case.Orientation coup_rand_orientation;
 	
 	// un coup est possible si: Il recouvre 3 cases de niveau égales
 	// Si le niveau est 0, une case au moins est voisine d'une case de niveau 1 ou plus.
@@ -137,5 +140,72 @@ public class List_coup_tuile {
 			System.out.print("(" + coup_S_O.get(i).x + "," + coup_S_O.get(i).y + ")");
 		}
 		System.out.println("");
+	}
+	
+	public int next_coup_random()
+	{
+		int nb_action = 0;
+		nb_action += coup_O.size();
+		nb_action += coup_S_O.size();
+		nb_action += coup_N_O.size();
+		nb_action += coup_E.size();
+		nb_action += coup_S_E.size();
+		nb_action += coup_N_E.size();
+
+		Random r = new Random();
+		int index = r.nextInt(nb_action);
+		if(index < coup_O.size())
+		{
+			this.coup_rand_coord = coup_O.get(index);
+			this.coup_rand_orientation = Case.Orientation.O;
+			return index;
+		}
+		index -= coup_O.size();
+		if(index < coup_S_O.size())
+		{
+			this.coup_rand_coord = coup_S_O.get(index);
+			this.coup_rand_orientation = Case.Orientation.S_O;
+			return index;
+		}
+		index -= coup_S_O.size();
+		if(index < coup_N_O.size())
+		{
+			this.coup_rand_coord = coup_N_O.get(index);
+			this.coup_rand_orientation = Case.Orientation.N_O;
+			return index;
+		}
+		index -= coup_N_O.size();
+		if(index < coup_E.size())
+		{
+			this.coup_rand_coord = coup_E.get(index);
+			this.coup_rand_orientation = Case.Orientation.E;
+			return index;
+		}
+		index -= coup_E.size();
+		if(index < coup_S_E.size())
+		{
+			this.coup_rand_coord = coup_S_E.get(index);
+			this.coup_rand_orientation = Case.Orientation.S_E;
+			return index;
+		}
+		index -= coup_S_E.size();
+		if(index < coup_N_E.size())
+		{
+			this.coup_rand_coord = coup_N_E.get(index);
+			this.coup_rand_orientation = Case.Orientation.N_E;
+			return index;
+		}
+		index -= coup_N_E.size();
+		System.out.println("L'index random tiré n'est pas correct.");
+		return -1;
+	}
+	
+	public Point coup_rand_coord()
+	{
+		return this.coup_rand_coord;
+	}
+	public Case.Orientation coup_rand_orienation()
+	{
+		return this.coup_rand_orientation;
 	}
 }
