@@ -25,6 +25,12 @@ public class Tuile {
 		type_case[2] = case3;
 		o = Case.Orientation.O;
 	}
+	
+	public Tuile clone(){
+		Tuile tmp = new Tuile(type_case[1],type_case[2]);
+		tmp.o = this.o;
+		return tmp;
+	}
 
 	// Retourne l'orientation Gauche/Droite de la tuile.
 	public Orientation getOrientation()
