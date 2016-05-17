@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import terrain.Terrain;
 
 public class List_coup_construction {
 	private ArrayList<Point> huttes;

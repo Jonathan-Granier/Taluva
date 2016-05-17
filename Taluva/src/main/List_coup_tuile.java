@@ -3,7 +3,8 @@ package main;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import main.Terrain.Coord;
+import terrain.*;
+import terrain.Terrain.Coord;
 
 public class List_coup_tuile {
 
