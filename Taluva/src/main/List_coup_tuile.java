@@ -142,6 +142,7 @@ public class List_coup_tuile {
 		System.out.println("");
 	}
 	
+	// Calcul un coup random, renvoie -1 s'il échoue.
 	public int next_coup_random()
 	{
 		int nb_action = 0;
@@ -200,10 +201,12 @@ public class List_coup_tuile {
 		return -1;
 	}
 	
+	// Renvoie les coordonées du point random calculé
 	public Point coup_rand_coord()
 	{
 		return this.coup_rand_coord;
 	}
+	// Renvoie l'orienation du coup random calculé
 	public Case.Orientation coup_rand_orienation()
 	{
 		return this.coup_rand_orientation;

@@ -95,6 +95,7 @@ public class List_coup_construction {
 		return false;
 	}
 	
+	// Renvoie une action de construction aléatoire.
 	public Action_Construction get_random_action()
 	{
 		int nb_action = huttes.size() + extension.size() + temple.size() + tour.size();
