@@ -79,6 +79,9 @@ Terrain :
 	
 	// EXTENSION
 	
+	// Renvoie le nombre de huttes necessaires a l'extension de la cite presente au point P sur les cases de Type type.
+	public int nb_huttes_extension(Point P, Case.Type type);
+	
 	// Renvoie le Terrain après extension d'une cité présente au point P sur les cases de Type type.
 	// Ne modifie pas la structure actuelle.
 	public Terrain consulter_extension_cite(Point P, Case.Type type);
