@@ -140,7 +140,7 @@ public class Case {
 	
 	// Renvoie vrai ssi le placement de batiments de type bt est autorise sur cette case.
 	public boolean ajout_batiment_autorise(Type_Batiment bt){
-		return type != Type.VOLCAN && nb_b == 0;
+		return type != Type.VOLCAN && nb_b == 0 && type != Type.VIDE;
 	}
 	
 	// Retire tous les batiments de la case. Renvoie 1 si aucun batiment n'était présent, 0 sinon.

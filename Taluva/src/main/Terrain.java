@@ -246,7 +246,7 @@ public class Terrain {
 	
 	// Renvoie vrai ssi le placement de cette tuile est autorisÃ© au point P.
 	public boolean placement_tuile_autorise(Tuile tuile, Point P){
-		//TODO on ne gère pas le cas d'écraser une cité entière
+		//TODO on ne gere pas le cas d'ecraser une cite entiere
 		if(empty) return true;
 		if(!dans_terrain(tuile.getOrientation(),P)) return false;
 		else{
@@ -320,6 +320,12 @@ public class Terrain {
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////// EXTENSION CITE //////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
+	
+	// Renvoie le nombre de huttes necessaires a l'extension de la cite presente au point P sur les cases de Type type.
+	public int nb_huttes_extension(Point P, Case.Type type){
+		ArrayList<Point> ptsCite = getPtsCite(P);
+		return getCases_extension_cite(ptsCite,type).size();
+	}
 	
 	// Renvoie le Terrain apres extension d'une cite presente au point P sur les cases de Type type.
 	// Ne modifie pas la structure actuelle.
@@ -405,9 +411,9 @@ public class Terrain {
 		Point [] voisins = getPtsVoisins(P);
 		res.add(P);
 		appartient_cite[P.x][P.y] = true;
-		Case.Couleur_Joueur c = t[P.x][P.y].getCouleur();
+		Case.Couleur_Joueur c = getCase(P).getCouleur();
 		for(int i=0;i<6;i++){
-			if(t[voisins[i].x][voisins[i].y].getCouleur() == c && !appartient_cite[voisins[i].x][voisins[i].y]){
+			if(getCase(voisins[i]).getCouleur() == c && !appartient_cite[voisins[i].x][voisins[i].y]){
 				getPtsCite_rec(voisins[i],res,appartient_cite);
 			}
 		}
@@ -429,16 +435,14 @@ public class Terrain {
 	// Renvoie 0 si le placement a reussi, 1 sinon.
 	public int placer_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
 		if(placement_batiment_autorise(b,c,P)){
-			return t[P.x][P.y].ajouter_batiment(b,c);
+			return getCase(P).ajouter_batiment(b,c);
 		}
 		else return 1;
 	}
 	
 	// Renvoie vrai ssi le placement direct d'un batiment de type b au point P est autorise.
 	public boolean placement_batiment_autorise(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
-		int x = P.x;
-		int y = P.y;
-		if(t[x][y].ajout_batiment_autorise(b)){
+		if(getCase(P).ajout_batiment_autorise(b)){
 			// Si le placement est autorise sur la case (independemment du reste du terrain)
 			Point [] ptsVoisins = getPtsVoisins(P);
 			int i = 0;
@@ -456,14 +460,14 @@ public class Terrain {
 				// C'est l'ajout d'une tour ou d'un temple (sinon c'est interdit)
 				ArrayList<Case> cite = getCite(coord_cite);
 				if(b == Case.Type_Batiment.TOUR)
-					return (t[x][y].getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
+					return (getCase(P).getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
 				if(b == Case.Type_Batiment.TEMPLE)
 					return (cite_taille_3(cite) && !cite_contient(cite,Case.Type_Batiment.TEMPLE));
 				return false;
 			}
 			else{
 				// C'est une nouvelle cite : ce doit etre une hutte au niveau 1
-				return (b == Case.Type_Batiment.HUTTE) && t[x][y].getNiveau()==1;
+				return (b == Case.Type_Batiment.HUTTE) && getCase(P).getNiveau()==1;
 			}
 		}
 		else return false;
@@ -487,6 +491,10 @@ public class Terrain {
 	
 	// Affiche le terrain dans la console
 	public void afficher(){
+		System.out.println("  " + limites.xmin + " - " + limites.xmax);
+		System.out.println(limites.ymin);
+		System.out.println("-");
+		System.out.println(limites.ymax);
 		for(int i=limites.ymin;i<=limites.ymax;i++){
 			for(int j=limites.xmin;j<=limites.xmax;j++){
 				switch (t[j][i].getType()){
@@ -544,5 +552,6 @@ public class Terrain {
 			}
 			System.out.println("");
 		}
+		System.out.println("");
 	}
 }
