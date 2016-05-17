@@ -75,7 +75,7 @@ public class Moteur {
 	
 	private void init(ArrayList<Tuile> tuiles){
 		try {
-			File file = new File("../../../PIECES");
+			File file = new File("../PIECES");
 			FileInputStream fis = new FileInputStream(file);
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 			String line = null;
@@ -165,7 +165,8 @@ public class Moteur {
 	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
 	public boolean joueur_elimine (){
 		// TODO
-		return (T.liste_coups_construction_possibles(Case.Couleur_Joueur.BLANC).size() == 0);
+		//return (T.liste_coups_construction_possibles(Case.Couleur_Joueur.BLANC).size() == 0);
+		return false;
 	}
 	
 	//Renvoie une tuile piochée aléatoirement dans la pioche
@@ -186,6 +187,7 @@ public class Moteur {
 	public int placer_tuile(Point P){
 		if(T.placer_tuile(tuile_pioche, P) == 0){
 			if(joueur_elimine())return -1;
+			annul.add(T.clone());
 			etat = Etat.CONSTRUIRE_BATIMENT;
 			return 0;
 		}
@@ -195,14 +197,17 @@ public class Moteur {
 	//SELECTEURS DES BATIMENTS DU JOUEUR
 	//Le batiment choisi est une hutte
 	public void select_hutte(){
+		if(etat == Etat.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.HUTTE;
 	}
 	//Le batiment choisi est un temple
 	public void select_temple(){
+		if(etat == Etat.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.TEMPLE;
 	}
 	//Le batiment choisi est une tour
 	public void select_tour(){
+		if(etat == Etat.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.TOUR;
 	}
 	
@@ -222,6 +227,7 @@ public class Moteur {
 	//Renvoie 0 si le batiment a pu être placé, 1 sinon
 	public int placer_batiment(Point P){
 		if(T.placer_batiment(bat_choisi,switch_case_color(j_courant.getCouleur()), P) == 0){
+			annul.add(T.clone());
 			etat = Etat.FIN_DE_TOUR;
 			return 0;
 		}
