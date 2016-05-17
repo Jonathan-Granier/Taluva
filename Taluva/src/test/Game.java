@@ -21,11 +21,11 @@ import entities.Light;
 import entities.Object3D;
 import gui.Drawable;
 import gui.Texture;
-import main.Case;
-import main.Case.Couleur_Joueur;
+import terrain.Case;
+import terrain.Case.Couleur_Joueur;
 import main.Moteur;
-import main.Terrain;
-import main.Tuile;
+import terrain.Terrain;
+import terrain.Tuile;
 import renderEngine.Renderer;
 import renderEngine.Window;
 import shaders.StaticShader;
@@ -40,6 +40,7 @@ public class Game {
 	private static float SIZE_OF_HEXA = 68;
 	private Terrain terrain;
 	private Moteur moteur;
+	private Grid grid;
 	
 	public void constructionGestion(Vector3f point,GraphicConstruction construction,List<GraphicConstruction> constructions,Grid grid){
 		if(point!=null){
@@ -76,9 +77,9 @@ public class Game {
 		Coords snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getObject3D().getRotY());
 		if(snap!=null){
 			Tile.getObject3D().setPosition(snap.worldPos);
-			/*if(!terrain.placement_tuile_autorise(Tile.getTile(), snap.indices)){
+			if(!terrain.placement_tuile_autorise(Tile.getTile(), snap.indices)){
 				Tile.getObject3D().setAllow(false);
-			}*/
+			}
 		}
 		
 		if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) && snap!=null){
@@ -90,16 +91,25 @@ public class Game {
 		//if(terrain.placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, coords.indices)){
 			constructions.add(new GraphicConstruction(construction));
 			constructions.get(constructions.size()-1).getObject3d().setPosition(coords.worldPos);
-			//terrain.placer_batiment(construction.getType_Batiment(), Couleur_Joueur.JAUNE, coords.indices);
+		//	terrain.placer_batiment(construction.getType_Batiment(), Couleur_Joueur.JAUNE, coords.indices);
 		//}
 	}
 	
 	public void putTile(List<GraphicTile> Tiles, GraphicTile Tile,Coords coords){
-		//if(terrain.placement_tuile_autorise(Tile.getTile(), coords.indices)){
-			Tiles.add(new GraphicTile(Tile));
-			Tiles.get(Tiles.size()-1).getObject3D().setPosition(coords.worldPos);
-			//terrain.placer_tuile(Tile.getTile(), coords.indices);
-		//}
+		if(terrain.placement_tuile_autorise(Tile.getTile(), coords.indices)){
+			if(Tiles.size() > 0){
+				Tiles.add(new GraphicTile(Tile));
+				Tiles.get(Tiles.size()-1).getObject3D().setPosition(coords.worldPos);
+				terrain.placer_tuile(Tile.getTile(), coords.indices);
+			}
+			else{
+				Coords center = grid.center();
+				Tiles.add(new GraphicTile(Tile));
+				Tiles.get(Tiles.size()-1).getObject3D().setPosition(center.worldPos);
+				terrain.placer_tuile(Tile.getTile(), center.indices);
+			}
+			terrain.afficher();
+		}
 	}
 	
 	public List<GraphicTile> createTerrain(Loader loader){
@@ -129,7 +139,7 @@ public class Game {
 		
 		GraphicConstruction Construction = new GraphicConstruction(GraphicType.TOWER,new Vector3f(0,0,0),loader);
 		
-		Grid grid = new Grid(terrain,loader);
+		grid = new Grid(terrain,loader);
 		
 		Texture fond = new Texture(loader.loadTexture("fond.png"),new Vector2f(Display.getWidth()-200,0),new Vector2f(200,Display.getHeight()));
 		MyButton button_tower = new MyButton(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,100),new Vector2f(100,100));
