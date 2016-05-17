@@ -1,5 +1,4 @@
 package main;
-import java.awt.Color;
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
@@ -278,7 +277,8 @@ public class Moteur {
 	//Permet de reposer une tuile qui a été annulée qui a été annulée
 	//Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int refaire(){
-		if(redo.isEmpty())return 1;
+		if(redo.isEmpty()) 
+			return 1;
 		annul.add(redo.remove(redo.size()-1));
 		T = annul.get(annul.size()-1);
 		int code_erreur = IncrementeEtat();
