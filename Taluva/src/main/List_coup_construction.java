@@ -3,6 +3,7 @@ package main;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Random;
 
 import Joueur.joueur_Generique;
 import terrain.Case;
@@ -92,6 +93,26 @@ public class List_coup_construction {
 				System.out.println("List_coup_construction [coup_possible]:Le type d'action de construction est incorrecte.");
 		}
 		return false;
+	}
+	
+	public Action_Construction get_random_action()
+	{
+		int nb_action = huttes.size() + extension.size() + temple.size() + tour.size();
+		Random r = new Random();
+		int index = r.nextInt(nb_action);
+		if(index < huttes.size())
+			return new Action_Construction(Action_Construction.Type.HUTTE, huttes.get(index));
+		index -= huttes.size();
+		if(index < extension.size())
+			return extension.get(index);
+		index -= extension.size();
+		if(index < temple.size())
+			return new Action_Construction(Action_Construction.Type.TEMPLE, temple.get(index));
+		index -= temple.size();
+		if(index < tour.size())
+			return new Action_Construction(Action_Construction.Type.TOUR, tour.get(index));
+		System.out.println("L'index random tiré n'est pas correct.");
+		return null;
 	}
 	
 }
