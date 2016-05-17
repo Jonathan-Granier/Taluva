@@ -2,6 +2,8 @@ package Joueur;
 
 import java.awt.Color;
 
+import terrain.Case.Couleur_Joueur;
+
 //import main.Moteur;
 
 /*
@@ -16,16 +18,16 @@ import java.awt.Color;
 
 public abstract class joueur_Generique {
 	private int temple, tour, hutte,hutteDetruite , score;
-	private Color c;
+	private Couleur_Joueur c;
 	
-	public joueur_Generique(Color couleur_joueur)
+	public joueur_Generique(Couleur_Joueur c)
 	{
 		temple = 3;
 		tour = 2;
 		hutte = 20;
 		hutteDetruite = 0;
 		score = 0;
-		this.c = couleur_joueur;
+		this.c = c;
 		
 	}
 	// -------------- Fonction Get ---------------------
@@ -55,7 +57,7 @@ public abstract class joueur_Generique {
 		return score;
 	}
 	
-	public Color getCouleur()
+	public Couleur_Joueur getCouleur()
 	{
 		return c;
 	}
