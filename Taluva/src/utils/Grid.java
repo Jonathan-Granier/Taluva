@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import Loaders.Loader;
 import entities.Object3D;
-import main.Terrain;
+import terrain.Terrain;
 import renderEngine.Renderer;
 import shaders.StaticShader;
 
@@ -65,10 +65,27 @@ public class Grid {
 			}
 	}
 	
+	private Point convert(Point p, boolean equalize){
+		Point res = new Point(Math.abs((p.x-(terrain.TAILLE-190-1))%(terrain.TAILLE-190-1)),Math.abs((p.y-(terrain.TAILLE-190-1))%(terrain.TAILLE-190-1)));
+		if(p.x==0)
+			res.x=(terrain.TAILLE-190-1);
+		if(p.y==0)
+			res.y=(terrain.TAILLE-190-1);
+		if(equalize){
+			if(res.x<9)
+				res.x ++;
+			res.y --;
+		}
+			
+		//System.out.println(res);
+		return res;
+	}
+	
 	//racine((x_centre - x_point)² + (y_centre - y_point)²)<rayon
 	public Coords snap(Object3D object3d,Vector3f positionVolcano,float angle){
 		float offsetX = 0;
 		float offsetY = 0;
+		Point indices = new Point();
 		
 		if(angle==60 || angle==180 ||  angle==300){
 			offsetX = WIDTH_OF_HEXA/2;
@@ -79,8 +96,12 @@ public class Grid {
 			for(int j=0 ;j<terrain.TAILLE-190;j++){
 				if( Math.pow(positionVolcano.x - (coords[i][j].x+offsetX),2) + Math.pow(positionVolcano.z - (coords[i][j].y+offsetY),2) <= Math.pow(RAY,2) ){
 					object3d.setAllow(true);
-					System.out.println("Incices:" + i +" " + j);
-					return new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),new Point(i,j));
+					//System.out.println("Incices:" + i +" " + j);
+					if(angle==60 || angle==180 ||  angle==300)
+						indices = convert(new Point(i,j),false);
+					else
+						indices = convert(new Point(i,j),true);
+					return new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),indices);
 				}
 			}
 		}
@@ -108,5 +129,9 @@ public class Grid {
 		return null;
 	}
 	
-	
+	public Coords center(){
+		int i = (terrain.TAILLE-190)/2;
+		int j = (terrain.TAILLE-190)/2;
+		return new Coords(new Vector3f(coords[i][j].x,0,coords[i][j].y-HEIGHT_OF_HEXA/2),new Point(i,j));
+	}
 }

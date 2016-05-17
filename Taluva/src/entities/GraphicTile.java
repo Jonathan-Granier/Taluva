@@ -3,8 +3,8 @@ package entities;
 import org.lwjgl.util.vector.Vector3f;
 
 import Loaders.Loader;
-import main.Case;
-import main.Tuile;
+import terrain.Case;
+import terrain.Tuile;
 
 public class GraphicTile {
 	

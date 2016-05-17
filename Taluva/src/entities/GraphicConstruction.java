@@ -3,7 +3,7 @@ package entities;
 import org.lwjgl.util.vector.Vector3f;
 
 import Loaders.Loader;
-import main.Case;
+import terrain.Case;
 
 public class GraphicConstruction {
 	

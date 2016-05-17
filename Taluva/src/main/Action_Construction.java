@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Point;
+import terrain.Case;
 
 import terrain.Case;
 
@@ -18,7 +19,7 @@ public class Action_Construction {
 	private int nb_batiments;
 	
 	// Constructeur d'une action-construction hors extension
-	Action_Construction(Type t, Point coord)
+	public Action_Construction(Type t, Point coord)
 	{
 		this.coord = coord;
 		if(t == Type.EXTENSION){
@@ -34,7 +35,7 @@ public class Action_Construction {
 	
 	// Constructeur d'une action-construction d'extension (en paramètres: 
 	// une case de la cité à étendre, le nb de huttes nécessaire et le type de terrain de l'extension).
-	Action_Construction(Point coord, Case.Type type_extension, int nb_huttes)
+	public Action_Construction(Point coord, Case.Type type_extension, int nb_huttes)
 	{
 		this.coord = coord;
 		this.type = Type.EXTENSION;
