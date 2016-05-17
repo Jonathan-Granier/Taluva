@@ -1,6 +1,5 @@
 package Joueur;
 
-import java.awt.Color;
 import main.Moteur;
 import terrain.Case.Couleur_Joueur;
 /*
