@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.awt.Color;
 import Joueur.*;
+import terrain.Case;
+import terrain.Terrain;
+import terrain.Tuile;
 
 public class Moteur {
 	private Terrain T;
@@ -29,7 +32,7 @@ public class Moteur {
 		CONSTRUIRE_BATIMENT,
 		FIN_DE_TOUR;
 	}
-	private Etat etat;
+	public Etat etat;
 	
 	// Constructeur du moteur
 	public Moteur(Terrain T,joueur_Humain j1,joueur_Humain j2){
