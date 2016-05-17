@@ -94,6 +94,14 @@ Terrain :
 	
 	// Affiche le terrain dans la console
 	public void afficher();
+	
+	// LISTE COUPS
+	
+	// Renvoie la liste des emplacements possibles pour la Tuile tuile
+	public ArrayList<Action_Tuile> liste_coups_tuile_possibles(Tuile tuile);
+	
+	// Renvoie la liste des constructions possibles pour le joueur de couleur c
+	public ArrayList<Action_Construction> liste_coups_construction_possibles(Case.Couleur_Joueur c);
 
 Tuile :
   
