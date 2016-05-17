@@ -1,7 +1,9 @@
-package main;
+package terrain;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import main.Action_Construction;
+import main.Action_Tuile;
 
 public class Terrain {
 	
@@ -498,7 +500,6 @@ public class Terrain {
 					if((nb = nb_huttes_extension(P,Case.Type.MONTAGNE))>0)
 						res.add(new Action_Construction(P,Case.Type.MONTAGNE,nb));
 				}
-					
 			}
 		}
 		return res;
