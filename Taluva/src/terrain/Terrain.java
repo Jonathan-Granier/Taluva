@@ -220,7 +220,7 @@ public class Terrain {
 			res[2] = getCase(x-1,y);
 		}
 		else{
-			res[1] = getCase(x+1,y+1);
+			res[2] = getCase(x+1,y+1);
 		}
 		return res;
 	}
