@@ -318,7 +318,6 @@ public class Terrain {
 								else{
 									// Si le Volcan est sur le coté
 									if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
-										try {
 											if(tuile.get_type_case(Case.Orientation.O)==Case.Type.VOLCAN){
 												if(t[x-1][y].getType()==Case.Type.VOLCAN){
 													return t[x-1][y].getOrientation() != tuile.get_Orientation_Volcan();
@@ -328,23 +327,14 @@ public class Terrain {
 											else{
 												System.out.println(" Pas de volcan sur cette tuile !");
 											}
-										} catch (Exception e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
 									}
 									else{
-										try {
 											if(tuile.get_type_case(Case.Orientation.E)==Case.Type.VOLCAN){
 												if(t[x+1][y+1].getType()==Case.Type.VOLCAN){
 													return t[x+1][y+1].getOrientation() != tuile.get_Orientation_Volcan();
 												}
 												else return false;
 											}
-										} catch (Exception e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
 										System.out.println(" Pas de volcan sur cette tuile !");
 									}
 								}
