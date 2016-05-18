@@ -62,9 +62,9 @@ public class Game {
 		Coords snap = grid.snap(construction.getObject3d(),construction.getObject3d().getPosition());
 		if(snap!=null){
 			construction.getObject3d().setPosition(snap.worldPos);
-			/*if(!terrain.placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, snap.indices)){
+			if(!terrain.placement_batiment_autorise(Case.Type_Batiment.HUTTE,Couleur_Joueur.JAUNE, snap.indices)){
 				construction.getObject3d().setAllow(false);
-			}*/
+			}
 		}
 		
 		if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) && snap!=null){
@@ -103,11 +103,11 @@ public class Game {
 	}
 	
 	public void putConstruction(List<GraphicConstruction> constructions, GraphicConstruction construction,Coords coords){
-		//if(terrain.placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, coords.indices)){
+		if(terrain.placement_batiment_autorise(Case.Type_Batiment.HUTTE,Couleur_Joueur.JAUNE, coords.indices)){
 			constructions.add(new GraphicConstruction(construction));
 			constructions.get(constructions.size()-1).getObject3d().setPosition(coords.worldPos);
-		//	terrain.placer_batiment(construction.getType_Batiment(), Couleur_Joueur.JAUNE, coords.indices);
-		//}
+			terrain.placer_batiment(Case.Type_Batiment.HUTTE, Couleur_Joueur.JAUNE, coords.indices);
+		}
 	}
 	
 	public void putTile(List<GraphicTile> Tiles, GraphicTile Tile,Coords coords){

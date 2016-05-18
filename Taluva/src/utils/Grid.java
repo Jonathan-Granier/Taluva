@@ -130,10 +130,10 @@ public class Grid {
 		
 		for(int i=0 ;i<terrain.TAILLE;i++){
 			for(int j=0 ;j<terrain.TAILLE;j++){
-				if( Math.pow(mouse.x - coords[i][j].x,2) + Math.pow(mouse.z - (coords[i][j].y-HEIGHT_OF_HEXA/2),2) <= Math.pow(RAY,2) ){
+				if( Math.pow(mouse.x - (coords[i][j].x-HEIGHT_OF_HEXA/2f),2) + Math.pow(mouse.z - (coords[i][j].y),2) <= Math.pow(RAY,2) ){
 					object3d.setAllow(true);
 					//System.out.println("Incices:" + i +" " + j);
-					return new Coords(new Vector3f(coords[i][j].x,0,coords[i][j].y),new Point(i,j));
+					return new Coords(new Vector3f(coords[i][j].x-HEIGHT_OF_HEXA/2f,0,coords[i][j].y),new Point(j,i));
 				}
 			}
 		}
