@@ -168,21 +168,11 @@ public class Terrain {
 				x = P.x;
 				y = P.y;
 			}
-			try {
-				t[x][y].setType(tuile.get_type_case(Case.Orientation.N));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			t[x][y].setType(tuile.get_type_case(Case.Orientation.N));
 			t[x][y].setOrientation(tuile.get_Orientation_Volcan());
 			t[x][y].incrNiveau();
 			t[x][y].retirer_batiments();
-			try {
-				t[x][y+1].setType(tuile.get_type_case(Case.Orientation.S));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			t[x][y+1].setType(tuile.get_type_case(Case.Orientation.S));
 			t[x][y+1].setOrientation(tuile.get_Orientation_Volcan());
 			t[x][y+1].incrNiveau();
 			t[x][y+1].retirer_batiments();
@@ -191,12 +181,7 @@ public class Terrain {
 			if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
 				if(x>limites.xmax) limites.xmax = x;
 				if(x-1<limites.xmin) limites.xmin = x-1;
-				try {
-					t[x-1][y].setType(tuile.get_type_case(Case.Orientation.O));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				t[x-1][y].setType(tuile.get_type_case(Case.Orientation.O));
 				t[x-1][y].setOrientation(tuile.get_Orientation_Volcan());
 				t[x-1][y].incrNiveau();
 				t[x-1][y].retirer_batiments();
@@ -204,12 +189,7 @@ public class Terrain {
 			else{
 				if(x+1>limites.xmax) limites.xmax = x+1;
 				if(x<limites.xmin) limites.xmin = x;
-				try {
-					t[x+1][y+1].setType((tuile.get_type_case(Case.Orientation.E)));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				t[x+1][y+1].setType((tuile.get_type_case(Case.Orientation.E)));
 				t[x+1][y+1].setOrientation(tuile.get_Orientation_Volcan());
 				t[x+1][y+1].incrNiveau();
 				t[x+1][y+1].retirer_batiments();
@@ -300,8 +280,7 @@ public class Terrain {
 				if(n0==n1 && n1==n2){
 					// Si les 3 cases dessous sont au même niveau
 					// On joue alors sur des tuiles, on vérifie la disposition des volcans
-					try {
-						if(tuile.get_type_case(Case.Orientation.N)==Case.Type.VOLCAN){
+					if(tuile.get_type_case(Case.Orientation.N)==Case.Type.VOLCAN){
 							// Si le Volcan est au Nord
 							if(t[x][y].getType()==Case.Type.VOLCAN){
 								return t[x][y].getOrientation() != tuile.get_Orientation_Volcan();
@@ -338,10 +317,6 @@ public class Terrain {
 										System.out.println(" Pas de volcan sur cette tuile !");
 									}
 								}
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
 				}
 				else{
 					// On essaye de jouer partiellement sur de tuiles ou de niveaux différents : interdit
