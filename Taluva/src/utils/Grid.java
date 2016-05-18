@@ -102,8 +102,8 @@ public class Grid {
 			for(int j=0 ;j<terrain.TAILLE;j++){
 				if( Math.pow(mouse.x - (coords[i][j].x+offsetX),2) + Math.pow(mouse.z - (coords[i][j].y+offsetY),2) <= Math.pow(RAY,2) ){
 					object3d.setAllow(true);
-					
 					center = new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),new Point(i,j));
+					break;
 				}
 			}
 			i++;
@@ -154,12 +154,17 @@ public class Grid {
 		float offsetX = 0;
 		float offsetY = 0;
 		
+		int offset = 0;
+		
 		if(angle==30 || angle==150 ||  angle==270){
 			offsetX = -HEIGHT_OF_HEXA/4f;
 			offsetY = WIDTH_OF_HEXA/2f;
+			
 		}
+		else
+			offset = -1;
 		
-		return new Vector3f(coords[pos.x][pos.y].x+offsetX,0,coords[pos.x][pos.y].y+offsetY);
+		return new Vector3f(coords[pos.x][pos.y+offset].x+offsetX,0,coords[pos.x][pos.y+offset].y+offsetY);
 	}
 	
 }
