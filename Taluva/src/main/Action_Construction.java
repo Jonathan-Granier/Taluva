@@ -61,4 +61,11 @@ public class Action_Construction {
 	{
 		return this.nb_batiments;
 	}
+	
+	public void affichage()
+	{
+		System.out.print(this.type + "(" + this.coord.x + "," + this.coord.y + ")");
+		if(this.type == type.EXTENSION)
+			System.out.print("[" + this.type_extension + "]");
+	}
 }

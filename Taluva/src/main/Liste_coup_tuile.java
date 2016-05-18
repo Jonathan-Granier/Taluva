@@ -7,7 +7,7 @@ import java.util.Random;
 import terrain.*;
 import terrain.Terrain.Coord;
 
-public class List_coup_tuile {
+public class Liste_coup_tuile {
 
 	private ArrayList<Point> coup_O;
 	private ArrayList<Point> coup_N_O;
@@ -24,7 +24,7 @@ public class List_coup_tuile {
 	//								&& il n'a pas la même direction.
 	// 								&& il ne recouvre pas une cité entière.
 	
-	List_coup_tuile (Terrain t)
+	Liste_coup_tuile (Terrain t)
 	{
 		// Stratégie: Parcours de toutes les cases.
 		Tuile tuile = new Tuile(Case.Type.VIDE, Case.Type.VIDE);
@@ -148,7 +148,7 @@ public class List_coup_tuile {
 	}
 	
 	// Calcul un coup random, renvoie -1 s'il échoue.
-	public int next_coup_random() throws Exception
+	public int next_coup_random()
 	{
 		int nb_action = 0;
 		nb_action += coup_O.size();
@@ -202,8 +202,8 @@ public class List_coup_tuile {
 			return index;
 		}
 		index -= coup_N_E.size();
-		System.out.println("L'index random tiré n'est pas correct.");
-		throw new Exception("L'index est incorrect (interne ou pas d'action possible.)");
+		System.out.println("L'index random tiré n'est pas correct ou il n'y avait pas de coup possible. RNG:" + index);
+		return -1;
 	}
 	
 	// Renvoie les coordonées du point random calculé

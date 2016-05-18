@@ -11,13 +11,13 @@ import terrain.Case.Couleur_Joueur;
 import terrain.Terrain;
 import terrain.Terrain.Coord;
 
-public class List_coup_construction {
+public class Liste_coup_construction {
 	private ArrayList<Point> huttes;
 	private ArrayList<Action_Construction> extension;
 	private ArrayList<Point> tour;
 	private ArrayList<Point> temple;
 	
-	List_coup_construction(Terrain t, joueur_Generique joueur)
+	Liste_coup_construction(Terrain t, joueur_Generique joueur)
 	{
 		Point p;
 		Coord limites = t.getLimites();
@@ -96,7 +96,7 @@ public class List_coup_construction {
 	}
 	
 	// Renvoie une action de construction aléatoire.
-	public Action_Construction get_random_action() throws Exception
+	public Action_Construction get_random_action()
 	{
 		int nb_action = huttes.size() + extension.size() + temple.size() + tour.size();
 		Random r = new Random();
@@ -112,8 +112,32 @@ public class List_coup_construction {
 		index -= temple.size();
 		if(index < tour.size())
 			return new Action_Construction(Action_Construction.Type.TOUR, tour.get(index));
-		System.out.println("L'index random tiré n'est pas correct.");
-		throw new Exception("L'index est incorrect (interne ou pas d'action possible.)");
+		System.out.println("L'index random tiré n'est pas correct ou il n'y avait pas d'action possible. RNG:" + index);
+		return null;
+	}
+	
+	public void affichage()
+	{
+		System.out.println("Liste des coups: huttes");
+		for(int i=0; i< huttes.size(); i++)
+		{
+			System.out.print("(" +huttes.get(i).x +"," + huttes.get(i).y +")");
+		}
+		System.out.println("Liste des coups: tour");
+		for(int i=0; i< huttes.size(); i++)
+		{
+			System.out.print("(" +tour.get(i).x +"," + tour.get(i).y +")");
+		}
+		System.out.println("Liste des coups: temple");
+		for(int i=0; i< huttes.size(); i++)
+		{
+			System.out.print("(" +temple.get(i).x +"," + temple.get(i).y +")");
+		}
+		System.out.println("liste des coups: extension");
+		for(int i=0; i< this.extension.size(); i++)
+		{
+			this.extension.get(i).affichage();
+		}
 	}
 	
 }

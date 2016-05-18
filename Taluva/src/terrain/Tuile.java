@@ -111,7 +111,7 @@ public class Tuile {
 	}
 	
 	// Renvoie le type de la case désigné par la direction indiqué.
-	public Case.Type get_type_case(Case.Orientation orientation) throws Exception
+	public Case.Type get_type_case(Case.Orientation orientation)
 	{
 		if(OrienteDroite())
 		{
@@ -139,7 +139,7 @@ public class Tuile {
 					default:
 					}
 				default:
-					throw new Exception("L'orientation demandée n'est pas correct");
+					return null;
 			}
 		}
 		else{
@@ -167,7 +167,7 @@ public class Tuile {
 					default:
 					}
 				default:
-					throw new Exception("L'orientation demandée n'est pas correct");
+					return null;
 			}
 		}
 	}
