@@ -279,9 +279,6 @@ public class Terrain {
 			int y = P.y;
 			int n0,n1,n2;
 			Case [] cases_t = cases_tuile(tuile.getOrientation(),P);	// Les cases de la tuile
-			System.out.println(cases_t[0].getType());
-			System.out.println(cases_t[1].getType());
-			System.out.println(cases_t[2].getType());
 			n0 = cases_t[0].getNiveau();
 			n1 = cases_t[1].getNiveau();		// On regarde les niveaux en-dessous de la tuile
 			n2 = cases_t[2].getNiveau();
