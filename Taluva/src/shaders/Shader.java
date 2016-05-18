@@ -10,7 +10,7 @@ import entities.Camera;
 import entities.Light;
 import utils.Matrix;
 
-public class StaticShader extends ShaderProgram{
+public class Shader extends ShaderProgram{
 	
 	private static final int MAX_LIGHTS = 4;
 	
@@ -32,7 +32,7 @@ public class StaticShader extends ShaderProgram{
 	private int location_reciveShadow;
 	private int loacation_notAllow;
 	
-	public StaticShader() {
+	public Shader() {
 			super(VERTEX_FILE, FRAGMENT_FILE);
 	}
 

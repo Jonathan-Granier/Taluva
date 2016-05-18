@@ -23,12 +23,13 @@ import gui.Drawable;
 import gui.Texture;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
+import main.Action_Tuile;
 import main.Moteur;
 import terrain.Terrain;
 import terrain.Tuile;
 import renderEngine.Renderer;
 import renderEngine.Window;
-import shaders.StaticShader;
+import shaders.Shader;
 import utils.FPS;
 import utils.Grid;
 import utils.Grid.Coords;
@@ -41,6 +42,17 @@ public class Game {
 	private Terrain terrain;
 	private Moteur moteur;
 	private Grid grid;
+	
+	
+	//Draw all Tile
+	public void drawTile(Renderer renderer,Shader shader,List<GraphicTile> Tiles){
+		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (terrain.getHistoTuiles());
+		for(int i=0;i<listTile.size();i++){
+			Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY()));
+			Tiles.get(i).getObject3D().setPosition(worldPos);
+			renderer.draw(Tiles.get(i).getObject3D(),shader);
+		}
+	}
 	
 	public void constructionGestion(Vector3f point,GraphicConstruction construction,List<GraphicConstruction> constructions,Grid grid){
 		if(point!=null){
@@ -74,7 +86,7 @@ public class Game {
 
 		//Snap
 		Tile.setPostionVolcano();
-		Coords snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getObject3D().getRotY());
+		Coords snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getPostionVolcano(),Tile.getObject3D().getRotY());
 		if(snap!=null){
 			Tile.getObject3D().setPosition(snap.worldPos);
 			if(!terrain.placement_tuile_autorise(Tile.getTile(), snap.indices)){
@@ -97,17 +109,9 @@ public class Game {
 	
 	public void putTile(List<GraphicTile> Tiles, GraphicTile Tile,Coords coords){
 		if(terrain.placement_tuile_autorise(Tile.getTile(), coords.indices)){
-			if(Tiles.size() > 0){
-				Tiles.add(new GraphicTile(Tile));
-				Tiles.get(Tiles.size()-1).getObject3D().setPosition(coords.worldPos);
-				terrain.placer_tuile(Tile.getTile(), coords.indices);
-			}
-			else{
-				Coords center = grid.center();
-				Tiles.add(new GraphicTile(Tile));
-				Tiles.get(Tiles.size()-1).getObject3D().setPosition(center.worldPos);
-				terrain.placer_tuile(Tile.getTile(), center.indices);
-			}
+			Tiles.add(new GraphicTile(Tile));
+			Tiles.get(Tiles.size()-1).getObject3D().setPosition(coords.worldPos);
+			terrain.placer_tuile(Tile.getTile(), coords.indices);
 			terrain.afficher();
 		}
 	}
@@ -128,12 +132,12 @@ public class Game {
 		
 		Camera camera = new Camera();
 		Loader loader = new Loader();
-		StaticShader shader = new StaticShader();
+		Shader shader = new Shader();
 		Renderer renderer = new Renderer(shader,camera);
 		
 		FPS.start(frame);
 		
-		GraphicTile Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0));
+		GraphicTile Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0),90);
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>(createTerrain(loader));
 		List<GraphicConstruction> Constructions = new ArrayList<GraphicConstruction>();
 		
@@ -184,8 +188,11 @@ public class Game {
 			else
 				renderer.draw(Tile.getObject3D(),shader);
 			
-			for(GraphicTile tile:Tiles)
-				renderer.draw(tile.getObject3D(), shader);
+			/*for(GraphicTile tile:Tiles)
+				renderer.draw(tile.getObject3D(), shader);*/
+			
+			drawTile(renderer,shader,Tiles);
+			
 			for(GraphicConstruction construction:Constructions)
 				renderer.draw(construction.getObject3d(), shader);
 			

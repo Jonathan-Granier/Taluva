@@ -15,7 +15,7 @@ import materials.Material;
 import entities.Light;
 import models.Mesh;
 import models.Model;
-import shaders.StaticShader;
+import shaders.Shader;
 import utils.Matrix;
 
 public class Renderer {
@@ -27,7 +27,7 @@ public class Renderer {
 	private Matrix4f projectionMatrix;
 
 	
-	public Renderer(StaticShader shader, Camera camera){
+	public Renderer(Shader shader, Camera camera){
 		createProjectionMatrix();
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
@@ -60,7 +60,7 @@ public class Renderer {
 		return 0;
 	}
 
-	public void draw(Object3D object3D, StaticShader shader){
+	public void draw(Object3D object3D, Shader shader){
 		//shader.loadToShadowSpaceMatrix(shadowMapRender.getToShadowMapSpaceMatrix());
 		Model texturedModel = object3D.getModel();
 		Mesh model = texturedModel.getRawModel();

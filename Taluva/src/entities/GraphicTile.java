@@ -31,6 +31,13 @@ public class GraphicTile {
 		this.height = tile.getHeight();
 	}
 	
+	public GraphicTile(Tuile tile,Loader loader,Vector3f position,float rotY){
+		this.object3d = new Object3D("","Tile",loader,position,0,rotY,0,0.5f);
+		this.tile = tile;
+		this.angle = rotY;
+		this.height = 0;
+	}
+	
 	public void increaseHeight(){
 		height += HEIGHT_OF_TILE;
 	}
@@ -45,22 +52,22 @@ public class GraphicTile {
 		tile.Tourner_horaire();
 		switch(tile.get_Orientation_Volcan()){
 			case O:
-				object3d.setRotY(0);
+				object3d.setRotY(30);
 				break;
 			case S_O:
-				object3d.setRotY(60);
+				object3d.setRotY(90);
 				break;
 			case S_E:
-				object3d.setRotY(120);
+				object3d.setRotY(150);
 				break;
 			case E:
-				object3d.setRotY(180);
+				object3d.setRotY(210);
 				break;
 			case N_E:
-				object3d.setRotY(240);
+				object3d.setRotY(270);
 				break;
 			case N_O:
-				object3d.setRotY(300);
+				object3d.setRotY(330);
 				break;
 			default:
 				System.out.println("Rotate cannot be done");
@@ -79,19 +86,19 @@ public class GraphicTile {
 				postionVolcano = new Vector3f(center.x-RAY,0,center.z);
 				break;
 			case S_O:
-				postionVolcano = new Vector3f((float) (center.x-RAY*Math.cos(60)),0,(float) (center.z+RAY*Math.sin(60)));
+				postionVolcano = new Vector3f((float) (center.x-RAY*Math.cos(30)),0,(float) (center.z+RAY*Math.sin(30)));
 				break;
 			case S_E:
-				postionVolcano = new Vector3f((float) (center.x+RAY*Math.cos(60)),0,(float) (center.z+RAY*Math.sin(60)));
+				postionVolcano = new Vector3f((float) (center.x+RAY*Math.cos(30)),0,(float) (center.z+RAY*Math.sin(30)));
 				break;
 			case E:
 				postionVolcano = new Vector3f(center.x+RAY,0,center.z);
 				break;
 			case N_E:
-				postionVolcano = new Vector3f((float) (center.x+RAY*Math.cos(60)),0,(float) (center.z-RAY*Math.sin(60)));
+				postionVolcano = new Vector3f((float) (center.x+RAY*Math.cos(30)),0,(float) (center.z-RAY*Math.sin(30)));
 				break;
 			case N_O:
-				postionVolcano = new Vector3f((float) (center.x-RAY*Math.cos(60)),0,(float) (center.z-RAY*Math.sin(60)));
+				postionVolcano = new Vector3f((float) (center.x-RAY*Math.cos(30)),0,(float) (center.z-RAY*Math.sin(30)));
 				break;
 			default:
 				System.out.println("Orientation unknow");
