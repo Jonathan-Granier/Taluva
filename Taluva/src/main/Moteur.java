@@ -137,10 +137,10 @@ public class Moteur {
 	public joueur_Generique get_Jcourant(){
 		return j_courant;
 	}
-	public joueur_Generique get_J1(){
+	public joueur_Generique getJ1(){
 		return j1;
 	}
-	public joueur_Generique get_J2(){
+	public joueur_Generique getJ2(){
 		return j2;
 	}
 	
