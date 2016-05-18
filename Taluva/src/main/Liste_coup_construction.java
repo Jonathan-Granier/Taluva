@@ -116,4 +116,28 @@ public class Liste_coup_construction {
 		return null;
 	}
 	
+	public void affichage()
+	{
+		System.out.println("Liste des coups: huttes");
+		for(int i=0; i< huttes.size(); i++)
+		{
+			System.out.print("(" +huttes.get(i).x +"," + huttes.get(i).y +")");
+		}
+		System.out.println("Liste des coups: tour");
+		for(int i=0; i< huttes.size(); i++)
+		{
+			System.out.print("(" +tour.get(i).x +"," + tour.get(i).y +")");
+		}
+		System.out.println("Liste des coups: temple");
+		for(int i=0; i< huttes.size(); i++)
+		{
+			System.out.print("(" +temple.get(i).x +"," + temple.get(i).y +")");
+		}
+		System.out.println("liste des coups: extension");
+		for(int i=0; i< this.extension.size(); i++)
+		{
+			this.extension.get(i).affichage();
+		}
+	}
+	
 }
