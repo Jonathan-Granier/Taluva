@@ -256,10 +256,15 @@ public class Terrain {
 		int i = 0;
 		while(!trouve && i<voisins.size()){
 			trouve = !getCase(voisins.get(i)).est_Vide();
-			if(trouve) System.out.println("On a trouve un contact en " + voisins.get(i));
 			i++;
 		}
 		return trouve;
+	}
+	
+	// Renvoie le niveau THEORIQUE de placement de la tuile au point P
+	public int getNiveauTheorique(Tuile.Orientation o, Point P){
+		Case [] cases_t = cases_tuile(o,P);
+		return Math.max(Math.max(cases_t[0].getNiveau(), cases_t[1].getNiveau()),cases_t[2].getNiveau())+1;
 	}
 	
 	// Renvoie vrai ssi le placement de cette tuile est autorisé au point P.
@@ -267,10 +272,7 @@ public class Terrain {
 	{
 		//TODO on ne gere pas le cas d'ecraser une cite entiere
 		if(empty) return true;
-		if(!dans_terrain(tuile.getOrientation(),P)){
-			System.out.println("C'est pas dans le terrain");
-			return false;
-		}
+		if(!dans_terrain(tuile.getOrientation(),P)) return false;
 		else{
 			// Teste si la tuile est posée sur d'autres tuiles
 			int x = P.x;
@@ -284,7 +286,6 @@ public class Terrain {
 			n1 = cases_t[1].getNiveau();		// On regarde les niveaux en-dessous de la tuile
 			n2 = cases_t[2].getNiveau();
 			if(n0>0 || n1>0 || n2>0){
-				System.out.println("On joue sur une tuile");
 				// Si on tente de jouer sur au moins une tuile
 				if(n0==n1 && n1==n2){
 					// Si les 3 cases dessous sont au même niveau
@@ -334,7 +335,6 @@ public class Terrain {
 			}
 			else{
 				// On joue au niveau 1, il faut que ce soit en contact
-				System.out.println("C'est en contact ?");
 				return en_contact(tuile.getOrientation(),P);
 			}
 		}
