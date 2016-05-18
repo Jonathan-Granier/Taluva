@@ -86,16 +86,16 @@ public class GraphicTile {
 				postionVolcano = new Vector3f(center.x-RAY,0,center.z);
 				break;
 			case S_O:
-				postionVolcano = new Vector3f((float) (center.x-RAY*Math.cos(30)),0,(float) (center.z+RAY*Math.sin(30)));
+				postionVolcano = new Vector3f((float) (center.x-RAY*Math.cos(Math.toRadians(30))),0,(float) (center.z+RAY*Math.sin(Math.toRadians(30))));
 				break;
 			case S_E:
-				postionVolcano = new Vector3f((float) (center.x+RAY*Math.cos(30)),0,(float) (center.z+RAY*Math.sin(30)));
+				postionVolcano = new Vector3f((float) (center.x+RAY*Math.cos(Math.toRadians(30))),0,(float) (center.z+RAY*Math.sin(Math.toRadians(30))));
 				break;
 			case E:
 				postionVolcano = new Vector3f(center.x+RAY,0,center.z);
 				break;
 			case N_E:
-				postionVolcano = new Vector3f((float) (center.x+RAY*Math.cos(30)),0,(float) (center.z-RAY*Math.sin(30)));
+				postionVolcano = new Vector3f((float) (center.x+RAY*Math.cos(Math.toRadians(30))),0,(float) (center.z-RAY*Math.sin(Math.toRadians(30))));
 				break;
 			case N_O:
 				postionVolcano = new Vector3f((float) (center.x-RAY*Math.cos(30)),0,(float) (center.z-RAY*Math.sin(30)));
