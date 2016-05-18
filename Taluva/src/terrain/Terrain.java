@@ -281,7 +281,7 @@ public class Terrain {
 	}
 	
 	// Renvoie vrai ssi le placement de cette tuile est autorisé au point P.
-	public boolean placement_tuile_autorise(Tuile tuile, Point P) throws Exception
+	public boolean placement_tuile_autorise(Tuile tuile, Point P)
 	{
 		//TODO on ne gere pas le cas d'ecraser une cite entiere
 		if(empty) return true;
@@ -307,41 +307,51 @@ public class Terrain {
 								return t[x][y].getOrientation() != tuile.get_Orientation_Volcan();
 							}
 							else return false;
-						}
-						else if(tuile.get_type_case(Case.Orientation.S)==Case.Type.VOLCAN){
-							// Si le Volcan est au Sud
-							if(t[x][y+1].getType()==Case.Type.VOLCAN){
-								return t[x][y+1].getOrientation() != tuile.get_Orientation_Volcan();
-							}
-							else return false;
-						}
-						else{
-							// Si le Volcan est sur le coté
-							if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
-								if(tuile.get_type_case(Case.Orientation.O)==Case.Type.VOLCAN){
-									if(t[x-1][y].getType()==Case.Type.VOLCAN){
-										return t[x-1][y].getOrientation() != tuile.get_Orientation_Volcan();
+						} else
+								if(tuile.get_type_case(Case.Orientation.S)==Case.Type.VOLCAN){
+									// Si le Volcan est au Sud
+									if(t[x][y+1].getType()==Case.Type.VOLCAN){
+										return t[x][y+1].getOrientation() != tuile.get_Orientation_Volcan();
 									}
 									else return false;
 								}
 								else{
-									throw new Exception(" Pas de volcan sur cette tuile !");
-								}
-							}
-							else{
-								if(tuile.get_type_case(Case.Orientation.E)==Case.Type.VOLCAN){
-									if(t[x+1][y+1].getType()==Case.Type.VOLCAN){
-										return t[x+1][y+1].getOrientation() != tuile.get_Orientation_Volcan();
+									// Si le Volcan est sur le coté
+									if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
+										try {
+											if(tuile.get_type_case(Case.Orientation.O)==Case.Type.VOLCAN){
+												if(t[x-1][y].getType()==Case.Type.VOLCAN){
+													return t[x-1][y].getOrientation() != tuile.get_Orientation_Volcan();
+												}
+												else return false;
+											}
+											else{
+												System.out.println(" Pas de volcan sur cette tuile !");
+											}
+										} catch (Exception e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
 									}
-									else return false;
+									else{
+										try {
+											if(tuile.get_type_case(Case.Orientation.E)==Case.Type.VOLCAN){
+												if(t[x+1][y+1].getType()==Case.Type.VOLCAN){
+													return t[x+1][y+1].getOrientation() != tuile.get_Orientation_Volcan();
+												}
+												else return false;
+											}
+										} catch (Exception e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										System.out.println(" Pas de volcan sur cette tuile !");
+									}
 								}
-								throw new Exception(" Pas de volcan sur cette tuile !");
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
-						}
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 				}
 				else{
 					// On essaye de jouer partiellement sur de tuiles ou de niveaux différents : interdit
@@ -353,6 +363,7 @@ public class Terrain {
 				return en_contact(tuile.getOrientation(),P);
 			}
 		}
+		return empty;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
