@@ -71,7 +71,7 @@ public class Tuile {
 	}
 	
 	// Tourne la tuile dans le sens anti-Horaire. Renvoie 1 si opération réussie.
-	public int Tourner_anti_horaire()
+	public int Tourner_anti_horaire() throws Exception 
 	{
 		switch (o)
 		{
@@ -94,8 +94,7 @@ public class Tuile {
 				o = Case.Orientation.O;
 				return 0;
 			default:
-				System.out.println("Nouveau sens: incorrect");
-				return 1;
+				throw new Exception("L'orientation n'est pas correct");
 		}
 	}
 	
