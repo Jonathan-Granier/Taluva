@@ -32,16 +32,7 @@ public class InputHandler {
 	
 	public static void isKeyDown(GraphicTile tile){
 		
-	    while (Keyboard.next()) {
-	        if (Keyboard.getEventKeyState()) {
-	            if (Keyboard.getEventKey() == Keyboard.KEY_W) {
-	            	tile.increaseHeight();
-	            }
-	            if (Keyboard.getEventKey() == Keyboard.KEY_X) {
-	            	tile.decreaseHeight();
-	            }
-	        }
-	    }
+
 	    
 	}
 	

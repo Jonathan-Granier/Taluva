@@ -65,6 +65,10 @@ public class Object3D {
 		return mouseRay.x>min.x && mouseRay.x<max.x && mouseRay.y>min.y && mouseRay.y<max.y && mouseRay.z>min.z && mouseRay.z<max.z;
 	}
 	
+	public void setPositionY(float y){
+		this.position.y = y;
+	}
+	
 	public void increasePosition(float dx, float dy, float dz){
 		this.position.x+=dx;
 		this.position.y+=dy;

@@ -417,13 +417,15 @@ public class Terrain {
 	// Calcule dans res l'ensemble des points de la cite liee a P
 	private ArrayList<Point> getPtsCite(Point P){
 		ArrayList<Point> ptsCite = new ArrayList<Point>();
-		boolean [][] appartient_cite = new boolean[TAILLE][TAILLE];
-		for(int i=0;i<TAILLE;i++){
-			for(int j=0;j<TAILLE;j++){
-				appartient_cite[i][j] = false;
+		if(getCase(P).getCouleur() != Case.Couleur_Joueur.NEUTRE){
+			boolean [][] appartient_cite = new boolean[TAILLE][TAILLE];
+			for(int i=0;i<TAILLE;i++){
+				for(int j=0;j<TAILLE;j++){
+					appartient_cite[i][j] = false;
+				}
 			}
+			getPtsCite_rec(P,ptsCite,appartient_cite);
 		}
-		getPtsCite_rec(P,ptsCite,appartient_cite);
 		return ptsCite;
 	}
 	
@@ -439,7 +441,6 @@ public class Terrain {
 			}
 		}
 	}
-	
 	///////////////////////////////////////////////////////////////////////////
 	/////////////////////////// PLACEMENT BATIMENT ////////////////////////////
 	///////////////////////////////////////////////////////////////////////////

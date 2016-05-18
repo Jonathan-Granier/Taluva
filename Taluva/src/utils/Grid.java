@@ -27,14 +27,15 @@ public class Grid {
 			this.indices = indices;
 		}
 		
-		public void increaseIndicesY(){
-			indices.y = indices.y+1;
+		public void increaseIndices(){
+			indices.x = indices.x+1;
 		}
 	}
 	
-	private static final float WIDTH_OF_HEXA = 34f;
-	private static final float HEIGHT_OF_HEXA = 39f;
-	private static final float RAY = 39f/2f;
+	public static final float WIDTH_OF_HEXA = 34f;
+	public static final float HEIGHT_OF_HEXA = 39f;
+	public static final float HEIGHT_OF_TILE = 2;
+	public static final float RAY = 39f/2f;
 	
 	private static Terrain terrain;
 	private static Vector2f[][] coords;
@@ -57,9 +58,6 @@ public class Grid {
 			for(int i=0 ;i<terrain.TAILLE;i++){
 				y += WIDTH_OF_HEXA;
 				coords[i][j] = new Vector2f(x,y);
-				object[i][j] = new Object3D(temp);
-				object[i][j].setPosition(new Vector3f(coords[i][j].x,0,coords[i][j].y));
-				object[i][j].setRotY(90);
 			}
 		}
 	}
@@ -73,7 +71,7 @@ public class Grid {
 	public void draw(Renderer render,Shader shader){
 		for(int i=0 ;i<terrain.TAILLE;i++)
 			for(int j=0 ;j<terrain.TAILLE;j++){
-				render.draw(object[i][j], shader);
+				//render.draw(object[i][j], shader);
 			}
 	}
 	
@@ -86,7 +84,7 @@ public class Grid {
 	}
 	
 	//racine((x_centre - x_point)² + (y_centre - y_point)²)<rayon
-	public Coords snap(Object3D object3d,Vector3f mouse,Vector3f positionVolcano,float angle){
+	public Coords snap(Object3D object3d,Vector3f mouse,float angle){
 		float offsetX = 0;
 		float offsetY = 0;
 		Point indices = new Point();
@@ -102,7 +100,7 @@ public class Grid {
 			for(int j=0 ;j<terrain.TAILLE;j++){
 				if( Math.pow(mouse.x - (coords[i][j].x+offsetX),2) + Math.pow(mouse.z - (coords[i][j].y+offsetY),2) <= Math.pow(RAY,2) ){
 					object3d.setAllow(true);
-					center = new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),new Point(i,j));
+					center = new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),new Point(j,i));
 					break;
 				}
 			}
@@ -114,9 +112,9 @@ public class Grid {
 			if((angle == 90 || angle ==330 || angle == 210)){
 				//point.x = (float) (center.worldPos.x + Math.cos(Math.toRadians(60)) * HEIGHT_OF_HEXA/2f);
 				//point.y = (float) (center.worldPos.z - Math.sin(Math.toRadians(60)) * HEIGHT_OF_HEXA/2f);
-				center.increaseIndicesY();
-				System.out.println("Incices:"+ center.indices.x+" "+center.indices.y);
+				center.increaseIndices();
 			}
+			//System.out.println("Incices:"+ center.indices.x+" "+center.indices.y);
 			return new Coords(new Vector3f(center.worldPos.x,0,center.worldPos.z),new Point(center.indices.x,center.indices.y));
 		}
 		
@@ -126,13 +124,16 @@ public class Grid {
 		return null;
 	}
 	
-	public Coords snap(Object3D object3d,Vector3f positionVolcano){
+	public Coords snap(Object3D object3d,Vector3f mouse){
+		
+		Coords center = new Coords();
+		
 		for(int i=0 ;i<terrain.TAILLE;i++){
 			for(int j=0 ;j<terrain.TAILLE;j++){
-				if( Math.pow(positionVolcano.x - coords[i][j].x,2) + Math.pow(positionVolcano.z - (coords[i][j].y-HEIGHT_OF_HEXA/2),2) <= Math.pow(RAY,2) ){
+				if( Math.pow(mouse.x - (coords[i][j].x-HEIGHT_OF_HEXA/2f),2) + Math.pow(mouse.z - (coords[i][j].y),2) <= Math.pow(RAY,2) ){
 					object3d.setAllow(true);
-					System.out.println("Incices:" + i +" " + j);
-					return new Coords(new Vector3f(coords[i][j].x,0,coords[i][j].y-HEIGHT_OF_HEXA/2),new Point(i,j));
+					//System.out.println("Incices:" + i +" " + j);
+					return new Coords(new Vector3f(coords[i][j].x-HEIGHT_OF_HEXA/2f,0,coords[i][j].y),new Point(j,i));
 				}
 			}
 		}
@@ -148,7 +149,7 @@ public class Grid {
 		return new Coords(new Vector3f(coords[i][j].x,0,coords[i][j].y),new Point(i,j));
 	}
 	
-	public Vector3f toWorldPos(Point indice,float angle){
+	public Vector3f toWorldPos(Point indice,float angle,int level){
 		Point pos = new Point(indice);
 		
 		float offsetX = 0;
@@ -164,7 +165,7 @@ public class Grid {
 		else
 			offset = -1;
 		
-		return new Vector3f(coords[pos.x][pos.y+offset].x+offsetX,0,coords[pos.x][pos.y+offset].y+offsetY);
+		return new Vector3f(coords[pos.y][pos.x+offset].x+offsetX,level*HEIGHT_OF_TILE,coords[pos.y][pos.x+offset].y+offsetY);
 	}
 	
 }

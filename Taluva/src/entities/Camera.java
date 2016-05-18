@@ -4,6 +4,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
+import terrain.Terrain;
+import utils.Grid;
+
 public class Camera {
 	
 	private static final float ZOOM_OUT_MAX = 600;
@@ -13,14 +16,17 @@ public class Camera {
 	private Vector3f position = new Vector3f(0,0,0);
 	private Vector3f lookAt = new Vector3f(0,0,0);
 	private float pitch=40;
-	private float angleAroundPivot=0;
+	private float angleAroundPivot=90;
 	private float distanceFromPivot=400;
 	private float yangle;
 	private float roll;
 	
 	
 	public Camera(){
-		
+		position.x = Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f+200;
+		position.z = Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f;
+		lookAt.x = Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f+200;
+		lookAt.z = Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f;
 	}
 
 	public boolean between(float start,float end){
