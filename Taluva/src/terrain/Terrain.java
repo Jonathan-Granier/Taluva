@@ -41,7 +41,6 @@ public class Terrain {
 		histo_tuiles = new ArrayList<Action_Tuile>();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Terrain clone(){
 		Terrain tmp = new Terrain();
 		for(int i=0;i<TAILLE;i++){
@@ -51,8 +50,12 @@ public class Terrain {
 		}
 		tmp.limites  = this.limites.clone();
 		tmp.empty = this.empty;
-		tmp.histo_tuiles = (ArrayList<Action_Tuile>) this.histo_tuiles.clone();
+		tmp.histo_tuiles = new ArrayList<Action_Tuile>();
+		for(int i = 0;i<this.histo_tuiles.size();i++){
+			tmp.histo_tuiles.add(this.histo_tuiles.get(i).clone());
+		}
 		if(!tmp.histo_tuiles.equals(this.histo_tuiles)) System.out.println("Erreur clone Terrain");
+		if(tmp.histo_tuiles == this.histo_tuiles) System.out.println("Erreur clone Terrain");
 		return tmp;
 	}
 	

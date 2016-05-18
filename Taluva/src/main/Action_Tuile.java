@@ -14,6 +14,10 @@ public class Action_Tuile {
 		this.niveau = niveau;
 	}
 	
+	public Action_Tuile clone(){
+		return new Action_Tuile(tuile,P,niveau);
+	}
+	
 	public Tuile getTuile(){
 		return tuile;
 	}

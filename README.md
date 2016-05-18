@@ -225,6 +225,15 @@ List_coup_tuile :
 	
 	public void affichage();
 	
+	// Calcul un coup random parmis ses possibilités, il n'est pas supprimé des listes.
+	// Calcul un coup random, renvoie -1 s'il échoue.
+	public int next_coup_random()
+	
+	// Renvoie les coordonnées du point random calculé
+	public Point coup_rand_coord()
+	// Renvoie l'orienation du coup random calculé
+	public Case.Orientation coup_rand_orienation()
+	
 List_coup_construction :
 	
 	//constructeur
@@ -232,6 +241,9 @@ List_coup_construction :
 	
 	//Renvoie vrai si le coup est possible
 	public boolean coup_possible (Action_construction a)
+	
+	// Renvoie une action de construction aléatoire.
+	public Action_Construction get_random_action()
 	
 Action_construction :
 
