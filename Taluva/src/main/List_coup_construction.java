@@ -96,7 +96,7 @@ public class List_coup_construction {
 	}
 	
 	// Renvoie une action de construction aléatoire.
-	public Action_Construction get_random_action()
+	public Action_Construction get_random_action() throws Exception
 	{
 		int nb_action = huttes.size() + extension.size() + temple.size() + tour.size();
 		Random r = new Random();
@@ -113,7 +113,7 @@ public class List_coup_construction {
 		if(index < tour.size())
 			return new Action_Construction(Action_Construction.Type.TOUR, tour.get(index));
 		System.out.println("L'index random tiré n'est pas correct.");
-		return null;
+		throw new Exception("L'index est incorrect (interne ou pas d'action possible.)");
 	}
 	
 }

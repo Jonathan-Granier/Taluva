@@ -69,7 +69,12 @@ public class List_coup_tuile {
 					}
 				}
 			}
-			tuile.Tourner_horaire();
+			try {
+				tuile.Tourner_horaire();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -143,7 +148,7 @@ public class List_coup_tuile {
 	}
 	
 	// Calcul un coup random, renvoie -1 s'il échoue.
-	public int next_coup_random()
+	public int next_coup_random() throws Exception
 	{
 		int nb_action = 0;
 		nb_action += coup_O.size();
@@ -198,7 +203,7 @@ public class List_coup_tuile {
 		}
 		index -= coup_N_E.size();
 		System.out.println("L'index random tiré n'est pas correct.");
-		return -1;
+		throw new Exception("L'index est incorrect (interne ou pas d'action possible.)");
 	}
 	
 	// Renvoie les coordonées du point random calculé
