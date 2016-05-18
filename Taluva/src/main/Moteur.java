@@ -299,17 +299,62 @@ public class Moteur {
 	
 	// Fait jouer le tour pour un IA
 	
-	public void jouer_IA()
+	public int jouer_IA()
 	{
+		Action_Tuile action_tuile;
+		
 		piocher();
 		Maj_liste_coup_tuile();
-		Action_Tuile action_tuile = ((IA_Generique) j_courant).get_coup_tuile(tuile_pioche);
+		
+		
+		action_tuile = ((IA_Generique) j_courant).get_coup_tuile(tuile_pioche);
+		if (placer_tuile(action_tuile.getPosition())!=0)
+		{
+			System.out.println("[jouer_IA] Impossible de poser la tuile");
+			return 1;
+		}
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = ((IA_Generique) j_courant).get_coup_construction();
+		// SI c'est une extension
+		Point point_construction = action_construction.get_coord();
+		
+		if(action_construction.get_type() == Action_Construction.Type.EXTENSION)
+		{
+			if((T.etendre_cite(point_construction,action_construction.get_type_extension()))!= 0)
+			{
+				System.out.println("[jouer_IA] Impossible d'etendre la cité");
+				return 1;
+			}
+		}
+		else
+		{
+			bat_choisi = Action_vers_Batiment(action_construction.get_type());
+			if(T.placer_batiment(bat_choisi, j_courant.getCouleur(), point_construction) != 0)
+			{
+				System.out.println("[jouer_IA] Impossible de poser un batiment");
+				return 1;
+			}
+		}
 		
 		
+		fin_de_tour();
+		return 0;
 	}
-	
+	// Convertie une action en batiment
+	private Case.Type_Batiment Action_vers_Batiment(Action_Construction.Type A)
+	{
+		switch (A)
+		{
+			case HUTTE :
+				return Case.Type_Batiment.HUTTE;
+			case TOUR:
+				return Case.Type_Batiment.TOUR;
+			case TEMPLE:
+				return Case.Type_Batiment.TEMPLE;
+			default:
+				return Case.Type_Batiment.VIDE;
+		}
+	}
 	
 	
 	//Permet d'annuler une tuile posée, et de la récupérer
