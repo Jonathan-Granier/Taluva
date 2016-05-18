@@ -162,6 +162,13 @@ Moteur :
 	//Renvoie le joueur qui a gagné la partie
 	public joueur_Humain getGagnant()
 	
+	//Renvoi la liste des coups possibles pour la tuile actuelle
+	public Liste_coup_tuile get_liste_coup_tuile()
+	
+	//Renvoi la liste des constructions possibles dans la configuration actuelle
+	public Liste_coup_construction get_liste_coup_construction()
+	
+	
 	//////////////////////////////////////////////////
 	//	FONCTIONS RELATIVES A UN TOUR DE JEU
 	/////////////////////////////////////////////////

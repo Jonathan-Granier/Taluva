@@ -43,7 +43,7 @@ public class Tuile {
 	}
 	
 	// Tourne la tuile dans le sens Horaire. Renvoie 1 si opération réussie.
-	public int Tourner_horaire()
+	public int Tourner_horaire() throws Exception
 	{
 		switch (o)
 		{
@@ -66,12 +66,12 @@ public class Tuile {
 				o = Case.Orientation.O;
 				return 0;
 			default:
-				return 1;
+				throw new Exception("L'orientation n'est pas correct");
 		}
 	}
 	
 	// Tourne la tuile dans le sens anti-Horaire. Renvoie 1 si opération réussie.
-	public int Tourner_anti_horaire()
+	public int Tourner_anti_horaire() throws Exception 
 	{
 		switch (o)
 		{
@@ -94,8 +94,7 @@ public class Tuile {
 				o = Case.Orientation.O;
 				return 0;
 			default:
-				System.out.println("Nouveau sens: incorrect");
-				return 1;
+				throw new Exception("L'orientation n'est pas correct");
 		}
 	}
 	
@@ -112,7 +111,7 @@ public class Tuile {
 	}
 	
 	// Renvoie le type de la case désigné par la direction indiqué.
-	public Case.Type get_type_case(Case.Orientation orientation)
+	public Case.Type get_type_case(Case.Orientation orientation) throws Exception
 	{
 		if(OrienteDroite())
 		{
@@ -140,8 +139,7 @@ public class Tuile {
 					default:
 					}
 				default:
-					System.out.println(" L'orientation demandee semble ne pas convenir a l'orientation de la tuile");
-					return Case.Type.VIDE;
+					throw new Exception("L'orientation demandée n'est pas correct");
 			}
 		}
 		else{
@@ -169,8 +167,7 @@ public class Tuile {
 					default:
 					}
 				default:
-					System.out.println(" L'orientation demandee semble ne pas convenir a l'orientation de la tuile");
-					return Case.Type.VIDE;
+					throw new Exception("L'orientation demandée n'est pas correct");
 			}
 		}
 	}
