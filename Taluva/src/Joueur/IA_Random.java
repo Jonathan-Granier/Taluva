@@ -27,13 +27,12 @@ public class IA_Random extends IA_Generique{
 
 
 	@Override
-	Action_Tuile get_coup_tuile() {
+	Action_Tuile get_coup_tuile(Tuile tuile) {
 		// on génère la liste des coup possible, et on en choisit un
 		Liste_coup_tuile liste_coup = m.get_liste_coup_tuile();
 		liste_coup.next_coup_random();
 		
 		// On récupère la tuile à poser, et on l'oriente dans le bon sens
-		Tuile tuile = m.piocher();
 		Case.Orientation o = liste_coup.coup_rand_orienation();
 		Point p = liste_coup.coup_rand_coord();
 		
