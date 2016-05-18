@@ -552,12 +552,7 @@ public class Terrain {
 						res.add(new Action_Tuile(tuile.clone(),new Point(i,j),getCase(i,j).getNiveau()+1));
 				}
 			}
-			try {
-				tuile.Tourner_horaire();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			tuile.Tourner_horaire();
 		}
 		return res;
 	}
