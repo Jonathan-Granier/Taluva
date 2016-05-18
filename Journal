@@ -26,9 +26,15 @@ Quelques conseils pour avancer (notemment celui de faire des tests
 avant de rassembler nos bouts de codes respectifs)
 prochaine réunion le Mercredi 18
 
-Mardi:
+Mardi 17/05/16
+
 Après audit d'IHM, un remaniement de l'interface.
 IA: préparation, pour l'ia aléatoire, rendu de coup random dans les liste (uniformisé)
 Moteur graphique: grosse scéance de debug, et re mise au norme de la grille.
 Regles: PDF premier jet (pas d'image.)
 Ecouteur de sourie: Squelette de code.
+
+Mercredi 18/05/16
+
+Amphi d'IA
+Branchements Terrain, Interface : réparation des bugs

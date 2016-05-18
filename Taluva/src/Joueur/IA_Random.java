@@ -1,5 +1,7 @@
 package Joueur;
 
+import main.Action_Construction;
+import main.Action_Tuile;
 import main.Moteur;
 import terrain.Case.Couleur_Joueur;
 /*
@@ -11,18 +13,25 @@ import terrain.Case.Couleur_Joueur;
 
 
 
-public class IA_Random extends joueur_Generique {
-	private Moteur m;
+public class IA_Random extends IA_Generique{
 	public IA_Random(Couleur_Joueur c, Moteur m)
 	{
-		super(c);//, m);
-		this.m = m;
+		super(c,m);
 	}
 	
 
-	public void jouer() {
-		// Faire des coups Randoms
 
+	@Override
+	Action_Tuile get_coup_tuile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	Action_Construction get_coup_construction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
