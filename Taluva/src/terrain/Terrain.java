@@ -433,13 +433,14 @@ public class Terrain {
 		res.add(P);
 		appartient_cite[P.x][P.y] = true;
 		Case.Couleur_Joueur c = getCase(P).getCouleur();
-		for(int i=0;i<6;i++){
-			if(getCase(voisins[i]).getCouleur() == c && !appartient_cite[voisins[i].x][voisins[i].y]){
-				getPtsCite_rec(voisins[i],res,appartient_cite);
+		if(c != Case.Couleur_Joueur.NEUTRE){
+			for(int i=0;i<6;i++){
+				if(getCase(voisins[i]).getCouleur() == c && !appartient_cite[voisins[i].x][voisins[i].y]){
+					getPtsCite_rec(voisins[i],res,appartient_cite);
+				}
 			}
 		}
 	}
-	
 	///////////////////////////////////////////////////////////////////////////
 	/////////////////////////// PLACEMENT BATIMENT ////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
