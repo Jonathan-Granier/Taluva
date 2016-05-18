@@ -214,13 +214,13 @@ public class Terrain {
 		int x = P.x;
 		int y = P.y;
 		Case [] res = new Case[3];
-		res[0] = t[x][y];
-		res[1] = t[x][y+1];
+		res[0] = getCase(x,y);
+		res[1] = getCase(x,y+1);
 		if(o == Tuile.Orientation.GAUCHE){
-			res[2] = t[x-1][y];
+			res[2] = getCase(x-1,y);
 		}
 		else{
-			res[2] = t[x+1][y+1];
+			res[2] = getCase(x+1,y+1);
 		}
 		return res;
 	}
@@ -256,10 +256,15 @@ public class Terrain {
 		int i = 0;
 		while(!trouve && i<voisins.size()){
 			trouve = !getCase(voisins.get(i)).est_Vide();
-			if(trouve) System.out.println("On a trouve un contact en " + voisins.get(i));
 			i++;
 		}
 		return trouve;
+	}
+	
+	// Renvoie le niveau THEORIQUE de placement de la tuile au point P
+	public int getNiveauTheorique(Tuile.Orientation o, Point P){
+		Case [] cases_t = cases_tuile(o,P);
+		return Math.max(Math.max(cases_t[0].getNiveau(), cases_t[1].getNiveau()),cases_t[2].getNiveau())+1;
 	}
 	
 	// Renvoie vrai ssi le placement de cette tuile est autorisé au point P.
@@ -267,39 +272,32 @@ public class Terrain {
 	{
 		//TODO on ne gere pas le cas d'ecraser une cite entiere
 		if(empty) return true;
-		if(!dans_terrain(tuile.getOrientation(),P)){
-			System.out.println("C'est pas dans le terrain");
-			return false;
-		}
+		if(!dans_terrain(tuile.getOrientation(),P)) return false;
 		else{
 			// Teste si la tuile est posée sur d'autres tuiles
 			int x = P.x;
 			int y = P.y;
 			int n0,n1,n2;
 			Case [] cases_t = cases_tuile(tuile.getOrientation(),P);	// Les cases de la tuile
-			System.out.println(cases_t[0].getType());
-			System.out.println(cases_t[1].getType());
-			System.out.println(cases_t[2].getType());
 			n0 = cases_t[0].getNiveau();
 			n1 = cases_t[1].getNiveau();		// On regarde les niveaux en-dessous de la tuile
 			n2 = cases_t[2].getNiveau();
 			if(n0>0 || n1>0 || n2>0){
-				System.out.println("On joue sur une tuile");
 				// Si on tente de jouer sur au moins une tuile
 				if(n0==n1 && n1==n2){
 					// Si les 3 cases dessous sont au même niveau
 					// On joue alors sur des tuiles, on vérifie la disposition des volcans
 					if(tuile.get_type_case(Case.Orientation.N)==Case.Type.VOLCAN){
 							// Si le Volcan est au Nord
-							if(t[x][y].getType()==Case.Type.VOLCAN){
-								return t[x][y].getOrientation() != tuile.get_Orientation_Volcan();
+							if(getCase(x,y).getType()==Case.Type.VOLCAN){
+								return getCase(x,y).getOrientation() != tuile.get_Orientation_Volcan();
 							}
 							else return false;
 						} else
 								if(tuile.get_type_case(Case.Orientation.S)==Case.Type.VOLCAN){
 									// Si le Volcan est au Sud
-									if(t[x][y+1].getType()==Case.Type.VOLCAN){
-										return t[x][y+1].getOrientation() != tuile.get_Orientation_Volcan();
+									if(getCase(x,y+1).getType()==Case.Type.VOLCAN){
+										return getCase(x,y+1).getOrientation() != tuile.get_Orientation_Volcan();
 									}
 									else return false;
 								}
@@ -307,8 +305,8 @@ public class Terrain {
 									// Si le Volcan est sur le coté
 									if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
 											if(tuile.get_type_case(Case.Orientation.O)==Case.Type.VOLCAN){
-												if(t[x-1][y].getType()==Case.Type.VOLCAN){
-													return t[x-1][y].getOrientation() != tuile.get_Orientation_Volcan();
+												if(getCase(x-1,y).getType()==Case.Type.VOLCAN){
+													return getCase(x-1,y).getOrientation() != tuile.get_Orientation_Volcan();
 												}
 												else return false;
 											}
@@ -318,8 +316,8 @@ public class Terrain {
 									}
 									else{
 											if(tuile.get_type_case(Case.Orientation.E)==Case.Type.VOLCAN){
-												if(t[x+1][y+1].getType()==Case.Type.VOLCAN){
-													return t[x+1][y+1].getOrientation() != tuile.get_Orientation_Volcan();
+												if(getCase(x+1,y+1).getType()==Case.Type.VOLCAN){
+													return getCase(x+1,y+1).getOrientation() != tuile.get_Orientation_Volcan();
 												}
 												else return false;
 											}
@@ -334,7 +332,6 @@ public class Terrain {
 			}
 			else{
 				// On joue au niveau 1, il faut que ce soit en contact
-				System.out.println("C'est en contact ?");
 				return en_contact(tuile.getOrientation(),P);
 			}
 		}

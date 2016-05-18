@@ -64,6 +64,9 @@ Terrain :
 	// Place la tuile donnée au point P. Renvoie 0 si la tuile a pu etre placée, 1 sinon.
 	public int placer_tuile(Tuile tuile, Point P);
 	
+	// Renvoie le niveau THEORIQUE de placement de la tuile au point P
+	public int getNiveauTheorique(Tuile.Orientation o, Point P);
+	
 	// Renvoie vrai ssi le placement de cette tuile est autorisé au point P.
 	public boolean placement_tuile_autorise(Tuile tuile, Point P);
 	
