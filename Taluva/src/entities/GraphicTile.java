@@ -38,8 +38,8 @@ public class GraphicTile {
 		this.height = 0;
 	}
 	
-	public void increaseHeight(){
-		height += HEIGHT_OF_TILE;
+	public void increaseHeight(int level){
+		height = level * HEIGHT_OF_TILE;
 	}
 	
 	public void decreaseHeight(){

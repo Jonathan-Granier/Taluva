@@ -38,7 +38,6 @@ import utils.MousePicker;
 
 public class Game {
 	
-	private static float SIZE_OF_HEXA = 68;
 	private Terrain terrain;
 	private Moteur moteur;
 	private Grid grid;
@@ -48,7 +47,7 @@ public class Game {
 	public void drawTile(Renderer renderer,Shader shader,List<GraphicTile> Tiles){
 		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (terrain.getHistoTuiles());
 		for(int i=0;i<listTile.size();i++){
-			Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY()));
+			Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY(),listTile.get(i).getNiveau()-1));
 			Tiles.get(i).getObject3D().setPosition(worldPos);
 			renderer.draw(Tiles.get(i).getObject3D(),shader);
 		}
@@ -86,9 +85,13 @@ public class Game {
 
 		//Snap
 		Tile.setPostionVolcano();
-		Coords snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getPostionVolcano(),Tile.getObject3D().getRotY());
-		if(snap!=null){
+		Coords snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getObject3D().getRotY());
+		if(snap!=null  && Tile.getTile()!=null){
+			int level = terrain.getNiveauTheorique(Tile.getTile().getOrientation(), snap.indices)-1;
 			Tile.getObject3D().setPosition(snap.worldPos);
+			Tile.setHeight(0);
+			Tile.increaseHeight(level);
+			Tile.getObject3D().setPositionY(Tile.getHeight());
 			if(!terrain.placement_tuile_autorise(Tile.getTile(), snap.indices)){
 				Tile.getObject3D().setAllow(false);
 			}
@@ -111,6 +114,7 @@ public class Game {
 		if(terrain.placement_tuile_autorise(Tile.getTile(), coords.indices)){
 			Tiles.add(new GraphicTile(Tile));
 			Tiles.get(Tiles.size()-1).getObject3D().setPosition(coords.worldPos);
+			Tiles.get(Tiles.size()-1).getObject3D().setRotY(Tile.getObject3D().getRotY());
 			terrain.placer_tuile(Tile.getTile(), coords.indices);
 			terrain.afficher();
 		}
@@ -151,7 +155,7 @@ public class Game {
 		drawable.bindTexture(fond);
 		drawable.bindTexture(button_tower.getTexture());
 		
-		Object3D table = new Object3D("","Table",loader,new Vector3f(0,0,0),0,0,0,0.3f);
+		Object3D table = new Object3D("","Table",loader,new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,0,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f-200),0,0,0,0.3f);
 		
 		List<Light> lights = new ArrayList<Light>();
 		Light sun = new Light(new Vector3f(20000,15000,-1000),new Vector3f(1,1,1));
