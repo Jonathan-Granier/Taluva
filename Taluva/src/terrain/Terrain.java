@@ -20,7 +20,7 @@ public class Terrain {
 		}
 	}
 	
-	public final static int TAILLE = 10;
+	public final static int TAILLE = 200;
 	public final static Point CENTRE = new Point(TAILLE/2,TAILLE/2);
 	
 	private Case [][] t;
