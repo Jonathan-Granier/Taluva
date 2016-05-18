@@ -88,13 +88,13 @@ public class Grid {
 		}
 		
 		Vector2f point = new Vector2f();
-		if(angle == 90 || angle ==150 || angle == 330){
-			point.x = (float) (mouse.x + Math.cos(30) * HEIGHT_OF_HEXA/2f);
-			point.y = (float) (mouse.z + Math.sin(30) * HEIGHT_OF_HEXA/2f);
+		if(angle == 90 || angle ==330 || angle == 110){
+			point.x = (float) (mouse.x + Math.cos(60) * HEIGHT_OF_HEXA/2f);
+			point.y = (float) (mouse.z - Math.sin(60) * HEIGHT_OF_HEXA/2f);
 		}
 		else{
-			point.x = (float) (mouse.x - Math.cos(30) * HEIGHT_OF_HEXA/2f);
-			point.y = (float) (mouse.z - Math.sin(30) * HEIGHT_OF_HEXA/2f);
+			point.x = (float) (mouse.x - Math.cos(60) * HEIGHT_OF_HEXA/2f);
+			point.y = (float) (mouse.z - Math.sin(60) * HEIGHT_OF_HEXA/2f);
 		}
 		
 		for(int i=0 ;i<terrain.TAILLE;i++){
@@ -106,7 +106,7 @@ public class Grid {
 						indices = convert(new Point(i,j),false);
 					else
 						indices = convert(new Point(i,j),true);
-					return new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),new Point(i,j));
+					return new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),new Point(j,i));
 				}
 			}
 		}
@@ -140,7 +140,7 @@ public class Grid {
 	
 	public Vector3f toWorldPos(Point indice,float angle){
 		Point pos = new Point(indice);
-
+		
 		float offsetX = 0;
 		float offsetY = 0;
 		
