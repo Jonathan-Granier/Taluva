@@ -7,7 +7,7 @@ import java.util.Random;
 import terrain.*;
 import terrain.Terrain.Coord;
 
-public class List_coup_tuile {
+public class Liste_coup_tuile {
 
 	private ArrayList<Point> coup_O;
 	private ArrayList<Point> coup_N_O;
@@ -24,7 +24,7 @@ public class List_coup_tuile {
 	//								&& il n'a pas la même direction.
 	// 								&& il ne recouvre pas une cité entière.
 	
-	List_coup_tuile (Terrain t)
+	Liste_coup_tuile (Terrain t)
 	{
 		// Stratégie: Parcours de toutes les cases.
 		Tuile tuile = new Tuile(Case.Type.VIDE, Case.Type.VIDE);

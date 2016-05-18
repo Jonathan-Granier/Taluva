@@ -11,13 +11,13 @@ import terrain.Case.Couleur_Joueur;
 import terrain.Terrain;
 import terrain.Terrain.Coord;
 
-public class List_coup_construction {
+public class Liste_coup_construction {
 	private ArrayList<Point> huttes;
 	private ArrayList<Action_Construction> extension;
 	private ArrayList<Point> tour;
 	private ArrayList<Point> temple;
 	
-	List_coup_construction(Terrain t, joueur_Generique joueur)
+	Liste_coup_construction(Terrain t, joueur_Generique joueur)
 	{
 		Point p;
 		Coord limites = t.getLimites();

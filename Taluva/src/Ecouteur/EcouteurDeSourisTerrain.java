@@ -1,10 +1,13 @@
 package Ecouteur;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import main.Moteur;
+import terrain.Case;
+import terrain.Tuile;
 
 public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListener{
 	
@@ -38,12 +41,16 @@ public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListen
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
+		Point Point_courant = new Point(e.getX(),e.getY());
+		
 		switch (m.etat)
 		{
 			case DEBUT_DE_TOUR:
 				break;
 			case POSER_TUILE:
 				/*
+				 * 
+				 * 
 				 * 
 				 * Essayer de poser Tuile
 				 * Si Erreur 
@@ -53,6 +60,17 @@ public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListen
 				 * 	Mettre à jour les coups possible Batiment; 
 				 *
 				 */
+				
+				 if(m.placer_tuile(Point_courant) == 0)
+				 {
+					 m.Maj_liste_coup_construction();
+				 }
+				 else
+				 {
+					 System.out.println("Il est impossible de poser une tuille ici");
+				 }
+				
+				
 				
 				break;
 			case CONSTRUIRE_BATIMENT:
@@ -69,6 +87,18 @@ public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListen
 				 * 
 				 */
 				
+				if ( m.get_bat_choisi() == Case.Type_Batiment.VIDE)
+				{
+					// 	Menu deroulant
+				}
+				else
+				{
+					
+					if (m.placer_batiment(Point_courant)!= 0)
+					{
+						System.out.println("Il est impossible de poser un batiment ici");
+					}
+				}
 				
 				break;
 			case FIN_DE_TOUR:
@@ -94,8 +124,11 @@ public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListen
 		{
 			case POSER_TUILE:
 				/*
-				*	La tuile suit la souris
+				*	La tuile suit la souris qui est suivie par le chat
 				*/
+				
+				
+				
 				break;
 			case CONSTRUIRE_BATIMENT:
 				/*

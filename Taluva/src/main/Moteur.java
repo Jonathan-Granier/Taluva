@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Joueur.joueur_Generique;
 import Joueur.joueur_Humain;
 import terrain.Case;
 import terrain.Terrain;
@@ -20,11 +21,16 @@ public class Moteur {
 	private ArrayList<Tuile> tuiles;
 	private Tuile tuile_pioche;
 	private Case.Type_Batiment bat_choisi;
-	joueur_Humain j_courant;
+	private Liste_coup_tuile liste_coup_tuile;
+	private Liste_coup_construction liste_coup_construction;
 	
-	joueur_Humain j1;
-	joueur_Humain j2;
-	joueur_Humain j_gagnant;
+	
+	
+	joueur_Generique j_courant;
+	
+	joueur_Generique j1;
+	joueur_Generique j2;
+	joueur_Generique j_gagnant;
 	
 	public enum Etat{
 		DEBUT_DE_TOUR,
@@ -33,9 +39,10 @@ public class Moteur {
 		FIN_DE_TOUR;
 	}
 	public Etat etat;
+				
 	
 	// Constructeur du moteur
-	public Moteur(Terrain T,joueur_Humain j1,joueur_Humain j2){
+	public Moteur(Terrain T,joueur_Generique j1,joueur_Generique j2){
 		this.T = T;
 		annul = new ArrayList<Terrain>();
 		annul.add(T.clone());
@@ -48,6 +55,10 @@ public class Moteur {
 		etat = Etat.DEBUT_DE_TOUR;
 		bat_choisi = Case.Type_Batiment.VIDE;
 	}
+	
+	
+	
+	
 	
 	///////////////////////////////////////////////////////////////
 	//LECTURE DES PIECES ET INITIALISATION DE L'ENSEMBLE DE TUILES
@@ -125,7 +136,7 @@ public class Moteur {
 	}
 	
 	//Renvoie le joueur courant
-	public joueur_Humain get_Jcourant(){
+	public joueur_Generique get_Jcourant(){
 		return j_courant;
 	}
 	
@@ -140,8 +151,18 @@ public class Moteur {
 	}
 	
 	//Renvoie le joueur qui a gagné la partie
-	public joueur_Humain getGagnant(){
+	public joueur_Generique getGagnant(){
 		return j_gagnant;
+	}
+	
+	//Renvoi la liste des coups possibles pour la tuile actuelle
+	public Liste_coup_tuile get_liste_coup_tuile(){
+		return liste_coup_tuile;
+	}
+	
+	//Renvoi la liste des constructions possibles dans la configuration actuelle
+	public Liste_coup_construction get_liste_coup_construction(){
+		return liste_coup_construction;
 	}
 	
 	//////////////////////////////////////////////////
@@ -174,7 +195,9 @@ public class Moteur {
 	
 	//Renvoie une tuile piochée aléatoirement dans la pioche
 	public Tuile piocher(){
-		if(annul.size()==0)annul.add(T.clone());
+		if(annul.size()==0){
+			annul.add(T.clone());
+		}
 		Random r = new Random();
 		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()));
 		etat = Etat.POSER_TUILE;
@@ -329,6 +352,22 @@ public class Moteur {
 		}
 		return 0;
 	}
+	
+	// -------------------- Fonction pour les listes de coup --------------------------
+	
+	// Met à jour la liste des coups possibles pour la tuile actuelle
+	public void Maj_liste_coup_tuile()
+	{
+		liste_coup_tuile = new Liste_coup_tuile(T);
+	}
+	
+	// Met à jour la liste des constructions possibles dans la configuration actuelle
+	public void Maj_liste_coup_construction()
+	{
+		liste_coup_construction = new Liste_coup_construction(T,j_courant);
+	}
+	
+	
 	
 }
 
