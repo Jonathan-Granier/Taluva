@@ -11,6 +11,7 @@ Idée pour l'heuristique:
   
   Vider une catégorie de pièces: (nb_tour_restant*5)/ Max(temple *4, maison, tour*4)
   Vider les maisons: points négatifs? (car limitation des possibilités. a voir avec le nb tour restants.)
+  Vider toutes les pieces d'une seconde catégorie: 1000 pts.
   
   
 Idée d'algo:
