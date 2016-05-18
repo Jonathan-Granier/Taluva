@@ -27,7 +27,7 @@ public class IA_Random extends IA_Generique{
 
 
 	@Override
-	Action_Tuile get_coup_tuile(Tuile tuile) {
+	public Action_Tuile get_coup_tuile(Tuile tuile) {
 		// on génère la liste des coup possible, et on en choisit un
 		Liste_coup_tuile liste_coup = m.get_liste_coup_tuile();
 		liste_coup.next_coup_random();
@@ -45,7 +45,7 @@ public class IA_Random extends IA_Generique{
 
 
 	@Override
-	Action_Construction get_coup_construction() {
+	public Action_Construction get_coup_construction() {
 		return m.get_liste_coup_construction().get_random_action();
 	}
 

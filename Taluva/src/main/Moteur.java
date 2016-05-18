@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Joueur.IA_Generique;
 import Joueur.joueur_Generique;
 import Joueur.joueur_Humain;
 import terrain.Case;
@@ -24,13 +25,10 @@ public class Moteur {
 	private Liste_coup_tuile liste_coup_tuile;
 	private Liste_coup_construction liste_coup_construction;
 	
-	
-	
-	joueur_Generique j_courant;
-	
-	joueur_Generique j1;
-	joueur_Generique j2;
-	joueur_Generique j_gagnant;
+	private joueur_Generique j_courant;
+	private joueur_Generique j1;
+	private joueur_Generique j2;
+	private joueur_Generique j_gagnant;
 	
 	public enum Etat{
 		DEBUT_DE_TOUR,
@@ -138,6 +136,12 @@ public class Moteur {
 	//Renvoie le joueur courant
 	public joueur_Generique get_Jcourant(){
 		return j_courant;
+	}
+	public joueur_Generique get_J1(){
+		return j1;
+	}
+	public joueur_Generique get_J2(){
+		return j2;
 	}
 	
 	//Renvoie l'état actuel du tour du jeu
@@ -283,9 +287,30 @@ public class Moteur {
 			swap_joueur();
 			etat = Etat.DEBUT_DE_TOUR;
 			bat_choisi = Case.Type_Batiment.VIDE;
+			if(j_courant instanceof IA_Generique)
+			{
+				jouer_IA();
+			}
 			return 1;
 		}
 	}
+	
+	
+	
+	// Fait jouer le tour pour un IA
+	
+	public void jouer_IA()
+	{
+		piocher();
+		Maj_liste_coup_tuile();
+		Action_Tuile action_tuile = ((IA_Generique) j_courant).get_coup_tuile(tuile_pioche);
+		Maj_liste_coup_construction();
+		Action_Construction action_construction = ((IA_Generique) j_courant).get_coup_construction();
+		
+		
+	}
+	
+	
 	
 	//Permet d'annuler une tuile posée, et de la récupérer
 	//Renvoie 0 si tout s'est bien passé, 1 sinon.
