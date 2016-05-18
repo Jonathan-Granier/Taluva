@@ -1,0 +1,51 @@
+List_coup_tuile :
+	
+	//Constructeur:
+	List_coup_tuile(Terrain t)
+	
+	//Renvoie vrai si un coup est possible
+	public boolean coup_possible(Case.orientation o, Point coord);
+	
+	public void affichage();
+	
+	// Calcul un coup random parmis ses possibilités, il n'est pas supprimé des listes.
+	// Calcul un coup random, renvoie -1 s'il échoue.
+	public int next_coup_random()
+	
+	// Renvoie les coordonnées du point random calculé
+	public Point coup_rand_coord()
+	// Renvoie l'orienation du coup random calculé
+	public Case.Orientation coup_rand_orienation()
+	
+List_coup_construction :
+	
+	//constructeur
+	List_coup_construction(Terrain t)
+	
+	//Renvoie vrai si le coup est possible
+	public boolean coup_possible (Action_construction a)
+	
+	// Renvoie une action de construction aléatoire.
+	public Action_Construction get_random_action()
+	
+Action_construction :
+
+	// Constructeur d'une action-construction hors extension
+	Action_Construction(Type t, Point coord)
+	
+	// Constructeur d'une action-construction d'extension (en paramètres: 
+	// une case de la cité à étendre, le nb de huttes nécessaire et le type de terrain de l'extension).
+	Action_Construction(Point coord, Case.Type type_extension, int nb_huttes)
+	
+	// Retourne la coordonné de la construction
+	public Point get_coord()
+
+	// Retourne le type de la construction
+	public Type get_type()
+
+	// Si le type est une extension renvoie sur qu'elle type de terrain elle prend place.
+	public Case.Type get_type_extension()
+	
+	// Renvoie le nombre de batiment nécessaire. (surtout interessant pour extension)
+	public int get_nb_batiments()
+
