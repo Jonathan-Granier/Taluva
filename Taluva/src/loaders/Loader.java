@@ -1,4 +1,4 @@
-package Loaders;
+package loaders;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

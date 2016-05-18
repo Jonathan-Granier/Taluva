@@ -5,8 +5,8 @@ import java.awt.Point;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import Loaders.Loader;
 import entities.Object3D;
+import loaders.Loader;
 import terrain.Terrain;
 import renderEngine.Renderer;
 import shaders.Shader;
@@ -47,7 +47,7 @@ public class Grid {
 		this.loader = loader;
 		coords = new Vector2f[terrain.TAILLE][terrain.TAILLE];
 		object = new Object3D[terrain.TAILLE][terrain.TAILLE];
-		Object3D temp = new Object3D("","hexa",loader,new Vector3f(0,0,0),0,0,0,0.5f);
+		Object3D temp = new Object3D("hexa",loader,new Vector3f(0,0,0),0,0,0,0.5f);
 		float yTemp = terrain.TAILLE * 1f/2f * WIDTH_OF_HEXA + WIDTH_OF_HEXA;
 		float x = -HEIGHT_OF_HEXA/2f;
 		float y;

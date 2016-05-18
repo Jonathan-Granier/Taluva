@@ -2,7 +2,7 @@ package entities;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import Loaders.Loader;
+import loaders.Loader;
 import materials.Material;
 import models.Mesh;
 import models.Model;
@@ -39,7 +39,7 @@ public class Plane {
 		Mesh mesh = loader.loadToVAO(vertices, textureCoords,normals, indices,new Vector3f(0,0,0),new Vector3f(0,0,0));
 		Material texture = new Material(loader.loadTexture(fileName));
 		Model model = new Model(mesh,texture);
-		Object3D object = new Object3D(label,model,position,rotX,rotY,rotZ,scale);
+		Object3D object = new Object3D(model,position,rotX,rotY,rotZ,scale);
 		return object;
 	}
 	

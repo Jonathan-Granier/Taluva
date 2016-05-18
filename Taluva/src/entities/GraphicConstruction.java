@@ -2,7 +2,7 @@ package entities;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import Loaders.Loader;
+import loaders.Loader;
 import terrain.Case;
 
 public class GraphicConstruction {
@@ -22,13 +22,13 @@ public class GraphicConstruction {
 	public GraphicConstruction(GraphicType type,Vector3f colour, Loader loader){
 		switch(type){
 			case HUT:
-				this.object3d = new Object3D("","Hut",loader,new Vector3f(0,0,0),0,0,0,0.5f);
+				this.object3d = new Object3D("Hut",loader,new Vector3f(0,0,0),0,0,0,0.5f);
 			break;
 			case TOWER:
-				this.object3d = new Object3D("","Tower",loader,new Vector3f(0,0,0),0,0,0,0.5f);
+				this.object3d = new Object3D("Tower",loader,new Vector3f(0,0,0),0,0,0,0.5f);
 			break;
 			case TEMPLE:
-				this.object3d = new Object3D("","Temple",loader,new Vector3f(0,0,0),0,0,0,0.5f);
+				this.object3d = new Object3D("Temple",loader,new Vector3f(0,0,0),0,0,0,0.5f);
 			break;
 			default:
 				System.out.println("Unknow construction type");

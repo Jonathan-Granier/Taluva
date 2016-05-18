@@ -12,7 +12,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import Loaders.Loader;
 import entities.Camera;
 import entities.GraphicConstruction;
 import entities.GraphicConstruction.GraphicType;
@@ -21,6 +20,7 @@ import entities.Light;
 import entities.Object3D;
 import gui.Drawable;
 import gui.Texture;
+import loaders.Loader;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import main.Action_Tuile;
@@ -155,7 +155,10 @@ public class Game {
 		drawable.bindTexture(fond);
 		drawable.bindTexture(button_tower.getTexture());
 		
-		Object3D table = new Object3D("","Table",loader,new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,0,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f-200),0,0,0,0.3f);
+		
+		Object3D table = new Object3D("Table",loader,new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,0,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f-200),0,0,0,0.3f);
+
+		
 		
 		List<Light> lights = new ArrayList<Light>();
 		Light sun = new Light(new Vector3f(20000,15000,-1000),new Vector3f(1,1,1));
@@ -211,7 +214,6 @@ public class Game {
 		}
 		
 		drawable.cleanUp();
-		renderer.cleanUp();
 		shader.cleanUp();
 		loader.cleanUp();
 		Window.closeDisplay();

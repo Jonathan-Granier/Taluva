@@ -3,9 +3,10 @@ package entities;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import Loaders.Loader;
-import Loaders.OBJLoader;
+import loaders.Loader;
+import loaders.OBJLoader;
 import models.Model;
+import models.Models;
 import utils.Matrix;
 
 public class Object3D {
@@ -16,9 +17,10 @@ public class Object3D {
 	private float scale;
 	private String label;
 	private boolean allow = true;
+	private boolean multiObj = false;
+	private Models models;
 	
 	public Object3D(Object3D object3d){
-		this.label = object3d.getLabel();
 		this.model = object3d.getModel();
 		this.position = object3d.getPosition();
 		this.rotX = object3d.getRotX();
@@ -27,8 +29,7 @@ public class Object3D {
 		this.scale = object3d.getScale();
 	}
 	
-	public Object3D(String label,Model model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
-		this.label = label;
+	public Object3D(Model model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		this.model = model;
 		this.position = position;
 		this.rotX = rotX;
@@ -37,8 +38,7 @@ public class Object3D {
 		this.scale = scale;
 	}
 	
-	public Object3D(String label,String objFilename, Loader loader ) {
-		this.label = label;
+	public Object3D(String objFilename, Loader loader ) {
 		this.model = OBJLoader.loadObjModel(objFilename, loader);
 		this.position = new Vector3f(0,0,0);
 		this.rotX = 0;
@@ -47,9 +47,28 @@ public class Object3D {
 		this.scale = 1;
 	}
 	
-	public Object3D(String label,String objFilename, Loader loader,Vector3f position, float rotX, float rotY, float rotZ, float scale ) {
-		this.label = label;
+	public Object3D(String objFilename, Loader loader,Vector3f position, float rotX, float rotY, float rotZ, float scale ) {
 		this.model = OBJLoader.loadObjModel(objFilename, loader);
+		this.position =position;
+		this.rotX = rotX;
+		this.rotY = rotY;
+		this.rotZ = rotZ;
+		this.scale = scale;
+	}
+	
+	public Object3D(String objFilename, Loader loader,boolean multiObj) {
+		this.models = OBJLoader.loadObjModels(objFilename, loader);
+		this.multiObj = multiObj;
+		this.position = new Vector3f(0,0,0);
+		this.rotX = 0;
+		this.rotY = 0;
+		this.rotZ = 0;
+		this.scale = 1;
+	}
+	
+	public Object3D(String objFilename, Loader loader,boolean multiObj,Vector3f position, float rotX, float rotY, float rotZ, float scale ) {
+		this.models = OBJLoader.loadObjModels(objFilename, loader);
+		this.multiObj = multiObj;
 		this.position =position;
 		this.rotX = rotX;
 		this.rotY = rotY;
@@ -143,6 +162,14 @@ public class Object3D {
 
 	public void setAllow(boolean allow) {
 		this.allow = allow;
+	}
+
+	public boolean isMultiObj() {
+		return multiObj;
+	}
+
+	public Models getModels() {
+		return models;
 	}
 	
 }

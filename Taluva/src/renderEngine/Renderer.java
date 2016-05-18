@@ -33,7 +33,6 @@ public class Renderer {
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.connectTextureUnits();
 		shader.stop();
-		//this.shadowMapRender = new ShadowMapMasterRenderer(camera);
 	}
 	
 	public void prepare(){
@@ -46,23 +45,8 @@ public class Renderer {
 	public Matrix4f getProjectionMatrix(){
 		return projectionMatrix;
 	}
-	
-	public void cleanUp(){
-		//shadowMapRender.cleanUp();
-	}
-	
-	public void renderShadowMap(List<Object3D> entities, Light sun){
-		//shadowMapRender.render(entities, sun);
-	}
-	
-	public int getShadowMapTexture(){
-		//return shadowMapRender.getShadowMap();
-		return 0;
-	}
 
-	public void draw(Object3D object3D, Shader shader){
-		//shader.loadToShadowSpaceMatrix(shadowMapRender.getToShadowMapSpaceMatrix());
-		Model texturedModel = object3D.getModel();
+	private void drawOne(Object3D object3D,Model texturedModel,Shader shader){
 		Mesh model = texturedModel.getRawModel();
 		GL30.glBindVertexArray(model.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
@@ -89,6 +73,21 @@ public class Renderer {
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
+	}
+	
+	public void draw(Object3D object3D, Shader shader){
+
+
+		if(object3D.isMultiObj()){
+			for(Model model:object3D.getModels().getModels()){
+				drawOne(object3D,model,shader);
+			}
+		}
+		else{
+			Model texturedModel = object3D.getModel();
+			drawOne(object3D,texturedModel,shader);
+		}
+
 	}
 	
 	private void createProjectionMatrix(){

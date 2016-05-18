@@ -2,7 +2,7 @@ package entities;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import Loaders.Loader;
+import loaders.Loader;
 import terrain.Case;
 import terrain.Tuile;
 
@@ -18,7 +18,7 @@ public class GraphicTile {
 	private Vector3f postionVolcano;
 	
 	public GraphicTile(Tuile tile,Loader loader,Vector3f position){
-		this.object3d = new Object3D("","Tile",loader,position,0,0,0,0.5f);
+		this.object3d = new Object3D("Tile",loader,position,0,0,0,0.5f);
 		this.tile = tile;
 		this.angle = 0;
 		this.height = 0;
@@ -32,7 +32,7 @@ public class GraphicTile {
 	}
 	
 	public GraphicTile(Tuile tile,Loader loader,Vector3f position,float rotY){
-		this.object3d = new Object3D("","Tile",loader,position,0,rotY,0,0.5f);
+		this.object3d = new Object3D("Tile",loader,position,0,rotY,0,0.5f);
 		this.tile = tile;
 		this.angle = rotY;
 		this.height = 0;
