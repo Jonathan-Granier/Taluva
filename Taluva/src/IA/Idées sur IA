@@ -1,0 +1,21 @@
+
+Idée pour l'heuristique:
+
+  Temple : 100 
+  Tour : 20
+  Hutte : 1
+  
+  Nouvelle cité: 5
+  Cité de X zones: 3*zones pour X>=3
+  Cité de 3 zone plus non destructible: Temple/2 si reste un temple.
+  
+  Vider une catégorie de pièces: (nb_tour_restant*5)/ Max(temple *4, maison, tour*4)
+  Vider les maisons: points négatifs? (car limitation des possibilités. a voir avec le nb tour restants.)
+  Vider toutes les pieces d'une seconde catégorie: 1000 pts.
+  
+  
+Idée d'algo:
+  MiniMax (Attention au coût, comment couper des branches?)
+  MiniMax sans tour adverse (penser a bloquer les temples quand même.)
+  MiniMax (ne faire attention que au destruction de cité/pose de tour/temple pour adversaire.)
+  
