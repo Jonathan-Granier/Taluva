@@ -87,7 +87,7 @@ Terrain :
 	
 	// EXTENSION
 	
-	// Renvoie le nombre de huttes necessaires a l'extension de la cite presente au point P sur les cases de Type type.
+	// Renvoie le nombre de huttes necessaires a l'extension de la cite.
 	public int nb_huttes_extension(Point P, Case.Type type);
 	
 	// Renvoie le Terrain après extension d'une cité présente au point P sur les cases de Type type.
@@ -117,7 +117,7 @@ Tuile :
 	Tuile(Case.Type t1, Case.Type t2); 
 	
 	// Retourne l'orientation Gauche/Droite de la tuile.
-	public Orientation getOrientation();	
+	public Orientation getOrientation();
 	
 	// tourne la tuile dans le sens Horaire. Renvoie 1 si opération réussie.
 	public int Tourner_horaire();
