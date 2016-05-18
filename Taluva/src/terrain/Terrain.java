@@ -54,7 +54,6 @@ public class Terrain {
 		for(int i = 0;i<this.histo_tuiles.size();i++){
 			tmp.histo_tuiles.add(this.histo_tuiles.get(i).clone());
 		}
-		if(!tmp.histo_tuiles.equals(this.histo_tuiles)) System.out.println("Erreur clone Terrain");
 		if(tmp.histo_tuiles == this.histo_tuiles) System.out.println("Erreur clone Terrain");
 		return tmp;
 	}
@@ -235,16 +234,20 @@ public class Terrain {
 		res.add(new Point(x,y+2));
 		res.add(new Point(x+1,y));
 		res.add(new Point(x-1,y+1));
+		res.add(new Point(x+1,y+2));
+		res.add(new Point(x-1,y-1));
 		if(o == Tuile.Orientation.GAUCHE){
 			res.add(new Point(x-2,y));
 			res.add(new Point(x+1,y+1));
-			res.add(new Point(x-1,y-1));
+			res.add(new Point(x-2,y-1));
 		}
 		else{
-			res.add(new Point(x+1,y+2));
 			res.add(new Point(x+2,y+1));
 			res.add(new Point(x-1,y));
+			res.add(new Point(x+2,y+2));
 		}
+		System.out.println("Contact de " + o + P);
+		for(int i = 0;i<res.size();i++) System.out.println(res.get(i));
 		return res;
 	}
 	
