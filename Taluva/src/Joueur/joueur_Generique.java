@@ -68,7 +68,7 @@ public abstract class joueur_Generique {
 	{
 		if(temple > 0)
 		{
-			this.temple = temple;
+			this.temple = temple-1;
 		}
 	}
 
@@ -77,7 +77,7 @@ public abstract class joueur_Generique {
 	{
 		if(tour > 0)
 		{
-			this.tour = tour;
+			this.tour = tour-1;
 		}
 		
 	}

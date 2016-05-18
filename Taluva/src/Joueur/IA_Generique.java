@@ -12,7 +12,6 @@ public abstract class IA_Generique extends joueur_Generique{
 		this.m = m;
 		// TODO Auto-generated constructor stub
 	}
-	
 	abstract Action_Tuile get_coup_tuile();
 	abstract Action_Construction get_coup_construction();
 	

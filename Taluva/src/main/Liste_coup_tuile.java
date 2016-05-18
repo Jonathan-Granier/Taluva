@@ -24,7 +24,7 @@ public class Liste_coup_tuile {
 	//								&& il n'a pas la même direction.
 	// 								&& il ne recouvre pas une cité entière.
 	
-	Liste_coup_tuile (Terrain t)
+	public Liste_coup_tuile (Terrain t)
 	{
 		// Stratégie: Parcours de toutes les cases.
 		Tuile tuile = new Tuile(Case.Type.VIDE, Case.Type.VIDE);
