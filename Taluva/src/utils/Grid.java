@@ -16,10 +16,19 @@ public class Grid {
 	public class Coords{
 		public Vector3f worldPos;
 		public Point indices;
+
+		public Coords(){
+			this.worldPos = null;
+			this.indices = null;
+		}
 		
 		public Coords(Vector3f worldPos,Point indices){
 			this.worldPos = worldPos;
 			this.indices = indices;
+		}
+		
+		public void increaseIndicesY(){
+			indices.y = indices.y+1;
 		}
 	}
 	
@@ -87,29 +96,30 @@ public class Grid {
 			offsetY = WIDTH_OF_HEXA/2f;
 		}
 		
-		Vector2f point = new Vector2f();
-		if(angle == 90 || angle ==150 || angle == 330){
-			point.x = (float) (mouse.x + Math.cos(30) * HEIGHT_OF_HEXA/2f);
-			point.y = (float) (mouse.z + Math.sin(30) * HEIGHT_OF_HEXA/2f);
-		}
-		else{
-			point.x = (float) (mouse.x - Math.cos(30) * HEIGHT_OF_HEXA/2f);
-			point.y = (float) (mouse.z - Math.sin(30) * HEIGHT_OF_HEXA/2f);
-		}
-		
-		for(int i=0 ;i<terrain.TAILLE;i++){
+		Coords center = new Coords();
+		int i=0;
+		while(i<terrain.TAILLE && center.worldPos==null){
 			for(int j=0 ;j<terrain.TAILLE;j++){
-				if( Math.pow(point.x - (coords[i][j].x+offsetX),2) + Math.pow(point.y - (coords[i][j].y+offsetY),2) <= Math.pow(RAY,2) ){
+				if( Math.pow(mouse.x - (coords[i][j].x+offsetX),2) + Math.pow(mouse.z - (coords[i][j].y+offsetY),2) <= Math.pow(RAY,2) ){
 					object3d.setAllow(true);
-					System.out.println("Incices:" + i +" " + j);
-					if(angle==60 || angle==180 ||  angle==300)
-						indices = convert(new Point(i,j),false);
-					else
-						indices = convert(new Point(i,j),true);
-					return new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),new Point(i,j));
+					
+					center = new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),new Point(i,j));
 				}
 			}
+			i++;
 		}
+		
+		Vector2f point = new Vector2f();
+		if(center.worldPos!=null){
+			if((angle == 90 || angle ==330 || angle == 210)){
+				//point.x = (float) (center.worldPos.x + Math.cos(Math.toRadians(60)) * HEIGHT_OF_HEXA/2f);
+				//point.y = (float) (center.worldPos.z - Math.sin(Math.toRadians(60)) * HEIGHT_OF_HEXA/2f);
+				center.increaseIndicesY();
+				System.out.println("Incices:"+ center.indices.x+" "+center.indices.y);
+			}
+			return new Coords(new Vector3f(center.worldPos.x,0,center.worldPos.z),new Point(center.indices.x,center.indices.y));
+		}
+		
 		
 		object3d.setAllow(false);
 		
@@ -140,7 +150,7 @@ public class Grid {
 	
 	public Vector3f toWorldPos(Point indice,float angle){
 		Point pos = new Point(indice);
-
+		
 		float offsetX = 0;
 		float offsetY = 0;
 		

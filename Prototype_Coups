@@ -28,6 +28,8 @@ List_coup_construction :
 	// Renvoie une action de construction aléatoire.
 	public Action_Construction get_random_action()
 	
+	public void affichage()
+	
 Action_construction :
 
 	// Constructeur d'une action-construction hors extension
@@ -48,4 +50,6 @@ Action_construction :
 	
 	// Renvoie le nombre de batiment nécessaire. (surtout interessant pour extension)
 	public int get_nb_batiments()
+	
+	public void affichage()
 

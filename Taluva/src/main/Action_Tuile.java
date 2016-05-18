@@ -15,7 +15,7 @@ public class Action_Tuile {
 	}
 	
 	public Action_Tuile clone(){
-		return new Action_Tuile(tuile,P,niveau);
+		return new Action_Tuile(tuile.clone(),new Point(P.x,P.y),niveau);
 	}
 	
 	public Tuile getTuile(){
