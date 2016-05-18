@@ -1,0 +1,92 @@
+Moteur :
+	
+	// Constructeur du moteur
+	Moteur(Terrain T,joueur_Humain j1, joueur_Humain j2);
+	
+	///////////////////////
+	// Getters / Setters
+	///////////////////////
+	
+	// Récupère le terrain courant
+	public Terrain getT();
+	
+	//Affecte un terrain au moteur
+	public int setT(Terrain T);
+	
+	//Renvoie le nombre de Tuiles restantes
+	public int get_nbTuiles();
+	
+	//Renvoie la tuile piochée 
+	public Tuile get_tuile_pioche();
+	
+	//Renvoie le joueur courant
+	public joueur_Humain get_Jcourant();
+	
+	//Renvoie l'état actuel du tour du jeu
+	public Etat get_etat_jeu();
+	
+	//Renvoie le type de batiment choisi par le joueur
+	public Case.Type_Batiment get_bat_choisi();
+	
+	//Renvoie le joueur qui a gagné la partie
+	public joueur_Humain getGagnant()
+	
+	//Renvoi la liste des coups possibles pour la tuile actuelle
+	public Liste_coup_tuile get_liste_coup_tuile()
+	
+	//Renvoi la liste des constructions possibles dans la configuration actuelle
+	public Liste_coup_construction get_liste_coup_construction()
+	
+	
+	//////////////////////////////////////////////////
+	//	FONCTIONS RELATIVES A UN TOUR DE JEU
+	/////////////////////////////////////////////////
+	
+	//Echange le joueur courant;
+	swap_joueur();
+
+	//Renvoie vrai si il ne reste plus de tuiles
+	public boolean pioche_vide();
+	
+	//Test si le joueur courant a posé tous les batiments de 2 types differents
+	public boolean victoire_aux_batiments();
+	
+	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
+	public boolean joueur_elimine ();
+	
+	//Renvoie une tuile piochée aléatoirement dans la pioche
+	public Tuile piocher();
+	
+	// Renvoie vrai ssi le placement de la tuile piochée est autorisé au point P.
+	public boolean placement_tuile_autorise(Point P);
+	
+	//Renvoie 0 si la tuile piochée a pu être placée, -1 si elle est placée, mais le joueur ne peux plus jouer, 1 sinon
+	public int placer_tuile(Point P);
+	
+	//SELECTEURS DES BATIMENTS DU JOUEUR
+	//Le batiment choisi est une hutte
+	public void select_hutte();
+	
+	//Le batiment choisi est un temple
+	public void select_temple();
+	
+	//Le batiment choisi est une tour
+	public void select_tour();
+	
+	//Renvoie vrai ssi le placement du batiment choisi est autorisé au point P.
+	public boolean placement_batiment_autorise(Point P);
+	
+	//Renvoie 0 si le batiment a pu être placé, 1 sinon
+	public int placer_batiment(Point P);
+	
+	//Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
+	//Actualise aussi les données et change de joueur
+	public int fin_de_tour();
+	
+	//Permet d'annuler un tuile posée, et de la récupérer
+	//Renvoie 0 si tout s'est bien passé, 1 sinon.
+	public int annuler();
+	
+	//Permet de reposer une tuile qui a été annulée qui a été annulée
+	//Renvoie 0 si tout s'est bien passé, 1 sinon.
+	public int refaire();

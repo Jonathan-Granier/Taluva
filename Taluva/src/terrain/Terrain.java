@@ -54,7 +54,6 @@ public class Terrain {
 		for(int i = 0;i<this.histo_tuiles.size();i++){
 			tmp.histo_tuiles.add(this.histo_tuiles.get(i).clone());
 		}
-		if(!tmp.histo_tuiles.equals(this.histo_tuiles)) System.out.println("Erreur clone Terrain");
 		if(tmp.histo_tuiles == this.histo_tuiles) System.out.println("Erreur clone Terrain");
 		return tmp;
 	}
@@ -235,15 +234,17 @@ public class Terrain {
 		res.add(new Point(x,y+2));
 		res.add(new Point(x+1,y));
 		res.add(new Point(x-1,y+1));
+		res.add(new Point(x+1,y+2));
+		res.add(new Point(x-1,y-1));
 		if(o == Tuile.Orientation.GAUCHE){
 			res.add(new Point(x-2,y));
 			res.add(new Point(x+1,y+1));
-			res.add(new Point(x-1,y-1));
+			res.add(new Point(x-2,y-1));
 		}
 		else{
-			res.add(new Point(x+1,y+2));
 			res.add(new Point(x+2,y+1));
 			res.add(new Point(x-1,y));
+			res.add(new Point(x+2,y+2));
 		}
 		return res;
 	}
@@ -255,6 +256,7 @@ public class Terrain {
 		int i = 0;
 		while(!trouve && i<voisins.size()){
 			trouve = !getCase(voisins.get(i)).est_Vide();
+			if(trouve) System.out.println("On a trouve un contact en " + voisins.get(i));
 			i++;
 		}
 		return trouve;
@@ -265,17 +267,24 @@ public class Terrain {
 	{
 		//TODO on ne gere pas le cas d'ecraser une cite entiere
 		if(empty) return true;
-		if(!dans_terrain(tuile.getOrientation(),P)) return false;
+		if(!dans_terrain(tuile.getOrientation(),P)){
+			System.out.println("C'est pas dans le terrain");
+			return false;
+		}
 		else{
 			// Teste si la tuile est posée sur d'autres tuiles
 			int x = P.x;
 			int y = P.y;
 			int n0,n1,n2;
 			Case [] cases_t = cases_tuile(tuile.getOrientation(),P);	// Les cases de la tuile
+			System.out.println(cases_t[0].getType());
+			System.out.println(cases_t[1].getType());
+			System.out.println(cases_t[2].getType());
 			n0 = cases_t[0].getNiveau();
 			n1 = cases_t[1].getNiveau();		// On regarde les niveaux en-dessous de la tuile
 			n2 = cases_t[2].getNiveau();
 			if(n0>0 || n1>0 || n2>0){
+				System.out.println("On joue sur une tuile");
 				// Si on tente de jouer sur au moins une tuile
 				if(n0==n1 && n1==n2){
 					// Si les 3 cases dessous sont au même niveau
@@ -325,6 +334,7 @@ public class Terrain {
 			}
 			else{
 				// On joue au niveau 1, il faut que ce soit en contact
+				System.out.println("C'est en contact ?");
 				return en_contact(tuile.getOrientation(),P);
 			}
 		}
