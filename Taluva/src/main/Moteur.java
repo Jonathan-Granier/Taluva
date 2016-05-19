@@ -78,9 +78,8 @@ public class Moteur {
 	//LECTURE DES PIECES ET INITIALISATION DE L'ENSEMBLE DE TUILES
 	///////////////////////////////////////////////////////////////
 	
-	private Case.Type switch_case(char c){
+	private Case.Type char_to_case(char c){
 		switch (c){
-			case 'V' :	return Case.Type.VOLCAN;
 			case 'M' :	return Case.Type.MONTAGNE;
 			case 'P' :	return Case.Type.PLAINE;
 			case 'L' :	return Case.Type.LAC;
@@ -96,7 +95,7 @@ public class Moteur {
 		int nb;
 		nb = Character.getNumericValue(line.charAt(0));
 		for(int i=1; i<=nb;i++){
-			tuiles.add(new Tuile(switch_case(line.charAt(2)),switch_case(line.charAt(4))));
+			tuiles.add(new Tuile(char_to_case(line.charAt(2)),char_to_case(line.charAt(4))));
 		}
 	}
 	
