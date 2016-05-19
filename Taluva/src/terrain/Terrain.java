@@ -2,6 +2,8 @@ package terrain;
 
 import java.awt.Point;
 import java.util.ArrayList;
+
+import main.Action_Batiment;
 import main.Action_Construction;
 import main.Action_Tuile;
 
@@ -28,6 +30,7 @@ public class Terrain {
 	private Coord limites;
 	
 	private ArrayList<Action_Tuile> histo_tuiles;
+	private ArrayList<Action_Batiment> histo_batiments;
 	
 	public Terrain(){
 		t = new Case[TAILLE][TAILLE];
@@ -39,6 +42,7 @@ public class Terrain {
 		limites  = new Coord(CENTRE.x,CENTRE.y,CENTRE.x,CENTRE.y);
 		empty = true;
 		histo_tuiles = new ArrayList<Action_Tuile>();
+		histo_batiments = new ArrayList<Action_Batiment>();
 	}
 	
 	public Terrain clone(){
@@ -54,7 +58,10 @@ public class Terrain {
 		for(int i = 0;i<this.histo_tuiles.size();i++){
 			tmp.histo_tuiles.add(this.histo_tuiles.get(i).clone());
 		}
-		if(tmp.histo_tuiles == this.histo_tuiles) System.out.println("Erreur clone Terrain");
+		tmp.histo_batiments = new ArrayList<Action_Batiment>();
+		for(int i = 0;i<this.histo_tuiles.size();i++){
+			tmp.histo_batiments.add(this.histo_batiments.get(i).clone());
+		}
 		return tmp;
 	}
 	
@@ -76,6 +83,10 @@ public class Terrain {
 	
 	public ArrayList<Action_Tuile> getHistoTuiles(){
 		return histo_tuiles;
+	}
+	
+	public ArrayList<Action_Batiment> getHistoBatiments(){
+		return histo_batiments;
 	}
 	
 	// Renvoie les coordonnees limites du terrain : toutes les tuiles sont comprises dans
@@ -496,6 +507,7 @@ public class Terrain {
 	}
 	
 	public ArrayList<Action_Construction> liste_coups_construction_possibles(Case.Couleur_Joueur c){
+		// TODO : ca marche pas pour les cites de plusieurs cases
 		ArrayList<Action_Construction> res = new  ArrayList<Action_Construction>();
 		Point P;
 		int nb;
