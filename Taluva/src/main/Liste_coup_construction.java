@@ -19,8 +19,6 @@ public class Liste_coup_construction {
 	{
 		Point p;
 		Coord limites = t.getLimites();
-		int nb_huttes;
-		Case.Type type_extension;
 		for(int i= limites.xmin; i< limites.xmax; i++)
 		{
 			for(int j = limites.ymin; j < limites.ymax; j++)
@@ -38,23 +36,9 @@ public class Liste_coup_construction {
 				{
 					temple.add(p);
 				}
-				if(t.getCase(i, j).getCouleur() == joueur.getCouleur())
-				{
-					// Gestion de tous les types d'extension
-					Case.Type [] types = Case.Type.values();
-					for(int k=0;k<types.length;k++){
-						if(types[k] != Case.Type.VIDE && types[k] != Case.Type.VOLCAN){
-							type_extension = types[k];
-							nb_huttes = t.nb_huttes_extension(p, type_extension);
-							if(nb_huttes < joueur.getHutte())
-							{
-								extension.add(new Action_Construction(p, type_extension, nb_huttes));
-							}
-						}
-					}
-				}
 			}
 		}
+		extension = t.liste_extensions_possibles(joueur.getCouleur());
 	}
 	
 	public boolean coup_possible (Action_Construction a)
@@ -116,7 +100,7 @@ public class Liste_coup_construction {
 		System.out.println("liste des coups: extension");
 		for(int i=0; i< this.extension.size(); i++)
 		{
-			this.extension.get(i).affichage();
+			this.extension.get(i).afficher();
 		}
 	}
 	

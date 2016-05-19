@@ -505,29 +505,54 @@ public class Terrain {
 		else return false;
 	}
 	
-	public ArrayList<Action_Construction> liste_coups_construction_possibles(Case.Couleur_Joueur c){
-		// TODO : ca marche pas pour les cites de plusieurs cases
+	// Liste des extensions possibles
+	public ArrayList<Action_Construction> liste_extensions_possibles(Case.Couleur_Joueur c){
 		ArrayList<Action_Construction> res = new  ArrayList<Action_Construction>();
+		ArrayList<Point> ptsCite_visites = new ArrayList<Point>();
+		if(c == Case.Couleur_Joueur.NEUTRE) return res;
 		Point P;
 		int nb;
 		for(int i=limites.xmin;i<limites.xmax;i++){
 			for(int j=limites.ymin;j<limites.ymax;j++){
 				P = new Point(i,j);
-				if(placement_batiment_autorise(Case.Type_Batiment.HUTTE, c, P))
-					res.add(new Action_Construction(Action_Construction.Type.HUTTE, P));
-				if(placement_batiment_autorise(Case.Type_Batiment.TOUR, c, P))
-					res.add(new Action_Construction(Action_Construction.Type.TOUR, P));
-				if(placement_batiment_autorise(Case.Type_Batiment.TEMPLE, c, P))
-					res.add(new Action_Construction(Action_Construction.Type.TEMPLE, P));
 				if(getCase(P).getCouleur() == c){
-					// Gestion de tous les types d'extension
-					Case.Type [] types = Case.Type.values();
-					for(int k=0;k<types.length;k++){
-						if(types[k] != Case.Type.VIDE && types[k] != Case.Type.VOLCAN){
-							if((nb = nb_huttes_extension(P,types[k]))>0)
-								res.add(new Action_Construction(P,types[k],nb));
+					// Il y a une cité au point P, c'est une extension
+					if(!ptsCite_visites.contains(P)){
+						ArrayList<Point> ptsCite = getPtsCite(P);
+						for(int l=0; l<ptsCite.size();l++){
+							Point PCite = ptsCite.get(l);
+							ptsCite_visites.add(PCite);
+							// Gestion de tous les types d'extension
+							Case.Type [] types = Case.Type.values();
+							for(int k=0;k<types.length;k++){
+								if(types[k] != Case.Type.VIDE && types[k] != Case.Type.VOLCAN){
+									if((nb = nb_huttes_extension(PCite,types[k]))>0)
+										res.add(new Action_Construction(PCite,types[k],nb));
+								}
+							}
 						}
 					}
+				}
+			}
+		}
+		return res;
+	}
+	
+	// Liste des constructions possibles hors extension
+	public ArrayList<Action_Construction> liste_coups_construction_possibles(Case.Couleur_Joueur c){
+		ArrayList<Action_Construction> res = new  ArrayList<Action_Construction>();
+		if(c == Case.Couleur_Joueur.NEUTRE) return res;
+		Point P;
+		for(int i=limites.xmin;i<limites.xmax;i++){
+			for(int j=limites.ymin;j<limites.ymax;j++){
+				P = new Point(i,j);
+				if(getCase(P).est_Libre()){
+					if(placement_batiment_autorise(Case.Type_Batiment.HUTTE, c, P))
+						res.add(new Action_Construction(Action_Construction.Type.HUTTE, P));
+					if(placement_batiment_autorise(Case.Type_Batiment.TOUR, c, P))
+						res.add(new Action_Construction(Action_Construction.Type.TOUR, P));
+					if(placement_batiment_autorise(Case.Type_Batiment.TEMPLE, c, P))
+						res.add(new Action_Construction(Action_Construction.Type.TEMPLE, P));
 				}
 			}
 		}

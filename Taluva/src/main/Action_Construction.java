@@ -62,10 +62,10 @@ public class Action_Construction {
 		return this.nb_batiments;
 	}
 	
-	public void affichage()
+	public void afficher()
 	{
 		System.out.print(this.type + "(" + this.coord.x + "," + this.coord.y + ")");
-		if(this.type == type.EXTENSION)
+		if(this.type == Type.EXTENSION)
 			System.out.print("[" + this.type_extension + "]");
 	}
 }
