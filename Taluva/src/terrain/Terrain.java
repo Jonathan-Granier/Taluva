@@ -477,25 +477,25 @@ public class Terrain {
 		if(getCase(P).ajout_batiment_autorise(b)){
 			// Si le placement est autorise sur la case (independemment du reste du terrain)
 			Point [] ptsVoisins = getPtsVoisins(P);
-			int i = 0;
-			boolean cite_trouvee = false;
-			Point coord_cite = new Point();
-			while(!cite_trouvee && i<6){
+			int nb_cites_trouvees = 0;
+			Point [] coord_cite = new Point[6];
+			for(int i=0; i<6; i++){
 				if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c){
-					cite_trouvee = true;
-					coord_cite = ptsVoisins[i];
+					coord_cite[nb_cites_trouvees] = ptsVoisins[i];
+					nb_cites_trouvees ++;
 				}
-				// TODO : on ne gere pas le cas de connexion de deux cites
-				i++;
 			}
-			if(cite_trouvee){
+			if(nb_cites_trouvees>0){
 				// C'est l'ajout d'une tour ou d'un temple (sinon c'est interdit)
-				ArrayList<Case> cite = getCite(coord_cite);
-				if(b == Case.Type_Batiment.TOUR)
-					return (getCase(P).getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
-				if(b == Case.Type_Batiment.TEMPLE)
-					return (cite_taille_3(cite) && !cite_contient(cite,Case.Type_Batiment.TEMPLE));
-				return false;
+				boolean valide = false;
+				for(int i=0;i<nb_cites_trouvees;i++){
+					ArrayList<Case> cite = getCite(coord_cite[i]);
+					if(b == Case.Type_Batiment.TOUR)
+						valide = valide || (getCase(P).getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
+					else if(b == Case.Type_Batiment.TEMPLE)
+						valide = valide || (cite_taille_3(cite) && !cite_contient(cite,Case.Type_Batiment.TEMPLE));
+				}
+				return valide;
 			}
 			else{
 				// C'est une nouvelle cite : ce doit etre une hutte au niveau 1
