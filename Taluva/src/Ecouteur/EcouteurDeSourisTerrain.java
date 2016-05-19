@@ -1,5 +1,49 @@
 package Ecouteur;
 
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFrame;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
+
+import entities.Camera;
+import entities.GraphicConstruction;
+import entities.GraphicConstruction.GraphicType;
+import entities.GraphicTile;
+import entities.Light;
+import entities.Object3D;
+import gui.Drawable;
+import gui.Texture;
+import loaders.Loader;
+import terrain.Case;
+import terrain.Case.Couleur_Joueur;
+import main.Action_Tuile;
+import main.Moteur;
+import terrain.Terrain;
+import terrain.Tuile;
+import renderEngine.Renderer;
+import renderEngine.Window;
+import shaders.Shader;
+import utils.FPS;
+import utils.Grid;
+import utils.Grid.Coords;
+import utils.InputHandler;
+
+
+
+
+
+
+
+
+
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -9,6 +53,9 @@ import main.Moteur;
 import terrain.Case;
 import terrain.Tuile;
 
+
+
+
 public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListener{
 	
 	Moteur m;
@@ -17,6 +64,19 @@ public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListen
 	{
 		this.m = m;
 	}
+	
+	public void run()
+	{
+		if(InputHandler.isButtonDown(0))
+		{
+			// Si le clique gauche est appuyé
+			
+			
+			
+		}
+	}
+	
+	
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
