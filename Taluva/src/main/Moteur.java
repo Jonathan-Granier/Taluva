@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 import Joueur.IA_Generique;
-import Joueur.joueur_Generique;
+import Joueur.Joueur_Generique;
 import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;
@@ -23,10 +23,10 @@ public class Moteur {
 	private Liste_coup_tuile liste_coup_tuile;
 	private Liste_coup_construction liste_coup_construction;
 	
-	private joueur_Generique j_courant;
-	private joueur_Generique j1;
-	private joueur_Generique j2;
-	private joueur_Generique j_gagnant;
+	private Joueur_Generique j_courant;
+	private Joueur_Generique j1;
+	private Joueur_Generique j2;
+	private Joueur_Generique j_gagnant;
 	
 	public enum Etat{
 		DEBUT_DE_TOUR,
@@ -38,7 +38,7 @@ public class Moteur {
 				
 	
 	// Constructeur du moteur
-	public Moteur(Terrain T,joueur_Generique j1,joueur_Generique j2){
+	public Moteur(Terrain T,Joueur_Generique j1,Joueur_Generique j2){
 		this.T = T;
 		annul = new ArrayList<Terrain>();
 		annul.add(T.clone());
@@ -65,12 +65,12 @@ public class Moteur {
 	}
 	
 	// Adders de joueurs
-	public void add_j1(joueur_Generique j1){
+	public void add_j1(Joueur_Generique j1){
 		this.j1 = j1;
 		j_courant = j1;
 	}
 		
-	public void add_j2(joueur_Generique j2){
+	public void add_j2(Joueur_Generique j2){
 		this.j2 = j2;
 	}
 	
@@ -149,13 +149,13 @@ public class Moteur {
 	}
 	
 	//Renvoie le joueur courant
-	public joueur_Generique get_Jcourant(){
+	public Joueur_Generique get_Jcourant(){
 		return j_courant;
 	}
-	public joueur_Generique getJ1(){
+	public Joueur_Generique getJ1(){
 		return j1;
 	}
-	public joueur_Generique getJ2(){
+	public Joueur_Generique getJ2(){
 		return j2;
 	}
 	
@@ -170,7 +170,7 @@ public class Moteur {
 	}
 	
 	//Renvoie le joueur qui a gagné la partie
-	public joueur_Generique getGagnant(){
+	public Joueur_Generique getGagnant(){
 		return j_gagnant;
 	}
 	
