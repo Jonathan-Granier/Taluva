@@ -518,17 +518,17 @@ public class Terrain {
 				if(getCase(P).getCouleur() == c){
 					// Il y a une cité au point P, c'est une extension
 					if(!ptsCite_visites.contains(P)){
+						// Si on n'a pas deja regarde cette cite
 						ArrayList<Point> ptsCite = getPtsCite(P);
 						for(int l=0; l<ptsCite.size();l++){
-							Point PCite = ptsCite.get(l);
-							ptsCite_visites.add(PCite);
-							// Gestion de tous les types d'extension
-							Case.Type [] types = Case.Type.values();
-							for(int k=0;k<types.length;k++){
-								if(types[k] != Case.Type.VIDE && types[k] != Case.Type.VOLCAN){
-									if((nb = nb_huttes_extension(PCite,types[k]))>0)
-										res.add(new Action_Construction(PCite,types[k],nb));
-								}
+							ptsCite_visites.add(ptsCite.get(l));
+						}
+						// Gestion de tous les types d'extension
+						Case.Type [] types = Case.Type.values();
+						for(int k=0;k<types.length;k++){
+							if(types[k] != Case.Type.VIDE && types[k] != Case.Type.VOLCAN){
+								if((nb = nb_huttes_extension(P,types[k]))>0)
+									res.add(new Action_Construction(P,types[k],nb));
 							}
 						}
 					}
