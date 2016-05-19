@@ -22,6 +22,8 @@ public class Object3D {
 	
 	public Object3D(Object3D object3d){
 		this.model = object3d.getModel();
+		this.models = object3d.getModels();
+		this.multiObj = object3d.isMultiObj();
 		this.position = object3d.getPosition();
 		this.rotX = object3d.getRotX();
 		this.rotY = object3d.getRotY();

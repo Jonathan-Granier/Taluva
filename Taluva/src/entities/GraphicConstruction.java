@@ -83,7 +83,7 @@ public class GraphicConstruction {
 			System.out.println("Unknow construction type");
 		}
 	}
-
+ 
 	public Object3D getObject3d() {
 		return object3d;
 	}
