@@ -31,8 +31,8 @@ Terrain :
 	//      |             |
 	//      |--------(xmax,ymax)
 	
-	public ArrayList<Action_Tuile> getHistoTuiles();  // Renvoie l'historique des tuiles placées
-	
+	public ArrayList<Action_Tuile> getHistoTuiles();      // Renvoie l'historique des tuiles placées
+	public ArrayList<Action_Batiment> getHistoBatiments() // Renvoie l'historique des batiments placés
 
 	
 	//              ___/ 3,0 \
@@ -71,6 +71,9 @@ Terrain :
 	public boolean placement_tuile_autorise(Tuile tuile, Point P);
 	
 	// PLACEMENT BATIMENTS
+	
+	// Renvoie le niveau THEORIQUE de placement d'un batiment au Point P
+	public int getNiveauTheoriqueBatiment(Point P);
 	
 	// PLACEMENT DIRECT (HORS EXTENSION)
 	
