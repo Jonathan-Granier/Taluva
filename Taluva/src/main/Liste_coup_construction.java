@@ -1,13 +1,11 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
 import Joueur.joueur_Generique;
 import terrain.Case;
-import terrain.Case.Couleur_Joueur;
 import terrain.Terrain;
 import terrain.Terrain.Coord;
 
@@ -42,35 +40,17 @@ public class Liste_coup_construction {
 				}
 				if(t.getCase(i, j).getCouleur() == joueur.getCouleur())
 				{
-					type_extension = Case.Type.FORET;
-					nb_huttes = t.nb_huttes_extension(p, type_extension);
-					if(nb_huttes < joueur.getHutte())
-					{
-						extension.add(new Action_Construction(p, type_extension, nb_huttes));
-					}
-					type_extension = Case.Type.LAC;
-					nb_huttes = t.nb_huttes_extension(p, type_extension);
-					if(nb_huttes < joueur.getHutte())
-					{
-						extension.add(new Action_Construction(p, type_extension, nb_huttes));
-					}
-					type_extension = Case.Type.MONTAGNE;
-					nb_huttes = t.nb_huttes_extension(p, type_extension);
-					if(nb_huttes < joueur.getHutte())
-					{
-						extension.add(new Action_Construction(p, type_extension, nb_huttes));
-					}
-					type_extension = Case.Type.PLAINE;
-					nb_huttes = t.nb_huttes_extension(p, type_extension);
-					if(nb_huttes < joueur.getHutte())
-					{
-						extension.add(new Action_Construction(p, type_extension, nb_huttes));
-					}
-					type_extension = Case.Type.SABLE;
-					nb_huttes = t.nb_huttes_extension(p, type_extension);
-					if(nb_huttes < joueur.getHutte())
-					{
-						extension.add(new Action_Construction(p, type_extension, nb_huttes));
+					// Gestion de tous les types d'extension
+					Case.Type [] types = Case.Type.values();
+					for(int k=0;k<types.length;k++){
+						if(types[k] != Case.Type.VIDE && types[k] != Case.Type.VOLCAN){
+							type_extension = types[k];
+							nb_huttes = t.nb_huttes_extension(p, type_extension);
+							if(nb_huttes < joueur.getHutte())
+							{
+								extension.add(new Action_Construction(p, type_extension, nb_huttes));
+							}
+						}
 					}
 				}
 			}
