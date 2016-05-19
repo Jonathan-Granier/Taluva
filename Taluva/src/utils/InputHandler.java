@@ -61,10 +61,8 @@ public class InputHandler {
 			lastTime = getTime()/1000;
 			isMouseReleased = true;
 			long temp = time+TIME ;
-			System.out.println("Condition " +temp+ " " +getTime()/1000);
 			if(time+TIME>getTime()/1000 && time!=0 ){
 				time = 0;
-				System.out.println("GG");
 				type = inputType.INSTANT;
 				return inputType.INSTANT;
 			}

@@ -29,7 +29,7 @@ public class GraphicConstruction {
 			this.object3d = new Object3D("Tower", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.5f);
 			break;
 		case TEMPLE:
-			this.object3d = new Object3D("Temple", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.5f);
+			this.object3d = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.5f);
 			break;
 		default:
 			System.out.println("Unknow construction type");
@@ -77,7 +77,7 @@ public class GraphicConstruction {
 			this.object3d = new Object3D("Tower", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.5f);
 			break;
 		case TEMPLE:
-			this.object3d = new Object3D("Temple", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.5f);
+			this.object3d = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.5f);
 			break;
 		default:
 			System.out.println("Unknow construction type");
