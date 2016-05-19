@@ -277,12 +277,25 @@ public class Moteur {
 		else return 1;
 	}
 	
+	
+	
+	// Essaye d'etendre la cité, renvoi 0 si ça réussi , 1 si l'extension echoue, 2 si le joueur courant n'a pas assez de batiment
+	public int etendre_cite(Point P, Case.Type type)
+	{
+		if(T.nb_huttes_extension(P,type) > j_courant.getHutte())
+		{
+			return 2;
+		}
+		return T.etendre_cite(P,type);
+		
+	}
+	
 	// Calcule le score d'un joueur selon la convention :
-	//	Temple = 100 points
-	//	Tour = 10 points
+	//	Temple = 1000 points
+	//	Tour = 100 points
 	//	Hutte = 1 point
 	private int score(Joueur_Generique j){
-		return ((nb_max_Temples - j.getTemple())*100 + (nb_max_Tours - j.getTour())*10 + (nb_max_Huttes - j.getHutte()));
+		return ((nb_max_Temples - j.getTemple())*1000 + (nb_max_Tours - j.getTour())*100 + (nb_max_Huttes - j.getHutte()));
 	}
 	
 	//Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
