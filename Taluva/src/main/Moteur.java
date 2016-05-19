@@ -27,6 +27,11 @@ public class Moteur {
 	private Joueur_Generique j1;
 	private Joueur_Generique j2;
 	private Joueur_Generique j_gagnant;
+
+
+	public static int nb_max_Huttes = 20;
+	public static int nb_max_Tours = 2;
+	public static int nb_max_Temples = 3;
 	
 	public enum Etat{
 		DEBUT_DE_TOUR,
