@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
-
 import Joueur.IA_Generique;
 import Joueur.joueur_Generique;
-import Joueur.joueur_Humain;
 import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;
@@ -54,9 +52,27 @@ public class Moteur {
 		bat_choisi = Case.Type_Batiment.VIDE;
 	}
 	
+	// Constructeur du moteur sans joueurs
+	public Moteur(Terrain T){
+		this.T = T;
+		annul = new ArrayList<Terrain>();
+		annul.add(T.clone());
+		redo = new ArrayList<Terrain>();
+		tuiles = new ArrayList<Tuile>();
+		init(tuiles);
+		etat = Etat.DEBUT_DE_TOUR;
+		bat_choisi = Case.Type_Batiment.VIDE;
+	}
 	
-	
-	
+	// Adders de joueurs
+	public void add_j1(joueur_Generique j1){
+		this.j1 = j1;
+		j_courant = j1;
+	}
+		
+	public void add_j2(joueur_Generique j2){
+		this.j2 = j2;
+	}
 	
 	///////////////////////////////////////////////////////////////
 	//LECTURE DES PIECES ET INITIALISATION DE L'ENSEMBLE DE TUILES
@@ -93,7 +109,7 @@ public class Moteur {
 			String line = null;
 			try {
 				while ((line = br.readLine()) != null) {
-					System.out.println(line);
+					//System.out.println(line);
 					rajoute_tuile(line,tuiles);
 				}
 				br.close();
@@ -435,9 +451,7 @@ public class Moteur {
 	public void Maj_liste_coup_construction()
 	{
 		liste_coup_construction = new Liste_coup_construction(T,j_courant);
-	}
-	
-	
+	}	
 	
 }
 
