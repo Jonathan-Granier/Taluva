@@ -56,52 +56,34 @@ import terrain.Tuile;
 
 
 
-public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListener{
+public class EcouteurDeSourisTerrain {
 	
-	Moteur m;
+	private Moteur m;
 	
 	public EcouteurDeSourisTerrain(Moteur m)
 	{
 		this.m = m;
 	}
 	
-	public void run()
+	public void run(GraphicTile Tile)
 	{
 		if(InputHandler.isButtonDown(0))
 		{
-			// Si le clique gauche est appuyé
+			// Si le clique gauche est appuyé rapidement
+			CliqueGaucheSouris_Rapide();
+			// Si c'est Maintenu
+			CliqueGaucheSouris_Maintenu();
 			
-			
-			
+		}
+		else if(InputHandler.isButtonDown(1))
+		{
+			CliqueDroitSouris(Tile);
 		}
 	}
 	
-	
-	
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-		
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		Point Point_courant = new Point(e.getX(),e.getY());
+	private void CliqueGaucheSouris_Rapide()
+	{
+		Point Point_courant = new Point(Mouse.getX(),Mouse.getY());
 		
 		switch (m.etat)
 		{
@@ -167,39 +149,21 @@ public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListen
 				break;
 		}
 	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	
+	private void CliqueGaucheSouris_Maintenu()
+	{
+		//Rotation de camera
 	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
+	
+	private void CliqueDroitSouris(GraphicTile Tile)
+	{
 		switch (m.etat)
 		{
 			case POSER_TUILE:
-				/*
-				*	La tuile suit la souris qui est suivie par le chat
-				*/
-				
-				
-				
-				break;
-			case CONSTRUIRE_BATIMENT:
-				/*
-				 * Si batiment selectionné
-				 * 		Le batiment suit la souris
-				 * 
-				 */
+				Tile.rotate();
 				break;
 			default:
 				break;
-		}
-		
+		}			
 	}
 }
