@@ -375,6 +375,8 @@ public class Terrain {
 		ArrayList<Case> cases_extension = getCases_extension_cite(ptsCite,type);
 		if(cases_extension.size()>0){
 			for(int i=0;i<cases_extension.size();i++){
+				int n = getNiveauTheoriqueBatiment(P);
+				histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,P,c));
 				cases_extension.get(i).ajouter_batiment(Case.Type_Batiment.HUTTE, c);
 			}
 			return 0;
@@ -456,6 +458,11 @@ public class Terrain {
 	/////////////////////////// PLACEMENT BATIMENT ////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	
+	// Renvoie le niveau THEORIQUE de placement d'un batiment au Point P
+	public int getNiveauTheoriqueBatiment(Point P){
+		return getCase(P).getNiveau();
+	}
+	
 	// Renvoie le Terrain apres placement direct d'un batiment b de couleur c au point P.
 	// Ne modifie pas la structure actuelle.
 	public Terrain consulter_coup_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
@@ -468,6 +475,7 @@ public class Terrain {
 	// Renvoie 0 si le placement a reussi, 1 sinon.
 	public int placer_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
 		if(placement_batiment_autorise(b,c,P)){
+			histo_batiments.add(new Action_Batiment(b,getNiveauTheoriqueBatiment(P),1,P,c));
 			return getCase(P).ajouter_batiment(b,c);
 		}
 		else return 1;
