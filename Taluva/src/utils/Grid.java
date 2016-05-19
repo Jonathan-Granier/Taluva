@@ -34,7 +34,7 @@ public class Grid {
 	
 	public static final float WIDTH_OF_HEXA = 34f;
 	public static final float HEIGHT_OF_HEXA = 39f;
-	public static final float HEIGHT_OF_TILE = 2;
+	public static final float HEIGHT_OF_TILE = 4;
 	public static final float RAY = 39f/2f;
 	
 	private static Terrain terrain;

@@ -9,7 +9,7 @@ import terrain.Tuile;
 public class GraphicTile {
 	
 	private static final float RAY = 45;
-	private static final float HEIGHT_OF_TILE = 2;
+	private static final float HEIGHT_OF_TILE = 4;
 	
 	private Object3D object3d;
 	private Tuile tile;
