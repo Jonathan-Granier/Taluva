@@ -41,3 +41,9 @@ Branchements Terrain, Interface : réparation des bugs.
 Terrain/Interface enfin fonctionnels.
 Extension du moteur pour prendre en compte l'IA
 Implémentation des Ecouteurs (de souris et de boutons)
+
+Jeudi 19/05/16
+Mise en place de l'interface swing (début)
+Terrain (case/tuile/méthodes, etc...) terminé
+Ecouteurs de souris OpengGL
+Début branchements Interface (openGL) moteur
