@@ -222,16 +222,26 @@ public class Terrain {
 
 	// Renvoie les 3 cases de la tuile
 	private Case [] cases_tuile(Tuile.Orientation o, Point P){
+
+		Point [] pts = pts_tuile(o,P);
+		Case [] res = new Case[3];
+		res[0] = getCase(pts[0]);
+		res[1] = getCase(pts[1]);
+		res[2] = getCase(pts[2]);
+		return res;
+	}
+	
+	private Point [] pts_tuile(Tuile.Orientation o, Point P){
 		int x = P.x;
 		int y = P.y;
-		Case [] res = new Case[3];
-		res[0] = getCase(x,y);
-		res[1] = getCase(x,y+1);
+		Point [] res = new Point[3];
+		res[0] = P;
+		res[1] = new Point(x,y+1);
 		if(o == Tuile.Orientation.GAUCHE){
-			res[2] = getCase(x-1,y);
+			res[2] = new Point(x-1,y);
 		}
 		else{
-			res[2] = getCase(x+1,y+1);
+			res[2] = new Point(x+1,y+1);
 		}
 		return res;
 	}
@@ -281,7 +291,6 @@ public class Terrain {
 	// Renvoie vrai ssi le placement de cette tuile est autorisé au point P.
 	public boolean placement_tuile_autorise(Tuile tuile, Point P)
 	{
-		//TODO on ne gere pas le cas d'ecraser une cite entiere
 		if(empty) return true;
 		if(!dans_terrain(tuile.getOrientation(),P)) return false;
 		else{
@@ -297,7 +306,45 @@ public class Terrain {
 				// Si on tente de jouer sur au moins une tuile
 				if(n0==n1 && n1==n2){
 					// Si les 3 cases dessous sont au même niveau
-					// On joue alors sur des tuiles, on vérifie la disposition des volcans
+					// On joue alors sur des tuiles
+					// On verifie qu'on n'ecrase pas une cite entiere ni une tour ou un temple
+					if(!cases_t[0].est_Libre() || !cases_t[1].est_Libre() || !cases_t[2].est_Libre()){
+						// Si on ecrase au moins un batiment
+						if(cases_t[0].getBType() == Case.Type_Batiment.TEMPLE || cases_t[0].getBType() == Case.Type_Batiment.TOUR)
+							return false;
+						if(cases_t[1].getBType() == Case.Type_Batiment.TEMPLE || cases_t[1].getBType() == Case.Type_Batiment.TOUR)
+							return false;
+						if(cases_t[2].getBType() == Case.Type_Batiment.TEMPLE || cases_t[2].getBType() == Case.Type_Batiment.TOUR)
+							return false;
+						
+						// On n'ecrase que des huttes
+						Point [] pts_t = pts_tuile(tuile.getOrientation(),P);
+						if(!cases_t[0].est_Libre()){
+							ArrayList<Point> cite = getPtsCite(pts_t[0]);
+							if(cite.size()==1) // Une seule case : interdit
+								return false;
+							else if(cite.size()==2){ // Deux cases : interdit si la deuxieme est aussi sous la tuile
+								if(cite.contains(pts_t[1]) || cite.contains(pts_t[2]))
+									return false;
+							}
+						}
+						if(!cases_t[1].est_Libre()){
+							ArrayList<Point> cite = getPtsCite(pts_t[0]);
+							if(cite.size()==1) // Une seule case : interdit
+								return false;
+							else if(cite.size()==2){ // Deux cases : interdit si la deuxieme est aussi sous la tuile
+								if(cite.contains(pts_t[2]))
+									return false;
+							}
+						}
+						if(!cases_t[2].est_Libre()){
+							ArrayList<Point> cite = getPtsCite(pts_t[0]);
+							if(cite.size()==1) // Une seule case : interdit
+								return false;
+						}
+					}
+					
+					// On vérifie la disposition des volcans
 					if(tuile.get_type_case(Case.Orientation.N)==Case.Type.VOLCAN){
 						// Si le Volcan est au Nord
 						if(getCase(x,y).getType()==Case.Type.VOLCAN){
