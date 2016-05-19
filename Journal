@@ -37,4 +37,7 @@ Ecouteur de sourie: Squelette de code.
 Mercredi 18/05/16
 
 Amphi d'IA
-Branchements Terrain, Interface : réparation des bugs
+Branchements Terrain, Interface : réparation des bugs.
+Terrain/Interface enfin fonctionnels.
+Extension du moteur pour prendre en compte l'IA
+Implémentation des Ecouteurs (de souris et de boutons)
