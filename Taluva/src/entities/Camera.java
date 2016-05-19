@@ -6,6 +6,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import terrain.Terrain;
 import utils.Grid;
+import utils.InputHandler;
+import utils.InputHandler.inputType;
 
 public class Camera {
 	
@@ -46,7 +48,7 @@ public class Camera {
 			distanceFromPivot -= zoomLevel;
 		
 		
-		if(Mouse.isButtonDown(0) && Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+		if(InputHandler.isButtonDown(0) == inputType.LONG){
 			float pitchChange = Mouse.getDY() * 0.3f;
 			if(pitch - pitchChange >1 && pitch - pitchChange <85)
 				pitch -= pitchChange;

@@ -35,14 +35,7 @@ import utils.FPS;
 import utils.Grid;
 import utils.Grid.Coords;
 import utils.InputHandler;
-
-
-
-
-
-
-
-
+import utils.InputHandler.inputType;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -67,7 +60,7 @@ public class EcouteurDeSourisTerrain {
 	
 	public void run(GraphicTile Tile)
 	{
-		if(InputHandler.isButtonDown(0))
+		if(InputHandler.reset(InputHandler.isButtonDown(0) == inputType.INSTANT))
 		{
 			// Si le clique gauche est appuyé rapidement
 			CliqueGaucheSouris_Rapide();
@@ -75,7 +68,7 @@ public class EcouteurDeSourisTerrain {
 			CliqueGaucheSouris_Maintenu();
 			
 		}
-		else if(InputHandler.isButtonDown(1))
+		else if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT))
 		{
 			CliqueDroitSouris(Tile);
 		}

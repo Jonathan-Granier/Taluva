@@ -1,4 +1,4 @@
-package test;
+package Ecouteur;
 
 import org.lwjgl.util.vector.Vector2f;
 
@@ -6,13 +6,13 @@ import entities.GraphicConstruction;
 import entities.GraphicConstruction.GraphicType;
 import gui.Button;
 
-public class MyButton extends Button {
+public class ButtonConstruction extends Button {
 
 	public GraphicType type = GraphicType.NULL;
 	private String label;
 	private GraphicConstruction Construction;
 	
-	public MyButton(int textureId, Vector2f position, Vector2f dimension,String label,GraphicConstruction Construction) {
+	public ButtonConstruction(int textureId, Vector2f position, Vector2f dimension,String label,GraphicConstruction Construction) {
 		super(textureId, position, dimension);
 		this.label = label;
 		this.Construction = Construction;

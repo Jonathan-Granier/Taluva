@@ -12,6 +12,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import Ecouteur.ButtonConstruction;
+import Ecouteur.ButtonEndOfTurn;
 import entities.Camera;
 import entities.GraphicConstruction;
 import entities.GraphicConstruction.GraphicType;
@@ -36,6 +38,7 @@ import utils.FPS;
 import utils.Grid;
 import utils.Grid.Coords;
 import utils.InputHandler;
+import utils.InputHandler.inputType;
 import utils.MousePicker;
 
 public class Game {
@@ -83,7 +86,7 @@ public class Game {
 			}
 		}
 		
-		if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) && snap!=null){
+		if(InputHandler.reset(InputHandler.isButtonDown(0) == inputType.INSTANT) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) && snap!=null){
 			putConstruction(constructions,construction,snap);
 		}
 		
@@ -94,8 +97,8 @@ public class Game {
 			Tile.getObject3D().setPosition(new Vector3f(point.x,Tile.getHeight(),point.z));
 		}
 
-		if(InputHandler.isButtonDown(1))
-			Tile.rotate();
+		
+
 
 		InputHandler.isKeyDown(Tile);
 
@@ -113,9 +116,13 @@ public class Game {
 			}
 		}
 		
-		if(InputHandler.isButtonDown(0) && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) && snap!=null){
+		if(InputHandler.reset(InputHandler.isButtonDown(0) == inputType.INSTANT) && snap!=null){
 			putTile(Tiles,Tile,snap);
 		}
+		
+		if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT))
+			Tile.rotate();
+		
 	}
 	
 	public void putConstruction(List<GraphicConstruction> constructions, GraphicConstruction construction,Coords coords){
@@ -138,7 +145,7 @@ public class Game {
 	
 	public List<GraphicTile> createTerrain(Loader loader){
 		terrain = new Terrain();
-		//moteur = new Moteur(terrain);
+		moteur = new Moteur(terrain);
 		//Case [][] t = terrain.getT();
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>();
 		//for(int i=0; i<4;i++)
@@ -166,14 +173,16 @@ public class Game {
 		grid = new Grid(terrain,loader);
 		
 		Texture fond = new Texture(loader.loadTexture("fond.png"),new Vector2f(Display.getWidth()-200,0),new Vector2f(200,Display.getHeight()));
-		MyButton button_hut = new MyButton(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,100),new Vector2f(100,100),"hut",Construction);
-		MyButton button_tower = new MyButton(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,250),new Vector2f(100,100),"tower",Construction);
-		MyButton button_temple = new MyButton(loader.loadTexture("Button_Temple.png"),new Vector2f(Display.getWidth()-150,400),new Vector2f(100,100),"temple",Construction);
+		ButtonConstruction button_hut = new ButtonConstruction(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,100),new Vector2f(100,100),"hut",Construction);
+		ButtonConstruction button_tower = new ButtonConstruction(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,250),new Vector2f(100,100),"tower",Construction);
+		ButtonConstruction button_temple = new ButtonConstruction(loader.loadTexture("Button_Temple.png"),new Vector2f(Display.getWidth()-150,400),new Vector2f(100,100),"temple",Construction);
+		ButtonEndOfTurn button_end = new ButtonEndOfTurn(loader.loadTexture("Button_Fin.png"),new Vector2f(Display.getWidth()-150,550),new Vector2f(100,100),moteur);
 		Drawable drawable = new Drawable(loader);
 		drawable.bindTexture(fond);
 		drawable.bindTexture(button_hut.getTexture());
 		drawable.bindTexture(button_tower.getTexture());
 		drawable.bindTexture(button_temple.getTexture());
+		drawable.bindTexture(button_end.getTexture());
 		
 		Object3D table = new Object3D("Table",loader,new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,0,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f-200),0,0,0,0.3f);
 
@@ -231,7 +240,7 @@ public class Game {
 			shader.stop();
 			
 			drawable.draw();
-			
+
 			Window.updateDisplay();
 			
 		}
