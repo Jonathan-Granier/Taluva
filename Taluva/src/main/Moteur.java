@@ -277,6 +277,14 @@ public class Moteur {
 		else return 1;
 	}
 	
+	// Calcule le score d'un joueur selon la convention :
+	//	Temple = 100 points
+	//	Tour = 10 points
+	//	Hutte = 1 point
+	private int score(Joueur_Generique j){
+		return ((nb_max_Temples - j.getTemple())*100 + (nb_max_Tours - j.getTour())*10 + (nb_max_Huttes - j.getHutte()));
+	}
+	
 	//Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
 	//Actualise aussi les données et change de joueur
 	public int fin_de_tour(){
@@ -287,11 +295,11 @@ public class Moteur {
 			return 0;
 		}
 		else if(pioche_vide()){
-			if(j1.getScore()>j2.getScore()){
+			if(score(j1)>score(j2)){
 				System.out.println("Le joueur 1 a gagné!!!");
 				j_gagnant = j1;
 			}
-			else if(j1.getScore()<j2.getScore()){
+			else if(score(j1)<score(j2)){
 				System.out.println("Le joueur 1 a gagné!!!");
 				j_gagnant = j2;
 			}

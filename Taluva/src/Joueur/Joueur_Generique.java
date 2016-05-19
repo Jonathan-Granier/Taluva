@@ -1,7 +1,5 @@
 package Joueur;
 
-import java.awt.Color;
-
 import terrain.Case.Couleur_Joueur;
 
 //import main.Moteur;
@@ -17,7 +15,7 @@ import terrain.Case.Couleur_Joueur;
 
 
 public abstract class Joueur_Generique {
-	private int temple, tour, hutte,hutteDetruite , score;
+	private int temple, tour, hutte,hutteDetruite;
 	private Couleur_Joueur c;
 	
 	public Joueur_Generique(Couleur_Joueur c)
@@ -26,7 +24,6 @@ public abstract class Joueur_Generique {
 		tour = 2;
 		hutte = 20;
 		hutteDetruite = 0;
-		score = 0;
 		this.c = c;
 		
 	}
@@ -50,11 +47,6 @@ public abstract class Joueur_Generique {
 	public int getHutteDetruite()
 	{
 		return hutteDetruite;
-	}
-	
-	public int getScore()
-	{
-		return score;
 	}
 	
 	public Couleur_Joueur getCouleur()
@@ -93,10 +85,4 @@ public abstract class Joueur_Generique {
 	{
 		this.hutteDetruite = hutteDetruite + n;
 	}
-	
-	public void setScore(int score)
-	{
-		this.score = score;
-	}
-	
 }
