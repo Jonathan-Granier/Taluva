@@ -80,7 +80,6 @@ public class Moteur {
 	
 	private Case.Type char_to_case(char c){
 		switch (c){
-			case 'V' :	return Case.Type.VOLCAN;
 			case 'M' :	return Case.Type.MONTAGNE;
 			case 'P' :	return Case.Type.PLAINE;
 			case 'L' :	return Case.Type.LAC;
