@@ -23,6 +23,8 @@ import gui.Texture;
 import loaders.Loader;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
+import main.Action_Batiment;
+import main.Action_Construction;
 import main.Action_Tuile;
 import main.Moteur;
 import terrain.Terrain;
@@ -53,6 +55,15 @@ public class Game {
 		}
 	}
 	
+	public void drawConstruction(Renderer renderer,Shader shader,List<GraphicConstruction> constructions){
+		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (terrain.getHistoBatiments());
+		for(int i=0;i<listConstruction.size();i++){
+			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
+			constructions.get(i).getObject3d().setPosition(worldPos);
+			renderer.draw(constructions.get(i).getObject3d(),shader);
+		}
+	}
+	
 	public void constructionGestion(Vector3f point,GraphicConstruction construction,List<GraphicConstruction> constructions,Grid grid){
 		if(point!=null){
 			construction.getObject3d().setPosition(new Vector3f(point.x,0,point.z));
@@ -62,7 +73,12 @@ public class Game {
 		Coords snap = grid.snap(construction.getObject3d(),construction.getObject3d().getPosition());
 		if(snap!=null){
 			construction.getObject3d().setPosition(snap.worldPos);
-			if(!terrain.placement_batiment_autorise(Case.Type_Batiment.HUTTE,Couleur_Joueur.JAUNE, snap.indices)){
+			int level = terrain.getNiveauTheoriqueBatiment(snap.indices)-1;
+			construction.getObject3d().setPosition(snap.worldPos);
+			construction.setHeight(0);
+			construction.increaseHeight(level);
+			construction.getObject3d().setPositionY(construction.getHeight());
+			if(!terrain.placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, snap.indices)){
 				construction.getObject3d().setAllow(false);
 			}
 		}
@@ -103,10 +119,10 @@ public class Game {
 	}
 	
 	public void putConstruction(List<GraphicConstruction> constructions, GraphicConstruction construction,Coords coords){
-		if(terrain.placement_batiment_autorise(Case.Type_Batiment.HUTTE,Couleur_Joueur.JAUNE, coords.indices)){
+		if(terrain.placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, coords.indices)){
 			constructions.add(new GraphicConstruction(construction));
 			constructions.get(constructions.size()-1).getObject3d().setPosition(coords.worldPos);
-			terrain.placer_batiment(Case.Type_Batiment.HUTTE, Couleur_Joueur.JAUNE, coords.indices);
+			terrain.placer_batiment(construction.getType_Batiment(), Couleur_Joueur.JAUNE, coords.indices);
 		}
 	}
 	
@@ -145,16 +161,19 @@ public class Game {
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>(createTerrain(loader));
 		List<GraphicConstruction> Constructions = new ArrayList<GraphicConstruction>();
 		
-		GraphicConstruction Construction = new GraphicConstruction(GraphicType.TOWER,new Vector3f(0,0,0),loader);
+		GraphicConstruction Construction = new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader);
 		
 		grid = new Grid(terrain,loader);
 		
 		Texture fond = new Texture(loader.loadTexture("fond.png"),new Vector2f(Display.getWidth()-200,0),new Vector2f(200,Display.getHeight()));
-		MyButton button_tower = new MyButton(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,100),new Vector2f(100,100));
+		MyButton button_hut = new MyButton(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,100),new Vector2f(100,100),"hut",Construction);
+		MyButton button_tower = new MyButton(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,250),new Vector2f(100,100),"tower",Construction);
+		MyButton button_temple = new MyButton(loader.loadTexture("Button_Temple.png"),new Vector2f(Display.getWidth()-150,400),new Vector2f(100,100),"temple",Construction);
 		Drawable drawable = new Drawable(loader);
 		drawable.bindTexture(fond);
+		drawable.bindTexture(button_hut.getTexture());
 		drawable.bindTexture(button_tower.getTexture());
-		
+		drawable.bindTexture(button_temple.getTexture());
 		
 		Object3D table = new Object3D("Table",loader,new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,0,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f-200),0,0,0,0.3f);
 
@@ -170,14 +189,16 @@ public class Game {
 			FPS.updateFPS();
 
 			//Button
+			button_hut.update();
 			button_tower.update();
+			button_temple.update();
 			
 			camera.move();
 			
 			picker.update(Tile.getHeight());
 			Vector3f point = picker.getCurrentObjectPoint();
 
-			if(button_tower.type != GraphicType.NULL)
+			if(button_tower.type != GraphicType.NULL || button_temple.type != GraphicType.NULL || button_hut.type != GraphicType.NULL)
 				constructionGestion(point,Construction,Constructions,grid);
 			else
 				tileGestion(point,Tile,Tiles,grid);
@@ -190,7 +211,7 @@ public class Game {
 			shader.loadViewMatrix(camera);
 			grid.draw(renderer, shader);
 			
-			if(button_tower.type != GraphicType.NULL)
+			if(button_tower.type != GraphicType.NULL || button_temple.type != GraphicType.NULL || button_hut.type != GraphicType.NULL)
 				renderer.draw(Construction.getObject3d(),shader);
 			else
 				renderer.draw(Tile.getObject3D(),shader);
@@ -200,8 +221,10 @@ public class Game {
 			
 			drawTile(renderer,shader,Tiles);
 			
-			for(GraphicConstruction construction:Constructions)
-				renderer.draw(construction.getObject3d(), shader);
+			//for(GraphicConstruction construction:Constructions)
+			//	renderer.draw(construction.getObject3d(), shader);
+			
+			drawConstruction(renderer,shader,Constructions);
 			
 			renderer.draw(table, shader);
 			

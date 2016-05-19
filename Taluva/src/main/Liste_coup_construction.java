@@ -1,13 +1,11 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
 import Joueur.Joueur_Generique;
 import terrain.Case;
-import terrain.Case.Couleur_Joueur;
 import terrain.Terrain;
 import terrain.Terrain.Coord;
 
@@ -21,8 +19,6 @@ public class Liste_coup_construction {
 	{
 		Point p;
 		Coord limites = t.getLimites();
-		int nb_huttes;
-		Case.Type type_extension;
 		for(int i= limites.xmin; i< limites.xmax; i++)
 		{
 			for(int j = limites.ymin; j < limites.ymax; j++)
@@ -40,41 +36,9 @@ public class Liste_coup_construction {
 				{
 					temple.add(p);
 				}
-				if(t.getCase(i, j).getCouleur() == joueur.getCouleur())
-				{
-					type_extension = Case.Type.FORET;
-					nb_huttes = t.nb_huttes_extension(p, type_extension);
-					if(nb_huttes < joueur.getHutte())
-					{
-						extension.add(new Action_Construction(p, type_extension, nb_huttes));
-					}
-					type_extension = Case.Type.LAC;
-					nb_huttes = t.nb_huttes_extension(p, type_extension);
-					if(nb_huttes < joueur.getHutte())
-					{
-						extension.add(new Action_Construction(p, type_extension, nb_huttes));
-					}
-					type_extension = Case.Type.MONTAGNE;
-					nb_huttes = t.nb_huttes_extension(p, type_extension);
-					if(nb_huttes < joueur.getHutte())
-					{
-						extension.add(new Action_Construction(p, type_extension, nb_huttes));
-					}
-					type_extension = Case.Type.PLAINE;
-					nb_huttes = t.nb_huttes_extension(p, type_extension);
-					if(nb_huttes < joueur.getHutte())
-					{
-						extension.add(new Action_Construction(p, type_extension, nb_huttes));
-					}
-					type_extension = Case.Type.SABLE;
-					nb_huttes = t.nb_huttes_extension(p, type_extension);
-					if(nb_huttes < joueur.getHutte())
-					{
-						extension.add(new Action_Construction(p, type_extension, nb_huttes));
-					}
-				}
 			}
 		}
+		extension = t.liste_extensions_possibles(joueur.getCouleur());
 	}
 	
 	public boolean coup_possible (Action_Construction a)
@@ -136,7 +100,7 @@ public class Liste_coup_construction {
 		System.out.println("liste des coups: extension");
 		for(int i=0; i< this.extension.size(); i++)
 		{
-			this.extension.get(i).affichage();
+			this.extension.get(i).afficher();
 		}
 	}
 	

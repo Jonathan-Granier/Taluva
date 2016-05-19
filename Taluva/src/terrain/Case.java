@@ -18,6 +18,27 @@ public class Case {
 		SABLE,
 		FORET,
 		VIDE; // <=> niveau = 0
+		
+		public char toChar(){
+			switch (this){
+			case FORET:
+				return 'F';
+			case LAC:
+				return 'L';
+			case MONTAGNE:
+				return 'M';
+			case PLAINE:
+				return 'P';
+			case SABLE:
+				return 'S';
+			case VIDE:
+				return ' ';
+			case VOLCAN:
+				return 'V';
+			default:
+				return ' ';
+			}
+		}
 	}
 	
 	public enum Orientation{
@@ -37,6 +58,21 @@ public class Case {
 		TOUR,
 		TEMPLE,
 		VIDE;
+		
+		public char toChar(){
+			switch (this){
+			case HUTTE:
+				return 'H';
+			case TEMPLE:
+				return 'A';
+			case TOUR:
+				return 'T';
+			case VIDE:
+				return '_';
+			default:
+				return ' ';
+			}
+		}
 	}
 	
 	private Type type;	// type = VIDE ssi niveau = 0

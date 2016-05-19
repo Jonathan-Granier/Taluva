@@ -1,5 +1,49 @@
 package Ecouteur;
 
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFrame;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
+
+import entities.Camera;
+import entities.GraphicConstruction;
+import entities.GraphicConstruction.GraphicType;
+import entities.GraphicTile;
+import entities.Light;
+import entities.Object3D;
+import gui.Drawable;
+import gui.Texture;
+import loaders.Loader;
+import terrain.Case;
+import terrain.Case.Couleur_Joueur;
+import main.Action_Tuile;
+import main.Moteur;
+import terrain.Terrain;
+import terrain.Tuile;
+import renderEngine.Renderer;
+import renderEngine.Window;
+import shaders.Shader;
+import utils.FPS;
+import utils.Grid;
+import utils.Grid.Coords;
+import utils.InputHandler;
+
+
+
+
+
+
+
+
+
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -9,39 +53,37 @@ import main.Moteur;
 import terrain.Case;
 import terrain.Tuile;
 
-public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListener{
+
+
+
+public class EcouteurDeSourisTerrain {
 	
-	Moteur m;
+	private Moteur m;
 	
 	public EcouteurDeSourisTerrain(Moteur m)
 	{
 		this.m = m;
 	}
 	
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-		
-		
+	public void run(GraphicTile Tile)
+	{
+		if(InputHandler.isButtonDown(0))
+		{
+			// Si le clique gauche est appuyé rapidement
+			CliqueGaucheSouris_Rapide();
+			// Si c'est Maintenu
+			CliqueGaucheSouris_Maintenu();
+			
+		}
+		else if(InputHandler.isButtonDown(1))
+		{
+			CliqueDroitSouris(Tile);
+		}
 	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		Point Point_courant = new Point(e.getX(),e.getY());
+	
+	private void CliqueGaucheSouris_Rapide()
+	{
+		Point Point_courant = new Point(Mouse.getX(),Mouse.getY());
 		
 		switch (m.etat)
 		{
@@ -107,39 +149,21 @@ public class EcouteurDeSourisTerrain implements MouseListener, MouseMotionListen
 				break;
 		}
 	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	
+	private void CliqueGaucheSouris_Maintenu()
+	{
+		//Rotation de camera
 	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
+	
+	private void CliqueDroitSouris(GraphicTile Tile)
+	{
 		switch (m.etat)
 		{
 			case POSER_TUILE:
-				/*
-				*	La tuile suit la souris qui est suivie par le chat
-				*/
-				
-				
-				
-				break;
-			case CONSTRUIRE_BATIMENT:
-				/*
-				 * Si batiment selectionné
-				 * 		Le batiment suit la souris
-				 * 
-				 */
+				Tile.rotate();
 				break;
 			default:
 				break;
-		}
-		
+		}			
 	}
 }

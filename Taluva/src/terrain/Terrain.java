@@ -299,42 +299,34 @@ public class Terrain {
 					// Si les 3 cases dessous sont au même niveau
 					// On joue alors sur des tuiles, on vérifie la disposition des volcans
 					if(tuile.get_type_case(Case.Orientation.N)==Case.Type.VOLCAN){
-							// Si le Volcan est au Nord
-							if(getCase(x,y).getType()==Case.Type.VOLCAN){
-								return getCase(x,y).getOrientation() != tuile.get_Orientation_Volcan();
+						// Si le Volcan est au Nord
+						if(getCase(x,y).getType()==Case.Type.VOLCAN){
+							return getCase(x,y).getOrientation() != tuile.get_Orientation_Volcan();
+						}
+						else return false;
+					}
+					else if(tuile.get_type_case(Case.Orientation.S)==Case.Type.VOLCAN){
+						// Si le Volcan est au Sud
+						if(getCase(x,y+1).getType()==Case.Type.VOLCAN){
+							return getCase(x,y+1).getOrientation() != tuile.get_Orientation_Volcan();
+						}
+						else return false;
+					}
+					else{
+						// Si le Volcan est sur le coté
+						if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
+							if(getCase(x-1,y).getType()==Case.Type.VOLCAN){
+								return getCase(x-1,y).getOrientation() != tuile.get_Orientation_Volcan();
 							}
 							else return false;
-						} else
-								if(tuile.get_type_case(Case.Orientation.S)==Case.Type.VOLCAN){
-									// Si le Volcan est au Sud
-									if(getCase(x,y+1).getType()==Case.Type.VOLCAN){
-										return getCase(x,y+1).getOrientation() != tuile.get_Orientation_Volcan();
-									}
-									else return false;
-								}
-								else{
-									// Si le Volcan est sur le coté
-									if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
-											if(tuile.get_type_case(Case.Orientation.O)==Case.Type.VOLCAN){
-												if(getCase(x-1,y).getType()==Case.Type.VOLCAN){
-													return getCase(x-1,y).getOrientation() != tuile.get_Orientation_Volcan();
-												}
-												else return false;
-											}
-											else{
-												System.out.println(" Pas de volcan sur cette tuile !");
-											}
-									}
-									else{
-											if(tuile.get_type_case(Case.Orientation.E)==Case.Type.VOLCAN){
-												if(getCase(x+1,y+1).getType()==Case.Type.VOLCAN){
-													return getCase(x+1,y+1).getOrientation() != tuile.get_Orientation_Volcan();
-												}
-												else return false;
-											}
-										System.out.println(" Pas de volcan sur cette tuile !");
-									}
-								}
+						}
+						else{
+							if(getCase(x+1,y+1).getType()==Case.Type.VOLCAN){
+								return getCase(x+1,y+1).getOrientation() != tuile.get_Orientation_Volcan();
+							}
+							else return false;
+						}
+					}
 				}
 				else{
 					// On essaye de jouer partiellement sur de tuiles ou de niveaux différents : interdit
@@ -346,7 +338,6 @@ public class Terrain {
 				return en_contact(tuile.getOrientation(),P);
 			}
 		}
-		return empty;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
@@ -486,25 +477,25 @@ public class Terrain {
 		if(getCase(P).ajout_batiment_autorise(b)){
 			// Si le placement est autorise sur la case (independemment du reste du terrain)
 			Point [] ptsVoisins = getPtsVoisins(P);
-			int i = 0;
-			boolean cite_trouvee = false;
-			Point coord_cite = new Point();
-			while(!cite_trouvee && i<6){
+			int nb_cites_trouvees = 0;
+			Point [] coord_cite = new Point[6];
+			for(int i=0; i<6; i++){
 				if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c){
-					cite_trouvee = true;
-					coord_cite = ptsVoisins[i];
+					coord_cite[nb_cites_trouvees] = ptsVoisins[i];
+					nb_cites_trouvees ++;
 				}
-				// TODO : on ne gere pas le cas de connexion de deux cites
-				i++;
 			}
-			if(cite_trouvee){
+			if(nb_cites_trouvees>0){
 				// C'est l'ajout d'une tour ou d'un temple (sinon c'est interdit)
-				ArrayList<Case> cite = getCite(coord_cite);
-				if(b == Case.Type_Batiment.TOUR)
-					return (getCase(P).getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
-				if(b == Case.Type_Batiment.TEMPLE)
-					return (cite_taille_3(cite) && !cite_contient(cite,Case.Type_Batiment.TEMPLE));
-				return false;
+				boolean valide = false;
+				for(int i=0;i<nb_cites_trouvees;i++){
+					ArrayList<Case> cite = getCite(coord_cite[i]);
+					if(b == Case.Type_Batiment.TOUR)
+						valide = valide || (getCase(P).getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
+					else if(b == Case.Type_Batiment.TEMPLE)
+						valide = valide || (cite_taille_3(cite) && !cite_contient(cite,Case.Type_Batiment.TEMPLE));
+				}
+				return valide;
 			}
 			else{
 				// C'est une nouvelle cite : ce doit etre une hutte au niveau 1
@@ -514,31 +505,54 @@ public class Terrain {
 		else return false;
 	}
 	
-	public ArrayList<Action_Construction> liste_coups_construction_possibles(Case.Couleur_Joueur c){
-		// TODO : ca marche pas pour les cites de plusieurs cases
+	// Liste des extensions possibles
+	public ArrayList<Action_Construction> liste_extensions_possibles(Case.Couleur_Joueur c){
 		ArrayList<Action_Construction> res = new  ArrayList<Action_Construction>();
+		ArrayList<Point> ptsCite_visites = new ArrayList<Point>();
+		if(c == Case.Couleur_Joueur.NEUTRE) return res;
 		Point P;
 		int nb;
 		for(int i=limites.xmin;i<limites.xmax;i++){
 			for(int j=limites.ymin;j<limites.ymax;j++){
 				P = new Point(i,j);
-				if(placement_batiment_autorise(Case.Type_Batiment.HUTTE, c, P))
-					res.add(new Action_Construction(Action_Construction.Type.HUTTE, P));
-				if(placement_batiment_autorise(Case.Type_Batiment.TOUR, c, P))
-					res.add(new Action_Construction(Action_Construction.Type.TOUR, P));
-				if(placement_batiment_autorise(Case.Type_Batiment.TEMPLE, c, P))
-					res.add(new Action_Construction(Action_Construction.Type.TEMPLE, P));
 				if(getCase(P).getCouleur() == c){
-					if((nb = nb_huttes_extension(P,Case.Type.FORET))>0)
-						res.add(new Action_Construction(P,Case.Type.FORET,nb));
-					if((nb = nb_huttes_extension(P,Case.Type.LAC))>0)
-						res.add(new Action_Construction(P,Case.Type.LAC,nb));
-					if((nb = nb_huttes_extension(P,Case.Type.PLAINE))>0)
-						res.add(new Action_Construction(P,Case.Type.PLAINE,nb));
-					if((nb = nb_huttes_extension(P,Case.Type.SABLE))>0)
-						res.add(new Action_Construction(P,Case.Type.SABLE,nb));
-					if((nb = nb_huttes_extension(P,Case.Type.MONTAGNE))>0)
-						res.add(new Action_Construction(P,Case.Type.MONTAGNE,nb));
+					// Il y a une cité au point P, c'est une extension
+					if(!ptsCite_visites.contains(P)){
+						// Si on n'a pas deja regarde cette cite
+						ArrayList<Point> ptsCite = getPtsCite(P);
+						for(int l=0; l<ptsCite.size();l++){
+							ptsCite_visites.add(ptsCite.get(l));
+						}
+						// Gestion de tous les types d'extension
+						Case.Type [] types = Case.Type.values();
+						for(int k=0;k<types.length;k++){
+							if(types[k] != Case.Type.VIDE && types[k] != Case.Type.VOLCAN){
+								if((nb = nb_huttes_extension(P,types[k]))>0)
+									res.add(new Action_Construction(P,types[k],nb));
+							}
+						}
+					}
+				}
+			}
+		}
+		return res;
+	}
+	
+	// Liste des constructions possibles hors extension
+	public ArrayList<Action_Construction> liste_coups_construction_possibles(Case.Couleur_Joueur c){
+		ArrayList<Action_Construction> res = new  ArrayList<Action_Construction>();
+		if(c == Case.Couleur_Joueur.NEUTRE) return res;
+		Point P;
+		for(int i=limites.xmin;i<limites.xmax;i++){
+			for(int j=limites.ymin;j<limites.ymax;j++){
+				P = new Point(i,j);
+				if(getCase(P).est_Libre()){
+					if(placement_batiment_autorise(Case.Type_Batiment.HUTTE, c, P))
+						res.add(new Action_Construction(Action_Construction.Type.HUTTE, P));
+					if(placement_batiment_autorise(Case.Type_Batiment.TOUR, c, P))
+						res.add(new Action_Construction(Action_Construction.Type.TOUR, P));
+					if(placement_batiment_autorise(Case.Type_Batiment.TEMPLE, c, P))
+						res.add(new Action_Construction(Action_Construction.Type.TEMPLE, P));
 				}
 			}
 		}
@@ -568,31 +582,7 @@ public class Terrain {
 		System.out.println(limites.ymax);
 		for(int i=limites.ymin;i<=limites.ymax;i++){
 			for(int j=limites.xmin;j<=limites.xmax;j++){
-				switch (t[j][i].getType()){
-				case FORET:
-					System.out.print("F");
-					break;
-				case LAC:
-					System.out.print("L");
-					break;
-				case MONTAGNE:
-					System.out.print("M");
-					break;
-				case PLAINE:
-					System.out.print("P");
-					break;
-				case SABLE:
-					System.out.print("S");
-					break;
-				case VIDE:
-					System.out.print(" ");
-					break;
-				case VOLCAN:
-					System.out.print("V");
-					break;
-				default:
-					break;
-				}
+				System.out.print(t[j][i].getType().toChar());
 			}
 			System.out.print("  ");
 			for(int j=limites.xmin;j<=limites.xmax;j++){
@@ -600,22 +590,8 @@ public class Terrain {
 			}
 			System.out.print("  ");
 			for(int j=limites.xmin;j<=limites.xmax;j++){
-				switch (t[j][i].getBType()){
-				case HUTTE: 
-					System.out.print("H");
-					break;
-				case TEMPLE:
-					System.out.print("A");
-					break;
-				case TOUR:
-					System.out.print("T");
-					break;
-				case VIDE:
-					System.out.print(" ");
-					break;
-				default:
-					break;
-				}
+
+				System.out.print(t[j][i].getBType().toChar());
 			}
 			System.out.print("  ");
 			for(int j=limites.xmin;j<=limites.xmax;j++){

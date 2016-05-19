@@ -167,5 +167,11 @@ public class Grid {
 		
 		return new Vector3f(coords[pos.y][pos.x+offset].x+offsetX,level*HEIGHT_OF_TILE,coords[pos.y][pos.x+offset].y+offsetY);
 	}
+
+	public Vector3f toWorldPos(Point indice,int level){
+		Point pos = new Point(indice);
+		
+		return new Vector3f(coords[pos.y][pos.x].x-HEIGHT_OF_HEXA/2f,level*HEIGHT_OF_TILE,coords[pos.y][pos.x].y);
+	}
 	
 }
