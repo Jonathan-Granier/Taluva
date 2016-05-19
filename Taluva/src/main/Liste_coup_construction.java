@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Joueur.joueur_Generique;
+import Joueur.Joueur_Generique;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import terrain.Terrain;
@@ -17,7 +17,7 @@ public class Liste_coup_construction {
 	private ArrayList<Point> tour;
 	private ArrayList<Point> temple;
 	
-	Liste_coup_construction(Terrain t, joueur_Generique joueur)
+	Liste_coup_construction(Terrain t, Joueur_Generique joueur)
 	{
 		Point p;
 		Coord limites = t.getLimites();

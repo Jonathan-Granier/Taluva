@@ -6,7 +6,7 @@ import main.Moteur;
 import terrain.Case.Couleur_Joueur;
 import terrain.Tuile;
 
-public abstract class IA_Generique extends joueur_Generique{
+public abstract class IA_Generique extends Joueur_Generique{
 	Moteur m;
 	public IA_Generique(Couleur_Joueur c, Moteur m) {
 		super(c);
