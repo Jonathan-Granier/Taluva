@@ -44,7 +44,7 @@ public class EcouteurDeSourisPanneauInteraction implements MouseListener, MouseM
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		switch (m.etat)
+		switch (m.get_etat_jeu())
 		{
 			case DEBUT_DE_TOUR:
 				
