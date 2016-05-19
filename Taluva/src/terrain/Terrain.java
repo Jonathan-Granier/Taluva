@@ -31,18 +31,23 @@ public class Terrain {
 	
 	private ArrayList<Action_Tuile> histo_tuiles;
 	private ArrayList<Action_Batiment> histo_batiments;
+	private ArrayList<Cite> cites;
+	private int [][] index_cite;
 	
 	public Terrain(){
 		t = new Case[TAILLE][TAILLE];
+		index_cite = new int [TAILLE][TAILLE];
 		for(int i=0;i<TAILLE;i++){
 			for(int j=0;j<TAILLE;j++){
 				t[i][j] = new Case(Case.Type.VIDE);
+				index_cite[i][j] = -1;
 			}
 		}
 		limites  = new Coord(CENTRE.x,CENTRE.y,CENTRE.x,CENTRE.y);
 		empty = true;
 		histo_tuiles = new ArrayList<Action_Tuile>();
 		histo_batiments = new ArrayList<Action_Batiment>();
+		cites = new ArrayList<Cite>();
 	}
 	
 	public Terrain clone(){
@@ -50,6 +55,7 @@ public class Terrain {
 		for(int i=0;i<TAILLE;i++){
 			for(int j=0;j<TAILLE;j++){
 				tmp.t[i][j] = this.t[i][j].clone();
+				tmp.index_cite[i][j] = this.index_cite[i][j];
 			}
 		}
 		tmp.limites  = this.limites.clone();
@@ -61,6 +67,10 @@ public class Terrain {
 		tmp.histo_batiments = new ArrayList<Action_Batiment>();
 		for(int i = 0;i<this.histo_tuiles.size();i++){
 			tmp.histo_batiments.add(this.histo_batiments.get(i).clone());
+		}
+		tmp.cites = new ArrayList<Cite>();
+		for(int i = 0;i<this.cites.size();i++){
+			tmp.cites.add(this.cites.get(i));
 		}
 		return tmp;
 	}
@@ -89,6 +99,10 @@ public class Terrain {
 		return histo_batiments;
 	}
 	
+	public Cite getCite2(Point P){
+		return cites.get(index_cite[P.x][P.y]);
+	}
+	
 	// Renvoie les coordonnees limites du terrain : toutes les tuiles sont comprises dans
 	// (xmin,ymin)--------|
 	//      |             |
@@ -110,19 +124,7 @@ public class Terrain {
 	//  / 0,1 \___/ 2,2 \___/
 	//  \     /   \     /   \
 	//   \___/ 1,2 \___/ 3,3 \
-	
 
-/*	
-	// Renvoie les 6 voisins de la case au Point P
-	private Case [] getVoisins(Point P){
-		Case [] res = new Case[6];
-		Point [] pts = getPtsVoisins(P);
-		for(int i=0; i<6; i++){
-			res[i]=getCase(pts[i]);
-		}
-		return res;
-	}
-*/
 	
 	private Point [] getPtsVoisins(Point P){
 		Point [] res = new Point[6];
@@ -492,6 +494,7 @@ public class Terrain {
 			}
 		}
 	}
+
 	///////////////////////////////////////////////////////////////////////////
 	/////////////////////////// PLACEMENT BATIMENT ////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
@@ -512,16 +515,55 @@ public class Terrain {
 	// Place directement un batiment de type b au point P (hors extension de cite).
 	// Renvoie 0 si le placement a reussi, 1 sinon.
 	public int placer_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
-		if(placement_batiment_autorise(b,c,P)){
+		int n;
+		if((n = conditions_placement_batiment(b,c,P))>=0){
 			histo_batiments.add(new Action_Batiment(b,getNiveauTheoriqueBatiment(P),1,P,c));
+			if(n == 0){
+				cites.add(new Cite(P,c,b));
+				index_cite[P.x][P.y] = cites.size()-1;
+			}
+			else{
+				Point [] ptsVoisins = getPtsVoisins(P);
+				int nb_cites_trouvees = 0;
+				Point [] coord_cite = new Point[6];
+				for(int i=0; i<6; i++){
+					if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c){
+						coord_cite[nb_cites_trouvees] = ptsVoisins[i];
+						nb_cites_trouvees ++;
+					}
+				}
+				if(n != nb_cites_trouvees) System.out.println("ERREUR placer batiment - gestion des cites");
+				Cite cite_concernee = cites.get(index_cite[coord_cite[0].x][coord_cite[0].y]);
+				cite_concernee.ajouter(P,b);
+				if(n>1){
+					for(int i=1;i<n;i++){
+						fusion_cite(cite_concernee,cites.get(index_cite[coord_cite[i].x][coord_cite[i].y]));
+					}
+				}
+			}
 			return getCase(P).ajouter_batiment(b,c);
 		}
 		else return 1;
 	}
 	
+	private void fusion_cite(Cite C, Cite C2){
+		int index_C = cites.indexOf(C);
+		ArrayList<Point> ptsC2 = C2.getPts();
+		Point P;
+		for(int i=0;i<ptsC2.size();i++){
+			P = ptsC2.get(i);
+			index_cite[P.x][P.y] = index_C;
+		}
+		C.fusionner_avec(C2);
+	}
+	
 	// Renvoie vrai ssi le placement direct d'un batiment de type b au point P est autorise.
 	public boolean placement_batiment_autorise(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
-		if(getCase(P).ajout_batiment_autorise(b)){
+		return conditions_placement_batiment(b,c,P)>=0;
+	}
+	
+	private int conditions_placement_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
+		if(getCase(P).ajout_batiment_autorise(b) && c != Case.Couleur_Joueur.NEUTRE){
 			// Si le placement est autorise sur la case (independemment du reste du terrain)
 			Point [] ptsVoisins = getPtsVoisins(P);
 			int nb_cites_trouvees = 0;
@@ -534,22 +576,23 @@ public class Terrain {
 			}
 			if(nb_cites_trouvees>0){
 				// C'est l'ajout d'une tour ou d'un temple (sinon c'est interdit)
+				if(b == Case.Type_Batiment.HUTTE) return -1;
 				boolean valide = false;
 				for(int i=0;i<nb_cites_trouvees;i++){
 					ArrayList<Case> cite = getCite(coord_cite[i]);
 					if(b == Case.Type_Batiment.TOUR)
 						valide = valide || (getCase(P).getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
-					else if(b == Case.Type_Batiment.TEMPLE)
+					else // (b == Case.Type_Batiment.TEMPLE)
 						valide = valide || (cite_taille_3(cite) && !cite_contient(cite,Case.Type_Batiment.TEMPLE));
 				}
-				return valide;
+				return (valide) ? nb_cites_trouvees : -1;
 			}
 			else{
 				// C'est une nouvelle cite : ce doit etre une hutte au niveau 1
-				return (b == Case.Type_Batiment.HUTTE) && getCase(P).getNiveau()==1;
+				return (b == Case.Type_Batiment.HUTTE && getCase(P).getNiveau()==1) ? 0 : -1;
 			}
 		}
-		else return false;
+		else return -1;
 	}
 	
 	// Liste des extensions possibles
