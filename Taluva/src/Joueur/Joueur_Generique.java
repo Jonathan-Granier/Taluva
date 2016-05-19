@@ -56,6 +56,26 @@ public abstract class Joueur_Generique {
 	
 	// -------------- Fonction Set ---------------------
 	
+	public void setTemple(int temple)
+	{
+		this.temple = temple;
+	}
+	
+	public void setTour(int tour)
+	{
+		this.tour = tour;
+	}
+	
+	public void setHutte(int hutte)
+	{
+		this.hutte = hutte;
+	}
+	
+	public void setHutteDetruite(int hutteDetruite)
+	{
+		this.hutteDetruite = hutteDetruite;
+	}
+	
 	public void decrementeTemple()
 	{
 		if(temple > 0)
@@ -85,4 +105,7 @@ public abstract class Joueur_Generique {
 	{
 		this.hutteDetruite = hutteDetruite + n;
 	}
+	
+	
+	
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import Joueur.IA_Generique;
 import Joueur.Joueur_Generique;
+import Joueur.Joueur_Humain;
 import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;
@@ -17,6 +18,8 @@ import terrain.Tuile;
 public class Moteur {
 	private Terrain T;
 	private ArrayList<Terrain> annul, redo;
+	//private ArrayList<Joueur_Humain> prev, next;
+	Joueur_Humain prev, next;
 	private ArrayList<Tuile> tuiles;
 	private Tuile tuile_pioche;
 	private Case.Type_Batiment bat_choisi;
@@ -53,6 +56,11 @@ public class Moteur {
 		this.j1 = j1;
 		j_courant = j1;
 		this.j2 = j2;
+		prev = new Joueur_Humain(j_courant.getCouleur());
+		prev = ((Joueur_Humain) j_courant).clone();
+		//prev = new ArrayList<Joueur_Humain>();
+		//prev.add(((Joueur_Humain) j_courant).clone());
+		//next = new ArrayList<Joueur_Humain>();
 		etat = Etat.DEBUT_DE_TOUR;
 		bat_choisi = Case.Type_Batiment.VIDE;
 	}
@@ -221,6 +229,8 @@ public class Moteur {
 	public Tuile piocher(){
 		if(annul.size()==0){
 			annul.add(T.clone());
+			//prev.add(((Joueur_Humain) j_courant).clone());
+			prev = ((Joueur_Humain) j_courant).clone();
 		}
 		Random r = new Random();
 		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()));
@@ -271,6 +281,7 @@ public class Moteur {
 	public int placer_batiment(Point P){
 		if(T.placer_batiment(bat_choisi,j_courant.getCouleur(), P) == 0){
 			annul.add(T.clone());
+			next = ((Joueur_Humain) j_courant).clone();
 			etat = Etat.FIN_DE_TOUR;
 			return 0;
 		}
@@ -434,6 +445,7 @@ public class Moteur {
 				break;
 			case CONSTRUIRE_BATIMENT:
 				etat = Etat.FIN_DE_TOUR;
+				j_courant = next;
 				break;
 			case FIN_DE_TOUR:
 				etat = Etat.DEBUT_DE_TOUR;
@@ -457,6 +469,7 @@ public class Moteur {
 				break;
 			case FIN_DE_TOUR:
 				etat = Etat.CONSTRUIRE_BATIMENT;
+				j_courant = prev;
 				break;
 			default:
 				return 1;

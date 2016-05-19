@@ -1,7 +1,5 @@
 package Joueur;
 
-import java.awt.Color;
-
 import terrain.Case.Couleur_Joueur;
 
 
@@ -17,5 +15,14 @@ public class Joueur_Humain extends Joueur_Generique {
 		super(c);
 	}
 	
+	public Joueur_Humain clone(){
+		Joueur_Humain j;
+		j = new Joueur_Humain(this.getCouleur());
+		j.setTemple(this.getTemple());
+		j.setTour(this.getTour());
+		j.setHutte(this.getHutte());
+		j.setHutteDetruite(this.getHutteDetruite());
+		return j;
+	}
 
 }
