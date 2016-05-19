@@ -38,8 +38,16 @@ public class Cite {
 		pts.add(P);
 		bats.add(bt);
 		taille ++;
-		if(bt == Case.Type_Batiment.TOUR) nb_tours ++;
-		else if(bt == Case.Type_Batiment.TEMPLE) nb_temples ++;
+	}
+	
+	// Attention : ne gere pas le cas de deconnexion en deux cites
+	public void retirer(Point P){
+		int index = pts.indexOf(P);
+		if(bats.get(index) == Case.Type_Batiment.TOUR) nb_tours --;
+		else if(bats.get(index) == Case.Type_Batiment.TEMPLE) nb_temples --;
+		taille --;
+		pts.remove(index);
+		bats.remove(index);
 	}
 	
 	public ArrayList<Point> getPts(){

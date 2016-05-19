@@ -165,7 +165,7 @@ public class Case {
 	// Ajoute n batiments bt de couleur c sur la case.
 	// Renvoie 0 si le placement était autorisé et a réussi, 1 sinon.
 	public int ajouter_batiment(Type_Batiment bt, Couleur_Joueur c){
-		if(ajout_batiment_autorise(bt)){
+		if(ajout_batiment_autorise()){
 			nb_b = (bt == Type_Batiment.HUTTE) ? niveau : 1;
 			this.bt = bt;
 			this.c = c;
@@ -175,7 +175,7 @@ public class Case {
 	}
 	
 	// Renvoie vrai ssi le placement de batiments de type bt est autorise sur cette case.
-	public boolean ajout_batiment_autorise(Type_Batiment bt){
+	public boolean ajout_batiment_autorise(){
 		return type != Type.VOLCAN && nb_b == 0 && type != Type.VIDE;
 	}
 	
