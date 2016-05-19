@@ -39,7 +39,7 @@ public class Moteur {
 		CONSTRUIRE_BATIMENT,
 		FIN_DE_TOUR;
 	}
-	public Etat etat;
+	private Etat etat;
 				
 	
 	// Constructeur du moteur

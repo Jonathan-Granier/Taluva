@@ -85,7 +85,7 @@ public class EcouteurDeSourisTerrain {
 	{
 		Point Point_courant = new Point(Mouse.getX(),Mouse.getY());
 		
-		switch (m.etat)
+		switch (m.get_etat_jeu())
 		{
 			case DEBUT_DE_TOUR:
 				break;
@@ -157,7 +157,7 @@ public class EcouteurDeSourisTerrain {
 	
 	private void CliqueDroitSouris(GraphicTile Tile)
 	{
-		switch (m.etat)
+		switch (m.get_etat_jeu())
 		{
 			case POSER_TUILE:
 				Tile.rotate();
