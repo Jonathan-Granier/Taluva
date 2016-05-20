@@ -147,12 +147,12 @@ public class Moteur extends Etat{
 	///////////////////////
 	
 	// Récupère le terrain courant
-	public Terrain getT(){
+	public Terrain getTerrain(){
 		return T;
 	}
 	
 	//Affecte un terrain au moteur
-	public int setT(Terrain T){
+	public int setTerrain(Terrain T){
 		this.T = T;
 		return 0;
 	}
@@ -504,7 +504,6 @@ public class Moteur extends Etat{
 	public void Maj_liste_coup_construction()
 	{
 		liste_coup_construction = new Liste_coup_construction(T,j_courant);
-	}	
-	
+	}
 }
 
