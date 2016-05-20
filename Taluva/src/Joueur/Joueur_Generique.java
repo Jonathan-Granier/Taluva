@@ -108,4 +108,12 @@ public abstract class Joueur_Generique {
 	
 	
 	
+	public void copie_Joueur_Generique(Joueur_Generique dest)
+	{
+		dest.setHutte(getHutte());
+		dest.setTemple(getTemple());
+		dest.setTour(getTour());
+		dest.setHutteDetruite(getHutteDetruite());
+	}
+	
 }

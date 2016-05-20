@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.Random;
 import Action.Action_Construction;
 import Action.Action_Tuile;
+import Joueur.IA_Alpha_Beta;
 import Joueur.IA_Generique;
+import Joueur.IA_Random;
 import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
 import Liste_coup.Liste_coup_construction;
@@ -257,7 +259,6 @@ public class Moteur extends Etat{
 			annul.add(T.clone());
 			//etat = Etat.CONSTRUIRE_BATIMENT;
 			Incremente_Etat_Jeu();
-			
 			return 0;
 		}
 		else return 1;
@@ -512,40 +513,71 @@ public class Moteur extends Etat{
 	// Pour les tests de Gab
 	
 	public Moteur clone(){
-		Moteur mm = new Moteur(T.clone(),j1,j2);
 		
-		for(int i=1;i<this.annul.size();i++)mm.annul.add(this.annul.get(i));
-		for(int i=0;i<this.redo.size();i++)mm.redo.add(this.redo.get(i));
-		mm.prev = this.prev;
-		mm.next = this.next;
-		mm.tuile_pioche = this.tuile_pioche;
-		mm.bat_choisi = this.bat_choisi;
-		mm.liste_coup_construction = this.liste_coup_construction.clone();
-		mm.liste_coup_tuile = this.liste_coup_tuile.clone();
+		//TODO 
+		// Rendre la copie de joueur propre
+		
+		
+			
+		Joueur_Generique j1_copie = new Joueur_Humain(j2.getCouleur());;
+		Joueur_Generique j2_copie = new Joueur_Humain(j2.getCouleur());
+		Joueur_Generique j_courant_copie = new Joueur_Humain(j_courant.getCouleur());
+		Joueur_Generique j_gagnant_copie = new Joueur_Humain(j_gagnant.getCouleur());
+		
+		
+		Moteur m_copie = new Moteur(T.clone());
+		// On instancie chaque joueur_copie en fonction du type de l'original
+		
+		j1_copie = copie_type_joueur(j1,j1_copie,m_copie);
+		j2_copie = copie_type_joueur(j1,j1_copie,m_copie);
+		j_courant_copie = copie_type_joueur(j1,j1_copie,m_copie);
+		j_gagnant_copie = copie_type_joueur(j1,j1_copie,m_copie);
+			
+		
+		m_copie.add_j1(j1_copie);
+		m_copie.add_j2(j2_copie);
+		
+		for(int i=1;i<this.annul.size();i++)m_copie.annul.add(this.annul.get(i));
+		for(int i=0;i<this.redo.size();i++)m_copie.redo.add(this.redo.get(i));
+		m_copie.prev = this.prev;
+		m_copie.next = this.next;
+		m_copie.tuile_pioche = this.tuile_pioche;
+		m_copie.bat_choisi = this.bat_choisi;
+		m_copie.liste_coup_construction = this.liste_coup_construction.clone();
+		m_copie.liste_coup_tuile = this.liste_coup_tuile.clone();
+		
 		
 		//private Joueur_Generique j_courant;
-		mm.j_courant.setHutte(this.j_courant.getHutte());
-		mm.j_courant.setTemple(this.j_courant.getTemple());
-		mm.j_courant.setTour(this.j_courant.getTour());
-		mm.j_courant.setHutteDetruite(this.j_courant.getHutteDetruite());
+		j_courant.copie_Joueur_Generique(m_copie.j_courant);
 		//private Joueur_Generique j1;
-		mm.j1.setHutte(this.j1.getHutte());
-		mm.j1.setTemple(this.j1.getTemple());
-		mm.j1.setTour(this.j1.getTour());
-		mm.j1.setHutteDetruite(this.j1.getHutteDetruite());
+		j1.copie_Joueur_Generique(m_copie.j1);
 		//private Joueur_Generique j2;
-		mm.j2.setHutte(this.j2.getHutte());
-		mm.j2.setTemple(this.j2.getTemple());
-		mm.j2.setTour(this.j2.getTour());
-		mm.j2.setHutteDetruite(this.j2.getHutteDetruite());
+		j2.copie_Joueur_Generique(m_copie.j2);
 		//private Joueur_Generique j_gagnant;
-		mm.j_gagnant.setHutte(this.j_gagnant.getHutte());
-		mm.j_gagnant.setTemple(this.j_gagnant.getTemple());
-		mm.j_gagnant.setTour(this.j_gagnant.getTour());
-		mm.j_gagnant.setHutteDetruite(this.j_gagnant.getHutteDetruite());
+		j_gagnant.copie_Joueur_Generique(m_copie.j_gagnant);
 		
-		while(mm.get_etat_jeu() != this.get_etat_jeu())mm.Incremente_Etat_Jeu();
-		return mm;
+		while(m_copie.get_etat_jeu() != this.get_etat_jeu())m_copie.Incremente_Etat_Jeu();
+		return m_copie;
+	}
+	
+	
+	//TEST
+	private Joueur_Generique copie_type_joueur(Joueur_Generique src, Joueur_Generique dest, Moteur m_copie)
+	{
+		if(src instanceof Joueur_Humain)
+		{
+			dest = new Joueur_Humain(src.getCouleur());
+		}
+		
+		else if(src instanceof IA_Random)
+		{
+			dest = new IA_Random(src.getCouleur(),m_copie);
+		}
+		else if(src instanceof IA_Alpha_Beta)
+		{
+			dest = new IA_Alpha_Beta(((IA_Alpha_Beta) src).getProfondeur(),src.getCouleur(),m_copie);
+		}
+		return dest;
 	}
 		
 }

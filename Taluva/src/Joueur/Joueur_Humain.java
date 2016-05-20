@@ -25,4 +25,5 @@ public class Joueur_Humain extends Joueur_Generique {
 		return j;
 	}
 
+
 }
