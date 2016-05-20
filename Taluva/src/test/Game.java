@@ -97,7 +97,8 @@ public class Game {
 			Tile.getObject3D().setPosition(new Vector3f(point.x,Tile.getHeight(),point.z));
 		}
 
-		
+		if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT))
+			Tile.rotate();
 
 
 		InputHandler.isKeyDown(Tile);
@@ -120,8 +121,7 @@ public class Game {
 			putTile(Tiles,Tile,snap);
 		}
 		
-		if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT))
-			Tile.rotate();
+
 		
 	}
 	
@@ -184,7 +184,7 @@ public class Game {
 		drawable.bindTexture(button_temple.getTexture());
 		drawable.bindTexture(button_end.getTexture());
 		
-		Object3D table = new Object3D("Table",loader,new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,0,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f-200),0,0,0,0.3f);
+		//Object3D table = new Object3D("Table",loader,new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,0,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f-200),0,0,0,0.3f);
 
 		
 		
@@ -235,7 +235,7 @@ public class Game {
 			
 			drawConstruction(renderer,shader,Constructions);
 			
-			renderer.draw(table, shader);
+			//renderer.draw(table, shader);
 			
 			shader.stop();
 			
