@@ -69,7 +69,7 @@ public class Game {
 	
 	public void constructionGestion(Vector3f point,GraphicConstruction construction,List<GraphicConstruction> constructions,Grid grid){
 		if(point!=null){
-			construction.getObject3d().setPosition(new Vector3f(point.x,0,point.z));
+			construction.getObject3d().setPosition(new Vector3f(point.x,construction.getHeight(),point.z));
 		}
 		
 		//Snap
