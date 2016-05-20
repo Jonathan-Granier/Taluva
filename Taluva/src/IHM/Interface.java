@@ -1,4 +1,4 @@
-package main;
+package IHM;
 
 import java.awt.GridLayout;
 

@@ -15,9 +15,9 @@ import Action.Action_Construction.Type;
 import Joueur.IA_Generique;
 import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
+import Liste_coup.Liste_coup_construction;
+import Liste_coup.Liste_coup_tuile;
 import Moteur.Etat.Etat_Jeu;
-import main.Liste_coup_construction;
-import main.Liste_coup_tuile;
 import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;
@@ -492,6 +492,7 @@ public class Moteur extends Etat{
 		return 0;
 	}
 	*/
+	
 	
 	// -------------------- Fonction pour les listes de coup --------------------------
 	

@@ -1,4 +1,4 @@
-package main;
+package Liste_coup;
 
 import java.awt.Point;
 import java.util.ArrayList;

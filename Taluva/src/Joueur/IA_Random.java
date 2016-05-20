@@ -4,8 +4,8 @@ import java.awt.Point;
 
 import Action.Action_Construction;
 import Action.Action_Tuile;
+import Liste_coup.Liste_coup_tuile;
 import Moteur.Moteur;
-import main.Liste_coup_tuile;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import terrain.Tuile;
