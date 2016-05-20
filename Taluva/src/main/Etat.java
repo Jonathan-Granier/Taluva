@@ -35,7 +35,7 @@ public class Etat {
 	}
 	
 	//Renvoi la liste des ecouteurs d'Etat
-	public EtatListener[] getEtatListener()
+	public EtatListener[] getEtatListeners()
 	{
 		 return listeners.getListeners(EtatListener.class);
 	}
@@ -52,6 +52,11 @@ public class Etat {
 		etat_jeu = Etat_Jeu.DEBUT_DE_TOUR;
 		//TODO
 		//Appeler Listener
+		for(EtatListener listener : getEtatListeners()) 
+		{
+			listener.EtatChange(etat_jeu);
+		}
+		
 	}
 	
 	// Incrémente l'état du jeu
@@ -76,6 +81,11 @@ public class Etat {
 		}
 		//TODO
 		//Appeler listener
+		for(EtatListener listener : getEtatListeners()) 
+		{
+			listener.EtatChange(etat_jeu);
+		}
+		
 		return 0;
 	}
 	
@@ -99,6 +109,11 @@ public class Etat {
 		}
 		//TODO
 		//Appeler listener
+		for(EtatListener listener : getEtatListeners()) 
+		{
+			listener.EtatChange(etat_jeu);
+		}
+		
 		return 0;
 	}
 
