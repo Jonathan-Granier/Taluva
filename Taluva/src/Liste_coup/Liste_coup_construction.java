@@ -42,6 +42,10 @@ public class Liste_coup_construction {
 		extension = t.liste_extensions_possibles(joueur.getCouleur());
 	}
 	
+	public Liste_coup_construction() {
+		// TODO constructeur vide.
+	}
+
 	public boolean coup_possible (Action_Construction a)
 	{
 		switch(a.get_type())
@@ -103,6 +107,32 @@ public class Liste_coup_construction {
 		{
 			this.extension.get(i).afficher();
 		}
+	}
+	
+	public Liste_coup_construction clone()
+	{
+		Liste_coup_construction liste = new Liste_coup_construction();
+		liste.extension = new ArrayList<Action_Construction>();
+		for(int i =0; i < this.extension.size(); i++)
+		{
+			liste.extension.add(this.extension.get(i));
+		}
+		liste.huttes = new ArrayList<Point>();
+		for(int i =0; i < this.huttes.size(); i++)
+		{
+			liste.huttes.add(this.huttes.get(i));
+		}
+		liste.temple = new ArrayList<Point>();
+		for(int i =0; i < this.temple.size(); i++)
+		{
+			liste.temple.add(this.temple.get(i));
+		}
+		liste.tour = new ArrayList<Point>();
+		for(int i =0; i < this.tour.size(); i++)
+		{
+			liste.tour.add(this.tour.get(i));
+		}
+		return null;
 	}
 	
 }

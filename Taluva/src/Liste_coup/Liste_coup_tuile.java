@@ -78,6 +78,10 @@ public class Liste_coup_tuile {
 		}
 	}
 	
+	public Liste_coup_tuile() {
+		// TODO Auto-generated constructor stub
+	}
+
 	// renvoie vrai si le placement de la tuile est valide.
 	// Risque de devoir changer le .contains, ce n'est pas sur qu'il fonctionnera.
 	public boolean coup_possible ( Case.Orientation o, Point p)
@@ -215,5 +219,41 @@ public class Liste_coup_tuile {
 	public Case.Orientation coup_rand_orienation()
 	{
 		return this.coup_rand_orientation;
+	}
+	
+	public Liste_coup_tuile clone()
+	{
+		Liste_coup_tuile liste = new Liste_coup_tuile();
+		liste.coup_E = new ArrayList<Point>();
+		for(int i =0; i<this.coup_E.size(); i++)
+		{
+			liste.coup_E.add(this.coup_E.get(i));
+		}
+		liste.coup_O = new ArrayList<Point>();
+		for(int i =0; i<this.coup_O.size(); i++)
+		{
+			liste.coup_O.add(this.coup_O.get(i));
+		}
+		liste.coup_N_E = new ArrayList<Point>();
+		for(int i =0; i<this.coup_N_E.size(); i++)
+		{
+			liste.coup_N_E.add(this.coup_N_E.get(i));
+		}
+		liste.coup_N_O = new ArrayList<Point>();
+		for(int i =0; i<this.coup_N_O.size(); i++)
+		{
+			liste.coup_N_O.add(this.coup_N_O.get(i));
+		}
+		liste.coup_S_E= new ArrayList<Point>();
+		for(int i =0; i<this.coup_S_E.size(); i++)
+		{
+			liste.coup_S_E.add(this.coup_S_E.get(i));
+		}
+		liste.coup_S_O = new ArrayList<Point>();
+		for(int i =0; i<this.coup_S_O.size(); i++)
+		{
+			liste.coup_S_O.add(this.coup_S_O.get(i));
+		}
+		return null;
 	}
 }
