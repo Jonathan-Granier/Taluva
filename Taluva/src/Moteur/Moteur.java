@@ -493,7 +493,6 @@ public class Moteur extends Etat{
 	}
 	*/
 	
-	
 	// -------------------- Fonction pour les listes de coup --------------------------
 	
 	// Met à jour la liste des coups possibles pour la tuile actuelle
