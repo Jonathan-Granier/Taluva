@@ -25,6 +25,11 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private int score_mult_city_temple_tower = 0;
 	Action_Construction coup_construction;
 	
+	public IA_Alpha_Beta (Couleur_Joueur c, Moteur m)
+	{
+		super(c, m);
+		this.profondeur = 2;
+	}
 	public IA_Alpha_Beta (int profondeur, Couleur_Joueur c, Moteur m)
 	{
 		super(c, m);
@@ -36,8 +41,12 @@ public class IA_Alpha_Beta extends IA_Generique {
 	}
 	@Override
 	public Action_Tuile get_coup_tuile(Tuile tuile) {
+		Moteur virtuel= m.clone();
+		Moteur reel = m;
+		this.m = virtuel;
 		ArrayList<Action_Tuile> list_tuile_possible = m.getTerrain().liste_coups_tuile_possibles(tuile);
 		Coup_Tuile_Heuristique  coup_T_H= choisir_tuile_bon( list_tuile_possible, tuile, Integer.MAX_VALUE, this.profondeur);
+		this.m = reel;
 		return coup_T_H.get_Action_Tuile();
 	}
 	// Choisir une tuile, le score initial est infini a l'initial du terrain avant de jouer.
@@ -50,33 +59,40 @@ public class IA_Alpha_Beta extends IA_Generique {
 		// Si la profondeur est a 0, on renvoie l'heuristique. -> profondeur = nb de phase a générer
 		if(profondeur == 0 )
 		{
-			// /!\ regarder dans moteur virtuel
-			//TODO
-			//simulercoup(liste.get(i));
-			score_courant = Heuristique();
-			// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
-			if(score_courant == score_max)
+			while(i < liste.size() && score_max < score)
 			{
-				liste_tuile_retour.add(liste.get(i));
+				// /!\ regarder dans moteur virtuel
+				//Simulation du coup.
+				m.placer_tuile(liste.get(i).getPosition());
+				if(	m.placer_tuile(liste.get(i).getPosition()) != 0)
+				{
+					System.out.println("IA A&B, probleme au placement de tuile,( retour != 0)");
+				}
+				score_courant = Heuristique();
+				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
+				if(score_courant == score_max)
+				{
+					liste_tuile_retour.add(liste.get(i));
+				}
+				// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
+				else if (score_courant > score_max)
+				{
+					score_max = score_courant;
+					liste_tuile_retour.clear();
+					liste_tuile_retour.add(liste.get(i));
+				}
+				//annuler_coup();
+				m.annuler();
+				i++;
 			}
-			// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
-			else if (score_courant > score_max)
-			{
-				score_max = score_courant;
-				liste_tuile_retour.clear();
-				liste_tuile_retour.add(liste.get(i));
-			}
-			//TODO
-			//annuler_coup();
 		}
 		else
 		{
 			while( i < liste.size() && score_max < score)
 			{
 				// /!\ Simuler dans moteur virtuel
-				//TODO
 				//simulercoup(liste.get(i));
-
+				m.placer_tuile(liste.get(i).getPosition());
 				liste_construction = m.getTerrain().liste_coups_construction_possibles(this.getCouleur());
 				score_courant = choisir_construction_bon(liste_construction, score, profondeur -1).get_Heuristique();
 				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
@@ -91,11 +107,12 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_tuile_retour.clear();
 					liste_tuile_retour.add(liste.get(i));
 				}
-				//TODO
 				//annuler_coup();
+				m.annuler();
+				i++;
 			}
 		}
-		// on tire un coup random parmis les coups optimaux
+		// on renvoie un coup random parmi les coups optimaux
 		Random R = new Random();
 		Action_Tuile coup_tuile = liste_tuile_retour.get(R.nextInt(liste_tuile_retour.size()));
 		return new Coup_Tuile_Heuristique(score_max, coup_tuile);
@@ -117,12 +134,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 				//TODO
 				//simulercoup(liste.get(i));
 
-				//TODO
-				// Generate generique tuile
-				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
-				liste_tuile = m.getTerrain().liste_coups_tuile_possibles(tuile);
-				// TODO
-				score_courant = choisir_tuile_mauvais(liste_tuile, score, profondeur -1);
+				score_courant = Heuristique();
 				if(score_courant == score_max)
 				{
 					liste_construction_retour.add(liste.get(i));
@@ -133,8 +145,9 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_construction_retour.clear();
 					liste_construction_retour.add(liste.get(i));
 				}
-				//TODO
 				//annuler_coup();
+				m.annuler();
+				i++;
 			}
 		}
 		else
@@ -144,13 +157,13 @@ public class IA_Alpha_Beta extends IA_Generique {
 				// /!\ Simuler dans moteur virtuel
 				//TODO
 				//simulercoup(liste.get(i));
-
+				
 				//TODO
 				// Generate generique tuile
 				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
 				liste_tuile = m.getTerrain().liste_coups_tuile_possibles(tuile);
 				// TODO
-				score_courant = choisir_tuile_mauvais(liste_tuile, score, profondeur -1);
+				score_courant = choisir_tuile_mauvais(liste_tuile, score_max, profondeur -1);
 				if(score_courant == score_max)
 				{
 					liste_construction_retour.add(liste.get(i));
@@ -161,10 +174,12 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_construction_retour.clear();
 					liste_construction_retour.add(liste.get(i));
 				}
-				//TODO
 				//annuler_coup();
+				m.annuler();
+				i++;
 			}
 		}
+		// on renvoie un coup parmi les coups optimaux.
 		Random R = new Random();
 		this.coup_construction = liste_construction_retour.get(R.nextInt(liste_construction_retour.size()));
 		return new Coup_Construction_Heuristique(score_max, this.coup_construction);
@@ -172,7 +187,108 @@ public class IA_Alpha_Beta extends IA_Generique {
 	
 	private int choisir_tuile_mauvais(ArrayList<Action_Tuile> liste_tuile, int score, int profondeur)
 	{
-		//TODO
+		/*
+		 int i=0, score_min = Integer.MAX_VALUE;
+		int score_courant;
+		ArrayList<Action_Tuile> liste_tuile_retour = new ArrayList<Action_Tuile>();
+		ArrayList<Action_Construction> liste_construction;
+		// Si la profondeur est a 0, on renvoie l'heuristique. -> profondeur = nb de phase a générer
+		if(profondeur == 0 )
+		{
+			while(i < liste.size() && score_min > score)
+			{
+				// /!\ regarder dans moteur virtuel
+				//Simulation du coup.
+				m.placer_tuile(liste.get(i).getPosition());
+				if(	m.placer_tuile(liste.get(i).getPosition()) != 0)
+				{
+					System.out.println("IA A&B, probleme au placement de tuile,( retour != 0)");
+				}
+				score_courant = Heuristique();
+				if (score_courant > score_min)
+				{
+					score_min = score_courant;
+				}
+				//annuler_coup();
+				m.annuler();
+				i++;
+			}
+		}
+		else
+		{
+			while( i < liste.size() && score_min < score)
+			{
+				// /!\ Simuler dans moteur virtuel
+				//simulercoup(liste.get(i));
+				m.placer_tuile(liste.get(i).getPosition());
+				liste_construction = m.getTerrain().liste_coups_construction_possibles(this.getCouleur());
+				score_courant = choisir_construction_mauvais(liste_construction, score, profondeur -1).get_Heuristique();
+				// si le coup est plus optimal, on met a jour la val min
+				else if (score_courant > score_min)
+				{
+					score_min = score_courant;
+				}
+				//annuler_coup();
+				m.annuler();
+				i++;
+			}
+		}
+		return score_min;
+		 */
+		return 0;
+	}
+	
+	private int choisir_construction_mauvais(ArrayList<Action_Construction>liste_construction,int score,int profondeur)
+	{
+		/*
+		 * int i=0, score_min = Integer.MAX_VALUE;
+		int score_courant;
+		// Si la profondeur est a 0, on renvoie l'heuristique. -> profondeur = nb de phase a générer
+		if(profondeur == 0 )
+		{
+			// /!\ regarder dans moteur virtuel
+			while( i < liste.size() && score_max < score)
+			{
+				// /!\ Simuler dans moteur virtuel
+				//TODO
+				//simulercoup(liste.get(i));
+
+				score_courant = Heuristique();
+				if (score_courant < score_min)
+				{
+					score_min = score_courant;
+
+				}
+				//annuler_coup();
+				m.annuler();
+				i++;
+			}
+		}
+		else
+		{
+			while( i < liste.size() && score_max < score)
+			{
+				// /!\ Simuler dans moteur virtuel
+				//TODO
+				//simulercoup(liste.get(i));
+				
+				//TODO
+				// Generate generique tuile
+				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
+				liste_tuile = m.getTerrain().liste_coups_tuile_possibles(tuile);
+				// TODO
+				score_courant = choisir_tuile_mauvais(liste_tuile, score_max, profondeur -1);
+				if (score_courant < score_min)
+				{
+					score_max = score_courant;
+				}
+				//annuler_coup();
+				m.annuler();
+				i++;
+			}
+		}
+		return score_min;
+		 */
 		return 0;
 	}
 	
@@ -218,10 +334,14 @@ public class IA_Alpha_Beta extends IA_Generique {
 				score -= (m.get_nbTuiles()/ 2) * 5;
 			}
 		}
-		// Ajouter les points dus au cités selon certaines conditions:
+		// Ajouter les points aux qualités cités selon certaines conditions:
 		//Cité de X zones: 3*zones pour X>=3
 		//	  Cité de 3 zone plus non destructible: Temple/2 si reste un temple.
 		return score;
+	}
+	public int getProfondeur()
+	{
+		return this.profondeur;
 	}
 		
 }
