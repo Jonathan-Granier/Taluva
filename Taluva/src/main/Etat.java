@@ -1,5 +1,8 @@
 package main;
 
+import javax.swing.event.EventListenerList;
+
+import Ecouteur.EtatListener;
 
 public class Etat {
 	public enum Etat_Jeu{
@@ -9,6 +12,9 @@ public class Etat {
 		FIN_DE_TOUR;
 	}
 	private Etat_Jeu etat_jeu;
+	private final EventListenerList listeners = new EventListenerList();
+	
+	
 	
 	protected Etat ()
 	{
@@ -16,13 +22,31 @@ public class Etat {
 	}
 	
 	
+	//Ajoute un ecouteur d'Etat listener
+	public void addEtatListener(EtatListener listener)
+	{
+		listeners.add(EtatListener.class, listener);
+	}
 	
+	//Supprime un ecouteur d'Etat listener
+	public void removeEtatListener(EtatListener listener)
+	{
+		listeners.remove(EtatListener.class, listener);
+	}
 	
+	//Renvoi la liste des ecouteurs d'Etat
+	public EtatListener[] getEtatListener()
+	{
+		 return listeners.getListeners(EtatListener.class);
+	}
+	
+	//Renvoi l'etat de jeu actuelle
 	public Etat_Jeu get_etat_jeu()
 	{
 		return etat_jeu;
 	}
 	
+	//Initialise l'etat de jeu à DEBUT_DE_TOUR
 	protected void init_etat_jeu()
 	{
 		etat_jeu = Etat_Jeu.DEBUT_DE_TOUR;
@@ -30,6 +54,7 @@ public class Etat {
 		//Appeler Listener
 	}
 	
+	// Incrémente l'état du jeu
 	protected int Incremente_Etat_Jeu()
 	{
 		switch (etat_jeu)
@@ -54,6 +79,7 @@ public class Etat {
 		return 0;
 	}
 	
+	// Décrémente l'état du jeu
 	protected int Decremente_Etat_Jeu()
 	{
 		switch (etat_jeu)
