@@ -442,7 +442,6 @@ public class Terrain {
 	// Etend la cite presente au point P sur les cases de Type type.
 	// Renvoie 0 si l'extension a reussi, 1 sinon
 	public int etendre_cite(Point P, Case.Type type){
-		// TODO : extension qui rejoint deux Cite => fusion
 		Cite cite = getCite(P);
 		int index_c = cites_indexOf(cite);
 		Case.Couleur_Joueur c = cite.getCouleur();
@@ -450,14 +449,33 @@ public class Terrain {
 		if(pts_extension.size()>0){
 			for(int i=0;i<pts_extension.size();i++){
 				int n = getCase(pts_extension.get(i)).getNiveau();
+				ArrayList<Cite> cites_proches = getCitesContact(pts_extension.get(i),c);
 				histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,P,c));
 				getCase(pts_extension.get(i)).ajouter_batiment(Case.Type_Batiment.HUTTE,c);
 				cite.ajouter(pts_extension.get(i), Case.Type_Batiment.HUTTE);
 				index_cite[pts_extension.get(i).x][pts_extension.get(i).y]=index_c;
+				if(cites_proches.size()>1){
+					// Cette extension connecte deux cites
+					for(i=1;i<cites_proches.size();i++){
+						fusion_cite(cites_proches.get(i-1),cites_proches.get(i));
+					}
+				}
 			}
 			return 0;
 		}
 		else return 1;
+	}
+	
+	// Renvoie la liste des cites de couleur c en contact avec P
+	private ArrayList<Cite> getCitesContact(Point P, Case.Couleur_Joueur c){
+		Point [] ptsVoisins = getPtsVoisins(P);
+		ArrayList<Cite> cites_trouvees = new ArrayList<Cite>();
+		for(int i=0; i<6; i++){
+			if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c && !cites_trouvees.contains(getCite(ptsVoisins[i]))){
+				cites_trouvees.add(getCite(ptsVoisins[i]));
+			}
+		}
+		return cites_trouvees;
 	}
 
 	// Renvoie l'ensemble des points concernes par l'extension de la cite sur les cases de Type type.
@@ -580,8 +598,8 @@ public class Terrain {
 				index_cite[P.x][P.y] = cites.size()-1;
 			}
 			else{
-				Point [] ptsVoisins = getPtsVoisins(P);
-				/*int nb_cites_trouvees = 0;
+				/*Point [] ptsVoisins = getPtsVoisins(P);
+				int nb_cites_trouvees = 0;
 				Point [] coord_cite = new Point[6];
 				for(int i=0; i<6; i++){
 					if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c){
@@ -589,17 +607,13 @@ public class Terrain {
 						nb_cites_trouvees ++;
 					}
 				}*/
-				ArrayList<Cite> cites_trouvees = new ArrayList<Cite>();
-				for(int i=0; i<6; i++){
-					if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c && !cites_trouvees.contains(getCite(ptsVoisins[i]))){
-						cites_trouvees.add(getCite(ptsVoisins[i]));
-					}
-				}
+				ArrayList<Cite> cites_trouvees = getCitesContact(P,c);
 				int nb_cites_trouvees = cites_trouvees.size();
 				if(n != nb_cites_trouvees) System.out.println("ERREUR placer batiment - gestion des cites");
 				// On choisit arbitrairement la cite qui contiendra le batiment
 				Cite cite_concernee = cites_trouvees.get(0);
 				cite_concernee.ajouter(P,b);
+				getCase(P).ajouter_batiment(b,c);
 				index_cite[P.x][P.y] = cites_indexOf(cite_concernee);
 				if(n>1){
 					// S'il y a plusieurs cites a cote, on fusionne
@@ -608,7 +622,7 @@ public class Terrain {
 					}
 				}
 			}
-			return getCase(P).ajouter_batiment(b,c);
+			return 0;
 		}
 		else return 1;
 	}
@@ -650,13 +664,7 @@ public class Terrain {
 	private int conditions_placement_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
 		if(getCase(P).ajout_batiment_autorise() && c != Case.Couleur_Joueur.NEUTRE){
 			// Si le placement est autorise sur la case (independemment du reste du terrain)
-			Point [] ptsVoisins = getPtsVoisins(P);
-			ArrayList<Cite> cites_trouvees = new ArrayList<Cite>();
-			for(int i=0; i<6; i++){
-				if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c && !cites_trouvees.contains(getCite(ptsVoisins[i]))){
-					cites_trouvees.add(getCite(ptsVoisins[i]));
-				}
-			}
+			ArrayList<Cite> cites_trouvees = getCitesContact(P,c);
 			int nb_cites_trouvees = cites_trouvees.size();
 			if(nb_cites_trouvees>0){
 				// C'est l'ajout d'une tour ou d'un temple (sinon c'est interdit)
