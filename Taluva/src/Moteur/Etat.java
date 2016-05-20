@@ -26,7 +26,7 @@ public class Etat {
 		return etat_jeu;
 	}
 	// POUR LES TEST DE DIM
-	public void setEtat_Jeu(Etat_Jeu e)
+	public void set_Etat_Jeu(Etat_Jeu e)
 	{
 		etat_jeu = e;
 	}
