@@ -513,8 +513,8 @@ public class Moteur extends Etat{
 	public Moteur clone(){
 		Moteur mm = new Moteur(T.clone(),j1,j2);
 		
-		for(int i=1;i<this.annul.size()-1;i++)mm.annul.add(this.annul.get(i));
-		for(int i=0;i<this.redo.size()-1;i++)mm.redo.add(this.redo.get(i));
+		for(int i=1;i<this.annul.size();i++)mm.annul.add(this.annul.get(i));
+		for(int i=0;i<this.redo.size();i++)mm.redo.add(this.redo.get(i));
 		mm.prev = this.prev;
 		mm.next = this.next;
 		mm.tuile_pioche = this.tuile_pioche;
