@@ -177,6 +177,10 @@ public class Moteur extends Etat{
 	public Joueur_Generique getJ2(){
 		return j2;
 	}
+	public int get_num_Jcourant(){
+		if(j_courant==j1)return 1;
+		else return 2;
+	}
 	
 	
 	//Renvoie le type de batiment choisi par le joueur
