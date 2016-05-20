@@ -1,10 +1,12 @@
 package Joueur;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import main.Action_Construction;
 import main.Action_Tuile;
 import main.Moteur;
+import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import terrain.Terrain;
 import terrain.Tuile;
@@ -21,8 +23,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private int score_div_city_base = 1;
 	private int score_div_city_temple = 2;
 	private int score_mult_city_temple_tower = 0;
-	Action_Construction construction;
-	Action_Tuile tuile;
+	Action_Construction coup_construction;
 	
 	public IA_Alpha_Beta (int profondeur, Couleur_Joueur c, Moteur m)
 	{
@@ -31,50 +32,138 @@ public class IA_Alpha_Beta extends IA_Generique {
 	}
 	@Override
 	public Action_Construction get_coup_construction() {
-		return construction;
+		return coup_construction;
 	}
 	@Override
 	public Action_Tuile get_coup_tuile(Tuile tuile) {
 		ArrayList<Action_Tuile> list_tuile_possible = m.getT().liste_coups_tuile_possibles(tuile);
-		choisir_tuile_bon( list_tuile_possible, tuile, Integer.MAX_VALUE, this.profondeur);
-		return null;
+		Coup_Tuile_Heuristique  coup_T_H= choisir_tuile_bon( list_tuile_possible, tuile, Integer.MAX_VALUE, this.profondeur);
+		return coup_T_H.get_Action_Tuile();
 	}
-	/*
-	// Choisir une tuile, le score initial est l'heuristique du terrain avant de jouer.
-	private int choisir_tuile_bon( ArrayList<Action_Tuile> liste, Tuile tuile, int score, int profondeur)
+	
+	// Choisir une tuile, le score initial est infini a l'initial du terrain avant de jouer.
+	private Coup_Tuile_Heuristique choisir_tuile_bon( ArrayList<Action_Tuile> liste, Tuile tuile, int score, int profondeur)
 	{
 		int i=0, score_max = Integer.MIN_VALUE;
 		int score_courant;
-		ArrayList<Action_Tuile> liste_retour = new ArrayList<Action_Tuile>();
+		ArrayList<Action_Tuile> liste_tuile_retour = new ArrayList<Action_Tuile>();
+		ArrayList<Action_Construction> liste_construction;
+		// Si la profondeur est a 0, on renvoie l'heuristique. -> profondeur = nb de phase a générer
 		if(profondeur == 0 )
 		{
 			// /!\ regarder dans moteur virtuel
-			return Heuristique();
+			//simulercoup(liste.get(i));
+			score_courant = Heuristique();
+			// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
+			if(score_courant == score_max)
+			{
+				liste_tuile_retour.add(liste.get(i));
+			}
+			// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
+			else if (score_courant > score_max)
+			{
+				score_max = score_courant;
+				liste_tuile_retour.clear();
+				liste_tuile_retour.add(liste.get(i));
+			}
+			//annuler_coup();
 		}
 		else
 		{
 			while( i < liste.size() && score_max < score)
 			{
 				// /!\ Simuler dans moteur virtuel
-				simulercoup(liste.get(i));
-				score_courant = choisir_construction_bon();
+				//simulercoup(liste.get(i));
+
+				liste_construction = m.getT().liste_coups_construction_possibles(this.getCouleur());
+				score_courant = choisir_construction_bon(liste_construction, score, profondeur -1).get_Heuristique();
+				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
 				if(score_courant == score_max)
 				{
-					liste_retour.add(liste.get(i));
+					liste_tuile_retour.add(liste.get(i));
+				}
+				// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
+				else if (score_courant > score_max)
+				{
+					score_max = score_courant;
+					liste_tuile_retour.clear();
+					liste_tuile_retour.add(liste.get(i));
+				}
+				//annuler_coup();
+			}
+		}
+		// on tire un coup random parmis les coups optimaux
+		Random R = new Random();
+		Action_Tuile coup_tuile = liste_tuile_retour.get(R.nextInt(liste_tuile_retour.size()));
+		return new Coup_Tuile_Heuristique(score_max, coup_tuile);
+	}
+	
+	private Coup_Construction_Heuristique choisir_construction_bon( ArrayList <Action_Construction> liste, int score, int profondeur)
+	{
+		int i=0, score_max = Integer.MIN_VALUE;
+		int score_courant;
+		ArrayList<Action_Tuile> liste_tuile;
+		ArrayList<Action_Construction> liste_construction_retour = new ArrayList<Action_Construction>();
+		// Si la profondeur est a 0, on renvoie l'heuristique. -> profondeur = nb de phase a générer
+		if(profondeur == 0 )
+		{
+			// /!\ regarder dans moteur virtuel
+			while( i < liste.size() && score_max < score)
+			{
+				// /!\ Simuler dans moteur virtuel
+				//simulercoup(liste.get(i));
+
+				//TODO
+				// Generate generique tuile
+				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
+				liste_tuile = m.getT().liste_coups_tuile_possibles(tuile);
+				// TODO
+				score_courant = choisir_tuile_mauvais(liste_tuile, score, profondeur -1);
+				if(score_courant == score_max)
+				{
+					liste_construction_retour.add(liste.get(i));
 				}
 				else if (score_courant > score_max)
 				{
 					score_max = score_courant;
-					liste_retour.clear();
-					liste_retour.add(liste.get(i));
+					liste_construction_retour.clear();
+					liste_construction_retour.add(liste.get(i));
 				}
-				annuler_coup();
+				//annuler_coup();
 			}
 		}
-		return score_max;
+		else
+		{
+			while( i < liste.size() && score_max < score)
+			{
+				// /!\ Simuler dans moteur virtuel
+				//simulercoup(liste.get(i));
+
+				//TODO
+				// Generate generique tuile
+				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
+				liste_tuile = m.getT().liste_coups_tuile_possibles(tuile);
+				// TODO
+				score_courant = choisir_tuile_mauvais(liste_tuile, score, profondeur -1);
+				if(score_courant == score_max)
+				{
+					liste_construction_retour.add(liste.get(i));
+				}
+				else if (score_courant > score_max)
+				{
+					score_max = score_courant;
+					liste_construction_retour.clear();
+					liste_construction_retour.add(liste.get(i));
+				}
+				//annuler_coup();
+			}
+		}
+		Random R = new Random();
+		this.coup_construction = liste_construction_retour.get(R.nextInt(liste_construction_retour.size()));
+		return new Coup_Construction_Heuristique(score_max, this.coup_construction);
 	}
-	*/
-	private int choisir_construction_mauvais( ArrayList <Action_Construction> liste)
+	
+	private int choisir_tuile_mauvais(ArrayList<Action_Tuile> liste_tuile, int score, int profondeur)
 	{
 		return 0;
 	}
