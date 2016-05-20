@@ -65,7 +65,7 @@ public class Terrain {
 			tmp.histo_tuiles.add(this.histo_tuiles.get(i).clone());
 		}
 		tmp.histo_batiments = new ArrayList<Action_Batiment>();
-		for(int i = 0;i<this.histo_tuiles.size();i++){
+		for(int i = 0;i<this.histo_batiments.size();i++){
 			tmp.histo_batiments.add(this.histo_batiments.get(i).clone());
 		}
 		tmp.cites = new ArrayList<Cite>();
