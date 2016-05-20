@@ -37,6 +37,8 @@ public class Cite {
 	public void ajouter(Point P, Case.Type_Batiment bt){
 		pts.add(P);
 		bats.add(bt);
+		if(bt == Case.Type_Batiment.TOUR) nb_tours ++;
+		else if(bt == Case.Type_Batiment.TEMPLE) nb_temples ++;
 		taille ++;
 	}
 	
