@@ -577,8 +577,10 @@ public class Moteur extends Etat{
 		{
 			dest = new IA_Alpha_Beta(((IA_Alpha_Beta) src).getProfondeur(),src.getCouleur(),m_copie);
 		}
+		
 		return dest;
 	}
+	 
 		
 }
 
