@@ -12,12 +12,10 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import Action.Action_Batiment;
-import Action.Action_Construction;
-import Action.Action_Tuile;
 import Ecouteur.ButtonConstruction;
 import Ecouteur.ButtonEndOfTurn;
-import Moteur.Moteur;
+import Ecouteur.EcouteurDeSourisTerrain;
+import Joueur.Joueur_Humain;
 import entities.Camera;
 import entities.GraphicConstruction;
 import entities.GraphicConstruction.GraphicType;
@@ -29,6 +27,11 @@ import gui.Texture;
 import loaders.Loader;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
+import Action.Action_Batiment;
+import Action.Action_Construction;
+import Action.Action_Tuile;
+import Moteur.Etat.Etat_Jeu;
+import Moteur.Moteur;
 import terrain.Terrain;
 import terrain.Tuile;
 import renderEngine.Renderer;
@@ -145,7 +148,9 @@ public class Game {
 	
 	public List<GraphicTile> createTerrain(Loader loader){
 		terrain = new Terrain();
-		moteur = new Moteur(terrain);
+		//On creer des joueurs
+		
+		moteur = new Moteur(terrain,new Joueur_Humain(Case.Couleur_Joueur.JAUNE),new Joueur_Humain(Case.Couleur_Joueur.ROUGE));
 		//Case [][] t = terrain.getT();
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>();
 		//for(int i=0; i<4;i++)
@@ -186,7 +191,7 @@ public class Game {
 		
 		//Object3D table = new Object3D("Table",loader,new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,0,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f-200),0,0,0,0.3f);
 
-		
+
 		
 		List<Light> lights = new ArrayList<Light>();
 		Light sun = new Light(new Vector3f(20000,15000,-1000),new Vector3f(1,1,1));
@@ -194,6 +199,9 @@ public class Game {
 
 		MousePicker picker = new MousePicker(camera,renderer.getProjectionMatrix());
 
+		//Create listener
+		EcouteurDeSourisTerrain ecouteurSouris = new EcouteurDeSourisTerrain(moteur,picker,grid);
+		
 		while(!Display.isCloseRequested()){
 			FPS.updateFPS();
 
@@ -207,10 +215,10 @@ public class Game {
 			picker.update(Tile.getHeight());
 			Vector3f point = picker.getCurrentObjectPoint();
 
-			if(button_tower.type != GraphicType.NULL || button_temple.type != GraphicType.NULL || button_hut.type != GraphicType.NULL)
+			/*if(button_tower.type != GraphicType.NULL || button_temple.type != GraphicType.NULL || button_hut.type != GraphicType.NULL)
 				constructionGestion(point,Construction,Constructions,grid);
 			else
-				tileGestion(point,Tile,Tiles,grid);
+				tileGestion(point,Tile,Tiles,grid);*/
 			
 			renderer.prepare();
 			
@@ -218,15 +226,16 @@ public class Game {
 			shader.loadLights(lights);
 			
 			shader.loadViewMatrix(camera);
-			grid.draw(renderer, shader);
 			
-			if(button_tower.type != GraphicType.NULL || button_temple.type != GraphicType.NULL || button_hut.type != GraphicType.NULL)
+			if(moteur.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT && button_tower.type != GraphicType.NULL || button_temple.type != GraphicType.NULL || button_hut.type != GraphicType.NULL)
 				renderer.draw(Construction.getObject3d(),shader);
-			else
+			else if(moteur.get_etat_jeu() == Etat_Jeu.POSER_TUILE)
 				renderer.draw(Tile.getObject3D(),shader);
 			
 			/*for(GraphicTile tile:Tiles)
 				renderer.draw(tile.getObject3D(), shader);*/
+			
+			ecouteurSouris.run(Tile, Tiles, Construction, Constructions);
 			
 			drawTile(renderer,shader,Tiles);
 			

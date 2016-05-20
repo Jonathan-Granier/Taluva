@@ -257,6 +257,7 @@ public class Moteur extends Etat{
 			annul.add(T.clone());
 			//etat = Etat.CONSTRUIRE_BATIMENT;
 			Incremente_Etat_Jeu();
+			
 			return 0;
 		}
 		else return 1;

@@ -96,6 +96,7 @@ public class Renderer {
         float x_scale = y_scale / aspectRatio;
         float frustum_length = FAR_PLANE - NEAR_PLANE;
  
+        System.out.println( Display.getWidth() + " " +Display.getHeight());
         projectionMatrix = new Matrix4f();
         projectionMatrix.m00 = x_scale;
         projectionMatrix.m11 = y_scale;
