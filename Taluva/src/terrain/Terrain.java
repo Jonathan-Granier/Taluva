@@ -589,7 +589,7 @@ public class Terrain {
 				if(n != nb_cites_trouvees) System.out.println("ERREUR placer batiment - gestion des cites");
 				Cite cite_concernee = cites.get(index_cite[coord_cite[0].x][coord_cite[0].y]);
 				cite_concernee.ajouter(P,b);
-				index_cite[P.x][P.y] = cites.indexOf(cite_concernee);
+				index_cite[P.x][P.y] = cites_indexOf(cite_concernee);
 				if(n>1){
 					for(int i=1;i<n;i++){
 						fusion_cite(cite_concernee,cites.get(index_cite[coord_cite[i].x][coord_cite[i].y]));
@@ -601,9 +601,14 @@ public class Terrain {
 		else return 1;
 	}
 	
+	private int cites_indexOf(Cite C){
+		return getIndexCite(C.getPts().get(0));
+	}
+	
 	// Fusionne C et C2 => C
 	private void fusion_cite(Cite C, Cite C2){
-		int index_C = cites.indexOf(C);
+		int index_C = cites_indexOf(C);
+		int index_C2 = cites_indexOf(C2);
 		ArrayList<Point> ptsC2 = C2.getPts();
 		Point P;
 		for(int i=0;i<ptsC2.size();i++){
@@ -612,6 +617,13 @@ public class Terrain {
 		}
 		C.fusionner_avec(C2);
 		cites.remove(C2);
+		for(int i=limites.xmin;i<=limites.xmax;i++){
+			for(int j=limites.ymin;j<=limites.ymax;j++){
+				if(index_cite[i][j]>index_C2){
+					index_cite[i][j] = index_cite[i][j]-1;
+				}
+			}
+		}
 	}
 	
 	// Renvoie vrai ssi le placement direct d'un batiment de type b au point P est autorise.
@@ -747,8 +759,17 @@ public class Terrain {
 			for(int j=limites.xmin;j<=limites.xmax;j++){
 				System.out.print(t[j][i].getBNb());
 			}
+			System.out.print("  ");
+			for(int j=limites.xmin;j<=limites.xmax;j++){
+				if(index_cite[j][i] == -1) System.out.print("_");
+				else System.out.print(index_cite[j][i]);
+			}
 			System.out.println("");
 		}
+		for(int i = 0; i<cites.size();i++){
+			System.out.print(cites.get(i).getPts().size() + " ");
+		}
+		System.out.println("");
 		System.out.println("");
 	}
 }
