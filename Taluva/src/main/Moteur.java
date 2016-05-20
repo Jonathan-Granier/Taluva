@@ -15,7 +15,7 @@ import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;
 
-public class Moteur {
+public class Moteur extends Etat{
 	private Terrain T;
 	private ArrayList<Terrain> annul, redo;
 	//private ArrayList<Joueur_Humain> prev, next;
@@ -36,12 +36,13 @@ public class Moteur {
 	public static int nb_max_Tours = 2;
 	public static int nb_max_Temples = 3;
 	
-	public enum Etat{
+	/*public enum Etat{
 		DEBUT_DE_TOUR,
 		POSER_TUILE,
 		CONSTRUIRE_BATIMENT,
 		FIN_DE_TOUR;
-	}
+	}*/
+	
 	private Etat etat;
 				
 	
@@ -61,7 +62,9 @@ public class Moteur {
 		//prev = new ArrayList<Joueur_Humain>();
 		//prev.add(((Joueur_Humain) j_courant).clone());
 		//next = new ArrayList<Joueur_Humain>();
-		etat = Etat.DEBUT_DE_TOUR;
+		etat.init_etat_jeu();
+		//etat = Etat.DEBUT_DE_TOUR;
+		
 		bat_choisi = Case.Type_Batiment.VIDE;
 	}
 	
@@ -73,7 +76,8 @@ public class Moteur {
 		redo = new ArrayList<Terrain>();
 		tuiles = new ArrayList<Tuile>();
 		init(tuiles);
-		etat = Etat.DEBUT_DE_TOUR;
+		//etat = Etat.DEBUT_DE_TOUR;
+		etat.init_etat_jeu();
 		bat_choisi = Case.Type_Batiment.VIDE;
 	}
 	
@@ -172,10 +176,6 @@ public class Moteur {
 		return j2;
 	}
 	
-	//Renvoie l'état actuel du tour du jeu
-	public Etat get_etat_jeu(){
-		return etat;
-	}
 	
 	//Renvoie le type de batiment choisi par le joueur
 	public Case.Type_Batiment get_bat_choisi(){
@@ -234,7 +234,8 @@ public class Moteur {
 		}
 		Random r = new Random();
 		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()));
-		etat = Etat.POSER_TUILE;
+		//etat = Etat.POSER_TUILE;
+		etat.Incremente_Etat_Jeu();
 		return tuile_pioche;
 	}
 	
@@ -248,7 +249,8 @@ public class Moteur {
 		if(T.placer_tuile(tuile_pioche, P) == 0){
 			if(joueur_elimine())return -1;
 			annul.add(T.clone());
-			etat = Etat.CONSTRUIRE_BATIMENT;
+			//etat = Etat.CONSTRUIRE_BATIMENT;
+			etat.Incremente_Etat_Jeu();
 			return 0;
 		}
 		else return 1;
@@ -257,17 +259,17 @@ public class Moteur {
 	//SELECTEURS DES BATIMENTS DU JOUEUR
 	//Le batiment choisi est une hutte
 	public void select_hutte(){
-		if(etat == Etat.CONSTRUIRE_BATIMENT)
+		if(etat.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.HUTTE;
 	}
 	//Le batiment choisi est un temple
 	public void select_temple(){
-		if(etat == Etat.CONSTRUIRE_BATIMENT)
+		if(etat.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.TEMPLE;
 	}
 	//Le batiment choisi est une tour
 	public void select_tour(){
-		if(etat == Etat.CONSTRUIRE_BATIMENT)
+		if(etat.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.TOUR;
 	}
 	
@@ -282,7 +284,8 @@ public class Moteur {
 		if(T.placer_batiment(bat_choisi,j_courant.getCouleur(), P) == 0){
 			annul.add(T.clone());
 			next = ((Joueur_Humain) j_courant).clone();
-			etat = Etat.FIN_DE_TOUR;
+			//etat = Etat.FIN_DE_TOUR;
+			etat.Incremente_Etat_Jeu();
 			return 0;
 		}
 		else return 1;
@@ -337,7 +340,8 @@ public class Moteur {
 			annul.clear();
 			redo.clear();
 			swap_joueur();
-			etat = Etat.DEBUT_DE_TOUR;
+			//etat = Etat.DEBUT_DE_TOUR;
+			etat.init_etat_jeu();
 			bat_choisi = Case.Type_Batiment.VIDE;
 			if(j_courant instanceof IA_Generique)
 			{
@@ -415,7 +419,9 @@ public class Moteur {
 		if(annul.size()<=1)return 1;
 		redo.add(annul.remove(annul.size()-1));
 		T = annul.get(annul.size()-1);
-		int code_erreur = DecrementeEtat();
+		int code_erreur = etat.Decremente_Etat_Jeu();
+		if(code_erreur == 0 && etat.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
+			j_courant = prev;
 		return code_erreur;
 	}
 	
@@ -426,12 +432,14 @@ public class Moteur {
 			return 1;
 		annul.add(redo.remove(redo.size()-1));
 		T = annul.get(annul.size()-1);
-		int code_erreur = IncrementeEtat();
+		int code_erreur = etat.Incremente_Etat_Jeu();
+		if(code_erreur == 0 && etat.get_etat_jeu() == Etat_Jeu.FIN_DE_TOUR)
+			j_courant = next;
 		return code_erreur;
 	}
 	
 	// ---------------- Fonction Pour le type Etat -------------------
-	
+/*	
 	
 	public int IncrementeEtat()
 	{
@@ -476,6 +484,7 @@ public class Moteur {
 		}
 		return 0;
 	}
+	*/
 	
 	// -------------------- Fonction pour les listes de coup --------------------------
 	
