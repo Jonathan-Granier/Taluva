@@ -36,11 +36,10 @@ public class IA_Alpha_Beta extends IA_Generique {
 	}
 	@Override
 	public Action_Tuile get_coup_tuile(Tuile tuile) {
-		ArrayList<Action_Tuile> list_tuile_possible = m.getT().liste_coups_tuile_possibles(tuile);
+		ArrayList<Action_Tuile> list_tuile_possible = m.getTerrain().liste_coups_tuile_possibles(tuile);
 		Coup_Tuile_Heuristique  coup_T_H= choisir_tuile_bon( list_tuile_possible, tuile, Integer.MAX_VALUE, this.profondeur);
 		return coup_T_H.get_Action_Tuile();
 	}
-	
 	// Choisir une tuile, le score initial est infini a l'initial du terrain avant de jouer.
 	private Coup_Tuile_Heuristique choisir_tuile_bon( ArrayList<Action_Tuile> liste, Tuile tuile, int score, int profondeur)
 	{
@@ -52,6 +51,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 		if(profondeur == 0 )
 		{
 			// /!\ regarder dans moteur virtuel
+			//TODO
 			//simulercoup(liste.get(i));
 			score_courant = Heuristique();
 			// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
@@ -66,6 +66,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 				liste_tuile_retour.clear();
 				liste_tuile_retour.add(liste.get(i));
 			}
+			//TODO
 			//annuler_coup();
 		}
 		else
@@ -73,9 +74,10 @@ public class IA_Alpha_Beta extends IA_Generique {
 			while( i < liste.size() && score_max < score)
 			{
 				// /!\ Simuler dans moteur virtuel
+				//TODO
 				//simulercoup(liste.get(i));
 
-				liste_construction = m.getT().liste_coups_construction_possibles(this.getCouleur());
+				liste_construction = m.getTerrain().liste_coups_construction_possibles(this.getCouleur());
 				score_courant = choisir_construction_bon(liste_construction, score, profondeur -1).get_Heuristique();
 				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
 				if(score_courant == score_max)
@@ -89,6 +91,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_tuile_retour.clear();
 					liste_tuile_retour.add(liste.get(i));
 				}
+				//TODO
 				//annuler_coup();
 			}
 		}
@@ -111,12 +114,13 @@ public class IA_Alpha_Beta extends IA_Generique {
 			while( i < liste.size() && score_max < score)
 			{
 				// /!\ Simuler dans moteur virtuel
+				//TODO
 				//simulercoup(liste.get(i));
 
 				//TODO
 				// Generate generique tuile
 				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
-				liste_tuile = m.getT().liste_coups_tuile_possibles(tuile);
+				liste_tuile = m.getTerrain().liste_coups_tuile_possibles(tuile);
 				// TODO
 				score_courant = choisir_tuile_mauvais(liste_tuile, score, profondeur -1);
 				if(score_courant == score_max)
@@ -129,6 +133,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_construction_retour.clear();
 					liste_construction_retour.add(liste.get(i));
 				}
+				//TODO
 				//annuler_coup();
 			}
 		}
@@ -137,12 +142,13 @@ public class IA_Alpha_Beta extends IA_Generique {
 			while( i < liste.size() && score_max < score)
 			{
 				// /!\ Simuler dans moteur virtuel
+				//TODO
 				//simulercoup(liste.get(i));
 
 				//TODO
 				// Generate generique tuile
 				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
-				liste_tuile = m.getT().liste_coups_tuile_possibles(tuile);
+				liste_tuile = m.getTerrain().liste_coups_tuile_possibles(tuile);
 				// TODO
 				score_courant = choisir_tuile_mauvais(liste_tuile, score, profondeur -1);
 				if(score_courant == score_max)
@@ -155,6 +161,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_construction_retour.clear();
 					liste_construction_retour.add(liste.get(i));
 				}
+				//TODO
 				//annuler_coup();
 			}
 		}
@@ -165,6 +172,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 	
 	private int choisir_tuile_mauvais(ArrayList<Action_Tuile> liste_tuile, int score, int profondeur)
 	{
+		//TODO
 		return 0;
 	}
 	
