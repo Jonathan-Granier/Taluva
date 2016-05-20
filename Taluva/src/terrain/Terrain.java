@@ -3,9 +3,9 @@ package terrain;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import main.Action_Batiment;
-import main.Action_Construction;
-import main.Action_Tuile;
+import Action.Action_Batiment;
+import Action.Action_Construction;
+import Action.Action_Tuile;
 
 public class Terrain {
 	
@@ -444,7 +444,7 @@ public class Terrain {
 	public int etendre_cite(Point P, Case.Type type){
 		// TODO : extension qui rejoint deux Cite => fusion
 		Cite cite = getCite(P);
-		int index_c = cites.indexOf(cite);
+		int index_c = cites_indexOf(cite);
 		Case.Couleur_Joueur c = cite.getCouleur();
 		ArrayList<Point> pts_extension = getPts_extension_cite(cite,type);
 		if(pts_extension.size()>0){
@@ -597,10 +597,12 @@ public class Terrain {
 				}
 				int nb_cites_trouvees = cites_trouvees.size();
 				if(n != nb_cites_trouvees) System.out.println("ERREUR placer batiment - gestion des cites");
+				// On choisit arbitrairement la cite qui contiendra le batiment
 				Cite cite_concernee = cites_trouvees.get(0);
 				cite_concernee.ajouter(P,b);
 				index_cite[P.x][P.y] = cites_indexOf(cite_concernee);
 				if(n>1){
+					// S'il y a plusieurs cites a cote, on fusionne
 					for(int i=1;i<n;i++){
 						fusion_cite(cite_concernee,cites.get(i));
 					}
@@ -619,6 +621,7 @@ public class Terrain {
 	private void fusion_cite(Cite C, Cite C2){
 		int index_C = cites_indexOf(C);
 		int index_C2 = cites_indexOf(C2);
+		System.out.println("FUSION" + index_C2 + " -> " + index_C);
 		ArrayList<Point> ptsC2 = C2.getPts();
 		Point P;
 		for(int i=0;i<ptsC2.size();i++){
