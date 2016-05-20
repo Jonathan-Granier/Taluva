@@ -235,21 +235,78 @@ public class Terrain {
 		if(c.retirer_batiments() == 0){
 			Point P = new Point(x,y);
 			Cite cite = getCite(P);
-			cite.retirer(P);
-			index_cite[x][y] = -1;
-			// TODO : si on ecrase des choses, eventuellement separer des cites
-			//if(separe_cite(P)){
-				
-			//}
+			ArrayList<Cite> citesSeparees = citesSeparation(P);
+			if(citesSeparees.size()>0){
+				// On separe une cite en 2 ou 3
+				// On enleve la cite d'origine
+				cites.remove(cites_indexOf(cite));
+				// On decale les indices
+				for(int i=limites.xmin;i<=limites.xmax;i++){
+					for(int j=limites.ymin;j<=limites.ymax;j++){
+						if(index_cite[i][j]>cites_indexOf(cite)){
+							index_cite[i][j] = index_cite[i][j]-1;
+						}
+					}
+				}
+				// On met a -1 les index de la cite
+				for(int i=0;i<cite.getPts().size();i++){
+					P = cite.getPts().get(i);
+					index_cite[P.x][P.y] = -1;
+				}
+				// Puis on met a jour cites et index_cite[][]
+				for(int i=0;i<citesSeparees.size();i++){
+					cites.add(citesSeparees.get(i));
+					ArrayList<Point> ptsCite = citesSeparees.get(i).getPts();
+					for(int j=0;j<ptsCite.size();j++){
+						index_cite[ptsCite.get(j).x][ptsCite.get(j).y] = cites.size()-1;
+					}
+				}
+			}
+			else{
+				cite.retirer(P);
+				index_cite[x][y] = -1;
+			}
 		}
 	}
-	/*
-	// Separe la cite de P selon ce point
-	private void separer_cite(Point P){
-		
+	
+	// Renvoie l'ensemble de cites issu de la suppression des batiments au point P
+	// Ensemble vide si la cite n'a pas ete separee
+	private ArrayList<Cite> citesSeparation(Point P){
+		ArrayList<Cite> res = new ArrayList<Cite>();
+		ArrayList<Point> voisinsCite = ptsContactDansCite(P);
+		if(voisinsCite.size()>1){
+			// Il y a plusieurs voisins : c'est peut-etre separe
+			ArrayList<ArrayList<Point>> citesSeparees= citesIsolees(P);
+			if(citesSeparees.size()>1){
+				for(int i=0;i<citesSeparees.size();i++){
+					Cite cite = new Cite(citesSeparees.get(i).get(0), getCase(citesSeparees.get(i).get(0)).getCouleur(), getCase(citesSeparees.get(i).get(0)).getBType());
+					for(int j=1; j<citesSeparees.get(i).size(); j++){
+						cite.ajouter(citesSeparees.get(i).get(j), getCase(citesSeparees.get(i).get(j)).getBType());
+					}
+					res.add(cite);
+				}
+			}
+		}
+		return res;
 	}
 	
-	private boolean point_contact_point(Point P1, Point P2){
+	// Renvoie un ensemble de listes de points isolees les unes des autres, resultat de la separation en P
+	private ArrayList<ArrayList<Point>> citesIsolees(Point P){
+		ArrayList<Point> voisinsDansCite = ptsContactDansCite(P);
+		ArrayList<ArrayList<Point>> res = new ArrayList<ArrayList<Point>>();
+		ArrayList<Point> visites = new ArrayList<Point>();
+		for(int i=0;i<voisinsDansCite.size();i++){
+			ArrayList<Point> citeP = getPtsConnectes(voisinsDansCite.get(i));
+			if(!visites.contains(citeP.get(0))){
+				visites.addAll(citeP);
+				res.add(citeP);
+			}
+		}
+		System.out.println("Separation depuis " + P.x + "," + P.y + " en " + res.size() + " parties");
+		return res;
+	}
+	
+	private boolean point_touche_point(Point P1, Point P2){
 		boolean contact = false;
 		Point [] contactP2 = getPtsVoisins(P2);
 		int i = 0;
@@ -260,6 +317,34 @@ public class Terrain {
 		return contact;
 	}
 	
+	// Calcule l'ensemble de pointes connectes a P
+	private ArrayList<Point> getPtsConnectes(Point P){
+		ArrayList<Point> ptsCite = new ArrayList<Point>();
+		if(getCase(P).getCouleur() != Case.Couleur_Joueur.NEUTRE){
+			boolean [][] appartient_cite = new boolean[TAILLE][TAILLE];
+			for(int i=0;i<TAILLE;i++){
+				for(int j=0;j<TAILLE;j++){
+					appartient_cite[i][j] = false;
+				}
+			}
+			getPtsConnectes_rec(P,ptsCite,appartient_cite);
+		}
+		return ptsCite;
+	}
+
+	// Recursion de la fonction ci-dessus
+	private void getPtsConnectes_rec(Point P, ArrayList<Point> res, boolean [][] appartient_cite){
+		Point [] voisins = getPtsVoisins(P);
+		res.add(P);
+		appartient_cite[P.x][P.y] = true;
+		Case.Couleur_Joueur c = getCase(P).getCouleur();
+		for(int i=0;i<6;i++){
+			if(getCase(voisins[i]).getCouleur() == c && !appartient_cite[voisins[i].x][voisins[i].y]){
+				getPtsConnectes_rec(voisins[i],res,appartient_cite);
+			}
+		}
+	}
+/*
 	private boolean separe_cite(Point P){
 		ArrayList<Point> voisinsCite = ptsContactDansCite(P);
 		if(voisinsCite.size()>1){
@@ -276,19 +361,18 @@ public class Terrain {
 		}
 		else return false;
 	}
-	
+*/
 	private ArrayList<Point> ptsContactDansCite(Point P){
 		Cite cite = getCite(P);
 		ArrayList<Point> ptsCite = cite.getPts();
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(int i = 0; i<ptsCite.size(); i++){
-			if(point_contact_point(ptsCite.get(i),P)){
+			if(point_touche_point(ptsCite.get(i),P)){
 				res.add(ptsCite.get(i));
 			}
 		}
 		return res;
 	}
-	*/
 	
 	// Renvoie vrai ssi la tuile est dans le terrain
 	private boolean dans_terrain(Tuile.Orientation o, Point P){
@@ -693,7 +777,7 @@ public class Terrain {
 			index_cite[P.x][P.y] = index_C;
 		}
 		C.fusionner_avec(C2);
-		cites.remove(C2);
+		cites.remove(index_C2);
 		for(int i=limites.xmin;i<=limites.xmax;i++){
 			for(int j=limites.ymin;j<=limites.ymax;j++){
 				if(index_cite[i][j]>index_C2){
@@ -838,7 +922,7 @@ public class Terrain {
 			System.out.println("");
 		}
 		for(int i = 0; i<cites.size();i++){
-			System.out.println("Cite " + i + ": ");
+			System.out.println("Cite " + i + ", taille " + cites.get(i).getPts().size());
 			for(int j = 0; j<cites.get(i).getPts().size(); j++){
 				System.out.println(cites.get(i).getPts().get(j));
 			}
