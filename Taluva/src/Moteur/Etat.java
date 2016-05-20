@@ -20,6 +20,19 @@ public class Etat {
 	}
 	
 	
+	//Renvoi l'etat de jeu actuelle
+	public Etat_Jeu get_etat_jeu()
+	{
+		return etat_jeu;
+	}
+	// POUR LES TEST DE DIM
+	public void setEtat_Jeu(Etat_Jeu e)
+	{
+		etat_jeu = e;
+	}
+		
+	
+	
 	//Ajoute un ecouteur d'Etat listener
 	public void addEtatListener(EtatListener listener)
 	{
@@ -38,11 +51,6 @@ public class Etat {
 		 return listeners.getListeners(EtatListener.class);
 	}
 	
-	//Renvoi l'etat de jeu actuelle
-	public Etat_Jeu get_etat_jeu()
-	{
-		return etat_jeu;
-	}
 	
 	//Initialise l'etat de jeu à DEBUT_DE_TOUR
 	protected void init_etat_jeu()

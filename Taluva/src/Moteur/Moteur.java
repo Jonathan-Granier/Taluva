@@ -533,10 +533,6 @@ public class Moteur extends Etat{
 	//private Etat etat;
 	}*/
 	
-	//////////////////////////////////////////////
-	// Pour les tests de Dimitri
-	public void setEtat(Etat e){
-		this.etat = e;
-	}
+	
 }
 
