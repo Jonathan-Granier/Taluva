@@ -48,7 +48,7 @@ public class Camera {
 			distanceFromPivot -= zoomLevel;
 		
 		
-		if(InputHandler.isButtonDown(0) == inputType.LONG){
+		if(Mouse.isButtonDown(0)){
 			float pitchChange = Mouse.getDY() * 0.3f;
 			if(pitch - pitchChange >1 && pitch - pitchChange <85)
 				pitch -= pitchChange;

@@ -69,14 +69,14 @@ public class Game {
 	
 	public void constructionGestion(Vector3f point,GraphicConstruction construction,List<GraphicConstruction> constructions,Grid grid){
 		if(point!=null){
-			construction.getObject3d().setPosition(new Vector3f(point.x,0,point.z));
+			construction.getObject3d().setPosition(new Vector3f(point.x,construction.getHeight(),point.z));
 		}
 		
 		//Snap
 		Coords snap = grid.snap(construction.getObject3d(),construction.getObject3d().getPosition());
 		if(snap!=null){
 			construction.getObject3d().setPosition(snap.worldPos);
-			int level = terrain.getNiveauTheoriqueBatiment(snap.indices)-1;
+			int level = terrain.getNiveauTheoriqueBatiment(snap.indices);
 			construction.getObject3d().setPosition(snap.worldPos);
 			construction.setHeight(0);
 			construction.increaseHeight(level);
