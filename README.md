@@ -140,16 +140,20 @@ Moteur :
 	// Constructeur du moteur
 	Moteur(Terrain T,joueur_Humain j1, joueur_Humain j2);
 	
+	// Constructeur du moteur sans joueurs
+	public Moteur(Terrain T);
+	
+	// Adders de joueurs
+	//add_j1 affecte le j_courant à j1
+	public void add_j1(Joueur_Generique j1);
+	public void add_j2(Joueur_Generique j2);
 	
 	///////////////////////
 	// Getters / Setters
 	///////////////////////
 	
 	// Récupère le terrain courant
-	public Terrain getT();
-	
-	//Affecte un terrain au moteur
-	public int setT(Terrain T);
+	public Terrain getTerrain();
 	
 	//Renvoie le nombre de Tuiles restantes
 	public int get_nbTuiles();
@@ -159,6 +163,14 @@ Moteur :
 	
 	//Renvoie le joueur courant
 	public joueur_Humain get_Jcourant();
+	
+	//Renvoie le joueur 1
+	public Joueur_Generique getJ1();
+	//Renvoie le joueur 2
+	public Joueur_Generique getJ2();
+	//Renvoie le numéro du joueur courant : 1 si c'est j1, 2 sinon
+	public int get_num_Jcourant(){
+	
 	
 	//Renvoie l'état actuel du tour du jeu
 	public Etat get_etat_jeu();
@@ -216,6 +228,18 @@ Moteur :
 	
 	//Renvoie 0 si le batiment a pu être placé, 1 sinon
 	public int placer_batiment(Point P);
+	
+	// Essaye d'etendre la cité, renvoi 0 si ça réussi , 1 si l'extension echoue, 2 si le joueur courant n'a pas assez de batiment
+	public int etendre_cite(Point P, Case.Type type);
+	
+	// Calcule le score d'un joueur selon la convention :
+	//	Temple = 1000 points
+	//	Tour = 100 points
+	//	Hutte = 1 point
+	private int score(Joueur_Generique j);
+	
+	// Fait jouer le tour pour un IA
+	public int jouer_IA();
 	
 	//Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
 	//Actualise aussi les données et change de joueur
