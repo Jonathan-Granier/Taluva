@@ -13,6 +13,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import Action.Action_Tuile;
 import Moteur.Moteur;
 import entities.Camera;
 import entities.GraphicConstruction;
@@ -25,7 +26,6 @@ import gui.Texture;
 import loaders.Loader;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
-import main.Action_Tuile;
 import terrain.Terrain;
 import terrain.Tuile;
 import renderEngine.Renderer;

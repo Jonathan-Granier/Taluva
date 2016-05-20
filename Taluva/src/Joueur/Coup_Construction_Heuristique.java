@@ -1,7 +1,7 @@
 package Joueur;
 
-import main.Action_Construction;
-import main.Action_Tuile;
+import Action.Action_Construction;
+import Action.Action_Tuile;
 
 public class Coup_Construction_Heuristique {
 	private int heuristique;

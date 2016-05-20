@@ -3,9 +3,9 @@ package Joueur;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Action.Action_Construction;
+import Action.Action_Tuile;
 import Moteur.Moteur;
-import main.Action_Construction;
-import main.Action_Tuile;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import terrain.Terrain;

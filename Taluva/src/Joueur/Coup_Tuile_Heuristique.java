@@ -1,6 +1,6 @@
 package Joueur;
 
-import main.Action_Tuile;
+import Action.Action_Tuile;
 
 public class Coup_Tuile_Heuristique {
 	private int heuristique;

@@ -1,8 +1,8 @@
 package Joueur;
 
+import Action.Action_Construction;
+import Action.Action_Tuile;
 import Moteur.Moteur;
-import main.Action_Construction;
-import main.Action_Tuile;
 import terrain.Case.Couleur_Joueur;
 import terrain.Tuile;
 
