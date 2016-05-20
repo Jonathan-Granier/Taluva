@@ -62,6 +62,7 @@ public class Moteur extends Etat{
 		//prev = new ArrayList<Joueur_Humain>();
 		//prev.add(((Joueur_Humain) j_courant).clone());
 		//next = new ArrayList<Joueur_Humain>();
+		etat = new Etat();
 		etat.init_etat_jeu();
 		//etat = Etat.DEBUT_DE_TOUR;
 		
@@ -77,6 +78,7 @@ public class Moteur extends Etat{
 		tuiles = new ArrayList<Tuile>();
 		init(tuiles);
 		//etat = Etat.DEBUT_DE_TOUR;
+		etat = new Etat();
 		etat.init_etat_jeu();
 		bat_choisi = Case.Type_Batiment.VIDE;
 	}

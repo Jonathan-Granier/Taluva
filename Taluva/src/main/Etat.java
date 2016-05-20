@@ -10,6 +10,14 @@ public class Etat {
 	}
 	private Etat_Jeu etat_jeu;
 	
+	protected Etat ()
+	{
+		etat_jeu = Etat_Jeu.DEBUT_DE_TOUR;
+	}
+	
+	
+	
+	
 	public Etat_Jeu get_etat_jeu()
 	{
 		return etat_jeu;
