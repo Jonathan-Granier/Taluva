@@ -1,10 +1,11 @@
 package Joueur;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Random;
 
 import Action.Action_Construction;
 import Action.Action_Tuile;
-import Liste_coup.Liste_coup_tuile;
 import Moteur.Moteur;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
@@ -29,18 +30,9 @@ public class IA_Random extends IA_Generique{
 	@Override
 	public Action_Tuile get_coup_tuile(Tuile tuile) {
 		// on génère la liste des coup possible, et on en choisit un
-		Liste_coup_tuile liste_coup = m.get_liste_coup_tuile();
-		liste_coup.next_coup_random();
-		
-		// On récupère la tuile à poser, et on l'oriente dans le bon sens
-		Case.Orientation o = liste_coup.coup_rand_orienation();
-		Point p = liste_coup.coup_rand_coord();
-		
-		while( tuile.get_Orientation_Volcan() != o)
-			tuile.Tourner_horaire();
-		
-		// On renvoit l'action, avec le bon niveau.
-		return new Action_Tuile(tuile, p, m.getTerrain().getCase(p).getNiveau()+1);
+		ArrayList<Action_Tuile> liste_coup = m.getTerrain().liste_coups_tuile_possibles(tuile);
+		Random R = new Random();
+		return liste_coup.get(R.nextInt(liste_coup.size()));
 	}
 
 
