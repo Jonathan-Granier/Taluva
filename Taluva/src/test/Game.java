@@ -178,9 +178,9 @@ public class Game {
 		grid = new Grid(terrain,loader);
 		
 		Texture fond = new Texture(loader.loadTexture("fond.png"),new Vector2f(Display.getWidth()-200,0),new Vector2f(200,Display.getHeight()));
-		ButtonConstruction button_hut = new ButtonConstruction(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,100),new Vector2f(100,100),"hut",Construction);
-		ButtonConstruction button_tower = new ButtonConstruction(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,250),new Vector2f(100,100),"tower",Construction);
-		ButtonConstruction button_temple = new ButtonConstruction(loader.loadTexture("Button_Temple.png"),new Vector2f(Display.getWidth()-150,400),new Vector2f(100,100),"temple",Construction);
+		ButtonConstruction button_hut = new ButtonConstruction(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,100),new Vector2f(100,100),"hut",Construction,moteur);
+		ButtonConstruction button_tower = new ButtonConstruction(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,250),new Vector2f(100,100),"tower",Construction,moteur);
+		ButtonConstruction button_temple = new ButtonConstruction(loader.loadTexture("Button_Temple.png"),new Vector2f(Display.getWidth()-150,400),new Vector2f(100,100),"temple",Construction,moteur);
 		ButtonEndOfTurn button_end = new ButtonEndOfTurn(loader.loadTexture("Button_Fin.png"),new Vector2f(Display.getWidth()-150,550),new Vector2f(100,100),moteur);
 		Drawable drawable = new Drawable(loader);
 		drawable.bindTexture(fond);
@@ -209,6 +209,7 @@ public class Game {
 			button_hut.update();
 			button_tower.update();
 			button_temple.update();
+			button_end.update();
 			
 			camera.move();
 			
@@ -226,6 +227,7 @@ public class Game {
 			shader.loadLights(lights);
 			
 			shader.loadViewMatrix(camera);
+			
 			
 			if(moteur.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT && button_tower.type != GraphicType.NULL || button_temple.type != GraphicType.NULL || button_hut.type != GraphicType.NULL)
 				renderer.draw(Construction.getObject3d(),shader);

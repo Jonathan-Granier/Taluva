@@ -16,7 +16,9 @@ public class ButtonEndOfTurn extends Button{
 
 	@Override
 	protected void action() {
+		System.out.println(moteur.get_etat_jeu());
 		moteur.fin_de_tour();
+		System.out.println(moteur.get_etat_jeu());
 	}
 	
 }
