@@ -18,6 +18,8 @@ public class Etat {
 	protected void init_etat_jeu()
 	{
 		etat_jeu = Etat_Jeu.DEBUT_DE_TOUR;
+		//TODO
+		//Appeler Listener
 	}
 	
 	protected int Incremente_Etat_Jeu()
@@ -39,6 +41,8 @@ public class Etat {
 			default:
 				return 1;
 		}
+		//TODO
+		//Appeler listener
 		return 0;
 	}
 	
@@ -59,6 +63,8 @@ public class Etat {
 			default:
 				return 1;
 		}
+		//TODO
+		//Appeler listener
 		return 0;
 	}
 
