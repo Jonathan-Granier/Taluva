@@ -151,12 +151,6 @@ public class Moteur extends Etat{
 		return T;
 	}
 	
-	//Affecte un terrain au moteur
-	public int setTerrain(Terrain T){
-		this.T = T;
-		return 0;
-	}
-	
 	//Renvoie le nombre de Tuiles restantes
 	public int get_nbTuiles(){
 		return tuiles.size();
