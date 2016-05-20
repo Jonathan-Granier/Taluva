@@ -511,28 +511,43 @@ public class Moteur extends Etat{
 	
 	////////////////////////////////
 	// Pour les tests de Gab
-	/*
+	
 	public Moteur clone(){
-	Moteur mm = new Moteur(T,j1,j2);
-	
-	for(int i=1;i<this.annul.size()-1;i++)mm.annul.add(this.annul.get(i));
-	for(int i=0;i<this.redo.size()-1;i++)mm.redo.add(this.redo.get(i));
-	mm.prev = this.prev;
-	mm.next = this.next;
-	for(int i=0;i<this.tuiles.size()-1;i++)mm.annul.add(this.annul.get(i));
-	mm.tuile_pioche = this.tuile_pioche;
-	mm.bat_choisi = this.bat_choisi;
-	//private Liste_coup_tuile liste_coup_tuile;
-	//private Liste_coup_construction liste_coup_construction;
-	
-	//private Joueur_Generique j_courant;
-	//private Joueur_Generique j1;
-	//private Joueur_Generique j2;
-	//private Joueur_Generique j_gagnant;
-	
-	//private Etat etat;
-	}*/
-	
-	
+		Moteur mm = new Moteur(T.clone(),j1,j2);
+		
+		for(int i=1;i<this.annul.size()-1;i++)mm.annul.add(this.annul.get(i));
+		for(int i=0;i<this.redo.size()-1;i++)mm.redo.add(this.redo.get(i));
+		mm.prev = this.prev;
+		mm.next = this.next;
+		mm.tuile_pioche = this.tuile_pioche;
+		mm.bat_choisi = this.bat_choisi;
+		mm.liste_coup_construction = this.liste_coup_construction.clone();
+		mm.liste_coup_tuile = this.liste_coup_tuile.clone();
+		
+		//private Joueur_Generique j_courant;
+		mm.j_courant.setHutte(this.j_courant.getHutte());
+		mm.j_courant.setTemple(this.j_courant.getTemple());
+		mm.j_courant.setTour(this.j_courant.getTour());
+		mm.j_courant.setHutteDetruite(this.j_courant.getHutteDetruite());
+		//private Joueur_Generique j1;
+		mm.j1.setHutte(this.j1.getHutte());
+		mm.j1.setTemple(this.j1.getTemple());
+		mm.j1.setTour(this.j1.getTour());
+		mm.j1.setHutteDetruite(this.j1.getHutteDetruite());
+		//private Joueur_Generique j2;
+		mm.j2.setHutte(this.j2.getHutte());
+		mm.j2.setTemple(this.j2.getTemple());
+		mm.j2.setTour(this.j2.getTour());
+		mm.j2.setHutteDetruite(this.j2.getHutteDetruite());
+		//private Joueur_Generique j_gagnant;
+		mm.j_gagnant.setHutte(this.j_gagnant.getHutte());
+		mm.j_gagnant.setTemple(this.j_gagnant.getTemple());
+		mm.j_gagnant.setTour(this.j_gagnant.getTour());
+		mm.j_gagnant.setHutteDetruite(this.j_gagnant.getHutteDetruite());
+		
+		while(mm.etat != this.etat)mm.etat.Incremente_Etat_Jeu();
+		return mm;
+	}
+		
 }
 
