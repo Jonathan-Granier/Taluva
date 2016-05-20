@@ -543,7 +543,7 @@ public class Moteur extends Etat{
 		mm.j_gagnant.setTour(this.j_gagnant.getTour());
 		mm.j_gagnant.setHutteDetruite(this.j_gagnant.getHutteDetruite());
 		
-		while(mm.etat != this.etat)mm.etat.Incremente_Etat_Jeu();
+		while(mm.get_etat_jeu() != this.get_etat_jeu())mm.Incremente_Etat_Jeu();
 		return mm;
 	}
 		
