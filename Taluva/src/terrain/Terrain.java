@@ -233,11 +233,62 @@ public class Terrain {
 		c.setOrientation(oV);
 		c.incrNiveau();
 		if(c.retirer_batiments() == 0){
-			getCite(new Point(x,y)).retirer(new Point(x,y));
+			Point P = new Point(x,y);
+			Cite cite = getCite(P);
+			cite.retirer(P);
 			index_cite[x][y] = -1;
 			// TODO : si on ecrase des choses, eventuellement separer des cites
+			//if(separe_cite(P)){
+				
+			//}
 		}
 	}
+	/*
+	// Separe la cite de P selon ce point
+	private void separer_cite(Point P){
+		
+	}
+	
+	private boolean point_contact_point(Point P1, Point P2){
+		boolean contact = false;
+		Point [] contactP2 = getPtsVoisins(P2);
+		int i = 0;
+		while(!contact && i<6){
+			contact = P1.x==contactP2[i].x && P1.y==contactP2[i].y;
+			i++;
+		}
+		return contact;
+	}
+	
+	private boolean separe_cite(Point P){
+		ArrayList<Point> voisinsCite = ptsContactDansCite(P);
+		if(voisinsCite.size()>1){
+			boolean case_isolee = false;
+			int i=0;
+			while(!case_isolee && i<voisinsCite.size()-1){
+				case_isolee = true;
+				for(int j=i+1; j<voisinsCite.size(); j++){
+					case_isolee = case_isolee && !point_contact_point(voisinsCite.get(i),voisinsCite.get(j));
+				}
+				i++;
+			}
+			return case_isolee;
+		}
+		else return false;
+	}
+	
+	private ArrayList<Point> ptsContactDansCite(Point P){
+		Cite cite = getCite(P);
+		ArrayList<Point> ptsCite = cite.getPts();
+		ArrayList<Point> res = new ArrayList<Point>();
+		for(int i = 0; i<ptsCite.size(); i++){
+			if(point_contact_point(ptsCite.get(i),P)){
+				res.add(ptsCite.get(i));
+			}
+		}
+		return res;
+	}
+	*/
 	
 	// Renvoie vrai ssi la tuile est dans le terrain
 	private boolean dans_terrain(Tuile.Orientation o, Point P){
@@ -608,20 +659,19 @@ public class Terrain {
 					}
 				}*/
 				ArrayList<Cite> cites_trouvees = getCitesContact(P,c);
+				cites_trouvees.get(0).ajouter(P,b);
+				index_cite[P.x][P.y] = cites_indexOf(cites_trouvees.get(0));
 				int nb_cites_trouvees = cites_trouvees.size();
 				if(n != nb_cites_trouvees) System.out.println("ERREUR placer batiment - gestion des cites");
 				// On choisit arbitrairement la cite qui contiendra le batiment
-				Cite cite_concernee = cites_trouvees.get(0);
-				cite_concernee.ajouter(P,b);
-				getCase(P).ajouter_batiment(b,c);
-				index_cite[P.x][P.y] = cites_indexOf(cite_concernee);
 				if(n>1){
 					// S'il y a plusieurs cites a cote, on fusionne
 					for(int i=1;i<n;i++){
-						fusion_cite(cite_concernee,cites.get(i));
+						fusion_cite(cites_trouvees.get(0),cites_trouvees.get(i));
 					}
 				}
 			}
+			getCase(P).ajouter_batiment(b,c);
 			return 0;
 		}
 		else return 1;
@@ -635,7 +685,7 @@ public class Terrain {
 	private void fusion_cite(Cite C, Cite C2){
 		int index_C = cites_indexOf(C);
 		int index_C2 = cites_indexOf(C2);
-		System.out.println("FUSION" + index_C2 + " -> " + index_C);
+		System.out.println("FUSION " + index_C2 + " -> " + index_C);
 		ArrayList<Point> ptsC2 = C2.getPts();
 		Point P;
 		for(int i=0;i<ptsC2.size();i++){
@@ -788,7 +838,10 @@ public class Terrain {
 			System.out.println("");
 		}
 		for(int i = 0; i<cites.size();i++){
-			System.out.print(cites.get(i).getPts().size() + " ");
+			System.out.println("Cite " + i + ": ");
+			for(int j = 0; j<cites.get(i).getPts().size(); j++){
+				System.out.println(cites.get(i).getPts().get(j));
+			}
 		}
 		System.out.println("");
 		System.out.println("");
