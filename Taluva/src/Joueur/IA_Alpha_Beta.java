@@ -25,6 +25,11 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private int score_mult_city_temple_tower = 0;
 	Action_Construction coup_construction;
 	
+	public IA_Alpha_Beta (Couleur_Joueur c, Moteur m)
+	{
+		super(c, m);
+		this.profondeur = 2;
+	}
 	public IA_Alpha_Beta (int profondeur, Couleur_Joueur c, Moteur m)
 	{
 		super(c, m);
@@ -333,6 +338,10 @@ public class IA_Alpha_Beta extends IA_Generique {
 		//Cité de X zones: 3*zones pour X>=3
 		//	  Cité de 3 zone plus non destructible: Temple/2 si reste un temple.
 		return score;
+	}
+	public int getProfondeur()
+	{
+		return this.profondeur;
 	}
 		
 }
