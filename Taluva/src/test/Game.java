@@ -76,7 +76,7 @@ public class Game {
 		Coords snap = grid.snap(construction.getObject3d(),construction.getObject3d().getPosition());
 		if(snap!=null){
 			construction.getObject3d().setPosition(snap.worldPos);
-			int level = terrain.getNiveauTheoriqueBatiment(snap.indices);
+			int level = terrain.getNiveauTheoriqueBatiment(snap.indices)-1;
 			construction.getObject3d().setPosition(snap.worldPos);
 			construction.setHeight(0);
 			construction.increaseHeight(level);

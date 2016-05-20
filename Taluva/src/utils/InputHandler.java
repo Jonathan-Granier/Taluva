@@ -14,9 +14,7 @@ public class InputHandler {
 	
 	private static final long TIME = 200000; // En nano seconde
 	private static boolean isMouseReleased = true;
-	private static boolean isKeyReleased = true;
 	private static long time = 0;
-	private static long lastTime = 0;
 	private static inputType type = inputType.NONE;
 	private static int mouseEvent = -1;
 	
@@ -46,30 +44,30 @@ public class InputHandler {
     }
     
 	public static inputType isButtonDown(int event){
-		if(getInput() == event && mouseEvent == -1)
-			mouseEvent = event;
-		if(getInput() == mouseEvent && isMouseReleased && time == 0 && mouseEvent != -1){
-			isMouseReleased = false;
-			time = getTime()/1000;
-		}
-		
-		if(getInput() == mouseEvent && mouseEvent != -1 && time+TIME<getTime()/1000)
-			return inputType.LONG;
-		
-		if(noInput() && mouseEvent==event){
-			mouseEvent = -1;
-			lastTime = getTime()/1000;
-			isMouseReleased = true;
-			long temp = time+TIME ;
-			if(time+TIME>getTime()/1000 && time!=0 ){
-				time = 0;
-				type = inputType.INSTANT;
-				return inputType.INSTANT;
+		if(type != inputType.INSTANT){
+			if(getInput() == event && mouseEvent == -1)
+				mouseEvent = event;
+			if(getInput() == mouseEvent && isMouseReleased && time == 0 && mouseEvent != -1){
+				isMouseReleased = false;
+				time = getTime()/1000;
 			}
-
-			time = 0;
+			
+			if(getInput() == mouseEvent && mouseEvent != -1 && time+TIME<getTime()/1000)
+				return inputType.LONG;
+			
+			if(noInput() && mouseEvent==event){
+				mouseEvent = -1;
+				isMouseReleased = true;
+				long temp = time+TIME ;
+				if(time+TIME>getTime()/1000 && time!=0 ){
+					time = 0;
+					type = inputType.INSTANT;
+					return inputType.INSTANT;
+				}
+	
+				time = 0;
+			}
 		}
-
 		return type;
 	}
 	

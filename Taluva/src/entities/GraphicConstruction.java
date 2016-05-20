@@ -7,7 +7,7 @@ import terrain.Case;
 
 public class GraphicConstruction {
 
-	private static final float HEIGHT_OF_TILE = 2;
+	private static final float HEIGHT_OF_TILE = 4;
 
 	public enum GraphicType {
 		HUT, TOWER, TEMPLE, NULL;
@@ -17,7 +17,7 @@ public class GraphicConstruction {
 
 	private Object3D object3d;
 	private Vector3f colour;
-	private float height = 0;
+	private float height;
 	private Loader loader;
 
 	public GraphicConstruction(GraphicType type, Vector3f colour, Loader loader) {
@@ -34,6 +34,7 @@ public class GraphicConstruction {
 		default:
 			System.out.println("Unknow construction type");
 		}
+		this.height = 0;
 		this.colour = colour;
 		this.loader = loader;
 	}
@@ -58,6 +59,7 @@ public class GraphicConstruction {
 		this.object3d = new Object3D(gc.getObject3d());
 		this.type = gc.getType();
 		this.colour = gc.getColour();
+		this.height = gc.height;
 	}
 
 	public void setType(GraphicType type) {
