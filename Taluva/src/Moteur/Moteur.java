@@ -45,10 +45,10 @@ public class Moteur extends Etat{
 		POSER_TUILE,
 		CONSTRUIRE_BATIMENT,
 		FIN_DE_TOUR;
-	}*/
+	}
 	
 	private Etat etat;
-				
+	*/			
 	
 	// Constructeur du moteur
 	public Moteur(Terrain T,Joueur_Generique j1,Joueur_Generique j2){
@@ -67,8 +67,7 @@ public class Moteur extends Etat{
 		//prev = new ArrayList<Joueur_Humain>();
 		//prev.add(((Joueur_Humain) j_courant).clone());
 		//next = new ArrayList<Joueur_Humain>();
-		etat = new Etat();
-		etat.init_etat_jeu();
+		init_etat_jeu();
 		//etat = Etat.DEBUT_DE_TOUR;
 		
 		bat_choisi = Case.Type_Batiment.VIDE;
@@ -83,8 +82,7 @@ public class Moteur extends Etat{
 		tuiles = new ArrayList<Tuile>();
 		init(tuiles);
 		//etat = Etat.DEBUT_DE_TOUR;
-		etat = new Etat();
-		etat.init_etat_jeu();
+		init_etat_jeu();
 		bat_choisi = Case.Type_Batiment.VIDE;
 	}
 	
@@ -243,7 +241,7 @@ public class Moteur extends Etat{
 		Random r = new Random();
 		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()));
 		//etat = Etat.POSER_TUILE;
-		etat.Incremente_Etat_Jeu();
+		Incremente_Etat_Jeu();
 		return tuile_pioche;
 	}
 	
@@ -258,7 +256,7 @@ public class Moteur extends Etat{
 			if(joueur_elimine())return -1;
 			annul.add(T.clone());
 			//etat = Etat.CONSTRUIRE_BATIMENT;
-			etat.Incremente_Etat_Jeu();
+			Incremente_Etat_Jeu();
 			return 0;
 		}
 		else return 1;
@@ -267,17 +265,17 @@ public class Moteur extends Etat{
 	//SELECTEURS DES BATIMENTS DU JOUEUR
 	//Le batiment choisi est une hutte
 	public void select_hutte(){
-		if(etat.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
+		if(get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.HUTTE;
 	}
 	//Le batiment choisi est un temple
 	public void select_temple(){
-		if(etat.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
+		if(get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.TEMPLE;
 	}
 	//Le batiment choisi est une tour
 	public void select_tour(){
-		if(etat.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
+		if(get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.TOUR;
 	}
 	
@@ -293,7 +291,7 @@ public class Moteur extends Etat{
 			annul.add(T.clone());
 			next = ((Joueur_Humain) j_courant).clone();
 			//etat = Etat.FIN_DE_TOUR;
-			etat.Incremente_Etat_Jeu();
+			Incremente_Etat_Jeu();
 			return 0;
 		}
 		else return 1;
@@ -349,7 +347,7 @@ public class Moteur extends Etat{
 			redo.clear();
 			swap_joueur();
 			//etat = Etat.DEBUT_DE_TOUR;
-			etat.init_etat_jeu();
+			init_etat_jeu();
 			bat_choisi = Case.Type_Batiment.VIDE;
 			if(j_courant instanceof IA_Generique)
 			{
@@ -426,8 +424,8 @@ public class Moteur extends Etat{
 		if(annul.size()<=1)return 1;
 		redo.add(annul.remove(annul.size()-1));
 		T = annul.get(annul.size()-1);
-		int code_erreur = etat.Decremente_Etat_Jeu();
-		if(code_erreur == 0 && etat.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
+		int code_erreur = Decremente_Etat_Jeu();
+		if(code_erreur == 0 && get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
 			j_courant = prev;
 		return code_erreur;
 	}
@@ -439,8 +437,8 @@ public class Moteur extends Etat{
 			return 1;
 		annul.add(redo.remove(redo.size()-1));
 		T = annul.get(annul.size()-1);
-		int code_erreur = etat.Incremente_Etat_Jeu();
-		if(code_erreur == 0 && etat.get_etat_jeu() == Etat_Jeu.FIN_DE_TOUR)
+		int code_erreur = Incremente_Etat_Jeu();
+		if(code_erreur == 0 && get_etat_jeu() == Etat_Jeu.FIN_DE_TOUR)
 			j_courant = next;
 		return code_erreur;
 	}
