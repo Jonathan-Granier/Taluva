@@ -335,6 +335,7 @@ public class Terrain {
 					// On joue alors sur des tuiles
 					// On verifie qu'on n'ecrase pas une cite entiere ni une tour ou un temple
 					if(!cases_t[0].est_Libre() || !cases_t[1].est_Libre() || !cases_t[2].est_Libre()){
+						System.out.println("Ca ecrase pitetre des choses interdites");
 						// Si on ecrase au moins un batiment
 						if(cases_t[0].getBType() == Case.Type_Batiment.TEMPLE || cases_t[0].getBType() == Case.Type_Batiment.TOUR)
 							return false;
@@ -368,6 +369,8 @@ public class Terrain {
 							if(cite.size()==1) // Une seule case : interdit
 								return false;
 						}
+
+						System.out.println("Ah ba non");
 					}
 					
 					// On vérifie la disposition des volcans
@@ -578,21 +581,28 @@ public class Terrain {
 			}
 			else{
 				Point [] ptsVoisins = getPtsVoisins(P);
-				int nb_cites_trouvees = 0;
+				/*int nb_cites_trouvees = 0;
 				Point [] coord_cite = new Point[6];
 				for(int i=0; i<6; i++){
 					if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c){
 						coord_cite[nb_cites_trouvees] = ptsVoisins[i];
 						nb_cites_trouvees ++;
 					}
+				}*/
+				ArrayList<Cite> cites_trouvees = new ArrayList<Cite>();
+				for(int i=0; i<6; i++){
+					if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c && !cites_trouvees.contains(getCite(ptsVoisins[i]))){
+						cites_trouvees.add(getCite(ptsVoisins[i]));
+					}
 				}
+				int nb_cites_trouvees = cites_trouvees.size();
 				if(n != nb_cites_trouvees) System.out.println("ERREUR placer batiment - gestion des cites");
-				Cite cite_concernee = cites.get(index_cite[coord_cite[0].x][coord_cite[0].y]);
+				Cite cite_concernee = cites_trouvees.get(0);
 				cite_concernee.ajouter(P,b);
 				index_cite[P.x][P.y] = cites_indexOf(cite_concernee);
 				if(n>1){
 					for(int i=1;i<n;i++){
-						fusion_cite(cite_concernee,cites.get(index_cite[coord_cite[i].x][coord_cite[i].y]));
+						fusion_cite(cite_concernee,cites.get(i));
 					}
 				}
 			}
@@ -638,20 +648,20 @@ public class Terrain {
 		if(getCase(P).ajout_batiment_autorise() && c != Case.Couleur_Joueur.NEUTRE){
 			// Si le placement est autorise sur la case (independemment du reste du terrain)
 			Point [] ptsVoisins = getPtsVoisins(P);
-			int nb_cites_trouvees = 0;
-			Point [] coord_cite = new Point[6];
+			ArrayList<Cite> cites_trouvees = new ArrayList<Cite>();
 			for(int i=0; i<6; i++){
-				if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c){
-					coord_cite[nb_cites_trouvees] = ptsVoisins[i];
-					nb_cites_trouvees ++;
+				if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c && !cites_trouvees.contains(getCite(ptsVoisins[i]))){
+					cites_trouvees.add(getCite(ptsVoisins[i]));
 				}
 			}
+			int nb_cites_trouvees = cites_trouvees.size();
 			if(nb_cites_trouvees>0){
 				// C'est l'ajout d'une tour ou d'un temple (sinon c'est interdit)
 				if(b == Case.Type_Batiment.HUTTE) return -1;
 				boolean valide = false;
 				for(int i=0;i<nb_cites_trouvees;i++){
-					Cite cite = getCite(coord_cite[i]);
+					//Cite cite = getCite(coord_cite[i]);
+					Cite cite = cites_trouvees.get(i);
 					if(b == Case.Type_Batiment.TOUR)
 						valide = valide || (getCase(P).getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
 					else // (b == Case.Type_Batiment.TEMPLE)
