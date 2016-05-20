@@ -2,10 +2,10 @@ package Joueur;
 
 import java.awt.Point;
 
+import Moteur.Moteur;
 import main.Action_Construction;
 import main.Action_Tuile;
 import main.Liste_coup_tuile;
-import main.Moteur;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import terrain.Tuile;

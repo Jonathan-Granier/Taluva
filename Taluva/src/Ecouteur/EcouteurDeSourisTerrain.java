@@ -13,6 +13,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import Moteur.Moteur;
 import entities.Camera;
 import entities.GraphicConstruction;
 import entities.GraphicConstruction.GraphicType;
@@ -25,7 +26,6 @@ import loaders.Loader;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import main.Action_Tuile;
-import main.Moteur;
 import terrain.Terrain;
 import terrain.Tuile;
 import renderEngine.Renderer;
@@ -42,7 +42,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import main.Moteur;
 import terrain.Case;
 import terrain.Tuile;
 

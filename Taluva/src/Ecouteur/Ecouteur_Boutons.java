@@ -1,9 +1,8 @@
 package Ecouteur;
-import main.Moteur;
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Moteur.Moteur;
 
 public class Ecouteur_Boutons implements ActionListener {
 	

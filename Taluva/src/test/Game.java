@@ -14,6 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import Ecouteur.ButtonConstruction;
 import Ecouteur.ButtonEndOfTurn;
+import Moteur.Moteur;
 import entities.Camera;
 import entities.GraphicConstruction;
 import entities.GraphicConstruction.GraphicType;
@@ -28,7 +29,6 @@ import terrain.Case.Couleur_Joueur;
 import main.Action_Batiment;
 import main.Action_Construction;
 import main.Action_Tuile;
-import main.Moteur;
 import terrain.Terrain;
 import terrain.Tuile;
 import renderEngine.Renderer;

@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import main.Moteur;
+import Moteur.Moteur;
 
 public class EcouteurDeSourisPanneauInteraction implements MouseListener, MouseMotionListener{
 	Moteur m;

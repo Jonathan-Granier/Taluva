@@ -2,8 +2,8 @@ package Ecouteur;
 
 import org.lwjgl.util.vector.Vector2f;
 
+import Moteur.Moteur;
 import gui.Button;
-import main.Moteur;
 
 public class ButtonEndOfTurn extends Button{
 

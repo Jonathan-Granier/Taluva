@@ -1,4 +1,4 @@
-package main;
+package Moteur;
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,6 +11,12 @@ import java.util.Random;
 import Joueur.IA_Generique;
 import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
+import Moteur.Etat.Etat_Jeu;
+import main.Action_Construction;
+import main.Action_Tuile;
+import main.Liste_coup_construction;
+import main.Liste_coup_tuile;
+import main.Action_Construction.Type;
 import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;

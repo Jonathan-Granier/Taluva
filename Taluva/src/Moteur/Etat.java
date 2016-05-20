@@ -1,8 +1,6 @@
-package main;
+package Moteur;
 
 import javax.swing.event.EventListenerList;
-
-import Ecouteur.EtatListener;
 
 public class Etat {
 	public enum Etat_Jeu{

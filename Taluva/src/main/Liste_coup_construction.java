@@ -15,7 +15,7 @@ public class Liste_coup_construction {
 	private ArrayList<Point> tour;
 	private ArrayList<Point> temple;
 	
-	Liste_coup_construction(Terrain t, Joueur_Generique joueur)
+	public Liste_coup_construction(Terrain t, Joueur_Generique joueur)
 	{
 		Point p;
 		Coord limites = t.getLimites();
