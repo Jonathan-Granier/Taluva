@@ -40,7 +40,7 @@ public class IA_Random extends IA_Generique{
 			tuile.Tourner_horaire();
 		
 		// On renvoit l'action, avec le bon niveau.
-		return new Action_Tuile(tuile, p, m.getT().getCase(p).getNiveau()+1);
+		return new Action_Tuile(tuile, p, m.getTerrain().getCase(p).getNiveau()+1);
 	}
 
 
