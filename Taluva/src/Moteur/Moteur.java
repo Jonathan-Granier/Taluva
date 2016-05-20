@@ -8,16 +8,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
-
 import Action.Action_Construction;
 import Action.Action_Tuile;
-import Action.Action_Construction.Type;
 import Joueur.IA_Generique;
 import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
 import Liste_coup.Liste_coup_construction;
 import Liste_coup.Liste_coup_tuile;
-import Moteur.Etat.Etat_Jeu;
 import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;
@@ -66,6 +63,7 @@ public class Moteur extends Etat{
 		this.j2 = j2;
 		prev = new Joueur_Humain(j_courant.getCouleur());
 		prev = ((Joueur_Humain) j_courant).clone();
+		next = new Joueur_Humain(j_courant.getCouleur());
 		//prev = new ArrayList<Joueur_Humain>();
 		//prev.add(((Joueur_Humain) j_courant).clone());
 		//next = new ArrayList<Joueur_Humain>();
@@ -94,6 +92,9 @@ public class Moteur extends Etat{
 	public void add_j1(Joueur_Generique j1){
 		this.j1 = j1;
 		j_courant = j1;
+		prev = new Joueur_Humain(j_courant.getCouleur());
+		prev = ((Joueur_Humain) j_courant).clone();
+		next = new Joueur_Humain(j_courant.getCouleur());
 	}
 		
 	public void add_j2(Joueur_Generique j2){
@@ -361,7 +362,6 @@ public class Moteur extends Etat{
 	
 	
 	// Fait jouer le tour pour un IA
-	
 	public int jouer_IA()
 	{
 		Action_Tuile action_tuile;
@@ -506,6 +506,37 @@ public class Moteur extends Etat{
 	public void Maj_liste_coup_construction()
 	{
 		liste_coup_construction = new Liste_coup_construction(T,j_courant);
+	}
+	
+	
+	////////////////////////////////
+	// Pour les tests de Gab
+	/*
+	public Moteur clone(){
+	Moteur mm = new Moteur(T,j1,j2);
+	
+	for(int i=1;i<this.annul.size()-1;i++)mm.annul.add(this.annul.get(i));
+	for(int i=0;i<this.redo.size()-1;i++)mm.redo.add(this.redo.get(i));
+	mm.prev = this.prev;
+	mm.next = this.next;
+	for(int i=0;i<this.tuiles.size()-1;i++)mm.annul.add(this.annul.get(i));
+	mm.tuile_pioche = this.tuile_pioche;
+	mm.bat_choisi = this.bat_choisi;
+	//private Liste_coup_tuile liste_coup_tuile;
+	//private Liste_coup_construction liste_coup_construction;
+	
+	//private Joueur_Generique j_courant;
+	//private Joueur_Generique j1;
+	//private Joueur_Generique j2;
+	//private Joueur_Generique j_gagnant;
+	
+	//private Etat etat;
+	}*/
+	
+	//////////////////////////////////////////////
+	// Pour les tests de Dimitri
+	public void setEtat(Etat e){
+		this.etat = e;
 	}
 }
 
