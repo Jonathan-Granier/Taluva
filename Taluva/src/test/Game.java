@@ -43,6 +43,9 @@ import utils.Grid;
 import utils.Grid.Coords;
 import utils.InputHandler;
 import utils.InputHandler.inputType;
+import water.WaterRenderer;
+import water.WaterShader;
+import water.WaterTile;
 import utils.MousePicker;
 
 public class Game {
@@ -206,6 +209,13 @@ public class Game {
 		//Create listener
 		EcouteurDeSourisTerrain ecouteurSouris = new EcouteurDeSourisTerrain(moteur,picker,grid);
 		
+		//*************Water Renderer Set-up******************
+		
+		WaterShader waterShader = new WaterShader();
+		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader,renderer.getProjectionMatrix());
+		List<WaterTile> waters = new ArrayList<WaterTile>();
+		waters.add(new WaterTile(0,0,0));
+		
 		while(!Display.isCloseRequested()){
 			FPS.updateFPS();
 
@@ -255,12 +265,15 @@ public class Game {
 			
 			shader.stop();
 			
+			waterRenderer.render(waters, camera,sun);
+			
 			drawable.draw();
 
 			Window.updateDisplay();
 			
 		}
 		
+		waterShader.cleanUp();
 		drawable.cleanUp();
 		shader.cleanUp();
 		loader.cleanUp();

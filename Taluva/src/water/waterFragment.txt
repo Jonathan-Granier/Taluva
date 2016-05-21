@@ -1,0 +1,42 @@
+#version 130 core
+
+in vec2 textureCoords;
+in vec3 fromLightVector;
+in vec3 toCameraVector;
+
+out vec4 out_Color;
+
+uniform sampler2D diffuseMap;
+uniform sampler2D dudvMap;
+uniform sampler2D normalMap;
+uniform vec3 lightColour;
+
+uniform float moveFactor;
+
+const float waveStrenght = 0.2;
+const float shineDamper = 20.0;
+const float reflectivity = 0.6;
+
+void main(void) {
+
+	vec2 modifyTexCoords = textureCoords;
+
+	vec2 distortion1 = (texture(dudvMap, vec2(textureCoords.x + moveFactor,textureCoords.y)).rg * 2.0 -1.0) * waveStrenght;
+
+	modifyTexCoords += distortion1;
+	
+	vec3 viewVector = normalize(toCameraVector);
+	
+	vec4 normalMapColour = texture(normalMap, modifyTexCoords);
+	vec3 normal = vec3(normalMapColour.r *2.0 -1.0, normalMapColour.b, normalMapColour.g *2.0 -1.0);
+	normal = normalize(normal);
+	
+	vec3 reflectedLight = reflect(normalize(fromLightVector), normal);
+	float specular = max(dot(reflectedLight, viewVector), 0.0);
+	specular = pow(specular, shineDamper);
+	vec3 specularHighlights = lightColour * specular * reflectivity;
+	
+	out_Color = texture(diffuseMap,modifyTexCoords);
+	out_Color = mix(out_Color,vec4(0.0,0.3,0.5,1.0),0.2) + vec4(specularHighlights,0.0);
+
+}

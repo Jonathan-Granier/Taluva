@@ -3,6 +3,7 @@ package IHM;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -13,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.Dimension;
@@ -26,7 +28,6 @@ public class IHM {
 	private static final int WIDTH = 1200;
 	private static final int HEIGHT = 600;
 	
-	@SuppressWarnings("deprecation")
 	public void run(Moteur moteur,JFrame fenetre) {
         
 		// Creation d'une fenetre
@@ -53,10 +54,10 @@ public class IHM {
         bas.setLayout(new GridLayout(1,2));
         
         JPanel joueurs = new JPanel();
-        joueurs.setLayout(new GridLayout(2,1));
+        joueurs.setLayout(new GridBagLayout());
         
         JPanel action = new JPanel();
-        action.setLayout(new GridLayout(1,3));
+        action.setLayout(new GridBagLayout());
         
         JPanel annuler_refaire = new JPanel();
         annuler_refaire.setLayout(new GridLayout(2,1));
@@ -64,6 +65,8 @@ public class IHM {
         
         //frise
         JLabel p = new JLabel("Piocher");
+        //p.setFont(new Font("Sherif", Font.PLAIN,32));
+        //p.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel t = new JLabel("tuile");
         JLabel c = new JLabel("Construire");
         JLabel f = new JLabel("Fin de tour");
@@ -138,7 +141,7 @@ public class IHM {
         Ecouteur_Boutons tr2 = new Ecouteur_Boutons("Tour j2",moteur);
         tourJ2.addActionListener(tr2);
         tourJ2.setIcon(image_tour);
-;
+
         
         JButton hutteJ2 = new JButton();
         Ecouteur_Boutons ht2 = new Ecouteur_Boutons("Hutte jhutteJ12",moteur);
@@ -159,73 +162,87 @@ public class IHM {
         }
         
         GridBagConstraints gbc = new GridBagConstraints();
+        int largeur = 9;
         
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipady = 0;
-        gbc.gridwidth=GridBagConstraints.REMAINDER;
-        gbc.gridheight = 6;
+        gbc.gridwidth=largeur;
+        gbc.gridheight = 9;
         gbc.fill = GridBagConstraints.BOTH;
         ecran.add(canvas,gbc);
         canvas.getSize();
-        gbc.fill = GridBagConstraints.NONE;
+        gbc.fill = GridBagConstraints.BOTH;
 
         
-        //création de la tuile
+        //création de la frise
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridwidth =GridBagConstraints.REMAINDER;
+        gbc.gridwidth =largeur;
         
-        gbc.gridheight = 2;
+        gbc.gridheight = 1;
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 9;
         frise.add(p,BorderLayout.CENTER);
         frise.add(t,BorderLayout.CENTER);
         frise.add(c,BorderLayout.CENTER);
         frise.add(f,BorderLayout.CENTER);
         ecran.add(frise,gbc);
         
+        GridBagConstraints gbc3 = new GridBagConstraints();
+        gbc3.fill = GridBagConstraints.BOTH;
+        gbc3.gridwidth =1;
+        gbc3.gridheight = 2;
+        gbc3.weightx = gbc3.weighty = 1.0;
+        gbc3.gridx = 0;
+        gbc3.gridy = 10;
+        joueurs.add(panelJ1,gbc3);
+        gbc3.gridx = 0;
+        gbc3.gridy = 12;
+        joueurs.add(panelJ2,gbc3);
         
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridwidth =GridBagConstraints.REMAINDER/9;
+        gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        ecran.add(panelJ1,gbc);
-        gbc.gridx = 0;
-        gbc.gridy = 9;
-        ecran.add(panelJ2,gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 10;
+        ecran.add(joueurs, gbc);
         
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridwidth =GridBagConstraints.REMAINDER*2/9;
-        gbc.gridheight = 2;
-        gbc.gridx = 4;
-        gbc.gridy = 8;
-        ecran.add(Pioche,gbc);
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.weightx = gbc2.weighty = 1.0;
+        gbc2.gridx = 0;
+        gbc2.gridy = 0;
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.gridwidth = 2;
+        gbc2.gridheight = 4;
+        action.add(Pioche,gbc2);
         
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.gridwidth =GridBagConstraints.REMAINDER*1/9;
-        gbc.gridheight = 1;
-        gbc.gridx = 6;
-        gbc.gridy = 8;
-        ecran.add(Annuler,gbc);
-        
-  
+        gbc2.gridx = 2;
+        gbc2.gridy = 0;
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.gridwidth = 2;
+        gbc2.gridheight = 2;
+        action.add(Annuler,gbc2);
 
-        gbc.gridwidth =GridBagConstraints.REMAINDER*1/9;
-        gbc.gridheight = 1;
-        gbc.gridx = 6;
-        gbc.gridy = 9;
-        ecran.add(Refaire,gbc);
+        gbc2.gridx = 2;
+        gbc2.gridy = 2;
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.gridwidth = 2;
+        gbc2.gridheight = 2;
+        action.add(Refaire,gbc2);
         
+        gbc2.gridx = 4;
+        gbc2.gridy = 0;
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.gridwidth = gbc2.gridheight = 4;       
+        action.add(FDT,gbc2);
+        
+
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridwidth =GridBagConstraints.REMAINDER*2/9;
-        gbc.gridheight = 2;
-        gbc.gridx = 7;
-        gbc.gridy = 8;
-        ecran.add(FDT,gbc);
-        
-        
-  
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.gridx = 2;
+        gbc.weightx = gbc.weighty = 1.0;
+        gbc.gridy = 10;
+        ecran.add(action, gbc);
         
         fenetre.add(ecran);
         
