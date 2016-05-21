@@ -7,48 +7,33 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import org.lwjgl.opengl.Display;
+
+import IHM.IHM;
+import Joueur.Joueur_Generique;
+import Joueur.Joueur_Humain;
+import Moteur.Moteur;
+import terrain.Terrain;
+import terrain.Case.Couleur_Joueur;
 import test.Game;
 
 
 public class Test_Taluva {
-	private static final int WIDTH = 1280;
-	private static final int HEIGHT = 720;
+
 	
 	private Game game;
 	
 	public Test_Taluva(){
-        JFrame frame = new JFrame();        
+        JFrame frame = new JFrame();
+        Joueur_Humain j1 = new Joueur_Humain(Couleur_Joueur.BLANC);
+        Joueur_Humain j2 = new Joueur_Humain(Couleur_Joueur.ROUGE);
+        Terrain table = new Terrain();
+        Moteur m = new Moteur(table,j1,j2);
+        IHM ihm = new IHM();
+        ihm.run(m,frame);
         
-
-        JButton button = new JButton("Exit");
-         
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                System.exit(0);
-            }
-        });
-         
-
-        Canvas canvas = new Canvas();
-
-        canvas.setSize(WIDTH, HEIGHT);
-
-        try {
-            Display.setParent(canvas);
-        } catch (Exception e) {
-        }
-         
-
-        frame.add(button, BorderLayout.NORTH);
-        frame.add(canvas, BorderLayout.CENTER);
-         
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-         
-
         game = new Game();
         game.play(frame);
+        
 	}
 		
 	public static void main(String[] args) {
