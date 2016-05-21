@@ -10,6 +10,7 @@ public abstract class Button {
 	private Vector2f position;
 	private Vector2f dimension;
 	private boolean isPressed;
+	private static boolean gameBlocked = false;
 	
 	public Button(int textureId, Vector2f position, Vector2f dimension){
 		this.gui = new Texture(textureId,position,dimension);
@@ -32,9 +33,23 @@ public abstract class Button {
 				isPressed = true;
 				action();
 			}
-		}else
+		}else{
 			isPressed = false;
+		}
 	
 	}
+	
+	public static void setGameBlocked(boolean gameBlocked) {
+		Button.gameBlocked = gameBlocked;
+	}
+
+	public static boolean isGameBlocked() {
+		return gameBlocked;
+	}
+
+	public boolean isPressed() {
+		return isPressed;
+	}
+	
 	
 }

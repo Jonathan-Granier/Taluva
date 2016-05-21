@@ -13,6 +13,7 @@ public class ButtonConstruction extends Button {
 	private String label;
 	private GraphicConstruction Construction;
 	private Moteur moteur;
+	private static boolean pick;
 	
 	public ButtonConstruction(int textureId, Vector2f position, Vector2f dimension,String label,GraphicConstruction Construction,Moteur moteur) {
 		super(textureId, position, dimension);
@@ -23,6 +24,7 @@ public class ButtonConstruction extends Button {
 
 	@Override
 	protected void action() {
+		pick = true;
 		if(label.equals("tower")){
 			type = GraphicType.TOWER;
 			moteur.select_tour();
@@ -44,6 +46,13 @@ public class ButtonConstruction extends Button {
 		}
 		Construction.setObject3d();
 	}
-	
+
+	public static boolean isPick() {
+		return pick;
+	}
+
+	public static void setPick(boolean pick) {
+		ButtonConstruction.pick = pick;
+	}
 	
 }

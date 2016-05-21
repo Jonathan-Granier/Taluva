@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import entities.GraphicTile;
+import gui.Button;
 
 public class InputHandler {
 
@@ -40,7 +41,7 @@ public class InputHandler {
     	if(b){
 			type = inputType.NONE;
     	}
-    	return b;
+    	return b && !Button.isGameBlocked();
     }
     
 	public static inputType isButtonDown(int event){

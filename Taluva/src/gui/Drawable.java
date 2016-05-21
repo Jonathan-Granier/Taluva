@@ -19,6 +19,7 @@ public class Drawable {
 	private GuiShader shader;
 	
 	private List<Texture> guis;
+	private List<Button> buttons;
 	
 	public Drawable(Loader loader){
 		float[] positions = {-1,1,
@@ -28,13 +29,27 @@ public class Drawable {
 		quad = loader.loadToVAO(positions);
 		shader = new GuiShader();
 		guis = new ArrayList<Texture>();
+		buttons = new ArrayList<Button>();
 	}
 	
 	public void bindTexture(Texture gui){
 		guis.add(gui);
 	}
 	
+	public void bindButton(Button button){
+		buttons.add(button);
+		bindTexture(button.getTexture());
+	}
+	
 	public void draw(){
+		//Check for block Game
+		boolean block = false;
+		for(Button button:buttons){
+			if(button.isPressed())
+				block = true;
+		}
+		Button.setGameBlocked(block);
+		
 		shader.start();
 		GL30.glBindVertexArray(quad.getVaoID());
 		GL20.glEnableVertexAttribArray(0);

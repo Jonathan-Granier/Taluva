@@ -87,8 +87,6 @@ public class EcouteurDeSourisTerrain {
 		switch (m.get_etat_jeu())
 		{
 			case DEBUT_DE_TOUR:
-				m.piocher();
-				//m.set_Etat_Jeu(Etat_Jeu.POSER_TUILE);
 				return snap;
 			case POSER_TUILE:
 			
@@ -151,7 +149,6 @@ public class EcouteurDeSourisTerrain {
 		switch (m.get_etat_jeu())
 		{
 			case DEBUT_DE_TOUR:
-				m.piocher();
 				break;
 			case POSER_TUILE:
 				/*
