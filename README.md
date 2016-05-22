@@ -32,8 +32,9 @@ Terrain :
 	//      |--------(xmax,ymax)
 	
 	public ArrayList<Action_Tuile> getHistoTuiles();      // Renvoie l'historique des tuiles placées
-	public ArrayList<Action_Batiment> getHistoBatiments() // Renvoie l'historique des batiments placés
+	public ArrayList<Action_Batiment> getHistoBatiments(); // Renvoie l'historique des batiments placés
 
+	public Cite getCite(Point P); // Renvoie la cite contenant le point P
 	
 	//              ___/ 3,0 \
 	//             /   \     /
@@ -111,8 +112,11 @@ Terrain :
 	// Renvoie la liste des emplacements possibles pour la Tuile tuile
 	public ArrayList<Action_Tuile> liste_coups_tuile_possibles(Tuile tuile);
 	
-	// Renvoie la liste des constructions possibles pour le joueur de couleur c
+	// Renvoie la liste des constructions possibles pour le joueur de couleur c (hors extension)
 	public ArrayList<Action_Construction> liste_coups_construction_possibles(Case.Couleur_Joueur c);
+	
+	// Liste des extensions possibles
+	public ArrayList<Action_Construction> liste_extensions_possibles(Case.Couleur_Joueur c);
 
 Tuile :
   
