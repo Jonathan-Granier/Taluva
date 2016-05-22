@@ -50,14 +50,13 @@ import utils.MousePicker;
 
 public class Game {
 	
-	private Terrain terrain;
 	private Moteur moteur;
 	private Grid grid;
 	
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader,List<GraphicTile> Tiles){
-		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (terrain.getHistoTuiles());
+		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
 		for(int i=0;i<listTile.size();i++){
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY(),listTile.get(i).getNiveau()-1));
 			Tiles.get(i).getObject3D().setPosition(worldPos);
@@ -66,7 +65,7 @@ public class Game {
 	}
 	
 	public void drawConstruction(Renderer renderer,Shader shader,List<GraphicConstruction> constructions){
-		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (terrain.getHistoBatiments());
+		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
 		for(int i=0;i<listConstruction.size();i++){
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 			constructions.get(i).getObject3d().setPosition(worldPos);
@@ -83,12 +82,12 @@ public class Game {
 		Coords snap = grid.snap(construction.getObject3d(),construction.getObject3d().getPosition());
 		if(snap!=null){
 			construction.getObject3d().setPosition(snap.worldPos);
-			int level = terrain.getNiveauTheoriqueBatiment(snap.indices)-1;
+			int level = moteur.getTerrain().getNiveauTheoriqueBatiment(snap.indices)-1;
 			construction.getObject3d().setPosition(snap.worldPos);
 			construction.setHeight(0);
 			construction.increaseHeight(level);
 			construction.getObject3d().setPositionY(construction.getHeight());
-			if(!terrain.placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, snap.indices)){
+			if(!moteur.getTerrain().placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, snap.indices)){
 				construction.getObject3d().setAllow(false);
 			}
 		}
@@ -114,12 +113,12 @@ public class Game {
 		Tile.setPostionVolcano();
 		Coords snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getObject3D().getRotY());
 		if(snap!=null  && Tile.getTile()!=null){
-			int level = terrain.getNiveauTheorique(Tile.getTile().getOrientation(), snap.indices)-1;
+			int level = moteur.getTerrain().getNiveauTheorique(Tile.getTile().getOrientation(), snap.indices)-1;
 			Tile.getObject3D().setPosition(snap.worldPos);
 			Tile.setHeight(0);
 			Tile.increaseHeight(level);
 			Tile.getObject3D().setPositionY(Tile.getHeight());
-			if(!terrain.placement_tuile_autorise(Tile.getTile(), snap.indices)){
+			if(!moteur.getTerrain().placement_tuile_autorise(Tile.getTile(), snap.indices)){
 				Tile.getObject3D().setAllow(false);
 			}
 		}
@@ -133,28 +132,25 @@ public class Game {
 	}
 	
 	public void putConstruction(List<GraphicConstruction> constructions, GraphicConstruction construction,Coords coords){
-		if(terrain.placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, coords.indices)){
+		if(moteur.getTerrain().placement_batiment_autorise(construction.getType_Batiment(),Couleur_Joueur.JAUNE, coords.indices)){
 			constructions.add(new GraphicConstruction(construction));
 			constructions.get(constructions.size()-1).getObject3d().setPosition(coords.worldPos);
-			terrain.placer_batiment(construction.getType_Batiment(), Couleur_Joueur.JAUNE, coords.indices);
+			moteur.getTerrain().placer_batiment(construction.getType_Batiment(), Couleur_Joueur.JAUNE, coords.indices);
 		}
 	}
 	
 	public void putTile(List<GraphicTile> Tiles, GraphicTile Tile,Coords coords){
-		if(terrain.placement_tuile_autorise(Tile.getTile(), coords.indices)){
+		if(moteur.getTerrain().placement_tuile_autorise(Tile.getTile(), coords.indices)){
 			Tiles.add(new GraphicTile(Tile));
 			Tiles.get(Tiles.size()-1).getObject3D().setPosition(coords.worldPos);
 			Tiles.get(Tiles.size()-1).getObject3D().setRotY(Tile.getObject3D().getRotY());
-			terrain.placer_tuile(Tile.getTile(), coords.indices);
-			terrain.afficher();
+			moteur.getTerrain().placer_tuile(Tile.getTile(), coords.indices);
+			moteur.getTerrain().afficher();
 		}
 	}
 	
 	public List<GraphicTile> createTerrain(Loader loader){
-		terrain = new Terrain();
 		//On creer des joueurs
-		
-		moteur = new Moteur(terrain,new Joueur_Humain(Case.Couleur_Joueur.JAUNE),new Joueur_Humain(Case.Couleur_Joueur.ROUGE));
 		//Case [][] t = terrain.getT();
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>();
 		//for(int i=0; i<4;i++)
@@ -163,9 +159,9 @@ public class Game {
 		return Tiles;
 	}
 	
-	public void play(JFrame frame){
+	public void play(JFrame frame,Moteur m){
 		Window.createDislay();
-		
+		this.moteur = m;
 		Camera camera = new Camera();
 		Loader loader = new Loader();
 		Shader shader = new Shader();
@@ -179,7 +175,9 @@ public class Game {
 		
 		GraphicConstruction Construction = new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader);
 		
-		grid = new Grid(terrain,loader);
+		grid = new Grid(moteur.getTerrain(),loader);
+		
+		//*************GUI Renderer Set-up******************
 		
 		Texture fond = new Texture(loader.loadTexture("fond.png"),new Vector2f(Display.getWidth()-200,0),new Vector2f(200,Display.getHeight()));
 		ButtonConstruction button_hut = new ButtonConstruction(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(100,100),"hut",Construction,moteur);
@@ -213,8 +211,7 @@ public class Game {
 		
 		WaterShader waterShader = new WaterShader();
 		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader,renderer.getProjectionMatrix());
-		List<WaterTile> waters = new ArrayList<WaterTile>();
-		waters.add(new WaterTile(0,0,0));
+		WaterTile water = new WaterTile(0,0,0);
 		
 		while(!Display.isCloseRequested()){
 			FPS.updateFPS();
@@ -265,7 +262,7 @@ public class Game {
 			
 			shader.stop();
 			
-			waterRenderer.render(waters, camera,sun);
+			waterRenderer.render(water, camera,sun);
 			
 			drawable.draw();
 

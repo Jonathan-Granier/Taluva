@@ -28,15 +28,23 @@ public abstract class Button {
 	public void update(){
 		int mouseX = Mouse.getX();
 		int mouseY = Display.getHeight() - Mouse.getY();
-		if(Mouse.isButtonDown(0)){
-			if(mouseX>position.x && mouseX<position.x+dimension.x && mouseY>position.y && mouseY<position.y+dimension.y && !isPressed){
-				isPressed = true;
-				action();
+		if(mouseX>=position.x && mouseX<=position.x+dimension.x && mouseY>=position.y && mouseY<=position.y+dimension.y){
+			gui.setHover(true);
+			if(Mouse.isButtonDown(0)){
+				gui.setClicked(true);
+				if(!isPressed){
+					isPressed = true;
+					action();
+				}
 			}
 		}else{
+			gui.setClicked(false);
+			gui.setHover(false);
 			isPressed = false;
 		}
-	
+		
+		
+		
 	}
 	
 	public static void setGameBlocked(boolean gameBlocked) {

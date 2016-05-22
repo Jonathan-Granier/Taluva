@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 import org.lwjgl.opengl.Display;
 
 import IHM.IHM;
@@ -32,12 +34,12 @@ public class Test_Taluva {
         ihm.run(m,frame);
         
         game = new Game();
-        game.play(frame);
+        game.play(frame,m);
         
 	}
 		
 	public static void main(String[] args) {
-		new Test_Taluva();		
+		new Test_Taluva();
 	}
  
 

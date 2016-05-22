@@ -43,11 +43,10 @@ public class WaterRenderer {
 		normalID = loader.loadTexture(NORMAL_MAP);
 	}
 
-	public void render(List<WaterTile> water, Camera camera, Light light) {
+	public void render(WaterTile water, Camera camera, Light light) {
 		prepareRender(camera,light);	
-		for (WaterTile tile : water) {
 			Matrix4f modelMatrix = Matrix.createTransformationMatrix(
-					new Vector3f(tile.getX(), tile.getHeight(), tile.getZ()), 0, 0, 0,
+					new Vector3f(water.getX(), water.getHeight(), water.getZ()), 0, 0, 0,
 					WaterTile.TILE_SIZE);
 			shader.loadModelMatrix(modelMatrix);
 			shader.conectTexture();
@@ -58,7 +57,7 @@ public class WaterRenderer {
 			GL13.glActiveTexture(GL13.GL_TEXTURE2);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D,normalID);
 			GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, quad.getVertexCount());
-		}
+
 		unbind();
 	}
 	

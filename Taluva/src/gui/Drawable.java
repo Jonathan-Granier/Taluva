@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
 
 import loaders.Loader;
 import models.Mesh;
@@ -59,8 +60,15 @@ public class Drawable {
 		for(Texture gui:guis){
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D,gui.getTextureId());
-			Matrix4f matrix = Matrix.createTransformationMatrix(gui.getPosition(), gui.getScale());
+			Matrix4f matrix;
+			if(gui.isHover())
+				matrix = Matrix.createTransformationMatrix(gui.getPosition(), new Vector2f(gui.getScale().x-0.002f,gui.getScale().y-0.002f));
+			else
+				matrix = Matrix.createTransformationMatrix(gui.getPosition(), gui.getScale());
 			shader.loadTransformation(matrix);
+			shader.loadHover(gui.isHover());
+
+			shader.loadClicked(gui.isClicked());
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
 		}
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
