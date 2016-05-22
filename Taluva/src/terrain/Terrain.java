@@ -37,13 +37,17 @@ public class Terrain {
 	public Terrain(){
 		t = new Case[TAILLE][TAILLE];
 		index_cite = new int [TAILLE][TAILLE];
+		limites  = new Coord(CENTRE.x,CENTRE.y,CENTRE.x,CENTRE.y);
 		for(int i=0;i<TAILLE;i++){
 			for(int j=0;j<TAILLE;j++){
-				t[i][j] = new Case(Case.Type.VIDE);
 				index_cite[i][j] = -1;
 			}
 		}
-		limites  = new Coord(CENTRE.x,CENTRE.y,CENTRE.x,CENTRE.y);
+		for(int i=limites.xmin;i<=limites.xmax;i++){
+			for(int j=limites.ymin;j<=limites.ymax;j++){
+				t[i][j] = new Case(Case.Type.VIDE);
+			}
+		}
 		empty = true;
 		histo_tuiles = new ArrayList<Action_Tuile>();
 		histo_batiments = new ArrayList<Action_Batiment>();
@@ -54,8 +58,12 @@ public class Terrain {
 		Terrain tmp = new Terrain();
 		for(int i=0;i<TAILLE;i++){
 			for(int j=0;j<TAILLE;j++){
-				tmp.t[i][j] = this.t[i][j].clone();
 				tmp.index_cite[i][j] = this.index_cite[i][j];
+			}
+		}
+		for(int i=limites.xmin;i<=limites.xmax;i++){
+			for(int j=limites.ymin;j<=limites.ymax;j++){
+				tmp.t[i][j] = this.t[i][j].clone();
 			}
 		}
 		tmp.limites  = this.limites.clone();
@@ -80,11 +88,17 @@ public class Terrain {
 	}
 	
 	public Case getCase(int i, int j){
-		if(i>=0 && j>=0 && i<TAILLE && j<TAILLE)
+		//if(i>=0 && j>=0 && i<TAILLE && j<TAILLE)
+		if(i>=limites.xmin && j>=limites.ymin && i<=limites.xmax && j<=limites.ymax)
 			return t[i][j];
-		else
-			System.out.println("Erreur : Terrain.get(" + i + "," + j + ")");
+		else{
+			if(i<limites.xmin-2 || j<limites.ymin-2 || i>limites.xmax+2 || j>limites.ymax+2){
+				// Ce n'est pas cense arriver pour le moment; pourra etre supprime si necessaire
+				System.out.println("Erreur : Terrain.getCase(" + i + "," + j + ")");
+				System.out.println("Dimensions autorisees : (" + limites.xmin + "," + limites.ymin + ") - (" + limites.xmax + "," + limites.ymax + ")");
+			}
 			return new Case(Case.Type.VIDE);
+		}
 	}
 	
 	public boolean isEmpty(){
@@ -156,7 +170,8 @@ public class Terrain {
 	private int getIndexCite(Point P){
 		int i = P.x;
 		int j = P.y;
-		if(i>=0 && j>=0 && i<TAILLE && j<TAILLE)
+		//if(i>=0 && j>=0 && i<TAILLE && j<TAILLE)
+		if(i>=limites.xmin && j>=limites.ymin && i<=limites.xmax && j<=limites.ymax)
 			return index_cite[i][j];
 		else
 			System.out.println("Erreur : Terrain.getIndexCite(" + i + "," + j + ")");
@@ -205,18 +220,76 @@ public class Terrain {
 				x = P.x;
 				y = P.y;
 			}
-			poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan());
-			poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan());
-			if(y+1>limites.ymax) limites.ymax = y+1;
-			if(y<limites.ymin) limites.ymin = y;
+			//////////
+			if(y+1>limites.ymax){
+				for(int i=limites.xmin;i<=limites.xmax;i++){
+					t[i][y+1] = new Case(Case.Type.VIDE);
+					if(y>limites.ymax)
+						t[i][y] = new Case(Case.Type.VIDE);
+				}
+				limites.ymax = y+1;
+			}
+			if(y<limites.ymin){
+				for(int i=limites.xmin;i<=limites.xmax;i++){
+					t[i][y] = new Case(Case.Type.VIDE);
+					if(y+1<limites.ymin)
+						t[i][y+1] = new Case(Case.Type.VIDE);
+				}
+				limites.ymin = y;
+			}
+			//////////
+			//if(y+1>limites.ymax) limites.ymax = y+1;
+			//if(y<limites.ymin) limites.ymin = y;
+			//poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan());
+			//poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan());
 			if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
-				if(x>limites.xmax) limites.xmax = x;
-				if(x-1<limites.xmin) limites.xmin = x-1;
+				/////////
+				if(x>limites.xmax){
+					for(int j=limites.ymin;j<=limites.ymax;j++){
+						t[x][j] = new Case(Case.Type.VIDE);
+						if(x-1>limites.xmax)
+							t[x-1][j] = new Case(Case.Type.VIDE);
+					}
+					limites.xmax = x;
+				}
+				if(x-1<limites.xmin){
+					for(int j=limites.ymin;j<=limites.ymax;j++){
+						t[x-1][j] = new Case(Case.Type.VIDE);
+						if(x<limites.ymin)
+							t[x][j] = new Case(Case.Type.VIDE);
+					}
+					limites.xmin = x-1;
+				}
+				/////////
+				//if(x>limites.xmax) limites.xmax = x;
+				//if(x-1<limites.xmin) limites.xmin = x-1;
+				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan());
+				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan());
 				poser_hexa(x-1,y,tuile.get_type_case(Case.Orientation.O),tuile.get_Orientation_Volcan());
 			}
 			else{
-				if(x+1>limites.xmax) limites.xmax = x+1;
-				if(x<limites.xmin) limites.xmin = x;
+				/////////
+				if(x+1>limites.xmax){
+					for(int j=limites.ymin;j<=limites.ymax;j++){
+						t[x+1][j] = new Case(Case.Type.VIDE);
+						if(x>limites.xmax)
+							t[x][j] = new Case(Case.Type.VIDE);
+					}
+					limites.xmax = x+1;
+				}
+				if(x<limites.xmin){
+					for(int j=limites.ymin;j<=limites.ymax;j++){
+						t[x][j] = new Case(Case.Type.VIDE);
+						if(x+1<limites.ymin)
+							t[x+1][j] = new Case(Case.Type.VIDE);
+					}
+					limites.xmin = x;
+				}
+				///////
+				//if(x+1>limites.xmax) limites.xmax = x+1;
+				//if(x<limites.xmin) limites.xmin = x;
+				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan());
+				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan());
 				poser_hexa(x+1,y+1,tuile.get_type_case(Case.Orientation.E),tuile.get_Orientation_Volcan());
 			}
 			histo_tuiles.add(new Action_Tuile(tuile,new Point(x,y),t[x][y].getNiveau()));
@@ -236,10 +309,10 @@ public class Terrain {
 			Point P = new Point(x,y);
 			Cite cite = getCite(P);
 			ArrayList<Cite> citesSeparees = citesSeparation(P);
+			// On enleve la cite d'origine
+			cites.remove(cites_indexOf(cite));
 			if(citesSeparees.size()>0){
 				// On separe une cite en 2 ou 3
-				// On enleve la cite d'origine
-				cites.remove(cites_indexOf(cite));
 				// On decale les indices
 				for(int i=limites.xmin;i<=limites.xmax;i++){
 					for(int j=limites.ymin;j<=limites.ymax;j++){
