@@ -32,10 +32,10 @@ public class Grid {
 		}
 	}
 	
-	public static final float WIDTH_OF_HEXA = 17f;
-	public static final float HEIGHT_OF_HEXA = 19.5f;
+	public static final float WIDTH_OF_HEXA = 17/2f;
+	public static final float HEIGHT_OF_HEXA = 19.5f/2f;
 	public static final float HEIGHT_OF_TILE = 2;
-	public static final float RAY = 19.5f/2f;
+	public static final float RAY = 19.5f/4f;
 	
 	private static Terrain terrain;
 	private static Vector2f[][] coords;
@@ -47,7 +47,7 @@ public class Grid {
 		this.loader = loader;
 		coords = new Vector2f[terrain.TAILLE][terrain.TAILLE];
 		object = new Object3D[terrain.TAILLE][terrain.TAILLE];
-		Object3D temp = new Object3D("hexa",loader,new Vector3f(0,0,0),0,0,0,0.5f);
+		Object3D temp = new Object3D("hexa",loader,new Vector3f(0,0,0),0,0,0,0.12f);
 		float yTemp = terrain.TAILLE * 1f/2f * WIDTH_OF_HEXA + WIDTH_OF_HEXA;
 		float x = -HEIGHT_OF_HEXA/2f;
 		float y;

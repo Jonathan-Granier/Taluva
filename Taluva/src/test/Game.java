@@ -38,6 +38,7 @@ import terrain.Tuile;
 import renderEngine.Renderer;
 import renderEngine.Window;
 import shaders.Shader;
+import skybox.SkyboxRenderer;
 import utils.FPS;
 import utils.Grid;
 import utils.Grid.Coords;
@@ -213,6 +214,8 @@ public class Game {
 		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader,renderer.getProjectionMatrix());
 		WaterTile water = new WaterTile(0,0,0);
 		
+		SkyboxRenderer skyboxRenderer = new SkyboxRenderer(loader,renderer.getProjectionMatrix());
+		
 		while(!Display.isCloseRequested()){
 			FPS.updateFPS();
 
@@ -263,6 +266,8 @@ public class Game {
 			shader.stop();
 			
 			waterRenderer.render(water, camera,sun);
+			
+			skyboxRenderer.render(camera);
 			
 			drawable.draw();
 

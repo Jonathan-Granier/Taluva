@@ -20,7 +20,7 @@ import entities.Light;
 
 public class WaterRenderer {
 
-    private static final String DIFFUSE_MAP = "water.png";
+    private static final String DIFFUSE_MAP = "Skybox/right.png";
     private static final String DUDV_MAP = "waterDUDV.png";
     private static final String NORMAL_MAP = "waterNormal.png";
 	private static final float WAVE_SPEED = 0.002f;
@@ -85,7 +85,7 @@ public class WaterRenderer {
 	private void setUpVAO(Loader loader) {
 		// Just x and z vectex positions here, y is set to 0 in v.shader
 		float[] vertices = { -100, -100, -100, 100, 100, -100, 100, -100, -100, 100, 100, 100 };
-		quad = loader.loadToVAO(vertices);
+		quad = loader.loadToVAO(vertices,2);
 	}
 
 }

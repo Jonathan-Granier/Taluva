@@ -11,23 +11,23 @@ import utils.InputHandler.inputType;
 
 public class Camera {
 	
-	private static final float ZOOM_OUT_MAX = 200;
+	private static final float ZOOM_OUT_MAX = 100;
 	
 	private static final float SPEED = 1.5f;
 	
 	private Vector3f position = new Vector3f(0,0,0);
 	private Vector3f lookAt = new Vector3f(0,0,0);
 	private float pitch=40;
-	private float angleAroundPivot=90;
-	private float distanceFromPivot=200;
+	private float angleAroundPivot=270;
+	private float distanceFromPivot=100;
 	private float yangle;
 	private float roll;
 	
 	
 	public Camera(){
-		position.x = Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f+200;
+		position.x = Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f+100;
 		position.z = Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f;
-		lookAt.x = Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f+200;
+		lookAt.x = Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f+100;
 		lookAt.z = Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f;
 	}
 

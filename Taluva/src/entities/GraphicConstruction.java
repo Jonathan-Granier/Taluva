@@ -7,7 +7,7 @@ import terrain.Case;
 
 public class GraphicConstruction {
 
-	private static final float HEIGHT_OF_TILE = 4;
+	private static final float HEIGHT_OF_TILE = 1;
 
 	public enum GraphicType {
 		HUT, TOWER, TEMPLE, NULL;
@@ -23,13 +23,13 @@ public class GraphicConstruction {
 	public GraphicConstruction(GraphicType type, Vector3f colour, Loader loader) {
 		switch (type) {
 		case HUT:
-			this.object3d = new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.25f);
+			this.object3d = new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
 			break;
 		case TOWER:
-			this.object3d = new Object3D("Tower", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.25f);
+			this.object3d = new Object3D("Tower", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
 			break;
 		case TEMPLE:
-			this.object3d = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.25f);
+			this.object3d = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
 			break;
 		default:
 			System.out.println("Unknow construction type");
@@ -73,13 +73,13 @@ public class GraphicConstruction {
 	public void setObject3d() {
 		switch (type) {
 		case HUT:
-			this.object3d = new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.25f);
+			this.object3d = new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
 			break;
 		case TOWER:
-			this.object3d = new Object3D("Tower", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.25f);
+			this.object3d = new Object3D("Tower", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
 			break;
 		case TEMPLE:
-			this.object3d = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.25f);
+			this.object3d = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
 			break;
 		default:
 			System.out.println("Unknow construction type");

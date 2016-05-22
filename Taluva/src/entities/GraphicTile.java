@@ -8,8 +8,8 @@ import terrain.Tuile;
 
 public class GraphicTile {
 	
-	private static final float RAY = 19.5f/2f;
-	private static final float HEIGHT_OF_TILE = 2;
+	private static final float RAY = 19.5f/4f;
+	private static final float HEIGHT_OF_TILE = 1;
 	
 	private Object3D object3d;
 	private Tuile tile;
@@ -18,7 +18,7 @@ public class GraphicTile {
 	private Vector3f postionVolcano;
 	
 	public GraphicTile(Tuile tile,Loader loader,Vector3f position){
-		this.object3d = new Object3D("Tile",loader,position,0,0,0,0.25f);
+		this.object3d = new Object3D("Tile",loader,position,0,0,0,0.12f);
 		this.tile = tile;
 		this.angle = 0;
 		this.height = 0;
@@ -32,7 +32,7 @@ public class GraphicTile {
 	}
 	
 	public GraphicTile(Tuile tile,Loader loader,Vector3f position,float rotY){
-		this.object3d = new Object3D("Tile",loader,position,0,rotY,0,0.25f);
+		this.object3d = new Object3D("Tile",loader,position,0,rotY,0,0.12f);
 		this.tile = tile;
 		this.angle = rotY;
 		this.height = 0;

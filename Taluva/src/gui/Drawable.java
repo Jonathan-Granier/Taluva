@@ -27,7 +27,7 @@ public class Drawable {
 							-1,-1,
 							1,1,
 							1,-1};
-		quad = loader.loadToVAO(positions);
+		quad = loader.loadToVAO(positions,2);
 		shader = new GuiShader();
 		guis = new ArrayList<Texture>();
 		buttons = new ArrayList<Button>();

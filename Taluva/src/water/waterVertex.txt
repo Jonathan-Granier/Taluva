@@ -3,6 +3,7 @@
 in vec2 position;
 
 out vec2 textureCoords;
+out vec2 textureCoords2;
 out vec3 fromLightVector;
 out vec3 toCameraVector;
 
@@ -18,7 +19,8 @@ void main(void) {
 
 	gl_Position = projectionMatrix * viewMatrix * worldPosition;
 	textureCoords = vec2(position.x/2.0 + 0.5, position.y/2.0 + 0.5);
- 
+ 	textureCoords2 = vec2(position.x/100.0 + 5.5, position.y/100.0 + 5.5);
+ 	
  	fromLightVector = worldPosition.xyz - lightPosition;
  	toCameraVector = cameraPosition - worldPosition.xyz;
  

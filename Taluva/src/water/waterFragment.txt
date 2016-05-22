@@ -3,6 +3,7 @@
 in vec2 textureCoords;
 in vec3 fromLightVector;
 in vec3 toCameraVector;
+in vec2 textureCoords2;
 
 out vec4 out_Color;
 
@@ -25,6 +26,11 @@ void main(void) {
 	distortion1 += (texture(dudvMap, vec2(-textureCoords.x + moveFactor,textureCoords.y + moveFactor)).rg * 2.0 -1.0) * waveStrenght;
 	modifyTexCoords += distortion1;
 	
+	vec2 modifyTexCoords2 = textureCoords2;
+
+	vec2 distortion2 = (texture(dudvMap, vec2(textureCoords2.x,textureCoords2.y)).rg * 2.0 -1.0) * waveStrenght/5.0;
+	//modifyTexCoords2 += distortion2;
+	
 	vec3 viewVector = normalize(toCameraVector);
 	
 	vec4 normalMapColour = texture(normalMap, modifyTexCoords);
@@ -36,8 +42,9 @@ void main(void) {
 	specular = pow(specular, shineDamper);
 	vec3 specularHighlights = lightColour * specular * reflectivity;
 
+	float fresnelFactor = dot(viewVector,vec3(0.0,1.0,0.0));
 	
-	//out_Color = texture(diffuseMap,modifyTexCoords);
-	out_Color = vec4(0.0,0.3,0.5,1.0) + vec4(specularHighlights,0.0);
+	out_Color = texture(diffuseMap,modifyTexCoords2);
+	out_Color = mix(out_Color,vec4(0.0,0.3,0.5,1.0),fresnelFactor) + vec4(specularHighlights,0.0);
 
 }
