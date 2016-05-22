@@ -11,15 +11,15 @@ import utils.InputHandler.inputType;
 
 public class Camera {
 	
-	private static final float ZOOM_OUT_MAX = 600;
+	private static final float ZOOM_OUT_MAX = 200;
 	
-	private static final float SPEED = 3f;
+	private static final float SPEED = 1.5f;
 	
 	private Vector3f position = new Vector3f(0,0,0);
 	private Vector3f lookAt = new Vector3f(0,0,0);
 	private float pitch=40;
 	private float angleAroundPivot=90;
-	private float distanceFromPivot=400;
+	private float distanceFromPivot=200;
 	private float yangle;
 	private float roll;
 	

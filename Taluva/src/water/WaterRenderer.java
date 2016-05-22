@@ -23,7 +23,7 @@ public class WaterRenderer {
     private static final String DIFFUSE_MAP = "water.png";
     private static final String DUDV_MAP = "waterDUDV.png";
     private static final String NORMAL_MAP = "waterNormal.png";
-	private static final float WAVE_SPEED = 0.03f;
+	private static final float WAVE_SPEED = 0.002f;
     
 	private Mesh quad;
 	private WaterShader shader;
@@ -72,11 +72,14 @@ public class WaterRenderer {
 		moveFactor += WAVE_SPEED * (float)FPS.getDelta()/1000;
 		moveFactor %= 1;
 		shader.loadMoveFactor(moveFactor);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}
 	
 	private void unbind(){
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
+		GL11.glDisable(GL11.GL_BLEND);
 		shader.stop();
 	}
 

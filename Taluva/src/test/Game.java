@@ -201,7 +201,7 @@ public class Game {
 
 		
 		List<Light> lights = new ArrayList<Light>();
-		Light sun = new Light(new Vector3f(20000,15000,-1000),new Vector3f(1,1,1));
+		Light sun = new Light(new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,15000,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f),new Vector3f(1,1,1));
 		lights.add(sun);
 
 		MousePicker picker = new MousePicker(camera,renderer.getProjectionMatrix());
