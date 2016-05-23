@@ -257,7 +257,7 @@ public class Terrain {
 				if(x-1<limites.xmin){
 					for(int j=limites.ymin;j<=limites.ymax;j++){
 						t[x-1][j] = new Case(Case.Type.VIDE);
-						if(x<limites.ymin)
+						if(x<limites.xmin)
 							t[x][j] = new Case(Case.Type.VIDE);
 					}
 					limites.xmin = x-1;
@@ -282,7 +282,7 @@ public class Terrain {
 				if(x<limites.xmin){
 					for(int j=limites.ymin;j<=limites.ymax;j++){
 						t[x][j] = new Case(Case.Type.VIDE);
-						if(x+1<limites.ymin)
+						if(x+1<limites.xmin)
 							t[x+1][j] = new Case(Case.Type.VIDE);
 					}
 					limites.xmin = x;
@@ -294,7 +294,7 @@ public class Terrain {
 				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan());
 				poser_hexa(x+1,y+1,tuile.get_type_case(Case.Orientation.E),tuile.get_Orientation_Volcan());
 			}
-			histo_tuiles.add(new Action_Tuile(tuile,new Point(x,y),t[x][y].getNiveau()));
+			histo_tuiles.add(new Action_Tuile(tuile,new Point(x,y),getCase(x,y).getNiveau()));
 			return 0;
 		}
 		else{
