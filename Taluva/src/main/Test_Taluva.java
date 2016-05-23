@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 
 import org.lwjgl.opengl.Display;
 
+import IHM.Avancement;
 import IHM.IHM;
 import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
@@ -32,6 +33,9 @@ public class Test_Taluva {
         Moteur m = new Moteur(table,j1,j2);
         IHM ihm = new IHM(m, frame);
         ihm.run();
+        Avancement avancement = new Avancement(ihm);
+        m.addEtatListener(avancement);
+        m.MajListeners();
         
         game = new Game();
         game.play(frame,m);

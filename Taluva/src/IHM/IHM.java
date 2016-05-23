@@ -25,13 +25,13 @@ import Moteur.Moteur;
 
 public class IHM {
 	
-	JFrame frame;
-	Moteur m;
-	int width,height;
-	JPanel ecran, boutons, frise, bas, joueurs, action, annuler_refaire,panelJ1;
-	JLabel p, t, c, f,Joueur1,Joueur2;
-	JButton Annuler,Refaire,Pioche,FDT,templeJ1,tourJ1,hutteJ1,templeJ2,tourJ2,hutteJ2;
-	Canvas canvas;
+	private JFrame frame;
+	private Moteur m;
+	private int width,height;
+	private JPanel ecran, boutons, frise, bas, joueurs, action, annuler_refaire,panelJ1;
+	private JLabel p, t, c, f,Joueur1,Joueur2;
+	private JButton Annuler,Refaire,Pioche,FDT,templeJ1,tourJ1,hutteJ1,templeJ2,tourJ2,hutteJ2;
+	private Canvas canvas;
 	 
 	
 	public IHM(Moteur moteur, JFrame fenetre){
@@ -52,7 +52,7 @@ public class IHM {
         c = new JLabel("Construire");
         f = new JLabel("Fin de tour");
         Annuler = new JButton("Annuler");
-        Refaire = new JButton("Annuler");
+        Refaire = new JButton("Refaire");
         Pioche = new JButton("Piocher");
         FDT = new JButton("Fin de tour");
         Joueur1 = new JLabel("Joueur1");
@@ -284,4 +284,295 @@ public class IHM {
   
 
     }
+
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+
+	public Moteur getM() {
+		return m;
+	}
+
+
+	public void setM(Moteur m) {
+		this.m = m;
+	}
+
+
+	public int getWidth() {
+		return width;
+	}
+
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+
+	public int getHeight() {
+		return height;
+	}
+
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+
+	public JPanel getEcran() {
+		return ecran;
+	}
+
+
+	public void setEcran(JPanel ecran) {
+		this.ecran = ecran;
+	}
+
+
+	public JPanel getBoutons() {
+		return boutons;
+	}
+
+
+	public void setBoutons(JPanel boutons) {
+		this.boutons = boutons;
+	}
+
+
+	public JPanel getFrise() {
+		return frise;
+	}
+
+
+	public void setFrise(JPanel frise) {
+		this.frise = frise;
+	}
+
+
+	public JPanel getBas() {
+		return bas;
+	}
+
+
+	public void setBas(JPanel bas) {
+		this.bas = bas;
+	}
+
+
+	public JPanel getJoueurs() {
+		return joueurs;
+	}
+
+
+	public void setJoueurs(JPanel joueurs) {
+		this.joueurs = joueurs;
+	}
+
+
+	public JPanel getAction() {
+		return action;
+	}
+
+
+	public void setAction(JPanel action) {
+		this.action = action;
+	}
+
+
+	public JPanel getAnnuler_refaire() {
+		return annuler_refaire;
+	}
+
+
+	public void setAnnuler_refaire(JPanel annuler_refaire) {
+		this.annuler_refaire = annuler_refaire;
+	}
+
+
+	public JPanel getPanelJ1() {
+		return panelJ1;
+	}
+
+
+	public void setPanelJ1(JPanel panelJ1) {
+		this.panelJ1 = panelJ1;
+	}
+
+
+	public JLabel getP() {
+		return p;
+	}
+
+
+	public void setP(JLabel p) {
+		this.p = p;
+	}
+
+
+	public JLabel getT() {
+		return t;
+	}
+
+
+	public void setT(JLabel t) {
+		this.t = t;
+	}
+
+
+	public JLabel getC() {
+		return c;
+	}
+
+
+	public void setC(JLabel c) {
+		this.c = c;
+	}
+
+
+	public JLabel getF() {
+		return f;
+	}
+
+
+	public void setF(JLabel f) {
+		this.f = f;
+	}
+
+
+	public JLabel getJoueur1() {
+		return Joueur1;
+	}
+
+
+	public void setJoueur1(JLabel joueur1) {
+		Joueur1 = joueur1;
+	}
+
+
+	public JLabel getJoueur2() {
+		return Joueur2;
+	}
+
+
+	public void setJoueur2(JLabel joueur2) {
+		Joueur2 = joueur2;
+	}
+
+
+	public JButton getAnnuler() {
+		return Annuler;
+	}
+
+
+	public void setAnnuler(JButton annuler) {
+		Annuler = annuler;
+	}
+
+
+	public JButton getRefaire() {
+		return Refaire;
+	}
+
+
+	public void setRefaire(JButton refaire) {
+		Refaire = refaire;
+	}
+
+
+	public JButton getPioche() {
+		return Pioche;
+	}
+
+
+	public void setPioche(JButton pioche) {
+		Pioche = pioche;
+	}
+
+
+	public JButton getFDT() {
+		return FDT;
+	}
+
+
+	public void setFDT(JButton fDT) {
+		FDT = fDT;
+	}
+
+
+	public JButton getTempleJ1() {
+		return templeJ1;
+	}
+
+
+	public void setTempleJ1(JButton templeJ1) {
+		this.templeJ1 = templeJ1;
+	}
+
+
+	public JButton getTourJ1() {
+		return tourJ1;
+	}
+
+
+	public void setTourJ1(JButton tourJ1) {
+		this.tourJ1 = tourJ1;
+	}
+
+
+	public JButton getHutteJ1() {
+		return hutteJ1;
+	}
+
+
+	public void setHutteJ1(JButton hutteJ1) {
+		this.hutteJ1 = hutteJ1;
+	}
+
+
+	public JButton getTempleJ2() {
+		return templeJ2;
+	}
+
+
+	public void setTempleJ2(JButton templeJ2) {
+		this.templeJ2 = templeJ2;
+	}
+
+
+	public JButton getTourJ2() {
+		return tourJ2;
+	}
+
+
+	public void setTourJ2(JButton tourJ2) {
+		this.tourJ2 = tourJ2;
+	}
+
+
+	public JButton getHutteJ2() {
+		return hutteJ2;
+	}
+
+
+	public void setHutteJ2(JButton hutteJ2) {
+		this.hutteJ2 = hutteJ2;
+	}
+
+
+	public Canvas getCanvas() {
+		return canvas;
+	}
+
+
+	public void setCanvas(Canvas canvas) {
+		this.canvas = canvas;
+	}
+	
 }
