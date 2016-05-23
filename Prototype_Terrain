@@ -26,7 +26,7 @@
 	public ArrayList<Action_Batiment> getHistoBatiments(); // Renvoie l'historique des batiments placés
 
 	public Cite getCite(Point P); // Renvoie la cite contenant le point P
-	public ArrayList<Cite> getCiteJoueur(Case.Couleur_Joueur c); // Renvoie l'ensemble des cites du joueur c
+	public ArrayList<Cite> getCitesJoueur(Case.Couleur_Joueur c); // Renvoie l'ensemble des cites du joueur c
 	
 	//              ___/ 3,0 \
 	//             /   \     /
