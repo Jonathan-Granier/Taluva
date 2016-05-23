@@ -20,6 +20,10 @@ public class Liste_coup_construction {
 	{
 		Point p;
 		Coord limites = t.getLimites();
+		huttes = new ArrayList<Point>();
+		tour = new ArrayList<Point>();
+		temple= new ArrayList<Point>();
+		extension = new ArrayList<Action_Construction>();
 		for(int i= limites.xmin; i< limites.xmax; i++)
 		{
 			for(int j = limites.ymin; j < limites.ymax; j++)

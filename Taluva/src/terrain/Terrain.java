@@ -92,11 +92,6 @@ public class Terrain {
 		if(i>=limites.xmin && j>=limites.ymin && i<=limites.xmax && j<=limites.ymax)
 			return t[i][j];
 		else{
-			if(i<limites.xmin-2 || j<limites.ymin-2 || i>limites.xmax+2 || j>limites.ymax+2){
-				// Ce n'est pas cense arriver pour le moment; pourra etre supprime si necessaire
-				System.out.println("Erreur : Terrain.getCase(" + i + "," + j + ")");
-				System.out.println("Dimensions autorisees : (" + limites.xmin + "," + limites.ymin + ") - (" + limites.xmax + "," + limites.ymax + ")");
-			}
 			return new Case(Case.Type.VIDE);
 		}
 	}
@@ -862,7 +857,7 @@ public class Terrain {
 	
 	// Renvoie vrai ssi le placement direct d'un batiment de type b au point P est autorise.
 	public boolean placement_batiment_autorise(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
-		return conditions_placement_batiment(b,c,P)>=0;
+		return conditions_placement_batiment(b,c,new Point(P.x,P.y))>=0;
 	}
 	
 	// Renvoie -1 si le placement est interdit, sinon :
