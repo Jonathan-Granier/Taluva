@@ -170,6 +170,7 @@ public class EcouteurDeSourisTerrain {
 					Tiles.get(Tiles.size()-1).getObject3D().setPosition(coords.worldPos);
 					Tiles.get(Tiles.size()-1).getObject3D().setRotY(Tile.getObject3D().getRotY());
 					 m.Maj_liste_coup_construction();
+					m.getTerrain().afficher();
 			
 				 }
 				 else
@@ -205,6 +206,7 @@ public class EcouteurDeSourisTerrain {
 						constructions.add(new GraphicConstruction(construction));
 						constructions.get(constructions.size()-1).getObject3d().setPosition(coords.worldPos);
 						m.Maj_liste_coup_construction();
+						m.getTerrain().afficher();
 					}
 					else{
 						System.out.println("Il est impossible de poser un batiment ici");
@@ -225,6 +227,7 @@ public class EcouteurDeSourisTerrain {
 		{
 			case POSER_TUILE:
 				Tile.rotate();
+				m.tourner_tuile();
 				break;
 			default:
 				break;
