@@ -26,7 +26,7 @@ public class GraphicTile {
 
 	public GraphicTile(GraphicTile tile){
 		this.object3d = new Object3D(tile.getObject3D());
-		this.tile = tile.getTile();
+		this.tile = tile.getTile().clone();
 		this.angle = tile.getAngle();
 		this.height = tile.getHeight();
 	}
