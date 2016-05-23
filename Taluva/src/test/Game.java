@@ -57,8 +57,11 @@ public class Game {
 	
 	
 	//Draw all Tile
-	public void drawTile(Renderer renderer,Shader shader,List<GraphicTile> Tiles){
+	public void drawTile(Renderer renderer,Shader shader,List<GraphicTile> Tiles, Camera camera){
 		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
+		if(listTile.size() == 1){
+			camera.setLookAt(new Vector3f(grid.toWorldPos(listTile.get(0).getPosition(),Tiles.get(0).getObject3D().getRotY(),listTile.get(0).getNiveau()-1)));
+		}
 		for(int i=0;i<listTile.size();i++){
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY(),listTile.get(i).getNiveau()-1));
 			Tiles.get(i).getObject3D().setPosition(worldPos);
@@ -257,7 +260,7 @@ public class Game {
 			
 			ecouteurSouris.run(Tile, Tiles, Construction, Constructions);
 			
-			drawTile(renderer,shader,Tiles);
+			drawTile(renderer,shader,Tiles,camera);
 			
 			//for(GraphicConstruction construction:Constructions)
 			//	renderer.draw(construction.getObject3d(), shader);
