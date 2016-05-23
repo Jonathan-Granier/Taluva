@@ -8,6 +8,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	
 	String action;
 	Moteur moteur;
+	private static boolean pick;
 	
 	public Ecouteur_Boutons(String action,Moteur moteur){
 		this.action = action;
@@ -70,4 +71,12 @@ public class Ecouteur_Boutons implements ActionListener {
     	}	
     }
 
+	public static boolean isPick() {
+		return pick;
+	}
+
+	public static void setPick(boolean pick) {
+		Ecouteur_Boutons.pick = pick;
+	}
+    
 }
