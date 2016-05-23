@@ -84,6 +84,7 @@ public class Moteur extends Etat{
 		//etat = Etat.DEBUT_DE_TOUR;
 		init_etat_jeu();
 		bat_choisi = Case.Type_Batiment.VIDE;
+		
 	}
 	
 	// Adders de joueurs
@@ -178,7 +179,7 @@ public class Moteur extends Etat{
 		return j2;
 	}
 	public int get_num_Jcourant(){
-		if(j_courant==j1)return 1;
+		if(j_courant.getCouleur()==j1.getCouleur())return 1;
 		else return 2;
 	}
 	
