@@ -32,8 +32,8 @@ public class Grid {
 		}
 	}
 	
-	public static final float WIDTH_OF_HEXA = 17/2f;
-	public static final float HEIGHT_OF_HEXA = 19.5f/2f;
+	public static final float WIDTH_OF_HEXA = 8.2f;
+	public static final float HEIGHT_OF_HEXA = 19f/2f;
 	public static final float HEIGHT_OF_TILE = 2;
 	public static final float RAY = 19.5f/4f;
 	
