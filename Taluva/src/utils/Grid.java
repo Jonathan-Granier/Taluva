@@ -32,7 +32,7 @@ public class Grid {
 		}
 	}
 	
-	public static final float WIDTH_OF_HEXA = 8.2f;
+	public static final float WIDTH_OF_HEXA = 8.1f;
 	public static final float HEIGHT_OF_HEXA = 19f/2f;
 	public static final float HEIGHT_OF_TILE = 1;
 	public static final float RAY = 19.5f/4f;
@@ -83,7 +83,7 @@ public class Grid {
 		return res;
 	}
 	
-	//racine((x_centre - x_point)² + (y_centre - y_point)²)<rayon
+	//racine((x_centre - x_point)ï¿½ + (y_centre - y_point)ï¿½)<rayon
 	public Coords snap(Object3D object3d,Vector3f mouse,float angle){
 		float offsetX = 0;
 		float offsetY = 0;

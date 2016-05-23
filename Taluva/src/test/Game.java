@@ -16,6 +16,7 @@ import Ecouteur.ButtonConstruction;
 import Ecouteur.ButtonEndOfTurn;
 import Ecouteur.ButtonPick;
 import Ecouteur.EcouteurDeSourisTerrain;
+import Ecouteur.Ecouteur_Boutons;
 import Joueur.Joueur_Humain;
 import entities.Camera;
 import entities.GraphicConstruction;
@@ -169,8 +170,8 @@ public class Game {
 		Renderer renderer = new Renderer(shader,camera);
 		
 		FPS.start(frame);
-		
 		GraphicTile Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0),90);
+		Ecouteur_Boutons.setTile(loader,Tile);
 		List<GraphicTile> Tiles = new ArrayList<GraphicTile>(createTerrain(loader));
 		List<GraphicConstruction> Constructions = new ArrayList<GraphicConstruction>();
 		
@@ -188,12 +189,12 @@ public class Game {
 		ButtonPick button_pick = new ButtonPick(loader.loadTexture("Button_pioche.png"),new Vector2f(Display.getWidth()-125,650),new Vector2f(50,50),moteur,Tile,loader);
 		
 		Drawable drawable = new Drawable(loader);
-		drawable.bindTexture(fond);
+		/*drawable.bindTexture(fond);
 		drawable.bindButton(button_hut);
 		drawable.bindButton(button_tower);
 		drawable.bindButton(button_temple);
 		drawable.bindButton(button_end);
-		drawable.bindButton(button_pick);
+		drawable.bindButton(button_pick);*/
 		
 		//Object3D table = new Object3D("Table",loader,new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,0,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f-200),0,0,0,0.3f);
 
@@ -220,11 +221,11 @@ public class Game {
 			FPS.updateFPS();
 
 			//Button
-			button_hut.update();
+			/*button_hut.update();
 			button_tower.update();
 			button_temple.update();
 			button_end.update();
-			button_pick.update();
+			button_pick.update();*/
 			
 			camera.move();
 			
@@ -244,7 +245,11 @@ public class Game {
 			shader.loadViewMatrix(camera);
 			
 			
+
 			if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && ButtonConstruction.isPick())
+
+			if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && Ecouteur_Boutons.isPick())
+
 				renderer.draw(Construction.getObject3d(),shader);
 			if(moteur.get_etat_jeu() == Phase_Jeu.POSER_TUILE)
 				renderer.draw(Tile.getObject3D(),shader);
