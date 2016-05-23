@@ -5,10 +5,13 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import loaders.Loader;
 import entities.Camera;
 import models.Mesh;
+import utils.FPS;
+import utils.Matrix;
 
 public class SkyboxRenderer {
 
@@ -63,6 +66,9 @@ public class SkyboxRenderer {
 	private Mesh cube;
 	private int texture;
 	private SkyboxShader shader;
+	private float angle = 0;
+	private static final float CLOUD_SPEED = 0.00004f;
+
 	
 	public SkyboxRenderer(Loader loader,Matrix4f projectionMatrix){
 		cube = loader.loadToVAO(VERTICES,3);
@@ -74,8 +80,12 @@ public class SkyboxRenderer {
 	}
 	
 	public void render(Camera camera){
+		angle += CLOUD_SPEED * (float)FPS.getTime()/100000;
+		angle %= 360;
 		shader.start();
 		shader.loadViewMatrix(camera);
+		Matrix4f transformationMatrix = Matrix.createTransformationMatrix(angle);
+		shader.loadTransformationMatrix(transformationMatrix);
 		GL30.glBindVertexArray(cube.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);

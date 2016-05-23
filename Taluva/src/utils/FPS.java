@@ -44,5 +44,9 @@ public class FPS {
         }
         fps++;
     }
+
+	public static float getFPS() {
+		return fps;
+	}
 	
 }
