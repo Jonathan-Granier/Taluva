@@ -117,6 +117,16 @@ public class Terrain {
 		return cites.get(i);
 	}
 	
+	public ArrayList<Cite> getCitesJoueur(Case.Couleur_Joueur c){
+		ArrayList<Cite> res = new ArrayList<Cite>();
+		for(int i=0;i<cites.size();i++){
+			if(cites.get(i).getCouleur()==c){
+				res.add(cites.get(i));
+			}
+		}
+		return res;
+	}
+	
 	// Renvoie les coordonnees limites du terrain : toutes les tuiles sont comprises dans
 	// (xmin,ymin)--------|
 	//      |             |
