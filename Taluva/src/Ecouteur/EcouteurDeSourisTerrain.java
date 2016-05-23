@@ -75,10 +75,6 @@ public class EcouteurDeSourisTerrain {
 			CliqueGaucheSouris_Rapide(Tile,Tiles,construction,constructions,snap);
 			
 		}
-		else if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT))
-		{
-			CliqueDroitSouris(Tile);
-		}
 	}
 	
 	private Coords mouseMoved(GraphicTile Tile,GraphicConstruction construction,Vector3f point){
@@ -94,8 +90,10 @@ public class EcouteurDeSourisTerrain {
 					Tile.getObject3D().setPosition(new Vector3f(point.x,Tile.getHeight(),point.z));
 				}
 		
-				if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT))
+				if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT)){
 					Tile.rotate();
+					m.tourner_tuile();
+				}
 		
 		
 				InputHandler.isKeyDown(Tile);
@@ -219,18 +217,5 @@ public class EcouteurDeSourisTerrain {
 			default:
 				break;
 		}
-	}
-	
-	private void CliqueDroitSouris(GraphicTile Tile)
-	{
-		switch (m.get_etat_jeu())
-		{
-			case POSER_TUILE:
-				Tile.rotate();
-				m.tourner_tuile();
-				break;
-			default:
-				break;
-		}			
 	}
 }
