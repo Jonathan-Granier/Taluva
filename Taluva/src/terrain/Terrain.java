@@ -68,17 +68,14 @@ public class Terrain {
 		}
 		tmp.limites  = this.limites.clone();
 		tmp.empty = this.empty;
-		tmp.histo_tuiles = new ArrayList<Action_Tuile>();
 		for(int i = 0;i<this.histo_tuiles.size();i++){
 			tmp.histo_tuiles.add(this.histo_tuiles.get(i).clone());
 		}
-		tmp.histo_batiments = new ArrayList<Action_Batiment>();
 		for(int i = 0;i<this.histo_batiments.size();i++){
 			tmp.histo_batiments.add(this.histo_batiments.get(i).clone());
 		}
-		tmp.cites = new ArrayList<Cite>();
 		for(int i = 0;i<this.cites.size();i++){
-			tmp.cites.add(this.cites.get(i));
+			tmp.cites.add(this.cites.get(i).clone());
 		}
 		return tmp;
 	}

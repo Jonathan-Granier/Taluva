@@ -22,6 +22,24 @@ public class Cite {
 		this.c = c;
 	}
 	
+	private Cite(){
+		pts = new ArrayList<Point>();
+		bats = new ArrayList<Case.Type_Batiment>();
+	}
+	
+	public Cite clone(){
+		Cite tmp = new Cite();
+		tmp.c = this.c;
+		tmp.taille = this.taille;
+		tmp.nb_tours = this.nb_tours;
+		tmp.nb_temples = this.nb_temples;
+		for(int i = 0;i<this.taille;i++){
+			tmp.bats.add(this.bats.get(i));
+			tmp.pts.add(this.pts.get(i));
+		}
+		return tmp;
+	}
+	
 	public int fusionner_avec(Cite C){
 		if(C.c == this.c){
 			this.pts.addAll(C.pts);
