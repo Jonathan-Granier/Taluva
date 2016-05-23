@@ -13,13 +13,13 @@ public class Avancement implements EtatListener {
 	public Avancement(IHM ihm){
 		this.ihm=ihm;
 	}
+	
 	//actualise l'affichage
 	public void maj(Etat_Jeu NouveauEtat){
-		if(ihm.getM().get_Jcourant().equals(ihm.getM().getJ1()))
+		
 	        switch (NouveauEtat)
 			{
 				case DEBUT_DE_TOUR:
-					
 					ihm.getAnnuler().setEnabled(false);
 					ihm.getRefaire().setEnabled(false);
 					ihm.getPioche().setEnabled(true);
@@ -103,6 +103,7 @@ public class Avancement implements EtatListener {
 					ihm.getF().setBackground(Color.YELLOW);
 					break;
 				default:
+					
 					break;
 	        	
 	        }

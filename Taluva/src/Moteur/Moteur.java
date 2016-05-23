@@ -179,8 +179,13 @@ public class Moteur extends Etat{
 		return j2;
 	}
 	public int get_num_Jcourant(){
-		if(j_courant.getCouleur()==j1.getCouleur())return 1;
-		else return 2;
+		if(j_courant.getCouleur().equals(j1.getCouleur()))
+		{
+			System.out.println("Cest le J1 le joueur Courant");
+			return 1;
+		}
+		System.out.println("Cest le J2 le joueur Courant");
+		return 2;
 	}
 	
 	
@@ -210,7 +215,14 @@ public class Moteur extends Etat{
 	
 	//Echange le joueur courant
 		public void swap_joueur(){
-			j_courant = (j_courant==j1)? j1 : j2;
+			if(j_courant == j1)
+			{
+				j_courant = j2;
+			}
+			else
+			{
+				j_courant = j1;
+			}
 		}
 	
 	//Renvoie vrai si la pioche est vide
