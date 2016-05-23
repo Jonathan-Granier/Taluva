@@ -87,6 +87,7 @@ public class Moteur extends Phase{
 		//etat = Etat.DEBUT_DE_TOUR;
 		init_phase_jeu();
 		bat_choisi = Case.Type_Batiment.VIDE;
+		histo_jeu = new ArrayList<Etat_de_jeu>();
 	}
 	
 	// Adders de joueurs
