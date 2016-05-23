@@ -16,7 +16,6 @@ import Joueur.IA_Random;
 import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
 import Liste_coup.Liste_coup_construction;
-import Liste_coup.Liste_coup_tuile;
 import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;
@@ -29,7 +28,6 @@ public class Moteur extends Etat{
 	private ArrayList<Tuile> tuiles;
 	private Tuile tuile_pioche;
 	private Case.Type_Batiment bat_choisi;
-	private Liste_coup_tuile liste_coup_tuile;
 	private Liste_coup_construction liste_coup_construction;
 	
 	private Joueur_Generique j_courant;
@@ -196,8 +194,8 @@ public class Moteur extends Etat{
 	}
 	
 	//Renvoi la liste des coups possibles pour la tuile actuelle
-	public Liste_coup_tuile get_liste_coup_tuile(){
-		return liste_coup_tuile;
+	public ArrayList<Action_Tuile> get_liste_coup_tuile(Tuile tuile){
+		return T.liste_coups_tuile_possibles(tuile);
 	}
 	
 	//Renvoi la liste des constructions possibles dans la configuration actuelle
@@ -375,9 +373,6 @@ public class Moteur extends Etat{
 		Action_Tuile action_tuile;
 		
 		piocher();
-		Maj_liste_coup_tuile();
-		
-		
 		action_tuile = ((IA_Generique) j_courant).get_coup_tuile(tuile_pioche);
 		if (placer_tuile(action_tuile.getPosition())!=0)
 		{
@@ -506,11 +501,6 @@ public class Moteur extends Etat{
 	
 	// -------------------- Fonction pour les listes de coup --------------------------
 	
-	// Met à jour la liste des coups possibles pour la tuile actuelle
-	public void Maj_liste_coup_tuile()
-	{
-		liste_coup_tuile = new Liste_coup_tuile(T);
-	}
 	
 	// Met à jour la liste des constructions possibles dans la configuration actuelle
 	public void Maj_liste_coup_construction()
@@ -554,7 +544,6 @@ public class Moteur extends Etat{
 		m_copie.tuile_pioche = this.tuile_pioche;
 		m_copie.bat_choisi = this.bat_choisi;
 		m_copie.liste_coup_construction = this.liste_coup_construction.clone();
-		m_copie.liste_coup_tuile = this.liste_coup_tuile.clone();
 		
 		
 		//private Joueur_Generique j_courant;
