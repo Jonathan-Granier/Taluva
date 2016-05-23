@@ -25,136 +25,155 @@ import Moteur.Moteur;
 
 public class IHM {
 	
-	private static final int WIDTH = 1200;
-	private static final int HEIGHT = 600;
+	JFrame frame;
+	Moteur m;
+	int width,height;
+	JPanel ecran, boutons, frise, bas, joueurs, action, annuler_refaire,panelJ1;
+	JLabel p, t, c, f,Joueur1,Joueur2;
+	JButton Annuler,Refaire,Pioche,FDT,templeJ1,tourJ1,hutteJ1,templeJ2,tourJ2,hutteJ2;
+	Canvas canvas;
+	 
 	
-	public void run(Moteur moteur,JFrame fenetre) {
+	public IHM(Moteur moteur, JFrame fenetre){
+		m=moteur;
+		frame=fenetre;
+		java.awt.Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		height = (int)dimension.getHeight();
+        width  = (int)dimension.getWidth();
+        ecran = new JPanel();
+        boutons = new JPanel();
+        frise = new JPanel();
+        bas =new JPanel();
+        joueurs = new JPanel();
+        action = new JPanel();
+        annuler_refaire = new JPanel();
+        p = new JLabel("Piocher");
+        t = new JLabel("tuile");
+        c = new JLabel("Construire");
+        f = new JLabel("Fin de tour");
+        Annuler = new JButton("Annuler");
+        Refaire = new JButton("Annuler");
+        Pioche = new JButton("Piocher");
+        FDT = new JButton("Fin de tour");
+        Joueur1 = new JLabel("Joueur1");
+        templeJ1 = new JButton();
+        tourJ1 = new JButton();
+        hutteJ1 = new JButton();
+        panelJ1 = new JPanel();
+        Joueur2 = new JLabel("Joueur2");
+        templeJ2 = new JButton();
+        tourJ2 = new JButton();
+        hutteJ2 = new JButton();
+        canvas = new Canvas();
+
+
+	}
+	
+	
+	public void run() {
         
 		// Creation d'une fenetre
-        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        java.awt.Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = (int)dimension.getHeight();
-        int width  = (int)dimension.getWidth();
-        
-        JPanel ecran = new JPanel();
-        //ecran.setLayout(new GridLayout(3,1));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ecran.setLayout(new GridBagLayout());
-        
-        
-        
-        
-        JPanel boutons = new JPanel();
         boutons.setLayout(new GridLayout(2,1));
-        
-        JPanel frise = new JPanel();
         frise.setLayout(new GridLayout(1,4));
-        
-        JPanel bas =new JPanel();
         bas.setLayout(new GridLayout(1,2));
-        
-        JPanel joueurs = new JPanel();
         joueurs.setLayout(new GridBagLayout());
-        
-        JPanel action = new JPanel();
         action.setLayout(new GridBagLayout());
-        
-        JPanel annuler_refaire = new JPanel();
         annuler_refaire.setLayout(new GridLayout(2,1));
         
         
         //frise
-        JLabel p = new JLabel("Piocher");
-        //p.setFont(new Font("Sherif", Font.PLAIN,32));
-        //p.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel t = new JLabel("tuile");
-        JLabel c = new JLabel("Construire");
-        JLabel f = new JLabel("Fin de tour");
+        p.setFont(new Font("Sherif", Font.PLAIN,32));
+        p.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        t.setFont(new Font("Sherif", Font.PLAIN,32));
+        t.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        c.setFont(new Font("Sherif", Font.PLAIN,32));
+        c.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        f.setFont(new Font("Sherif", Font.PLAIN,32));
+        f.setHorizontalAlignment(SwingConstants.CENTER);
         
         
         
         
         //création du bouton annuler
-        JButton Annuler = new JButton("Annuler");
-        Ecouteur_Boutons annuler = new Ecouteur_Boutons("Annuler",moteur);
+        Ecouteur_Boutons annuler = new Ecouteur_Boutons("Annuler",m);
         Annuler.addActionListener(annuler);
         
         //création du bouton refaire
-        JButton Refaire = new JButton("Refaire");
-        Ecouteur_Boutons refaire = new Ecouteur_Boutons("Refaire",moteur);
+        
+        Ecouteur_Boutons refaire = new Ecouteur_Boutons("Refaire",m);
         Refaire.addActionListener(refaire);
         
         //création du bouton pioche
-        JButton Pioche = new JButton("Piocher");
-        Ecouteur_Boutons pioche = new Ecouteur_Boutons("Piocher",moteur);
+        
+        Ecouteur_Boutons pioche = new Ecouteur_Boutons("Piocher",m);
         Pioche.addActionListener(pioche);
         
         //création du bouton fin de tour
-        JButton FDT = new JButton("Fin de tour");
-        Ecouteur_Boutons fdt = new Ecouteur_Boutons("Fin_de_tour",moteur);
+        
+        Ecouteur_Boutons fdt = new Ecouteur_Boutons("Fin_de_tour",m);
         FDT.addActionListener(fdt);        
         
         
         
         //création de la ligne de J1
-        JLabel Joueur1 = new JLabel("Joueur1");
         
-        JButton templeJ1 = new JButton();
-        Ecouteur_Boutons tp1 = new Ecouteur_Boutons("Temple j1",moteur);
+        
+        Ecouteur_Boutons tp1 = new Ecouteur_Boutons("Temple j1",m);
         ImageIcon image_temple = new ImageIcon("Assets/Texture/Button_Temple.png");
 
         templeJ1.addActionListener(tp1);
         templeJ1.setIcon(image_temple);
 
         
-        JButton tourJ1 = new JButton();
-        Ecouteur_Boutons tr1 = new Ecouteur_Boutons("Tour j1",moteur);
+        
+        Ecouteur_Boutons tr1 = new Ecouteur_Boutons("Tour j1",m);
         ImageIcon image_tour = new ImageIcon("Assets/Texture/Button_tower.png");
         tourJ1.addActionListener(tr1);
         tourJ1.setIcon(image_tour);
 
 
         
-        JButton hutteJ1 = new JButton();
-        Ecouteur_Boutons ht1 = new Ecouteur_Boutons("Hutte j1",moteur);
+        
+        Ecouteur_Boutons ht1 = new Ecouteur_Boutons("Hutte j1",m);
         ImageIcon image_hutte = new ImageIcon("Assets/Texture/Button_Hut.png");
         hutteJ1.addActionListener(ht1);
         hutteJ1.setIcon(image_hutte);
 
 
         
-        JPanel panelJ1 = new JPanel();
+        
         panelJ1.setLayout(new GridLayout(1,4));
         
         
         //création de la ligne de J2
-        JLabel Joueur2 = new JLabel("Joueur2");
         
         
-        JButton templeJ2 = new JButton();
-        Ecouteur_Boutons tp2 = new Ecouteur_Boutons("Temple j2",moteur);
+        
+        Ecouteur_Boutons tp2 = new Ecouteur_Boutons("Temple j2",m);
         templeJ2.addActionListener(tp2);
         templeJ2.setIcon(image_temple);
 
         
-        JButton tourJ2 = new JButton();
-        Ecouteur_Boutons tr2 = new Ecouteur_Boutons("Tour j2",moteur);
+        
+        Ecouteur_Boutons tr2 = new Ecouteur_Boutons("Tour j2",m);
         tourJ2.addActionListener(tr2);
         tourJ2.setIcon(image_tour);
 
         
-        JButton hutteJ2 = new JButton();
-        Ecouteur_Boutons ht2 = new Ecouteur_Boutons("Hutte jhutteJ12",moteur);
+        
+        Ecouteur_Boutons ht2 = new Ecouteur_Boutons("Hutte jhutteJ12",m);
         hutteJ2.addActionListener(ht2);
         hutteJ2.setIcon(image_hutte);
         
         JPanel panelJ2 = new JPanel();
         panelJ2.setLayout(new GridLayout(1,4));
-        
 
-        Canvas canvas = new Canvas();
-
-        canvas.setSize(width, height-300);
+        canvas.setSize(width, height-height/3);
 
         try {
             Display.setParent(canvas);
@@ -244,50 +263,21 @@ public class IHM {
         gbc.gridy = 10;
         ecran.add(action, gbc);
         
-        fenetre.add(ecran);
-        
-        
         panelJ1.add(Joueur1);
         panelJ1.add(templeJ1);
         panelJ1.add(tourJ1);
         panelJ1.add(hutteJ1);
-        
-        
-        
+          
         panelJ2.add(Joueur2);
         panelJ2.add(templeJ2);
         panelJ2.add(tourJ2);
         panelJ2.add(hutteJ2);
-
-
         
-        
-        if(moteur.get_Jcourant().equals(moteur.getJ1()))
-	        switch (moteur.get_etat_jeu())
-			{
-				case DEBUT_DE_TOUR:/*
-					Annuler.setEnabled(false);
-					Refaire.setEnabled(false);
-					Pioche.setEnabled(true);
-					FDT.setEnabled(false);
-					
-					templeJ1.setEnabled(false);
-					tourJ1.setEnabled(false);
-					hutteJ1.setEnabled(false);
-					
-					templeJ2.setEnabled(false);
-					tourJ2.setEnabled(false);
-					hutteJ2.setEnabled(false);
-					break;*/
-				default:
-					break;
-	        	
-	        }
-        
+        frame.add(ecran);
         
         //fenetre.pack();
-        fenetre.setSize(width,height);
-        fenetre.setVisible(true);
+        frame.setSize(width,height);
+        frame.setVisible(true);
         
 		
         

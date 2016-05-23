@@ -19,7 +19,7 @@ public class Window {
         int height = (int)dimension.getHeight();
         int width  = (int)dimension.getWidth();
 		try {
-			Display.setDisplayMode(new DisplayMode(width,height-300));
+			Display.setDisplayMode(new DisplayMode(width,height-height/3));
 			Display.create();
 			Display.setTitle("Engine");
 			System.out.println("OpenGL version: " + GL11.glGetString(GL11.GL_VERSION));
@@ -27,7 +27,7 @@ public class Window {
 			e.printStackTrace();
 		}
 		
-		GL11.glViewport(0, 0, width, height-300);
+		GL11.glViewport(0, 0, width, height-height/3);
 		
 	}
 	

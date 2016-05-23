@@ -30,8 +30,8 @@ public class Test_Taluva {
         Joueur_Humain j2 = new Joueur_Humain(Couleur_Joueur.ROUGE);
         Terrain table = new Terrain();
         Moteur m = new Moteur(table,j1,j2);
-        IHM ihm = new IHM();
-        ihm.run(m,frame);
+        IHM ihm = new IHM(m, frame);
+        ihm.run();
         
         game = new Game();
         game.play(frame,m);
