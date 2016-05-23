@@ -439,14 +439,14 @@ public class Moteur extends Etat{
 	//Permet d'annuler une tuile posée, et de la récupérer
 	//Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int annuler(){
-		System.out.println("On est dans l'état : "+ get_etat_jeu()+" ^^\n");
+		//System.out.println("On est dans l'état : "+ get_etat_jeu()+" ^^\n");
 		if(annul.size()<=1)return 1;
 		redo.add(annul.remove(annul.size()-1));
-		T = annul.get(annul.size()-1);
+		T = annul.get(annul.size()-1).clone();
 		int code_erreur = Decremente_Etat_Jeu();
 		if(code_erreur == 0 && get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
 			j_courant = prev;
-		System.out.println("Et là maintenant on est dans l'état : "+ get_etat_jeu()+" TAVU ?\n");
+		//System.out.println("Et là maintenant on est dans l'état : "+ get_etat_jeu()+" TAVU ?\n");
 		return code_erreur;
 	}
 	
@@ -456,7 +456,7 @@ public class Moteur extends Etat{
 		if(redo.isEmpty()) 
 			return 1;
 		annul.add(redo.remove(redo.size()-1));
-		T = annul.get(annul.size()-1);
+		T = annul.get(annul.size()-1).clone();
 		int code_erreur = Incremente_Etat_Jeu();
 		if(code_erreur == 0 && get_etat_jeu() == Etat_Jeu.FIN_DE_TOUR)
 			j_courant = next;
