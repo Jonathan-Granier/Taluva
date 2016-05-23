@@ -247,6 +247,14 @@ public class Moteur extends Etat{
 		return tuile_pioche;
 	}
 	
+	///////////////////////////////////
+	// FONCTIONS RELATIVES AU TERRAIN
+	//////////////////////////////////
+	
+	public void tourner_tuile(){
+		tuile_pioche.Tourner_horaire();
+	}
+	
 	// Renvoie vrai ssi le placement de la tuile piochée est autorisé au point P.
 	public boolean placement_tuile_autorise(Point P){
 		return T.placement_tuile_autorise(tuile_pioche,P);
@@ -423,12 +431,14 @@ public class Moteur extends Etat{
 	//Permet d'annuler une tuile posée, et de la récupérer
 	//Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int annuler(){
+		System.out.println("On est dans l'état : "+ get_etat_jeu()+" ^^\n");
 		if(annul.size()<=1)return 1;
 		redo.add(annul.remove(annul.size()-1));
 		T = annul.get(annul.size()-1);
 		int code_erreur = Decremente_Etat_Jeu();
 		if(code_erreur == 0 && get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
 			j_courant = prev;
+		System.out.println("Et là maintenant on est dans l'état : "+ get_etat_jeu()+" TAVU ?\n");
 		return code_erreur;
 	}
 	
