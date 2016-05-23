@@ -31,7 +31,7 @@ import terrain.Case.Couleur_Joueur;
 import Action.Action_Batiment;
 import Action.Action_Construction;
 import Action.Action_Tuile;
-import Moteur.Etat.Etat_Jeu;
+import Moteur.Phase.Phase_Jeu;
 import Moteur.Moteur;
 import terrain.Terrain;
 import terrain.Tuile;
@@ -244,9 +244,9 @@ public class Game {
 			shader.loadViewMatrix(camera);
 			
 			
-			if(moteur.get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT && ButtonConstruction.isPick())
+			if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && ButtonConstruction.isPick())
 				renderer.draw(Construction.getObject3d(),shader);
-			if(moteur.get_etat_jeu() == Etat_Jeu.POSER_TUILE)
+			if(moteur.get_etat_jeu() == Phase_Jeu.POSER_TUILE)
 				renderer.draw(Tile.getObject3D(),shader);
 			
 			/*for(GraphicTile tile:Tiles)

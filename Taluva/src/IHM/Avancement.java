@@ -4,18 +4,19 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
-import Moteur.Etat.Etat_Jeu;
-import Moteur.EtatListener;
+import Moteur.Phase.Phase_Jeu;
+import Moteur.PhaseListener;
+import Moteur.Phase;
 import Moteur.Moteur;
 
-public class Avancement implements EtatListener {
+public class Avancement implements PhaseListener {
 	IHM ihm;
 	public Avancement(IHM ihm){
 		this.ihm=ihm;
 	}
 	
 	//actualise l'affichage
-	public void maj(Etat_Jeu NouveauEtat){
+	public void maj(Phase_Jeu NouveauEtat){
 		
 	        switch (NouveauEtat)
 			{
@@ -108,8 +109,9 @@ public class Avancement implements EtatListener {
 	        	
 	        }
 	}
+
 	@Override
-	public void EtatChange(Etat_Jeu NouveauEtat) {
+	public void ChangementPhase(Phase_Jeu NouveauEtat) {
 		maj(NouveauEtat);
 		
 	}
