@@ -166,7 +166,7 @@ public class IHM {
 
         
         
-        Ecouteur_Boutons ht2 = new Ecouteur_Boutons("Hutte jhutteJ12",m);
+        Ecouteur_Boutons ht2 = new Ecouteur_Boutons("Hutte j2",m);
         hutteJ2.addActionListener(ht2);
         hutteJ2.setIcon(image_hutte);
         
