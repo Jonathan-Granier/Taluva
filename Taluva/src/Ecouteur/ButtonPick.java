@@ -29,7 +29,8 @@ public class ButtonPick extends Button{
 		if(moteur.get_etat_jeu() == Etat_Jeu.DEBUT_DE_TOUR){
 			moteur.piocher();
 			System.out.println(moteur.get_etat_jeu());
-			this.Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0),90);
+			//this.Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0),90);
+			this.Tile.getObject3D().setRotY(90);
 		}
 	}
 

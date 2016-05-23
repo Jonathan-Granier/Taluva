@@ -67,7 +67,7 @@ public class SkyboxRenderer {
 	private int texture;
 	private SkyboxShader shader;
 	private float angle = 0;
-	private static final float CLOUD_SPEED = 0.00004f;
+	private static final float CLOUD_SPEED = 0.4f;
 
 	
 	public SkyboxRenderer(Loader loader,Matrix4f projectionMatrix){
@@ -80,7 +80,7 @@ public class SkyboxRenderer {
 	}
 	
 	public void render(Camera camera){
-		angle += CLOUD_SPEED * (float)FPS.getTime()/100000;
+		angle += CLOUD_SPEED * (float)FPS.getDelta()/1000;
 		angle %= 360;
 		shader.start();
 		shader.loadViewMatrix(camera);
