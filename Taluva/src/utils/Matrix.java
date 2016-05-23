@@ -28,6 +28,16 @@ public class Matrix {
 		Matrix4f.scale(new Vector3f(scale,scale,scale), matrix, matrix);
 		return matrix;
 	}
+
+	public static Matrix4f createTransformationMatrix(float ry){
+		Matrix4f matrix = new Matrix4f();
+		matrix.setIdentity();
+
+		Matrix4f.rotate((float) Math.toRadians(ry), new Vector3f(0,1,0), matrix, matrix);
+
+
+		return matrix;
+	}
 	
     public static Matrix4f createViewMatrix(Camera camera) {
         Matrix4f viewMatrix = new Matrix4f();
