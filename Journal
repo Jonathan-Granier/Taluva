@@ -35,7 +35,6 @@ Regles: PDF premier jet (pas d'image.)
 Ecouteur de sourie: Squelette de code.
 
 Mercredi 18/05/16
-
 Amphi d'IA
 Branchements Terrain, Interface : réparation des bugs.
 Terrain/Interface enfin fonctionnels.
@@ -47,3 +46,10 @@ Mise en place de l'interface swing (début)
 Terrain (case/tuile/méthodes, etc...) terminé
 Ecouteurs de souris OpengGL
 Début branchements Interface (openGL) moteur
+
+Vendredi 20/05/16
+Ia A&B ça avance
+Fonction Clones dans la plupart des classes
+Classe Cité & gestion des cité & extensions
+IHM: premier prototypes
+
