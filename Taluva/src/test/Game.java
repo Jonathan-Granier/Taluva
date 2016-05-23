@@ -246,8 +246,6 @@ public class Game {
 			
 			
 
-			if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && ButtonConstruction.isPick())
-
 			if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && Ecouteur_Boutons.isPick())
 
 				renderer.draw(Construction.getObject3d(),shader);
