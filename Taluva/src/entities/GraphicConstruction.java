@@ -16,20 +16,26 @@ public class GraphicConstruction {
 	private GraphicType type;
 
 	private Object3D object3d;
+	private Object3D hut;
+	private Object3D temple;
+	private Object3D tower;
 	private Vector3f colour;
 	private float height;
 	private Loader loader;
 
 	public GraphicConstruction(GraphicType type, Vector3f colour, Loader loader) {
+		this.hut =  new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
+		this.temple = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
+		this.tower = new Object3D("Tower", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
 		switch (type) {
 		case HUT:
-			this.object3d = new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
+			this.object3d = hut;
 			break;
 		case TOWER:
-			this.object3d = new Object3D("Tower", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
+			this.object3d = tower;
 			break;
 		case TEMPLE:
-			this.object3d = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
+			this.object3d = temple;
 			break;
 		default:
 			System.out.println("Unknow construction type");
@@ -73,13 +79,13 @@ public class GraphicConstruction {
 	public void setObject3d() {
 		switch (type) {
 		case HUT:
-			this.object3d = new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
+			this.object3d = hut;
 			break;
 		case TOWER:
-			this.object3d = new Object3D("Tower", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
+			this.object3d = tower;
 			break;
 		case TEMPLE:
-			this.object3d = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
+			this.object3d = temple;
 			break;
 		default:
 			System.out.println("Unknow construction type");

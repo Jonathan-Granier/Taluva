@@ -179,7 +179,7 @@ public class Game {
 		List<GraphicConstruction> Constructions = new ArrayList<GraphicConstruction>();
 		
 		GraphicConstruction Construction = new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader);
-		
+		Ecouteur_Boutons.setConstruction(Construction);
 		grid = new Grid(moteur.getTerrain(),loader);
 		
 		//*************GUI Renderer Set-up******************
@@ -250,7 +250,6 @@ public class Game {
 			
 
 			if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && Ecouteur_Boutons.isPick())
-
 				renderer.draw(Construction.getObject3d(),shader);
 			if(moteur.get_etat_jeu() == Phase_Jeu.POSER_TUILE)
 				renderer.draw(Tile.getObject3D(),shader);
