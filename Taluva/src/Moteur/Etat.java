@@ -44,6 +44,14 @@ public class Etat {
 	{
 		listeners.remove(EtatListener.class, listener);
 	}
+	//Appel tous les listeners pour les mettre à jour
+	public void MajListeners()
+	{
+		for(EtatListener listener : getEtatListeners()) 
+		{
+			listener.EtatChange(etat_jeu);
+		}
+	}
 	
 	//Renvoi la liste des ecouteurs d'Etat
 	public EtatListener[] getEtatListeners()
