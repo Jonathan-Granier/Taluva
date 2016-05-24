@@ -248,7 +248,19 @@ public class Moteur extends Phase{
 	// Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
 	public boolean joueur_elimine (){
 		// TODO
-		//return (T.liste_coups_construction_possibles(Case.Couleur_Joueur.BLANC).size() == 0);
+		if(T.liste_coups_construction_possibles(j_courant.getCouleur()).isEmpty()){
+			if(T.liste_extensions_possibles(j_courant.getCouleur()).isEmpty())
+				return true;
+			else {
+				// Faut peut être tester si on a le nombre de bâtiments suffisant
+			}
+		}
+		else {
+			// Faut tester si on a assez de bâtiments pour faire les constructions possibles
+			
+			// Si on ne peut pas, faudra tester si on peut faire une extension plutôt
+			
+		}
 		return false;
 	}
 	
@@ -446,7 +458,7 @@ public class Moteur extends Phase{
 	// Permet d'annuler une tuile posée, et de la récupérer
 	// Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int annuler(){
-		//System.out.println("On est dans l'état : "+ get_etat_jeu()+" ^^\n");
+		//System.out.println("On est dans l'état : "+ get_etat_jeu()+"\n");
 		if(annul.size()<=1)return 1;
 		redo.add(annul.remove(annul.size()-1));
 		histo_jeu.remove(histo_jeu.size()-1);
@@ -454,7 +466,7 @@ public class Moteur extends Phase{
 		int code_erreur = Decremente_Phase_Jeu();
 		if(code_erreur == 0 && get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
 			j_courant = prev;
-		//System.out.println("Et là maintenant on est dans l'état : "+ get_etat_jeu()+" TAVU ?\n");
+		//System.out.println("Et là maintenant on est dans l'état : "+ get_etat_jeu()+\n");
 		return code_erreur;
 	}
 	
@@ -526,6 +538,14 @@ public class Moteur extends Phase{
 		liste_coup_construction = new Liste_coup_construction(T,j_courant);
 	}
 	
+	//////////////////////////////////////////
+	//  /!\ FONCTIONS UNIQUEMENT POUR IHM  /!\
+	//////////////////////////////////////////
+	
+	public boolean refaire_possible(){
+		return redo.isEmpty();
+	}
+	
 	///////////////////////////////////////////
 	//   /!\ FONCTIONS UNIQUEMENT POUR IA	/!\
 	///////////////////////////////////////////
@@ -593,7 +613,7 @@ public class Moteur extends Phase{
 		Case.Type_Batiment batiment = Action_vers_Batiment(action.get_type());
 		if(action.get_type() == Action_Construction.Type.EXTENSION){
 			if((T.etendre_cite(p,action.get_type_extension()))!= 0){
-				System.out.println("Impossible de construire [EXTENSION]");
+				System.out.println("Impossible faire cette [EXTENSION]");
 				return 1;
 			}
 		}
