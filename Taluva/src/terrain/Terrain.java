@@ -961,6 +961,7 @@ public class Terrain {
 						res.add(new Action_Tuile(tuile.clone(),new Point(i,j),getCase(i,j).getNiveau()+1));
 				}
 			}
+			tuile = tuile.clone();
 			tuile.Tourner_horaire();
 		}
 		return res;
