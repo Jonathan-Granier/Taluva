@@ -87,6 +87,7 @@ public class Moteur extends Phase{
 		//etat = Etat.DEBUT_DE_TOUR;
 		init_phase_jeu();
 		bat_choisi = Case.Type_Batiment.VIDE;
+		histo_jeu = new ArrayList<Etat_de_jeu>();
 	}
 	
 	// Adders de joueurs
@@ -101,6 +102,7 @@ public class Moteur extends Phase{
 		
 	public void add_j2(Joueur_Generique j2){
 		this.j2 = j2;
+		if (j1 instanceof IA_Generique)jouer_IA();
 	}
 	
 	///////////////////////////////////////////////////////////////
