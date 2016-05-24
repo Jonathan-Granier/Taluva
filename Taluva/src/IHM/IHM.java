@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -182,8 +184,8 @@ public class IHM {
         panelJ2.setLayout(new GridLayout(1,4));
 
         canvas.setSize(width, height-height/3);
-        canvas.setFocusable(true);
-        frame.addKeyListener(new KeyboardListener());
+        canvas.setFocusable(false);
+       // frame.addMouseListener(new KeyboardListener());
         
         try {
             Display.setParent(canvas);

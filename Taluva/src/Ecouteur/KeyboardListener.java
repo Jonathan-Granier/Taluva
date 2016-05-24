@@ -1,31 +1,46 @@
 package Ecouteur;
 
+import java.awt.Canvas;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class KeyboardListener implements KeyListener {
+public class KeyboardListener implements MouseListener {
 
+	
 	public KeyboardListener(){
 		
 	}
 	
+
 	@Override
-	public void keyPressed(KeyEvent e) {
-		System.out.println("Right key pressed");
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            System.out.println("Right key pressed");
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("Left key pressed");
-        }
+	public void mouseClicked(MouseEvent e) {
+		System.out.println("test");
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

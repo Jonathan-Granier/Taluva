@@ -308,7 +308,12 @@ public class Game {
 			drawable.draw();
 
 			Window.updateDisplay();
-			
+			if(Mouse.getX()>0 && Mouse.getX()<Display.getWidth() && Mouse.getY()>0 && Mouse.getY()<Display.getHeight()){
+				Display.getParent().setFocusable(true);
+			}
+			else{
+				Display.getParent().setFocusable(false);
+			}
 		}
 		
 		waterShader.cleanUp();
