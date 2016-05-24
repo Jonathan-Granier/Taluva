@@ -245,42 +245,44 @@ public class Moteur extends Phase{
 	
 	// Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
 	public boolean joueur_elimine (){
-		/*ArrayList<Action_Construction> construction = new ArrayList<Action_Construction>();
-		ArrayList<Action_Construction> extension = new ArrayList<Action_Construction>();
-		construction = T.liste_coups_construction_possibles(j_courant.getCouleur());
-		extension = T.liste_extensions_possibles(j_courant.getCouleur());
-		if(construction.isEmpty()){
-			if(extension.isEmpty())
+		ArrayList<Action_Construction> liste_construction = new ArrayList<Action_Construction>();
+		ArrayList<Action_Construction> liste_extension = new ArrayList<Action_Construction>();
+		liste_construction = T.liste_coups_construction_possibles(j_courant.getCouleur());
+		liste_extension = T.liste_extensions_possibles(j_courant.getCouleur());
+		if(liste_construction.isEmpty()){
+			if(liste_extension.isEmpty())
 				return true;
 			else {
-				for(Action_Construction action : extension){
-					if(action.get_type()==Action_Construction.Type.EXTENSION && action.get_nb_batiments()<=j_courant.getHutte())
+				for(Action_Construction action : liste_extension){
+					if(action.get_nb_batiments()<=j_courant.getHutte())
 						return false;
 				}
+				return true;
 			}
 		}
 		else {
 			// Test si j_courant peut construire avec ses batiments
-			for(Action_Construction action : construction){
+			for(Action_Construction action : liste_construction){
 				switch (action.get_type()){
 				case HUTTE : return !(j_courant.getHutte()>0);
 				case TOUR : return !(j_courant.getTour()>0);
 				case TEMPLE : return !(j_courant.getTemple()>0);
 				default :
+					System.out.println("Type non défini d'action construction");
 					return false;
 				}
 			}
 			// Sinon même chose que plus haut
-			if(extension.isEmpty())
+			if(liste_extension.isEmpty())
 				return true;
 			else {
-				for(Action_Construction action : extension){
-					if(action.get_type()==Action_Construction.Type.EXTENSION && action.get_nb_batiments()>j_courant.getHutte())
+				for(Action_Construction action : liste_extension){
+					if(action.get_nb_batiments()<=j_courant.getHutte())
 						return false;
 				}
+				return true;
 			}
-		}*/
-		return false;
+		}
 	}
 	
 	// Renvoie une tuile piochée aléatoirement dans la pioche
