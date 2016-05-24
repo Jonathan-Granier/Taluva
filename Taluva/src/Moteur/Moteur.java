@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
+
 import Action.Action_Construction;
 import Action.Action_Tuile;
 import Joueur.IA_Alpha_Beta;
@@ -24,7 +26,7 @@ import test.Game;
 
 public class Moteur extends Phase{
 	private Terrain T;
-	private ArrayList<Terrain> annul, redo;
+	private Stack<Etat_de_jeu> annul, redo;
 	//private ArrayList<Joueur_Humain> prev, next;
 	private ArrayList<Etat_de_jeu> histo_jeu;
 	Joueur_Humain prev, next;
@@ -56,17 +58,13 @@ public class Moteur extends Phase{
 	// Constructeur du moteur
 	public Moteur(Terrain T,Joueur_Generique j1,Joueur_Generique j2){
 		this.T = T;
-		annul = new ArrayList<Terrain>();
-		annul.add(T.clone());
-		redo = new ArrayList<Terrain>();
+		annul = new Stack<Etat_de_jeu>();
+		redo = new Stack<Etat_de_jeu>();
 		tuiles = new ArrayList<Tuile>();
 		init(tuiles);
 		this.j1 = j1;
 		j_courant = j1;
 		this.j2 = j2;
-		prev = new Joueur_Humain(j_courant.getCouleur());
-		prev = ((Joueur_Humain) j_courant).clone();
-		next = new Joueur_Humain(j_courant.getCouleur());
 		//prev = new ArrayList<Joueur_Humain>();
 		//prev.add(((Joueur_Humain) j_courant).clone());
 		//next = new ArrayList<Joueur_Humain>();
@@ -74,15 +72,14 @@ public class Moteur extends Phase{
 		//etat = Etat.DEBUT_DE_TOUR;
 		bat_choisi = Case.Type_Batiment.VIDE;
 		histo_jeu = new ArrayList<Etat_de_jeu>();
-		histo_jeu.add(new Etat_de_jeu(T,j_courant));
+		histo_jeu.add(new Etat_de_jeu(T,this.j1, this.j2, this.j_courant, this.clone_Phase()));
 	}
 	
 	// Constructeur du moteur sans joueurs
 	public Moteur(Terrain T){
 		this.T = T;
-		annul = new ArrayList<Terrain>();
-		annul.add(T.clone());
-		redo = new ArrayList<Terrain>();
+		annul = new Stack<Etat_de_jeu>();
+		redo = new Stack<Etat_de_jeu>();
 		tuiles = new ArrayList<Tuile>();
 		init(tuiles);
 		//etat = Etat.DEBUT_DE_TOUR;
@@ -98,7 +95,7 @@ public class Moteur extends Phase{
 		/*prev = new Joueur_Humain(j_courant.getCouleur());
 		prev = ((Joueur_Humain) j_courant).clone();
 		next = new Joueur_Humain(j_courant.getCouleur());*/
-		histo_jeu.add(new Etat_de_jeu(T,j_courant));
+		histo_jeu.add(new Etat_de_jeu(T,j1,j2,j_courant, this.clone_Phase()));
 	}
 		
 	public void add_j2(Joueur_Generique j2){
@@ -261,9 +258,8 @@ public class Moteur extends Phase{
 			return null;
 		}
 		if(annul.size()==0){
-			annul.add(T.clone());
+			annul.add(new Etat_de_jeu(this.T,j1,j2,j_courant, this.clone_Phase()));
 			//prev.add(((Joueur_Humain) j_courant).clone());
-			if(j_courant instanceof Joueur_Humain) prev = ((Joueur_Humain) j_courant).clone();
 		}
 		Random r = new Random();
 		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()));
@@ -290,8 +286,8 @@ public class Moteur extends Phase{
 	public int placer_tuile(Point P){
 		if(T.placer_tuile(tuile_pioche, P) == 0){
 			if(joueur_elimine())return -1;
-			annul.add(T.clone());
-			histo_jeu.add(new Etat_de_jeu(T,j_courant));
+			annul.push(new Etat_de_jeu(this.T, j1,j2,j_courant, this.clone_Phase()));
+			histo_jeu.add(new Etat_de_jeu(T,j1,j2,j_courant, this.clone_Phase()));
 			//etat = Etat.CONSTRUIRE_BATIMENT;
 			Incremente_Phase_Jeu();
 			return 0;
@@ -325,10 +321,8 @@ public class Moteur extends Phase{
 	// Renvoie 0 si le batiment a pu être placé, 1 sinon
 	public int placer_batiment(Point P){
 		if(T.placer_batiment(bat_choisi,j_courant.getCouleur(), P) == 0){
-			annul.add(T.clone());
-			histo_jeu.add(new Etat_de_jeu(T,j_courant));
-			if(j_courant instanceof Joueur_Humain) next = ((Joueur_Humain) j_courant).clone();
-			//etat = Etat.FIN_DE_TOUR;
+			annul.push(new Etat_de_jeu(T,j1,j2,j_courant, this.clone_Phase()));
+			histo_jeu.add(new Etat_de_jeu(T,j1,j2,j_courant, this.clone_Phase()));
 			Incremente_Phase_Jeu();
 			return 0;
 		}
@@ -407,7 +401,7 @@ public class Moteur extends Phase{
 			return 1;
 		}
 
-		histo_jeu.add(new Etat_de_jeu(T,j_courant));
+		histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = ((IA_Generique) j_courant).get_coup_construction();
 		// SI c'est une extension
@@ -431,7 +425,7 @@ public class Moteur extends Phase{
 			}
 		}
 
-		histo_jeu.add(new Etat_de_jeu(T,j_courant));
+		histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		fin_de_tour();
 		return 0;
 	}
@@ -455,11 +449,11 @@ public class Moteur extends Phase{
 	// Permet d'annuler une tuile posée, et de la récupérer
 	// Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int annuler(){
-		//System.out.println("On est dans l'état : "+ get_etat_jeu()+" ^^\n");
-		if(annul.size()<=1)return 1;
-		redo.add(annul.remove(annul.size()-1));
-		histo_jeu.remove(histo_jeu.size()-1);
-		T = annul.get(annul.size()-1).clone();
+		if(annul.size()<1)return 1;
+		Etat_de_jeu tmp = annul.pop();
+		redo.push(tmp);
+		//histo_jeu.remove(histo_jeu.size()-1);
+		T = tmp.getTerrain();
 		int code_erreur = Decremente_Phase_Jeu();
 		if(code_erreur == 0 && get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
 			j_courant = prev;
@@ -472,12 +466,13 @@ public class Moteur extends Phase{
 	public int refaire(){
 		if(redo.isEmpty()) 
 			return 1;
-		annul.add(redo.remove(redo.size()-1));
-		T = annul.get(annul.size()-1).clone();
+		Etat_de_jeu tmp = redo.pop();
+		annul.push(tmp);
+		T = tmp.getTerrain();
 		int code_erreur = Incremente_Phase_Jeu();
 		if(code_erreur == 0 && get_etat_jeu() == Phase_Jeu.FIN_DE_TOUR)
 			j_courant = next;
-		histo_jeu.add(new Etat_de_jeu(annul.get(annul.size()-1),j_courant));
+		histo_jeu.add(tmp);
 		return code_erreur;
 	}
 	
