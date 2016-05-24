@@ -406,7 +406,7 @@ public class Moteur extends Phase{
 			System.out.println("[jouer_IA] Impossible de poser la tuile");
 			return 1;
 		}
-		Game.updateGame();
+
 		histo_jeu.add(new Etat_de_jeu(T,j_courant));
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = ((IA_Generique) j_courant).get_coup_construction();
@@ -430,7 +430,7 @@ public class Moteur extends Phase{
 				return 1;
 			}
 		}
-		Game.updateGame();
+
 		histo_jeu.add(new Etat_de_jeu(T,j_courant));
 		fin_de_tour();
 		return 0;

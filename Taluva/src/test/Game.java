@@ -52,15 +52,24 @@ import utils.MousePicker;
 
 public class Game {
 	
-	private static Moteur moteur;
-	private static Grid grid;
-	private static List<GraphicTile> Tiles;
-	private static List<GraphicConstruction> constructions;
-	private static Loader loader;
+	private Moteur moteur;
+	private Grid grid;
+	private List<GraphicTile> Tiles;
+	private List<GraphicConstruction> constructions;
+	private Loader loader;
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
 		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
+		//Check listTile with listActionTile("IA mode useful")
+		if(Tiles.size() < listTile.size()){
+			for(int i = Tiles.size(); i<Tiles.size();i++){
+				Tiles.add(new GraphicTile(listTile.get(i).getTuile(),loader, new Vector3f(0,0,0)));
+				Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY(),listTile.get(i).getNiveau()-1));
+				Tiles.get(i).getObject3D().setPosition(worldPos);
+			}
+		}
+		
 		for(int i=0;i<listTile.size();i++){
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY(),listTile.get(i).getNiveau()-1));
 			Tiles.get(i).getObject3D().setPosition(worldPos);
@@ -100,16 +109,6 @@ public class Game {
 			putConstruction(constructions,construction,snap);
 		}
 		
-	}
-	
-	public static void updateGame(){
-		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
-		for(int i=0;i<listTile.size();i++){
-			Tiles.add(new GraphicTile(listTile.get(i).getTuile(),loader,new Vector3f(0,0,0)));
-			Tiles.get(i).setAngle();
-			Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY(),listTile.get(i).getNiveau()-1));
-			Tiles.get(i).getObject3D().setPosition(worldPos);
-		}
 	}
 	
 	public void tileGestion(Vector3f point,GraphicTile Tile,List<GraphicTile> Tiles,Grid grid){
