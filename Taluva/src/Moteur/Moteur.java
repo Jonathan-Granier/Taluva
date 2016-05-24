@@ -248,8 +248,12 @@ public class Moteur extends Phase{
 	// Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
 	public boolean joueur_elimine (){
 		// TODO
-		if(T.liste_coups_construction_possibles(j_courant.getCouleur()).isEmpty()){
-			if(T.liste_extensions_possibles(j_courant.getCouleur()).isEmpty())
+		/*ArrayList<Action_Construction> construction = new ArrayList<Action_Construction>();
+		ArrayList<Action_Construction> extension = new ArrayList<Action_Construction>();
+		construction = T.liste_coups_construction_possibles(j_courant.getCouleur());
+		extension = T.liste_extensions_possibles(j_courant.getCouleur());
+		if(construction.isEmpty()){
+			if(extension.isEmpty())
 				return true;
 			else {
 				// Faut peut être tester si on a le nombre de bâtiments suffisant
@@ -260,7 +264,7 @@ public class Moteur extends Phase{
 			
 			// Si on ne peut pas, faudra tester si on peut faire une extension plutôt
 			
-		}
+		}*/
 		return false;
 	}
 	
