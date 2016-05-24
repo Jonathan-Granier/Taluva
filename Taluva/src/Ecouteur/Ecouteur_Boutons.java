@@ -18,7 +18,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	Moteur moteur;
 	private static boolean pick;
 	private static GraphicTile Tile;
-	private static GraphicConstruction construction;
+	private static GraphicConstruction Construction;
 	
 	public Ecouteur_Boutons(String action,Moteur moteur){
 		this.action = action;
@@ -30,7 +30,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	}
 	
 	public static void setConstruction(GraphicConstruction c){
-		construction = c;
+		Construction = c;
 	}
 	
     public void actionPerformed(ActionEvent e) {
@@ -58,7 +58,8 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ1()){
 	    			moteur.select_hutte();
 	    			pick = true;
-	    			construction.setType(GraphicType.HUT);
+	    			Construction.setType(GraphicType.HUT);
+	    			Construction.setObject3d();
 	    		}
 	    		break;	
 	    	
@@ -66,7 +67,8 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ1()){
 	    			moteur.select_temple();
 	    			pick = true;
-	    			construction.setType(GraphicType.TEMPLE);
+	    			Construction.setType(GraphicType.TEMPLE);
+	    			Construction.setObject3d();
 	    		}
 	    		break;	
 	    	
@@ -74,7 +76,8 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ1()){
 	    			moteur.select_tour();
 	    			pick = true;
-	    			construction.setType(GraphicType.TOWER);
+	    			Construction.setType(GraphicType.TOWER);
+	    			Construction.setObject3d();
 	    		}
 	    		break;
 	    		
@@ -82,7 +85,8 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ2()){
 	    			moteur.select_hutte();
 	    			pick = true;
-	    			construction.setType(GraphicType.HUT);
+	    			Construction.setType(GraphicType.HUT);
+	    			Construction.setObject3d();
 	    		}
 	    		
 	    		break;	
@@ -91,7 +95,8 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ2()){
 	    			moteur.select_temple();
 	    			pick = true;
-	    			construction.setType(GraphicType.TEMPLE);
+	    			Construction.setType(GraphicType.TEMPLE);
+	    			Construction.setObject3d();
 	    		}
 	    		break;	
 	    	
@@ -99,7 +104,8 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ2()){
 	    			moteur.select_tour();
 	    			pick = true;
-	    			construction.setType(GraphicType.TOWER);
+	    			Construction.setType(GraphicType.TOWER);
+	    			Construction.setObject3d();
 	    		}
 	    		break;	
 	    	

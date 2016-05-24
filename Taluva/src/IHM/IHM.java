@@ -23,11 +23,6 @@ import javax.swing.SwingConstants;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.Dimension;
-import org.lwjgl.util.vector.Vector3f;
-
-import terrain.Case;
-import terrain.Tuile;
-import entities.GraphicTile;
 
 import Ecouteur.Ecouteur_Boutons;
 import Moteur.Moteur;
@@ -43,7 +38,7 @@ public class IHM {
 	private JLabel p, t, c, f,Joueur1,Joueur2;
 	private JButton Annuler,Refaire,Pioche,FDT,templeJ1,tourJ1,hutteJ1,etendreJ1,templeJ2,tourJ2,hutteJ2,etendreJ2;
 	private Canvas canvas;
-	private GraphicTile Tile;
+	 
 	
 	public IHM(Moteur moteur, JFrame fenetre){
 		m=moteur;
@@ -78,7 +73,7 @@ public class IHM {
         hutteJ2 = new JButton();
         etendreJ2 = new JButton();
         canvas = new Canvas();
-        
+
 
 	}
 	
@@ -99,19 +94,16 @@ public class IHM {
         //frise
         p.setFont(new Font("Sherif", Font.PLAIN,32));
         p.setHorizontalAlignment(SwingConstants.CENTER);
-        p.setOpaque(true);
         
         t.setFont(new Font("Sherif", Font.PLAIN,32));
         t.setHorizontalAlignment(SwingConstants.CENTER);
-        t.setOpaque(true);
         
         c.setFont(new Font("Sherif", Font.PLAIN,32));
         c.setHorizontalAlignment(SwingConstants.CENTER);
-        c.setOpaque(true);
         
         f.setFont(new Font("Sherif", Font.PLAIN,32));
-        f.setOpaque(true);
         f.setHorizontalAlignment(SwingConstants.CENTER);
+        
         
         
         

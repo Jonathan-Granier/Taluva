@@ -53,3 +53,10 @@ Fonction Clones dans la plupart des classes
 Classe Cité & gestion des cité & extensions
 IHM: premier prototypes
 
+Lundi 23/05/16
+Avancements sur les IA : premiers tests (non concluants)
+Corrections sur le moteur (maj mineures + intégration des tests pour les IA)
+La classe Etat_jeu est désormais "Phase_jeu"
+Création de la classe Etat_de_jeu (d'attributs Terrain et Joueur courant)
+Maj de l'interface et IHM (correction de quelques bugs)
+Audits IHM

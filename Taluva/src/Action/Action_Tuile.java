@@ -29,4 +29,13 @@ public class Action_Tuile {
 	public int getNiveau(){
 		return niveau;
 	}
+	
+	public void afficher_Action_Tuile()
+	{
+		System.out.println("Action Tuile :");
+		tuile.afficher();
+		System.out.println("Position : " + P);
+		System.out.println("Niveau : "+ niveau);
+	}
+	
 }

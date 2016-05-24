@@ -34,7 +34,7 @@ public class Test_Taluva {
         IHM ihm = new IHM(m, frame);
         ihm.run();
         Avancement avancement = new Avancement(ihm);
-        m.addEtatListener(avancement);
+        m.addPhaseListener(avancement);
         m.MajListeners();
         game = new Game();
         game.play(frame,m);

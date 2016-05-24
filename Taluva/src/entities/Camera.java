@@ -156,6 +156,8 @@ public class Camera {
 		return roll;
 	}
 	
-	
+	public void setLookAt(Vector3f v){
+		lookAt = v;
+	}
 	
 }

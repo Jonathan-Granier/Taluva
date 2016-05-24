@@ -1,4 +1,5 @@
 package Moteur;
+
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,10 +21,11 @@ import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;
 
-public class Moteur extends Etat{
+public class Moteur extends Phase{
 	private Terrain T;
 	private ArrayList<Terrain> annul, redo;
 	//private ArrayList<Joueur_Humain> prev, next;
+	private ArrayList<Etat_de_jeu> histo_jeu;
 	Joueur_Humain prev, next;
 	private ArrayList<Tuile> tuiles;
 	private Tuile tuile_pioche;
@@ -48,7 +50,7 @@ public class Moteur extends Etat{
 	}
 	
 	private Etat etat;
-	*/			
+	*/
 	
 	// Constructeur du moteur
 	public Moteur(Terrain T,Joueur_Generique j1,Joueur_Generique j2){
@@ -67,10 +69,11 @@ public class Moteur extends Etat{
 		//prev = new ArrayList<Joueur_Humain>();
 		//prev.add(((Joueur_Humain) j_courant).clone());
 		//next = new ArrayList<Joueur_Humain>();
-		init_etat_jeu();
+		init_phase_jeu();
 		//etat = Etat.DEBUT_DE_TOUR;
-		
 		bat_choisi = Case.Type_Batiment.VIDE;
+		histo_jeu = new ArrayList<Etat_de_jeu>();
+		histo_jeu.add(new Etat_de_jeu(T,j_courant));
 	}
 	
 	// Constructeur du moteur sans joueurs
@@ -82,22 +85,24 @@ public class Moteur extends Etat{
 		tuiles = new ArrayList<Tuile>();
 		init(tuiles);
 		//etat = Etat.DEBUT_DE_TOUR;
-		init_etat_jeu();
+		init_phase_jeu();
 		bat_choisi = Case.Type_Batiment.VIDE;
-		
+		histo_jeu = new ArrayList<Etat_de_jeu>();
 	}
 	
 	// Adders de joueurs
 	public void add_j1(Joueur_Generique j1){
 		this.j1 = j1;
 		j_courant = j1;
-		prev = new Joueur_Humain(j_courant.getCouleur());
+		/*prev = new Joueur_Humain(j_courant.getCouleur());
 		prev = ((Joueur_Humain) j_courant).clone();
-		next = new Joueur_Humain(j_courant.getCouleur());
+		next = new Joueur_Humain(j_courant.getCouleur());*/
+		histo_jeu.add(new Etat_de_jeu(T,j_courant));
 	}
 		
 	public void add_j2(Joueur_Generique j2){
 		this.j2 = j2;
+		if (j1 instanceof IA_Generique)jouer_IA();
 	}
 	
 	///////////////////////////////////////////////////////////////
@@ -116,7 +121,7 @@ public class Moteur extends Etat{
 		}
 	}
 	
-	//Ajout à l'ensemble de tuiles
+	// Ajout à l'ensemble de tuiles
 	private void rajoute_tuile(String line,ArrayList<Tuile> tuiles){
 		int nb;
 		nb = Character.getNumericValue(line.charAt(0));
@@ -124,7 +129,6 @@ public class Moteur extends Etat{
 			tuiles.add(new Tuile(char_to_case(line.charAt(2)),char_to_case(line.charAt(4))));
 		}
 	}
-	
 	
 	private void init(ArrayList<Tuile> tuiles){
 		try {
@@ -146,7 +150,6 @@ public class Moteur extends Etat{
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	///////////////////////
@@ -158,26 +161,32 @@ public class Moteur extends Etat{
 		return T;
 	}
 	
-	//Renvoie le nombre de Tuiles restantes
+	// Renvoie le nombre de Tuiles restantes
 	public int get_nbTuiles(){
 		return tuiles.size();
 	}
 	
-	//Renvoie la tuile piochée 
+	// Renvoie la tuile piochée 
 	public Tuile get_tuile_pioche(){
 		return tuile_pioche;
 	}
 	
-	//Renvoie le joueur courant
+	// Renvoie le joueur courant
 	public Joueur_Generique get_Jcourant(){
 		return j_courant;
 	}
+	
+	// Renvoie le joueur 1
 	public Joueur_Generique getJ1(){
 		return j1;
 	}
+	
+	// Renvoie le joueur 2
 	public Joueur_Generique getJ2(){
 		return j2;
 	}
+	
+	// Renvoie le joueur courant
 	public int get_num_Jcourant(){
 		if(j_courant.getCouleur().equals(j1.getCouleur()))
 		{
@@ -188,23 +197,22 @@ public class Moteur extends Etat{
 		return 2;
 	}
 	
-	
-	//Renvoie le type de batiment choisi par le joueur
+	// Renvoie le type de batiment choisi par le joueur
 	public Case.Type_Batiment get_bat_choisi(){
 		return bat_choisi;
 	}
 	
-	//Renvoie le joueur qui a gagné la partie
+	// Renvoie le joueur qui a gagné la partie
 	public Joueur_Generique getGagnant(){
 		return j_gagnant;
 	}
 	
-	//Renvoi la liste des coups possibles pour la tuile actuelle
+	// Renvoie la liste des coups possibles pour la tuile actuelle
 	public ArrayList<Action_Tuile> get_liste_coup_tuile(Tuile tuile){
 		return T.liste_coups_tuile_possibles(tuile);
 	}
 	
-	//Renvoi la liste des constructions possibles dans la configuration actuelle
+	// Renvoie la liste des constructions possibles dans la configuration actuelle
 	public Liste_coup_construction get_liste_coup_construction(){
 		return liste_coup_construction;
 	}
@@ -213,7 +221,7 @@ public class Moteur extends Etat{
 	//	FONCTIONS RELATIVES A UN TOUR DE JEU
 	/////////////////////////////////////////////////
 	
-	//Echange le joueur courant
+	// Echange le joueur courant
 		public void swap_joueur(){
 			if(j_courant == j1)
 			{
@@ -225,36 +233,36 @@ public class Moteur extends Etat{
 			}
 		}
 	
-	//Renvoie vrai si la pioche est vide
+	// Renvoie vrai si la pioche est vide
 	public boolean pioche_vide(){
 		return tuiles.size()==0;
 	}
 	
-	//Test si le joueur courant a posé tous les batiments de 2 types differents
+	// Test si le joueur courant a posé tous les batiments de 2 types differents
 	public boolean victoire_aux_batiments(){
 		return (j_courant.getTour()==0 && j_courant.getTemple()==0)
 				||(j_courant.getTour()==0 && j_courant.getHutte()==0)
 				||(j_courant.getTemple()==0 && j_courant.getHutte()==0);
 	}
 	
-	//Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
+	// Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
 	public boolean joueur_elimine (){
 		// TODO
 		//return (T.liste_coups_construction_possibles(Case.Couleur_Joueur.BLANC).size() == 0);
 		return false;
 	}
 	
-	//Renvoie une tuile piochée aléatoirement dans la pioche
+	// Renvoie une tuile piochée aléatoirement dans la pioche
 	public Tuile piocher(){
 		if(annul.size()==0){
 			annul.add(T.clone());
 			//prev.add(((Joueur_Humain) j_courant).clone());
-			prev = ((Joueur_Humain) j_courant).clone();
+			if(j_courant instanceof Joueur_Humain) prev = ((Joueur_Humain) j_courant).clone();
 		}
 		Random r = new Random();
 		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()));
 		//etat = Etat.POSER_TUILE;
-		Incremente_Etat_Jeu();
+		Incremente_Phase_Jeu();
 		return tuile_pioche;
 	}
 	
@@ -262,6 +270,7 @@ public class Moteur extends Etat{
 	// FONCTIONS RELATIVES AU TERRAIN
 	//////////////////////////////////
 	
+	// Tourne la tuile piochée dans le sens horaire
 	public void tourner_tuile(){
 		tuile_pioche.Tourner_horaire();
 	}
@@ -271,54 +280,54 @@ public class Moteur extends Etat{
 		return T.placement_tuile_autorise(tuile_pioche,P);
 	}
 	
-	//Renvoie 0 si la tuile piochée a pu être placée, -1 si elle est placée, mais le joueur ne peux plus jouer, 1 sinon
+	// Renvoie 0 si la tuile piochée a pu être placée, -1 si elle est placée, mais le joueur ne peux plus jouer, 1 sinon
 	public int placer_tuile(Point P){
 		if(T.placer_tuile(tuile_pioche, P) == 0){
 			if(joueur_elimine())return -1;
 			annul.add(T.clone());
+			histo_jeu.add(new Etat_de_jeu(T,j_courant));
 			//etat = Etat.CONSTRUIRE_BATIMENT;
-			Incremente_Etat_Jeu();
+			Incremente_Phase_Jeu();
 			return 0;
 		}
 		else return 1;
 	}
 	
-	//SELECTEURS DES BATIMENTS DU JOUEUR
-	//Le batiment choisi est une hutte
+	// SELECTEURS DES BATIMENTS DU JOUEUR
+	// Le batiment choisi est une hutte
 	public void select_hutte(){
-		if(get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
+		if(get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.HUTTE;
 	}
-	//Le batiment choisi est un temple
+	// Le batiment choisi est un temple
 	public void select_temple(){
-		if(get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
+		if(get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.TEMPLE;
 	}
-	//Le batiment choisi est une tour
+	// Le batiment choisi est une tour
 	public void select_tour(){
-		if(get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
+		if(get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
 		bat_choisi = Case.Type_Batiment.TOUR;
 	}
 	
 	
-	//Renvoie vrai ssi le placement du batiment choisi est autorisé au point P.
+	// Renvoie vrai ssi le placement du batiment choisi est autorisé au point P.
 	public boolean placement_batiment_autorise(Point P){
 		return T.placement_batiment_autorise(bat_choisi,j_courant.getCouleur(), P);
 	}
 	
-	//Renvoie 0 si le batiment a pu être placé, 1 sinon
+	// Renvoie 0 si le batiment a pu être placé, 1 sinon
 	public int placer_batiment(Point P){
 		if(T.placer_batiment(bat_choisi,j_courant.getCouleur(), P) == 0){
 			annul.add(T.clone());
-			next = ((Joueur_Humain) j_courant).clone();
+			histo_jeu.add(new Etat_de_jeu(T,j_courant));
+			if(j_courant instanceof Joueur_Humain) next = ((Joueur_Humain) j_courant).clone();
 			//etat = Etat.FIN_DE_TOUR;
-			Incremente_Etat_Jeu();
+			Incremente_Phase_Jeu();
 			return 0;
 		}
 		else return 1;
 	}
-	
-	
 	
 	// Essaye d'etendre la cité, renvoi 0 si ça réussi , 1 si l'extension echoue, 2 si le joueur courant n'a pas assez de batiment
 	public int etendre_cite(Point P, Case.Type type)
@@ -328,7 +337,6 @@ public class Moteur extends Etat{
 			return 2;
 		}
 		return T.etendre_cite(P,type);
-		
 	}
 	
 	// Calcule le score d'un joueur selon la convention :
@@ -339,8 +347,8 @@ public class Moteur extends Etat{
 		return ((nb_max_Temples - j.getTemple())*1000 + (nb_max_Tours - j.getTour())*100 + (nb_max_Huttes - j.getHutte()));
 	}
 	
-	//Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
-	//Actualise aussi les données et change de joueur
+	// Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
+	// Actualise aussi les données et change de joueur
 	public int fin_de_tour(){
 		if(victoire_aux_batiments()){
 			if(j_courant == j1)System.out.println("Le joueur 1 a gagné!!!");
@@ -368,7 +376,7 @@ public class Moteur extends Etat{
 			redo.clear();
 			swap_joueur();
 			//etat = Etat.DEBUT_DE_TOUR;
-			init_etat_jeu();
+			init_phase_jeu();
 			bat_choisi = Case.Type_Batiment.VIDE;
 			if(j_courant instanceof IA_Generique)
 			{
@@ -378,9 +386,7 @@ public class Moteur extends Etat{
 		}
 	}
 	
-	
-	
-	// Fait jouer le tour pour un IA
+	// Fait jouer le tour pour une IA
 	public int jouer_IA()
 	{
 		Action_Tuile action_tuile;
@@ -392,6 +398,7 @@ public class Moteur extends Etat{
 			System.out.println("[jouer_IA] Impossible de poser la tuile");
 			return 1;
 		}
+		histo_jeu.add(new Etat_de_jeu(T,j_courant));
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = ((IA_Generique) j_courant).get_coup_construction();
 		// SI c'est une extension
@@ -414,12 +421,13 @@ public class Moteur extends Etat{
 				return 1;
 			}
 		}
-		
-		
+
+		histo_jeu.add(new Etat_de_jeu(T,j_courant));
 		fin_de_tour();
 		return 0;
 	}
-	// Convertie une action en batiment
+	
+	// Convertit une action en batiment
 	private Case.Type_Batiment Action_vers_Batiment(Action_Construction.Type A)
 	{
 		switch (A)
@@ -435,37 +443,37 @@ public class Moteur extends Etat{
 		}
 	}
 	
-	
-	//Permet d'annuler une tuile posée, et de la récupérer
-	//Renvoie 0 si tout s'est bien passé, 1 sinon.
+	// Permet d'annuler une tuile posée, et de la récupérer
+	// Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int annuler(){
 		//System.out.println("On est dans l'état : "+ get_etat_jeu()+" ^^\n");
 		if(annul.size()<=1)return 1;
 		redo.add(annul.remove(annul.size()-1));
+		histo_jeu.remove(histo_jeu.size()-1);
 		T = annul.get(annul.size()-1).clone();
-		int code_erreur = Decremente_Etat_Jeu();
-		if(code_erreur == 0 && get_etat_jeu() == Etat_Jeu.CONSTRUIRE_BATIMENT)
+		int code_erreur = Decremente_Phase_Jeu();
+		if(code_erreur == 0 && get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
 			j_courant = prev;
 		//System.out.println("Et là maintenant on est dans l'état : "+ get_etat_jeu()+" TAVU ?\n");
 		return code_erreur;
 	}
 	
-	//Permet de reposer une tuile qui a été annulée qui a été annulée
-	//Renvoie 0 si tout s'est bien passé, 1 sinon.
+	// Permet de reposer une tuile qui a été annulée qui a été annulée
+	// Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int refaire(){
 		if(redo.isEmpty()) 
 			return 1;
 		annul.add(redo.remove(redo.size()-1));
 		T = annul.get(annul.size()-1).clone();
-		int code_erreur = Incremente_Etat_Jeu();
-		if(code_erreur == 0 && get_etat_jeu() == Etat_Jeu.FIN_DE_TOUR)
+		int code_erreur = Incremente_Phase_Jeu();
+		if(code_erreur == 0 && get_etat_jeu() == Phase_Jeu.FIN_DE_TOUR)
 			j_courant = next;
+		histo_jeu.add(new Etat_de_jeu(annul.get(annul.size()-1),j_courant));
 		return code_erreur;
 	}
 	
 	// ---------------- Fonction Pour le type Etat -------------------
-/*	
-	
+	/*	
 	public int IncrementeEtat()
 	{
 		switch (etat)
@@ -510,10 +518,7 @@ public class Moteur extends Etat{
 		return 0;
 	}
 	*/
-	
-	
 	// -------------------- Fonction pour les listes de coup --------------------------
-	
 	
 	// Met à jour la liste des constructions possibles dans la configuration actuelle
 	public void Maj_liste_coup_construction()
@@ -521,34 +526,28 @@ public class Moteur extends Etat{
 		liste_coup_construction = new Liste_coup_construction(T,j_courant);
 	}
 	
+	///////////////////////////////////////////
+	//   /!\ FONCTIONS UNIQUEMENT POUR IA	/!\
+	///////////////////////////////////////////
 	
-	////////////////////////////////
-	// Pour les tests de Gab
-	
+	// Clone le moteur actuel pour les tests de l'IA
 	public Moteur clone(){
-		
-		//TODO 
-		// Rendre la copie de joueur propre
-		
-		
-			
-		Joueur_Generique j1_copie = new Joueur_Humain(j2.getCouleur());;
+		Joueur_Generique j1_copie = new Joueur_Humain(j2.getCouleur());
 		Joueur_Generique j2_copie = new Joueur_Humain(j2.getCouleur());
-		Joueur_Generique j_courant_copie = new Joueur_Humain(j_courant.getCouleur());
-		Joueur_Generique j_gagnant_copie = new Joueur_Humain(j_gagnant.getCouleur());
-		
-		
 		Moteur m_copie = new Moteur(T.clone());
-		// On instancie chaque joueur_copie en fonction du type de l'original
 		
+		// On instancie chaque joueur_copie en fonction du type de l'original
+		/*
 		j1_copie = copie_type_joueur(j1,j1_copie,m_copie);
 		j2_copie = copie_type_joueur(j1,j1_copie,m_copie);
 		j_courant_copie = copie_type_joueur(j1,j1_copie,m_copie);
 		j_gagnant_copie = copie_type_joueur(j1,j1_copie,m_copie);
-			
+		*/
 		
 		m_copie.add_j1(j1_copie);
 		m_copie.add_j2(j2_copie);
+		m_copie.j_courant = new Joueur_Humain(j_courant.getCouleur());
+		m_copie.j_gagnant = new Joueur_Humain(j_gagnant.getCouleur());
 		
 		for(int i=1;i<this.annul.size();i++)m_copie.annul.add(this.annul.get(i));
 		for(int i=0;i<this.redo.size();i++)m_copie.redo.add(this.redo.get(i));
@@ -557,23 +556,17 @@ public class Moteur extends Etat{
 		m_copie.tuile_pioche = this.tuile_pioche;
 		m_copie.bat_choisi = this.bat_choisi;
 		m_copie.liste_coup_construction = this.liste_coup_construction.clone();
-		
-		
-		//private Joueur_Generique j_courant;
 		j_courant.copie_Joueur_Generique(m_copie.j_courant);
-		//private Joueur_Generique j1;
 		j1.copie_Joueur_Generique(m_copie.j1);
-		//private Joueur_Generique j2;
 		j2.copie_Joueur_Generique(m_copie.j2);
-		//private Joueur_Generique j_gagnant;
 		j_gagnant.copie_Joueur_Generique(m_copie.j_gagnant);
 		
-		while(m_copie.get_etat_jeu() != this.get_etat_jeu())m_copie.Incremente_Etat_Jeu();
+		while(m_copie.get_etat_jeu() != this.get_etat_jeu())m_copie.Incremente_Phase_Jeu();
 		return m_copie;
 	}
 	
-	
-	//TEST
+	//Sert potentiellement à rien
+	@SuppressWarnings("unused")
 	private Joueur_Generique copie_type_joueur(Joueur_Generique src, Joueur_Generique dest, Moteur m_copie)
 	{
 		if(src instanceof Joueur_Humain)
@@ -592,7 +585,25 @@ public class Moteur extends Etat{
 		
 		return dest;
 	}
-	 
+	
+	// Prend en parametre une action construction et simule une construction avec les données
+	// Renvoie 0 si tout s'est bien passé, 0 sinon
+	public int jouer_action(Action_Construction action){
+		Point p = action.get_coord();
+		Case.Type_Batiment batiment = Action_vers_Batiment(action.get_type());
+		if(action.get_type() == Action_Construction.Type.EXTENSION){
+			if((T.etendre_cite(p,action.get_type_extension()))!= 0){
+				System.out.println("Impossible de construire [EXTENSION]");
+				return 1;
+			}
+		}
+		else {
+			if(T.placer_batiment(batiment, j_courant.getCouleur(),p) != 0){
+				System.out.println("Impossible de construire ["+action.get_type()+"]");
+				return 1;
+			}
+		}
+		return 0;
+	}
 		
 }
-
