@@ -171,6 +171,17 @@ public class Tuile {
 			}
 		}
 	}
+	
+	public void afficher(){
+		System.out.println("Tuile :");
+		System.out.println(" " + get_type_case(Case.Orientation.N).toChar());
+		if(getOrientation() == Orientation.DROITE)
+			System.out.println("  " + get_type_case(Case.Orientation.E).toChar());
+		else
+			System.out.println("" + get_type_case(Case.Orientation.O).toChar());
+		System.out.println(" " + get_type_case(Case.Orientation.S).toChar());
+		
+	}
 }
 /*
 public class Tuile {
