@@ -4,11 +4,11 @@ import java.awt.event.ActionListener;
 
 import loaders.Loader;
 
-import org.lwjgl.util.vector.Vector3f;
-
 import terrain.Case;
 import terrain.Tuile;
+import entities.GraphicConstruction;
 import entities.GraphicTile;
+import entities.GraphicConstruction.GraphicType;
 
 import Moteur.Moteur;
 
@@ -18,6 +18,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	Moteur moteur;
 	private static boolean pick;
 	private static GraphicTile Tile;
+	private static GraphicConstruction construction;
 	
 	public Ecouteur_Boutons(String action,Moteur moteur){
 		this.action = action;
@@ -26,6 +27,10 @@ public class Ecouteur_Boutons implements ActionListener {
 	
 	public static void setTile(Loader loader,GraphicTile T){
 		Tile = T;
+	}
+	
+	public static void setConstruction(GraphicConstruction c){
+		construction = c;
 	}
 	
     public void actionPerformed(ActionEvent e) {
@@ -53,6 +58,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ1()){
 	    			moteur.select_hutte();
 	    			pick = true;
+	    			construction.setType(GraphicType.HUT);
 	    		}
 	    		break;	
 	    	
@@ -60,6 +66,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ1()){
 	    			moteur.select_temple();
 	    			pick = true;
+	    			construction.setType(GraphicType.TEMPLE);
 	    		}
 	    		break;	
 	    	
@@ -67,6 +74,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ1()){
 	    			moteur.select_tour();
 	    			pick = true;
+	    			construction.setType(GraphicType.TOWER);
 	    		}
 	    		break;
 	    		
@@ -74,6 +82,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ2()){
 	    			moteur.select_hutte();
 	    			pick = true;
+	    			construction.setType(GraphicType.HUT);
 	    		}
 	    		
 	    		break;	
@@ -82,6 +91,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ2()){
 	    			moteur.select_temple();
 	    			pick = true;
+	    			construction.setType(GraphicType.TEMPLE);
 	    		}
 	    		break;	
 	    	
@@ -89,6 +99,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_Jcourant() == moteur.getJ2()){
 	    			moteur.select_tour();
 	    			pick = true;
+	    			construction.setType(GraphicType.TOWER);
 	    		}
 	    		break;	
 	    	

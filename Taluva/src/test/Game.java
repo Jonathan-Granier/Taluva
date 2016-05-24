@@ -176,7 +176,7 @@ public class Game {
 		List<GraphicConstruction> Constructions = new ArrayList<GraphicConstruction>();
 		
 		GraphicConstruction Construction = new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader);
-		
+		Ecouteur_Boutons.setConstruction(Construction);
 		grid = new Grid(moteur.getTerrain(),loader);
 		
 		//*************GUI Renderer Set-up******************
