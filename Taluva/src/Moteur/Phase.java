@@ -26,7 +26,7 @@ public class Phase {
 		return phase_jeu;
 	}
 	// POUR LES TEST DE DIM
-	public void set_Etat_Jeu(Phase_Jeu e)
+	protected void set_Phase_Jeu(Phase_Jeu e)
 	{
 		phase_jeu = e;
 	}
