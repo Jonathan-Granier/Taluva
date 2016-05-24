@@ -245,9 +245,38 @@ public class Moteur extends Phase{
 	
 	// Test si le joueur courant est incapable de jouer (impossible de poser des batiments)
 	public boolean joueur_elimine (){
-		// TODO
-		//return (T.liste_coups_construction_possibles(Case.Couleur_Joueur.BLANC).size() == 0);
-		return false;
+		ArrayList<Action_Construction> construction = new ArrayList<Action_Construction>();
+		ArrayList<Action_Construction> extension = new ArrayList<Action_Construction>();
+		construction = T.liste_coups_construction_possibles(j_courant.getCouleur());
+		extension = T.liste_extensions_possibles(j_courant.getCouleur());
+		if(construction.isEmpty()){
+			if(!extension.isEmpty()){
+				for(Action_Construction action : extension){
+					if(action.get_type()==Action_Construction.Type.EXTENSION && action.get_nb_batiments()<=j_courant.getHutte())
+						return false;
+				}
+			}
+		}
+		else {
+			// Test si j_courant peut construire avec ses batiments
+			for(Action_Construction action : construction){
+				switch (action.get_type()){
+				case HUTTE : return !(j_courant.getHutte()>0);
+				case TOUR : return !(j_courant.getTour()>0);
+				case TEMPLE : return !(j_courant.getTemple()>0);
+				default :
+					return false;
+				}
+			}
+			// Sinon même chose que plus haut
+			if(!extension.isEmpty()){
+				for(Action_Construction action : extension){
+					if(action.get_type()==Action_Construction.Type.EXTENSION && action.get_nb_batiments()>j_courant.getHutte())
+						return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	// Renvoie une tuile piochée aléatoirement dans la pioche
