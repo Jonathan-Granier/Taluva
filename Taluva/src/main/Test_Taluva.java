@@ -12,6 +12,7 @@ import org.lwjgl.opengl.Display;
 
 import IHM.Avancement;
 import IHM.IHM;
+import Joueur.IA_Random;
 import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
 import Moteur.Moteur;
@@ -30,7 +31,10 @@ public class Test_Taluva {
         Joueur_Humain j1 = new Joueur_Humain(Couleur_Joueur.BLANC);
         Joueur_Humain j2 = new Joueur_Humain(Couleur_Joueur.ROUGE);
         Terrain table = new Terrain();
-        Moteur m = new Moteur(table,j1,j2);
+        Moteur m = new Moteur(table);
+        Joueur_Generique ia = new IA_Random(Couleur_Joueur.ROUGE,m);
+        m.add_j1(j1);
+        m.add_j2(ia);
         IHM ihm = new IHM(m, frame);
         ihm.run();
         Avancement avancement = new Avancement(ihm);

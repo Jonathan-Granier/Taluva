@@ -107,6 +107,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    			moteur.select_tour();
 	    			pick = true;
 	    			Construction.setType(GraphicType.TOWER);
+	    			Construction.setObject3d();
 	    		}
 	    		break;	
 	    	
