@@ -66,6 +66,23 @@ public abstract class Button {
 	public boolean isPressed() {
 		return isPressed;
 	}
-	
+
+	public Vector2f getPosition() {
+		return position;
+	}
+
+	public void setPosition(Vector2f position) {
+		this.position = position;
+		this.gui.setPosition(position);
+	}
+
+	public Vector2f getDimension() {
+		return dimension;
+	}
+
+	public void setDimension(Vector2f dimension) {
+		this.dimension = dimension;
+		this.gui.setDimension(dimension);
+	}
 	
 }
