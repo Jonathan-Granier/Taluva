@@ -4,3 +4,7 @@ Ajouter un drag&drop
 Menu -> accueil (cohérence)
 Menu principal : regrouper en sous-menus (Continuer/Nouveau/Charger => Jouer)
 Ajouter un affichage pour connaitre l'avancement du tour
+
+Remplir la timeline de la couleur du joueur courant (avec 3 couleurs, avant, actuel, après)
+Rearranger le menu d'en bas pour le mettre dans l'ordre de jeu, avec annuler et refaire a la fin
+Permettre de changer d'IA / de joueur en milieu de partie
