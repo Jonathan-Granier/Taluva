@@ -302,12 +302,27 @@ public class Terrain {
 		}
 	}
 	
+	private int getIndexHistoBatiments(Point P){
+		int i = 0;
+		boolean trouve = false;
+		int res = -1;
+		while(!trouve && i<histo_batiments.size()){
+			if(histo_batiments.get(i).getPosition().equals(P)){
+				trouve = true;
+				res = i;
+			}
+			i++;
+		}
+		return res;
+	}
+	
 	private void poser_hexa(int x, int y, Case.Type type, Case.Orientation oV){
 		Case c = getCase(x,y);
 		c.setType(type);
 		c.setOrientation(oV);
 		c.incrNiveau();
 		if(c.retirer_batiments() == 0){
+			histo_batiments.remove(getIndexHistoBatiments(new Point(x,y)));
 			Point P = new Point(x,y);
 			Cite cite = getCite(P);
 			ArrayList<Cite> citesSeparees = citesSeparation(P);
