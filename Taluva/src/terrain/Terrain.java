@@ -377,7 +377,7 @@ public class Terrain {
 				res.add(citeP);
 			}
 		}
-		System.out.println("Separation depuis " + P.x + "," + P.y + " en " + res.size() + " parties");
+		//System.out.println("Separation depuis " + P.x + "," + P.y + " en " + res.size() + " parties");
 		return res;
 	}
 	
@@ -545,7 +545,7 @@ public class Terrain {
 					// On joue alors sur des tuiles
 					// On verifie qu'on n'ecrase pas une cite entiere ni une tour ou un temple
 					if(!cases_t[0].est_Libre() || !cases_t[1].est_Libre() || !cases_t[2].est_Libre()){
-						System.out.println("Ca ecrase pitetre des choses interdites");
+						//System.out.println("Ca ecrase pitetre des choses interdites");
 						// Si on ecrase au moins un batiment
 						if(cases_t[0].getBType() == Case.Type_Batiment.TEMPLE || cases_t[0].getBType() == Case.Type_Batiment.TOUR)
 							return false;
@@ -580,7 +580,7 @@ public class Terrain {
 								return false;
 						}
 
-						System.out.println("Ah ba non");
+						//System.out.println("Ah ba non");
 					}
 					
 					// On vérifie la disposition des volcans
@@ -844,7 +844,7 @@ public class Terrain {
 	private void fusion_cite(Cite C, Cite C2){
 		int index_C = cites_indexOf(C);
 		int index_C2 = cites_indexOf(C2);
-		System.out.println("FUSION " + index_C2 + " -> " + index_C);
+		//System.out.println("FUSION " + index_C2 + " -> " + index_C);
 		ArrayList<Point> ptsC2 = C2.getPts();
 		Point P;
 		for(int i=0;i<ptsC2.size();i++){
