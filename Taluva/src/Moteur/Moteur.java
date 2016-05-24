@@ -72,7 +72,7 @@ public class Moteur extends Phase{
 		//etat = Etat.DEBUT_DE_TOUR;
 		bat_choisi = Case.Type_Batiment.VIDE;
 		histo_jeu = new ArrayList<Etat_de_jeu>();
-		histo_jeu.add(new Etat_de_jeu(T,this.j1, this.j2, this.j_courant, this.clone_Phase()));
+		//histo_jeu.add(new Etat_de_jeu(T,this.j1, this.j2, this.j_courant, this.clone_Phase()));
 	}
 	
 	// Constructeur du moteur sans joueurs
@@ -95,7 +95,7 @@ public class Moteur extends Phase{
 		/*prev = new Joueur_Humain(j_courant.getCouleur());
 		prev = ((Joueur_Humain) j_courant).clone();
 		next = new Joueur_Humain(j_courant.getCouleur());*/
-		histo_jeu.add(new Etat_de_jeu(T,j1,j2,j_courant, this.clone_Phase()));
+		//histo_jeu.add(new Etat_de_jeu(T,j1,j2,j_courant, this.clone_Phase()));
 	}
 		
 	public void add_j2(Joueur_Generique j2){
@@ -430,7 +430,7 @@ public class Moteur extends Phase{
 			return 1;
 		}
 
-		histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
+		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = ((IA_Generique) j_courant).get_coup_construction();
 		// SI c'est une extension
@@ -454,7 +454,7 @@ public class Moteur extends Phase{
 			}
 		}
 
-		histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
+		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		fin_de_tour();
 		return 0;
 	}
