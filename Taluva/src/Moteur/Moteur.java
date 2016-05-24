@@ -30,7 +30,8 @@ public class Moteur extends Phase{
 	//private ArrayList<Joueur_Humain> prev, next;
 	private ArrayList<Etat_de_jeu> histo_jeu;
 	Joueur_Humain prev, next;
-	private ArrayList<Tuile> tuiles;
+	
+	private Stack<Tuile> pioche;
 	private Tuile tuile_pioche;
 	private Case.Type_Batiment bat_choisi;
 	private Liste_coup_construction liste_coup_construction;
@@ -44,6 +45,7 @@ public class Moteur extends Phase{
 	public static int nb_max_Huttes = 20;
 	public static int nb_max_Tours = 2;
 	public static int nb_max_Temples = 3;
+	public static boolean PIOCHE_ALEATOIRE = true;
 	
 	/*public enum Etat{
 		DEBUT_DE_TOUR,
@@ -60,8 +62,8 @@ public class Moteur extends Phase{
 		this.T = T;
 		annul = new Stack<Etat_de_jeu>();
 		redo = new Stack<Etat_de_jeu>();
-		tuiles = new ArrayList<Tuile>();
-		init(tuiles);
+		pioche = new Stack<Tuile>();
+		init(pioche);
 		this.j1 = j1;
 		j_courant = j1;
 		this.j2 = j2;
@@ -80,8 +82,8 @@ public class Moteur extends Phase{
 		this.T = T;
 		annul = new Stack<Etat_de_jeu>();
 		redo = new Stack<Etat_de_jeu>();
-		tuiles = new ArrayList<Tuile>();
-		init(tuiles);
+		pioche = new Stack<Tuile>();
+		init(pioche);
 		//etat = Etat.DEBUT_DE_TOUR;
 		init_phase_jeu();
 		bat_choisi = Case.Type_Batiment.VIDE;
@@ -120,16 +122,21 @@ public class Moteur extends Phase{
 	}
 	
 	// Ajout à l'ensemble de tuiles
-	private void rajoute_tuile(String line,ArrayList<Tuile> tuiles){
+	private void rajoute_tuile(String line,ArrayList<Tuile> pioche_fichier){
 		int nb;
 		nb = Character.getNumericValue(line.charAt(0));
 		for(int i=1; i<=nb;i++){
-			tuiles.add(new Tuile(char_to_case(line.charAt(2)),char_to_case(line.charAt(4))));
+			pioche_fichier.add(new Tuile(char_to_case(line.charAt(2)),char_to_case(line.charAt(4))));
 		}
 	}
 	
-	private void init(ArrayList<Tuile> tuiles){
+	
+	// Creer la pioche dans une pile selon le fichier PIECES , Aléatoirement ou non selon PIOCHE_ALEATOIRE est vrai ou non
+	private void init(Stack<Tuile> pioche){
+		ArrayList<Tuile> pioche_fichier = new ArrayList<Tuile>();
 		try {
+			
+			
 			File file = new File("../PIECES");
 			FileInputStream fis = new FileInputStream(file);
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
@@ -137,7 +144,7 @@ public class Moteur extends Phase{
 			try {
 				while ((line = br.readLine()) != null) {
 					//System.out.println(line);
-					rajoute_tuile(line,tuiles);
+					rajoute_tuile(line,pioche_fichier);
 				}
 				br.close();
 			}
@@ -148,6 +155,36 @@ public class Moteur extends Phase{
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		if(PIOCHE_ALEATOIRE)
+		{
+			melange(pioche,pioche_fichier);
+		}
+		else
+		{
+			transfert(pioche,pioche_fichier);
+		}
+		
+		
+	}
+	
+
+	// Melange l'ArrayList pioche_fichier pour le mettre dans la pioche
+	private void melange(Stack<Tuile> pioche, ArrayList<Tuile> pioche_fichier) {
+		Random r = new Random();
+		while(!pioche_fichier.isEmpty())
+		{
+			pioche.push(pioche_fichier.remove(r.nextInt(pioche_fichier.size())));
+		}
+		
+	}
+	// Transfert l'Arraylist dans la pioche
+	private void transfert(Stack<Tuile> pioche, ArrayList<Tuile> pioche_fichier) {
+		while(!pioche_fichier.isEmpty())
+		{
+			pioche.push(pioche_fichier.remove(pioche_fichier.size()-1));
+		}
+		
 	}
 	
 	///////////////////////
@@ -161,7 +198,7 @@ public class Moteur extends Phase{
 	
 	// Renvoie le nombre de Tuiles restantes
 	public int get_nbTuiles(){
-		return tuiles.size();
+		return pioche.size();
 	}
 	
 	// Renvoie la tuile piochée 
@@ -233,7 +270,7 @@ public class Moteur extends Phase{
 	
 	// Renvoie vrai si la pioche est vide
 	public boolean pioche_vide(){
-		return tuiles.size()==0;
+		return pioche.size()==0;
 	}
 	
 	// Test si le joueur courant a posé tous les batiments de 2 types differents
@@ -296,8 +333,7 @@ public class Moteur extends Phase{
 			annul.add(new Etat_de_jeu(this.T,j1,j2,j_courant, this.clone_Phase()));
 			//prev.add(((Joueur_Humain) j_courant).clone());
 		}
-		Random r = new Random();
-		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()));
+		tuile_pioche = pioche.pop();
 		//etat = Etat.POSER_TUILE;
 		Incremente_Phase_Jeu();
 		return tuile_pioche;
