@@ -675,16 +675,17 @@ public class Terrain {
 			for(int i=0;i<pts_extension.size();i++){
 				int n = getCase(pts_extension.get(i)).getNiveau();
 				ArrayList<Cite> cites_proches = getCitesContact(pts_extension.get(i),c);
-				histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,P,c));
+				histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,pts_extension.get(i),c));
 				getCase(pts_extension.get(i)).ajouter_batiment(Case.Type_Batiment.HUTTE,c);
 				cite.ajouter(pts_extension.get(i), Case.Type_Batiment.HUTTE);
 				index_cite[pts_extension.get(i).x][pts_extension.get(i).y]=index_c;
 				if(cites_proches.size()>1){
 					// Cette extension connecte deux cites
-					for(i=1;i<cites_proches.size();i++){
-						fusion_cite(cites_proches.get(i-1),cites_proches.get(i));
+					for(int j=1;j<cites_proches.size();j++){
+						fusion_cite(cites_proches.get(0),cites_proches.get(j));
 					}
 				}
+				cite = getCite(P);
 			}
 			return 0;
 		}
