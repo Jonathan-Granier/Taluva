@@ -536,8 +536,6 @@ public class Moteur extends Phase{
 	
 	// Clone le moteur actuel pour les tests de l'IA
 	public Moteur clone(){
-		Joueur_Generique j1_copie = new Joueur_Humain(j2.getCouleur());
-		Joueur_Generique j2_copie = new Joueur_Humain(j2.getCouleur());
 		
 		Moteur m_copie = new Moteur(T.clone());
 		
@@ -548,10 +546,6 @@ public class Moteur extends Phase{
 		j_courant_copie = copie_type_joueur(j1,j1_copie,m_copie);
 		j_gagnant_copie = copie_type_joueur(j1,j1_copie,m_copie);
 		*/
-		
-		m_copie.add_j1(j1_copie);
-		m_copie.add_j2(j2_copie);
-		m_copie.j_courant = new Joueur_Humain(j_courant.getCouleur());
 		//m_copie.j_gagnant = new Joueur_Humain(j_gagnant.getCouleur());
 		
 		for(int i=1;i<this.annul.size();i++)m_copie.annul.add(this.annul.get(i));
@@ -561,10 +555,10 @@ public class Moteur extends Phase{
 		m_copie.tuile_pioche = this.tuile_pioche;
 		m_copie.bat_choisi = this.bat_choisi;
 		m_copie.liste_coup_construction = this.liste_coup_construction.clone();
-		j_courant.copie_Joueur_Generique(m_copie.j_courant);
-		j1.copie_Joueur_Generique(m_copie.j1);
-		j2.copie_Joueur_Generique(m_copie.j2);
-		//j_gagnant.copie_Joueur_Generique(m_copie.j_gagnant);
+		m_copie.j_courant = j_courant.clone(m_copie);
+		m_copie.j1 = j1.clone(m_copie);
+		m_copie.j2 = j2.clone(m_copie);
+		m_copie.j_gagnant = j_gagnant.clone(m_copie);
 		
 		while(m_copie.get_etat_jeu() != this.get_etat_jeu())m_copie.Incremente_Phase_Jeu();
 		return m_copie;
