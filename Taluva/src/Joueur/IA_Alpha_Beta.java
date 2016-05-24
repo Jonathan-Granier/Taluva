@@ -8,6 +8,7 @@ import Action.Action_Tuile;
 import Moteur.Moteur;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
+import terrain.Cite;
 import terrain.Terrain;
 import terrain.Tuile;
 
@@ -17,12 +18,15 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private int score_temple = 500;
 	private int score_tour = 100;
 	private int score_hutte = 1;
-	private int score_city = 15;
 	private int score_deplete_mult = 5;
+	private int tower_deplete_mult = 4;
+	private int temple_deplete_mult = 4;
+	private int hut_deplete_mult = 1;
+	private int hut_deplete_cant_play_mult = 5;
+	private int score_city = 15;
 	private int score_zone_city = 15;
-	private int score_div_city_base = 1;
 	private int score_div_city_temple = 2;
-	private int score_mult_city_temple_tower = 0;
+	private int score_div_city_temple_tower = Integer.MAX_VALUE;
 	Action_Construction coup_construction;
 	
 	public IA_Alpha_Beta (Couleur_Joueur c, Moteur m)
@@ -288,7 +292,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 			}
 		}
 		return score_min;
-		 */
+		*/
 		return 0;
 	}
 	
@@ -327,18 +331,48 @@ public class IA_Alpha_Beta extends IA_Generique {
 		// Sinon, s'il s'en raproche:
 		else if(c.getHutte() == 0 || c.getTour()==0 || c.getTemple()==0)
 		{
-			score += (m.get_nbTuiles()/ 2) * 5 / Math.max(c.getHutte(), Math.max(c.getTemple()*4, c.getTour()*4));
+			score += (m.get_nbTuiles()/ 2) * this.score_deplete_mult 
+					/Math.max( c.getHutte()*this.hut_deplete_mult , Math.max(c.getTemple()* this.temple_deplete_mult, c.getTour()* this.tower_deplete_mult) );
 			// Attention, c'est dangereux de ne plus avoir de huttes.
 			if(c.getHutte() == 0)
 			{
-				score -= (m.get_nbTuiles()/ 2) * 5;
+				score -= (m.get_nbTuiles()/ 2) * this.hut_deplete_cant_play_mult;
 			}
 		}
-		// Ajouter les points aux qualités cités selon certaines conditions:
-		//Cité de X zones: 3*zones pour X>=3
-		//	  Cité de 3 zone plus non destructible: Temple/2 si reste un temple.
+		// Ajouter les points dus aux qualités des cités;
+		ArrayList<Cite> liste_cite = m.getTerrain().getCitesJoueur(c.getCouleur());
+		for(int i=0; i < liste_cite.size(); i++)
+			score += valeur_cite(liste_cite.get(i), c);
 		return score;
 	}
+	
+	// Calculer la valeur d'une cité.
+	private int valeur_cite( Cite c, Joueur_Generique j)
+	{
+		int score_cite = this.score_city + c.getTaille() * this.score_zone_city;
+		// Si la cité nous permettra de créer un temple, elle en vaux la moitié des points
+		if(c.getTaille() >= 3 && c.getNbTemples() > 0 && indestructible_city(c) && m.get_nbTuiles()/2 > 1 && j.getTemple()>0)
+		{
+			// check destructible
+			score_cite += this.score_temple;
+		}
+		if(c.getNbTemples() > 0)
+		{
+			score_cite = score_cite/ this.score_div_city_temple;
+		}
+		if( c.getNbTemples()>0 && c.getNbTours()>0)
+		{
+			score_cite = score_cite / this.score_div_city_temple_tower;
+		}
+		return score_cite;
+	}
+	
+	// Renvoi vrai si la cité ne peut pas être detruite.
+	private boolean indestructible_city ( Cite c)
+	{
+		return false;
+	}
+	
 	public int getProfondeur()
 	{
 		return this.profondeur;

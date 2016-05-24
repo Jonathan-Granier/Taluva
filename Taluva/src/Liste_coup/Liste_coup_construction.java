@@ -73,7 +73,11 @@ public class Liste_coup_construction {
 	{
 		int nb_action = huttes.size() + extension.size() + temple.size() + tour.size();
 		Random r = new Random();
+		
+		System.out.println("Il y a "+ nb_action + " action possibles, j'ai tiré: ");
 		int index = r.nextInt(nb_action);
+		System.out.println("Il y a "+ nb_action + " action possibles, j'ai tiré: " + index);
+
 		if(index < huttes.size())
 			return new Action_Construction(Action_Construction.Type.HUTTE, huttes.get(index));
 		index -= huttes.size();
