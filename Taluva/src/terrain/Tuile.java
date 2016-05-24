@@ -104,6 +104,21 @@ public class Tuile {
 		return o;
 	}
 	
+	public int set_Orientation_Volcan(Case.Orientation oV){
+		switch(oV){
+			case O:
+			case S_O:
+			case S_E:
+			case E:
+			case N_E:
+			case N_O:
+				o = oV;
+				return 0;
+			default:
+				return 1;
+		}
+	}
+	
 	// Renvoie vrai si la pointe est vers la droite.
 	private boolean OrienteDroite()
 	{
