@@ -105,11 +105,12 @@ public class Terrain {
 		return histo_batiments;
 	}
 	
+	// Renvoie la cite presente au point P (null si aucune cite)
 	public Cite getCite(Point P){
 		int i = getIndexCite(P);
 		if(i < 0 || i >= cites.size()){
 			System.out.println("Erreur : Terrain.getCite : index " + i + ", taille " + cites.size());
-			return new Cite(P, null, null);
+			return new Cite(P,null,null);
 		}
 		return cites.get(i);
 	}
@@ -307,7 +308,7 @@ public class Terrain {
 		boolean trouve = false;
 		int res = -1;
 		while(!trouve && i<histo_batiments.size()){
-			if(histo_batiments.get(i).getPosition().equals(P)){
+			if(histo_batiments.get(i).getPosition().x == P.x && histo_batiments.get(i).getPosition().y == P.y){
 				trouve = true;
 				res = i;
 			}
@@ -322,18 +323,19 @@ public class Terrain {
 		c.setOrientation(oV);
 		c.incrNiveau();
 		if(c.retirer_batiments() == 0){
-			histo_batiments.remove(getIndexHistoBatiments(new Point(x,y)));
 			Point P = new Point(x,y);
+			histo_batiments.remove(getIndexHistoBatiments(P));
 			Cite cite = getCite(P);
 			ArrayList<Cite> citesSeparees = citesSeparation(P);
 			// On enleve la cite d'origine
-			cites.remove(cites_indexOf(cite));
 			if(citesSeparees.size()>0){
+				int index_c = cites_indexOf(cite);
+				cites.remove(index_c);
 				// On separe une cite en 2 ou 3
 				// On decale les indices
 				for(int i=limites.xmin;i<=limites.xmax;i++){
 					for(int j=limites.ymin;j<=limites.ymax;j++){
-						if(index_cite[i][j]>cites_indexOf(cite)){
+						if(index_cite[i][j]>index_c){
 							index_cite[i][j] = index_cite[i][j]-1;
 						}
 					}
@@ -705,7 +707,7 @@ public class Terrain {
 	}
 
 	// Renvoie l'ensemble des points concernes par l'extension de la cite sur les cases de Type type.
-	private ArrayList<Point> getPts_extension_cite(Cite cite, Case.Type type){
+	public ArrayList<Point> getPts_extension_cite(Cite cite, Case.Type type){
 		ArrayList<Point> res = new ArrayList<Point>();
 		ArrayList<Point> ptsCite = cite.getPts();
 		boolean [][] appartient_res = new boolean[TAILLE][TAILLE];
