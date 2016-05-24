@@ -543,6 +543,7 @@ public class Moteur extends Phase{
 	public Moteur clone(){
 		Joueur_Generique j1_copie = new Joueur_Humain(j2.getCouleur());
 		Joueur_Generique j2_copie = new Joueur_Humain(j2.getCouleur());
+		
 		Moteur m_copie = new Moteur(T.clone());
 		
 		// On instancie chaque joueur_copie en fonction du type de l'original
@@ -556,7 +557,7 @@ public class Moteur extends Phase{
 		m_copie.add_j1(j1_copie);
 		m_copie.add_j2(j2_copie);
 		m_copie.j_courant = new Joueur_Humain(j_courant.getCouleur());
-		m_copie.j_gagnant = new Joueur_Humain(j_gagnant.getCouleur());
+		//m_copie.j_gagnant = new Joueur_Humain(j_gagnant.getCouleur());
 		
 		for(int i=1;i<this.annul.size();i++)m_copie.annul.add(this.annul.get(i));
 		for(int i=0;i<this.redo.size();i++)m_copie.redo.add(this.redo.get(i));
@@ -568,7 +569,7 @@ public class Moteur extends Phase{
 		j_courant.copie_Joueur_Generique(m_copie.j_courant);
 		j1.copie_Joueur_Generique(m_copie.j1);
 		j2.copie_Joueur_Generique(m_copie.j2);
-		j_gagnant.copie_Joueur_Generique(m_copie.j_gagnant);
+		//j_gagnant.copie_Joueur_Generique(m_copie.j_gagnant);
 		
 		while(m_copie.get_etat_jeu() != this.get_etat_jeu())m_copie.Incremente_Phase_Jeu();
 		return m_copie;
