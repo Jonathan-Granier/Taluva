@@ -375,7 +375,6 @@ public class IHM {
 		this.joueurs = joueurs;
 	}
 
-
 	public JPanel getAction() {
 		return action;
 	}
