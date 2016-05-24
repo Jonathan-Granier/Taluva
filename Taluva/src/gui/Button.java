@@ -28,7 +28,7 @@ public abstract class Button {
 	public void update(){
 		int mouseX = Mouse.getX();
 		int mouseY = Display.getHeight() - Mouse.getY();
-		if(mouseX>=position.x && mouseX<=position.x+dimension.x && mouseY>=position.y && mouseY<=position.y+dimension.y){
+		if(mouseX>=position.x && mouseX<=position.x+dimension.x && mouseY>=position.y && mouseY<=position.y+dimension.y && !gui.isGrey()){
 			gui.setHover(true);
 			if(Mouse.isButtonDown(0)){
 				gui.setClicked(true);
@@ -47,6 +47,14 @@ public abstract class Button {
 		
 	}
 	
+	public boolean isGrey() {
+		return gui.isGrey();
+	}
+
+	public void setGrey(boolean grey) {
+		gui.setGrey(grey);
+	}
+
 	public static void setGameBlocked(boolean gameBlocked) {
 		Button.gameBlocked = gameBlocked;
 	}

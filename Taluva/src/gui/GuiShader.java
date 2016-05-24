@@ -12,6 +12,7 @@ public class GuiShader extends ShaderProgram{
     private int location_transformationMatrix;
     private int location_hover;
     private int location_clicked;
+    private int location_grey;
  
     public GuiShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -26,6 +27,7 @@ public class GuiShader extends ShaderProgram{
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
         location_hover = super.getUniformLocation("hover");
         location_clicked = super.getUniformLocation("clicked");
+        location_grey = super.getUniformLocation("grey");
     }
  
     @Override
@@ -39,6 +41,10 @@ public class GuiShader extends ShaderProgram{
  
     public void loadClicked(boolean clicked){
     	super.loadBoolean(location_clicked, clicked);
+    }
+    
+    public void loadGrey(boolean grey){
+    	super.loadBoolean(location_grey, grey);
     }
     
 }
