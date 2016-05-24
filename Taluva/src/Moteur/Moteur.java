@@ -20,6 +20,7 @@ import Liste_coup.Liste_coup_construction;
 import terrain.Case;
 import terrain.Terrain;
 import terrain.Tuile;
+import test.Game;
 
 public class Moteur extends Phase{
 	private Terrain T;
@@ -398,11 +399,14 @@ public class Moteur extends Phase{
 		
 		piocher();
 		action_tuile = ((IA_Generique) j_courant).get_coup_tuile(tuile_pioche);
+		//TODO
+		tuile_pioche.set_Orientation_Volcan(action_tuile.getTuile().get_Orientation_Volcan());
 		if (placer_tuile(action_tuile.getPosition())!=0)
 		{
 			System.out.println("[jouer_IA] Impossible de poser la tuile");
 			return 1;
 		}
+		Game.updateGame();
 		histo_jeu.add(new Etat_de_jeu(T,j_courant));
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = ((IA_Generique) j_courant).get_coup_construction();
@@ -426,7 +430,7 @@ public class Moteur extends Phase{
 				return 1;
 			}
 		}
-
+		Game.updateGame();
 		histo_jeu.add(new Etat_de_jeu(T,j_courant));
 		fin_de_tour();
 		return 0;
