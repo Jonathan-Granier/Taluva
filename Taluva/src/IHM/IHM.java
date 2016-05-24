@@ -87,15 +87,19 @@ public class IHM {
         //frise
         p.setFont(new Font("Sherif", Font.PLAIN,32));
         p.setHorizontalAlignment(SwingConstants.CENTER);
+        p.setOpaque(true);
         
         t.setFont(new Font("Sherif", Font.PLAIN,32));
         t.setHorizontalAlignment(SwingConstants.CENTER);
+        t.setOpaque(true);
         
         c.setFont(new Font("Sherif", Font.PLAIN,32));
         c.setHorizontalAlignment(SwingConstants.CENTER);
+        c.setOpaque(true);
         
         f.setFont(new Font("Sherif", Font.PLAIN,32));
         f.setHorizontalAlignment(SwingConstants.CENTER);
+        f.setOpaque(true);
         
         
         
@@ -123,7 +127,8 @@ public class IHM {
         
         //création de la ligne de J1
         
-        
+        Joueur1.setHorizontalAlignment(SwingConstants.CENTER);
+        Joueur1.setOpaque(true);
         Ecouteur_Boutons tp1 = new Ecouteur_Boutons("Temple j1",m);
         ImageIcon image_temple = new ImageIcon("Assets/Texture/Button_Temple.png");
 
@@ -154,6 +159,8 @@ public class IHM {
         //création de la ligne de J2
         
         
+        Joueur2.setHorizontalAlignment(SwingConstants.CENTER);
+        Joueur2.setOpaque(true);
         
         Ecouteur_Boutons tp2 = new Ecouteur_Boutons("Temple j2",m);
         templeJ2.addActionListener(tp2);
