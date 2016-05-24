@@ -59,6 +59,7 @@ public class Game {
 	private Loader loader;
 	private static float delay = 0;
 	private static final float TIME = 200000;
+	private static boolean draw=true;
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
@@ -99,13 +100,22 @@ public class Game {
 		}
 	}
 	
-	public static void delay(){
+	public static boolean delay(){
 		if(delay == 0){
-			delay = FPS.getTime()/1000;
+			draw = false;
 		}
 		if(delay+TIME>FPS.getTime()/1000 && delay!=0 ){
 			delay = 0;
+			draw = true;
+			return true;
 		}
+		return false;
+	}
+	
+	public static void increaseDelay(){
+		if(!draw)
+			delay ++;
+		
 	}
 	
 	public void constructionGestion(Vector3f point,GraphicConstruction construction,List<GraphicConstruction> constructions,Grid grid){
@@ -242,7 +252,7 @@ public class Game {
 		
 		while(!Display.isCloseRequested()){
 			FPS.updateFPS();
-
+			Game.increaseDelay();
 			//Button
 			/*button_hut.update();
 			button_tower.update();
@@ -279,14 +289,13 @@ public class Game {
 			
 			ecouteurSouris.run(Tile, Tiles, Construction, constructions);
 			
-			if(Game.delay==0)
-				drawTile(renderer,shader);
+			drawTile(renderer,shader);
 			
 			//for(GraphicConstruction construction:Constructions)
 			//	renderer.draw(construction.getObject3d(), shader);
 			
-			if(Game.delay==0)
-				drawConstruction(renderer,shader);
+			
+			drawConstruction(renderer,shader);
 			
 			//renderer.draw(table, shader);
 			
