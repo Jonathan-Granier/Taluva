@@ -78,6 +78,7 @@ public class IHM {
 	}
 	
 	
+	
 	public void run() {
         
 		// Creation d'une fenetre
@@ -173,7 +174,7 @@ public class IHM {
         panelJ2.setLayout(new GridLayout(1,5));
 
         canvas.setSize(width, height-height/3);
-        canvas.setFocusable(false);
+        
         try {
             Display.setParent(canvas);
         } catch (Exception e) {
@@ -188,6 +189,7 @@ public class IHM {
         gbc.gridheight = 9;
         gbc.fill = GridBagConstraints.BOTH;
         ecran.add(canvas,gbc);
+        ecran.setFocusable(false);
         canvas.getSize();
         gbc.fill = GridBagConstraints.BOTH;
 
