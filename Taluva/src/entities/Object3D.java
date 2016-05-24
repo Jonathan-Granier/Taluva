@@ -19,6 +19,7 @@ public class Object3D {
 	private boolean allow = true;
 	private boolean multiObj = false;
 	private Models models;
+	private Vector3f Color;
 	
 	public Object3D(Object3D object3d){
 		this.model = object3d.getModel();
@@ -29,6 +30,7 @@ public class Object3D {
 		this.rotY = object3d.getRotY();
 		this.rotZ = object3d.getRotZ();
 		this.scale = object3d.getScale();
+		this.Color = new Vector3f(object3d.getColor());
 	}
 	
 	public Object3D(Model model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
@@ -38,6 +40,7 @@ public class Object3D {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
+		this.Color = new Vector3f(0,0,0);
 	}
 	
 	public Object3D(String objFilename, Loader loader ) {
@@ -47,6 +50,7 @@ public class Object3D {
 		this.rotY = 0;
 		this.rotZ = 0;
 		this.scale = 1;
+		this.Color = new Vector3f(0,0,0);
 	}
 	
 	public Object3D(String objFilename, Loader loader,Vector3f position, float rotX, float rotY, float rotZ, float scale ) {
@@ -56,6 +60,7 @@ public class Object3D {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
+		this.Color = new Vector3f(0,0,0);
 	}
 	
 	public Object3D(String objFilename, Loader loader,boolean multiObj) {
@@ -66,6 +71,7 @@ public class Object3D {
 		this.rotY = 0;
 		this.rotZ = 0;
 		this.scale = 1;
+		this.Color = new Vector3f(0,0,0);
 	}
 	
 	public Object3D(String objFilename, Loader loader,boolean multiObj,Vector3f position, float rotX, float rotY, float rotZ, float scale ) {
@@ -76,6 +82,7 @@ public class Object3D {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
+		this.Color = new Vector3f(0,0,0);
 	}
 	
 	public boolean pick(Vector3f mouseRay){
@@ -172,6 +179,14 @@ public class Object3D {
 
 	public Models getModels() {
 		return models;
+	}
+
+	public Vector3f getColor() {
+		return Color;
+	}
+
+	public void setColor(Vector3f color) {
+		Color = color;
 	}
 	
 }

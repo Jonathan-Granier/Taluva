@@ -62,6 +62,7 @@ public class Renderer {
 		shader.loadShineVariable(texture.getShineDamper(), texture.getReflectivity());
 		shader.loadTextured(texturedModel.getTexture().getIsTextured());
 		shader.loadNotAllow(!object3D.isAllow());
+		shader.loadPlayerColour(object3D.getColor());
 
 		if(texturedModel.getTexture().getIsTextured()){
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);

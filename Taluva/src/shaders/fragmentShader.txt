@@ -19,6 +19,7 @@ uniform vec3 diffuseColour;
 uniform bool textured;
 uniform bool reciveShadow;
 uniform bool notAllow;
+uniform vec3 playerColour;
 
 const float shadowOpacity = 0.4;
 
@@ -72,5 +73,7 @@ void main(void){
 
 	if(notAllow)
 		out_Color.r += 0.5;
+	if(playerColour.r!=0.0 || playerColour.g!=0.0 || playerColour.b!=0.0)
+		out_Color += vec4(playerColour,1.0);
 
 }

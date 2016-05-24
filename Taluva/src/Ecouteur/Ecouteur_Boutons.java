@@ -60,6 +60,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    			pick = true;
 	    			Construction.setType(GraphicType.HUT);
 	    			Construction.setObject3d();
+	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
 	    		}
 	    		break;	
 	    	

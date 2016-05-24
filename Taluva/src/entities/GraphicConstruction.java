@@ -4,6 +4,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import loaders.Loader;
 import terrain.Case;
+import terrain.Case.Couleur_Joueur;
 
 public class GraphicConstruction {
 
@@ -94,6 +95,29 @@ public class GraphicConstruction {
 
 	public Object3D getObject3d() {
 		return object3d;
+	}
+
+	public void setColour(Couleur_Joueur colour) {
+		switch(colour){
+			case ROUGE:
+				this.colour = new Vector3f(1,0,0);
+			break;
+			case JAUNE:
+				this.colour = new Vector3f(0,1,1);
+			break;
+			case BLANC:
+				this.colour = new Vector3f(0.5f,0.5f,0.5f);
+			break;
+			case MARRON:
+				this.colour = new Vector3f(0.6f,0.3f,0);
+			break;
+			case NEUTRE:
+				this.colour = new Vector3f(0,0,0);
+			break;
+			default :
+				System.out.println("Unknow Color");
+		}
+		this.object3d.setColor(this.colour);
 	}
 
 	public Vector3f getColour() {

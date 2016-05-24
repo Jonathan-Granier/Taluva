@@ -31,6 +31,7 @@ public class Shader extends ShaderProgram{
 	private int location_diffuseMap;
 	private int location_reciveShadow;
 	private int loacation_notAllow;
+	private int location_playerColour;
 	
 	public Shader() {
 			super(VERTEX_FILE, FRAGMENT_FILE);
@@ -57,6 +58,7 @@ public class Shader extends ShaderProgram{
 		location_diffuseMap = super.getUniformLocation("diffuseMap"); 
 		location_reciveShadow = super.getUniformLocation("reciveShadow");
 		loacation_notAllow = super.getUniformLocation("notAllow");
+		location_playerColour = super.getUniformLocation("playerColour");
 		
 		location_lightPosition = new int[MAX_LIGHTS];
 		location_lightColour = new int[MAX_LIGHTS];
@@ -85,6 +87,10 @@ public class Shader extends ShaderProgram{
 				super.loadVector(location_lightColour[i], new Vector3f(0,0,0));				
 			}
 		}
+	}
+	
+	public void loadPlayerColour(Vector3f Colour){
+		super.loadVector(location_playerColour, Colour);
 	}
 	
 	public void loadShineVariable(float damper, Vector3f relectivity){
