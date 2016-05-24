@@ -107,7 +107,7 @@ public abstract class Joueur_Generique {
 		this.hutteDetruite = hutteDetruite + n;
 	}
 	
-	// Clone un Joueur_Generique 
+	// Clone un Joueur_Generique avec Moteur
 	//TODO
 	//Rajouter les IA en plus
 	public Joueur_Generique clone(Moteur m)
@@ -122,6 +122,30 @@ public abstract class Joueur_Generique {
 		else if(this instanceof IA_Alpha_Beta)
 		{
 			clone = new IA_Alpha_Beta(((IA_Alpha_Beta) this).getProfondeur(),this.getCouleur(),m);
+		}
+		
+		clone.setHutte(getHutte());
+		clone.setTemple(getTemple());
+		clone.setTour(getTour());
+		clone.setHutteDetruite(getHutteDetruite());
+		
+		return clone;
+	}
+	// Clone un Joueur_Generique sans Moteur
+	//TODO
+	//Rajouter les IA en plus
+	public Joueur_Generique clone()
+	{
+		// Instancie le clone en fonction du type de la source
+		Joueur_Generique clone = new Joueur_Humain(this.getCouleur());
+		
+		if(this instanceof IA_Random)
+		{
+			clone = new IA_Random(this.getCouleur(),((IA_Generique) this).m);
+		}
+		else if(this instanceof IA_Alpha_Beta)
+		{
+			clone = new IA_Alpha_Beta(((IA_Alpha_Beta) this).getProfondeur(),this.getCouleur(),((IA_Generique) this).m);
 		}
 		
 		clone.setHutte(getHutte());
