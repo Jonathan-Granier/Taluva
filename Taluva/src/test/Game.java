@@ -63,9 +63,10 @@ public class Game {
 		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
 		//Check listTile with listActionTile("IA mode useful")
 		if(Tiles.size() < listTile.size()){
-			for(int i = Tiles.size(); i<Tiles.size();i++){
+			for(int i = Tiles.size(); i<listTile.size();i++){
 				Tiles.add(new GraphicTile(listTile.get(i).getTuile(),loader, new Vector3f(0,0,0)));
 				Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY(),listTile.get(i).getNiveau()-1));
+				Tiles.get(i).setAngle();
 				Tiles.get(i).getObject3D().setPosition(worldPos);
 			}
 		}
@@ -79,6 +80,16 @@ public class Game {
 	
 	public void drawConstruction(Renderer renderer,Shader shader){
 		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
+		//Check listConstruction with listAction_Batiment("IA mode useful")
+		if(constructions.size() < listConstruction.size()){
+			for(int i=constructions.size();i<listConstruction.size();i++){
+				constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader));
+				constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
+				Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
+				constructions.get(i).getObject3d().setPosition(worldPos);
+			}
+		}
+		
 		for(int i=0;i<listConstruction.size();i++){
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 			constructions.get(i).getObject3d().setPosition(worldPos);
