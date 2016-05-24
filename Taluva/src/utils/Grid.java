@@ -6,10 +6,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import entities.Object3D;
-import loaders.Loader;
 import terrain.Terrain;
-import renderEngine.Renderer;
-import shaders.Shader;
 
 public class Grid {
 	
@@ -37,57 +34,29 @@ public class Grid {
 	public static final float HEIGHT_OF_TILE = 1;
 	public static final float RAY = 19.5f/4f;
 	
-	private static Terrain terrain;
 	private static Vector2f[][] coords;
-	private static Object3D[][] object;
-	private static Loader loader;
+	
 	//terrain.taille * HEIGHT_OF_HEXA/2
-	public Grid(Terrain terrain, Loader loader){
-		setTerrain(terrain);
-		this.loader = loader;
-		coords = new Vector2f[terrain.TAILLE][terrain.TAILLE];
-		object = new Object3D[terrain.TAILLE][terrain.TAILLE];
-		Object3D temp = new Object3D("hexa",loader,new Vector3f(0,0,0),0,0,0,0.12f);
-		float yTemp = terrain.TAILLE * 1f/2f * WIDTH_OF_HEXA + WIDTH_OF_HEXA;
+	public Grid(){
+		coords = new Vector2f[Terrain.TAILLE][Terrain.TAILLE];
+		float yTemp = Terrain.TAILLE * 1f/2f * WIDTH_OF_HEXA + WIDTH_OF_HEXA;
 		float x = -HEIGHT_OF_HEXA/2f;
 		float y;
-		for(int j=0 ;j<terrain.TAILLE;j++){
+		for(int j=0 ;j<Terrain.TAILLE;j++){
 			x += 3f/4f*HEIGHT_OF_HEXA;
 			yTemp -= 1f/2f * WIDTH_OF_HEXA;
 			y = yTemp;
-			for(int i=0 ;i<terrain.TAILLE;i++){
+			for(int i=0 ;i<Terrain.TAILLE;i++){
 				y += WIDTH_OF_HEXA;
 				coords[i][j] = new Vector2f(x,y);
 			}
 		}
 	}
 	
-	
-	private void setTerrain(Terrain terrain){
-		this.terrain = terrain;
-	}
-	
-
-	public void draw(Renderer render,Shader shader){
-		for(int i=0 ;i<terrain.TAILLE;i++)
-			for(int j=0 ;j<terrain.TAILLE;j++){
-				//render.draw(object[i][j], shader);
-			}
-	}
-	
-	private Point convert(Point p, boolean equalize){
-		Point res = new Point(Math.abs((p.x-(terrain.TAILLE-1))%(terrain.TAILLE-1)),p.y);
-		if(p.x==0)
-			res.x=(terrain.TAILLE-1);
-
-		return res;
-	}
-	
 	//racine((x_centre - x_point)� + (y_centre - y_point)�)<rayon
 	public Coords snap(Object3D object3d,Vector3f mouse,float angle){
 		float offsetX = 0;
 		float offsetY = 0;
-		Point indices = new Point();
 		
 		if(angle==30 || angle==150 ||  angle==270){
 			offsetX = -HEIGHT_OF_HEXA/4f;
@@ -96,8 +65,8 @@ public class Grid {
 		
 		Coords center = new Coords();
 		int i=0;
-		while(i<terrain.TAILLE && center.worldPos==null){
-			for(int j=0 ;j<terrain.TAILLE;j++){
+		while(i<Terrain.TAILLE && center.worldPos==null){
+			for(int j=0 ;j<Terrain.TAILLE;j++){
 				if( Math.pow(mouse.x - (coords[i][j].x+offsetX),2) + Math.pow(mouse.z - (coords[i][j].y+offsetY),2) <= Math.pow(RAY,2) ){
 					object3d.setAllow(true);
 					center = new Coords(new Vector3f(coords[i][j].x+offsetX,0,coords[i][j].y+offsetY),new Point(j,i));
@@ -106,8 +75,7 @@ public class Grid {
 			}
 			i++;
 		}
-		
-		Vector2f point = new Vector2f();
+
 		if(center.worldPos!=null){
 			if((angle == 90 || angle ==330 || angle == 210)){
 				//point.x = (float) (center.worldPos.x + Math.cos(Math.toRadians(60)) * HEIGHT_OF_HEXA/2f);
@@ -126,10 +94,8 @@ public class Grid {
 	
 	public Coords snap(Object3D object3d,Vector3f mouse){
 		
-		Coords center = new Coords();
-		
-		for(int i=0 ;i<terrain.TAILLE;i++){
-			for(int j=0 ;j<terrain.TAILLE;j++){
+		for(int i=0 ;i<Terrain.TAILLE;i++){
+			for(int j=0 ;j<Terrain.TAILLE;j++){
 				if( Math.pow(mouse.x - (coords[i][j].x-HEIGHT_OF_HEXA/2f),2) + Math.pow(mouse.z - (coords[i][j].y),2) <= Math.pow(RAY,2) ){
 					object3d.setAllow(true);
 					//System.out.println("Incices:" + i +" " + j);
@@ -144,8 +110,8 @@ public class Grid {
 	}
 	
 	public Coords center(){
-		int i = (terrain.TAILLE)/2;
-		int j = (terrain.TAILLE)/2;
+		int i = (Terrain.TAILLE)/2;
+		int j = (Terrain.TAILLE)/2;
 		return new Coords(new Vector3f(coords[i][j].x,0,coords[i][j].y),new Point(i,j));
 	}
 	
