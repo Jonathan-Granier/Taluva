@@ -328,9 +328,9 @@ public class Terrain {
 			Cite cite = getCite(P);
 			ArrayList<Cite> citesSeparees = citesSeparation(P);
 			// On enleve la cite d'origine
-			int index_c = cites_indexOf(cite);
-			cites.remove(index_c);
 			if(citesSeparees.size()>0){
+				int index_c = cites_indexOf(cite);
+				cites.remove(index_c);
 				// On separe une cite en 2 ou 3
 				// On decale les indices
 				for(int i=limites.xmin;i<=limites.xmax;i++){
