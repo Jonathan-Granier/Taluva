@@ -287,7 +287,7 @@ public class Moteur extends Phase{
 			return null;
 		}
 		if(annul.size()==0){
-			annul.add(new Etat_de_jeu(this.T,j1,j2,j_courant, this.clone_Phase()));
+			annul.add(new Etat_de_jeu(this.T,j1,j2,j_courant, this.get_etat_jeu()));
 			//prev.add(((Joueur_Humain) j_courant).clone());
 		}
 		Random r = new Random();
@@ -313,10 +313,12 @@ public class Moteur extends Phase{
 	
 	// Renvoie 0 si la tuile piochée a pu être placée, -1 si elle est placée, mais le joueur ne peux plus jouer, 1 sinon
 	public int placer_tuile(Point P){
+		Etat_de_jeu edj = this.get_EDJ_courant();
 		if(T.placer_tuile(tuile_pioche, P) == 0){
 			if(joueur_elimine())return -1;
-			annul.push(new Etat_de_jeu(this.T, j1,j2,j_courant, this.clone_Phase()));
-			histo_jeu.add(new Etat_de_jeu(T,j1,j2,j_courant, this.clone_Phase()));
+			annul.push(edj);
+			redo.clear();
+			histo_jeu.add(this.get_EDJ_courant());
 			//etat = Etat.CONSTRUIRE_BATIMENT;
 			Incremente_Phase_Jeu();
 			return 0;
@@ -349,9 +351,11 @@ public class Moteur extends Phase{
 	
 	// Renvoie 0 si le batiment a pu être placé, 1 sinon
 	public int placer_batiment(Point P){
+		Etat_de_jeu edj = this.get_EDJ_courant();
 		if(T.placer_batiment(bat_choisi,j_courant.getCouleur(), P) == 0){
-			annul.push(new Etat_de_jeu(T,j1,j2,j_courant, this.clone_Phase()));
-			histo_jeu.add(new Etat_de_jeu(T,j1,j2,j_courant, this.clone_Phase()));
+			annul.push(edj);
+			redo.clear();
+			histo_jeu.add(this.get_EDJ_courant());
 			Incremente_Phase_Jeu();
 			return 0;
 		}
@@ -365,7 +369,14 @@ public class Moteur extends Phase{
 		{
 			return 2;
 		}
-		return T.etendre_cite(P,type);
+		Etat_de_jeu edj = this.get_EDJ_courant();
+		if( T.etendre_cite(P,type) == 0)
+		{
+			annul.push(edj);
+			redo.clear();
+			return 0;
+		}
+		return 1;
 	}
 	
 	// Calcule le score d'un joueur selon la convention :
@@ -478,16 +489,14 @@ public class Moteur extends Phase{
 	// Permet d'annuler une tuile posée, et de la récupérer
 	// Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int annuler(){
-		if(annul.size()<1)return 1;
+		if(annul.size()<1)
+			return 1;
 		Etat_de_jeu tmp = annul.pop();
 		redo.push(tmp);
+		this.set_etat_de_jeu(tmp);
+		this.Decremente_Phase_Jeu();
 		//histo_jeu.remove(histo_jeu.size()-1);
-		T = tmp.getTerrain();
-		int code_erreur = Decremente_Phase_Jeu();
-		if(code_erreur == 0 && get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
-			j_courant = prev;
-		//System.out.println("Et là maintenant on est dans l'état : "+ get_etat_jeu()+" TAVU ?\n");
-		return code_erreur;
+		return 0;
 	}
 	
 	// Permet de reposer une tuile qui a été annulée qui a été annulée
@@ -497,12 +506,9 @@ public class Moteur extends Phase{
 			return 1;
 		Etat_de_jeu tmp = redo.pop();
 		annul.push(tmp);
-		T = tmp.getTerrain();
-		int code_erreur = Incremente_Phase_Jeu();
-		if(code_erreur == 0 && get_etat_jeu() == Phase_Jeu.FIN_DE_TOUR)
-			j_courant = next;
-		histo_jeu.add(tmp);
-		return code_erreur;
+		this.Incremente_Phase_Jeu();
+		this.set_etat_de_jeu(tmp);
+		return 0;
 	}
 	
 	// ---------------- Fonction Pour le type Etat -------------------
@@ -632,6 +638,41 @@ public class Moteur extends Phase{
 			}
 		}
 		return 0;
+	}
+	
+	private void set_etat_de_jeu(Etat_de_jeu edj)
+	{
+		//get_EDJ_courant();
+		System.out.println("Set EDJ");
+		edj.afficher();
+		this.j1 = edj.getj1();
+		this.j2 = edj.getj2();
+		this.j_courant = edj.getj_courant();
+		this.T.afficher();
+		this.T = edj.getTerrain().clone();
+		this.T.afficher();
+		//this.set_Phase_Jeu(edj.getPdj().get_etat_jeu());
+		get_EDJ_courant();
+	}
+	
+	private Etat_de_jeu get_EDJ_courant()
+	{
+		System.out.println("Get EDJ");
+		Etat_de_jeu edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
+		//edj.afficher();
+		return edj;
+	}	
+	
+	private void afficher_pile(Stack<Etat_de_jeu> Stack_edj)
+	{
+		Stack<Etat_de_jeu> tmp = new Stack<Etat_de_jeu>();
+		while(!Stack_edj.isEmpty())
+		{
+			Stack_edj.peek().afficher();
+			tmp.push(Stack_edj.pop());
+		}
+		while(!tmp.isEmpty())
+			Stack_edj.push(tmp.pop());
 	}
 		
 }
