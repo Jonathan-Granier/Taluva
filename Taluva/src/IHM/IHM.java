@@ -8,6 +8,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +28,7 @@ import Ecouteur.Ecouteur_Boutons;
 import Moteur.Moteur;
 
 
+
 public class IHM {
 	
 	private JFrame frame;
@@ -30,7 +36,7 @@ public class IHM {
 	private int width,height;
 	private JPanel ecran, boutons, frise, bas, joueurs, action, annuler_refaire,panelJ1;
 	private JLabel p, t, c, f,Joueur1,Joueur2;
-	private JButton Annuler,Refaire,Pioche,FDT,templeJ1,tourJ1,hutteJ1,templeJ2,tourJ2,hutteJ2;
+	private JButton Annuler,Refaire,Pioche,FDT,templeJ1,tourJ1,hutteJ1,etendreJ1,templeJ2,tourJ2,hutteJ2,etendreJ2;
 	private Canvas canvas;
 	 
 	
@@ -48,7 +54,7 @@ public class IHM {
         action = new JPanel();
         annuler_refaire = new JPanel();
         p = new JLabel("Piocher");
-        t = new JLabel("tuile");
+        t = new JLabel("Tuile");
         c = new JLabel("Construire");
         f = new JLabel("Fin de tour");
         Annuler = new JButton("Annuler");
@@ -60,14 +66,17 @@ public class IHM {
         tourJ1 = new JButton();
         hutteJ1 = new JButton();
         panelJ1 = new JPanel();
+        etendreJ1 = new JButton();
         Joueur2 = new JLabel("Joueur2");
         templeJ2 = new JButton();
         tourJ2 = new JButton();
         hutteJ2 = new JButton();
+        etendreJ2 = new JButton();
         canvas = new Canvas();
 
 
 	}
+	
 	
 	
 	public void run() {
@@ -116,7 +125,7 @@ public class IHM {
         //création du bouton fin de tour
         
         Ecouteur_Boutons fdt = new Ecouteur_Boutons("Fin_de_tour",m);
-        FDT.addActionListener(fdt);        
+        FDT.addActionListener(fdt);
         
         
         
@@ -145,36 +154,27 @@ public class IHM {
         hutteJ1.setIcon(image_hutte);
 
 
-        
-        
-        panelJ1.setLayout(new GridLayout(1,4));
-        
-        
+        panelJ1.setLayout(new GridLayout(1,5));
+
         //création de la ligne de J2
-        
-        
         
         Ecouteur_Boutons tp2 = new Ecouteur_Boutons("Temple j2",m);
         templeJ2.addActionListener(tp2);
         templeJ2.setIcon(image_temple);
 
-        
-        
         Ecouteur_Boutons tr2 = new Ecouteur_Boutons("Tour j2",m);
         tourJ2.addActionListener(tr2);
         tourJ2.setIcon(image_tour);
 
-        
-        
         Ecouteur_Boutons ht2 = new Ecouteur_Boutons("Hutte j2",m);
         hutteJ2.addActionListener(ht2);
         hutteJ2.setIcon(image_hutte);
         
         JPanel panelJ2 = new JPanel();
-        panelJ2.setLayout(new GridLayout(1,4));
+        panelJ2.setLayout(new GridLayout(1,5));
 
         canvas.setSize(width, height-height/3);
-
+        
         try {
             Display.setParent(canvas);
         } catch (Exception e) {
@@ -189,6 +189,7 @@ public class IHM {
         gbc.gridheight = 9;
         gbc.fill = GridBagConstraints.BOTH;
         ecran.add(canvas,gbc);
+        ecran.setFocusable(false);
         canvas.getSize();
         gbc.fill = GridBagConstraints.BOTH;
 
@@ -274,14 +275,9 @@ public class IHM {
         panelJ2.add(hutteJ2);
         
         frame.add(ecran);
-        
         //fenetre.pack();
         frame.setSize(width,height);
         frame.setVisible(true);
-        
-		
-        
-  
 
     }
 

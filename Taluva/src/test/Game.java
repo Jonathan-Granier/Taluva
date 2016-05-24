@@ -178,9 +178,9 @@ public class Game {
 		constructions = new ArrayList<GraphicConstruction>();
 		
 		GraphicConstruction Construction = new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader);
-		Ecouteur_Boutons.setConstruction(Construction);
-		grid = new Grid();
-		
+        Ecouteur_Boutons.setConstruction(Construction);
+        grid = new Grid();
+        
 		//*************GUI Renderer Set-up******************
 		
 		Texture fond = new Texture(loader.loadTexture("fond.png"),new Vector2f(Display.getWidth()-200,0),new Vector2f(200,Display.getHeight()));
@@ -246,8 +246,6 @@ public class Game {
 			
 			shader.loadViewMatrix(camera);
 			
-			
-
 			if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && Ecouteur_Boutons.isPick())
 				renderer.draw(Construction.getObject3d(),shader);
 			if(moteur.get_etat_jeu() == Phase_Jeu.POSER_TUILE)
