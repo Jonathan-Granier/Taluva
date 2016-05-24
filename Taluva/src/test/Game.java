@@ -52,14 +52,12 @@ import utils.MousePicker;
 
 public class Game {
 	
-	private static Moteur moteur;
-	private static Grid grid;
-	private static List<GraphicTile> Tiles;
-	private static List<GraphicConstruction> constructions;
-	private static Loader loader;
+	private Moteur moteur;
+	private Grid grid;
+	
 	
 	//Draw all Tile
-	public void drawTile(Renderer renderer,Shader shader){
+	public void drawTile(Renderer renderer,Shader shader,List<GraphicTile> Tiles){
 		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
 		for(int i=0;i<listTile.size();i++){
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY(),listTile.get(i).getNiveau()-1));
@@ -68,21 +66,12 @@ public class Game {
 		}
 	}
 	
-	public void drawConstruction(Renderer renderer,Shader shader){
+	public void drawConstruction(Renderer renderer,Shader shader,List<GraphicConstruction> constructions){
 		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
 		for(int i=0;i<listConstruction.size();i++){
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 			constructions.get(i).getObject3d().setPosition(worldPos);
 			renderer.draw(constructions.get(i).getObject3d(),shader);
-		}
-	}
-	
-	public static void updateGame(){
-		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
-		for(int i=0;i<listTile.size();i++){
-			Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY(),listTile.get(i).getNiveau()-1));
-			Tiles.add(new GraphicTile(listTile.get(i).getTuile(),loader,worldPos));
-			Tiles.get(i).setAngle();
 		}
 	}
 	
@@ -162,25 +151,34 @@ public class Game {
 		}
 	}
 	
+	public List<GraphicTile> createTerrain(Loader loader){
+		//On creer des joueurs
+		//Case [][] t = terrain.getT();
+		List<GraphicTile> Tiles = new ArrayList<GraphicTile>();
+		//for(int i=0; i<4;i++)
+		//	Tiles.add(new GraphicTile(new Tuile(Case.Type.VOLCAN,Case.Type.VOLCAN), loader,new Vector3f((i+1)*SIZE_OF_HEXA,0,0)));
+		
+		return Tiles;
+	}
 	
 	public void play(JFrame frame,Moteur m){
 		Window.createDislay();
 		this.moteur = m;
 		Camera camera = new Camera();
-		loader = new Loader();
+		Loader loader = new Loader();
 		Shader shader = new Shader();
 		Renderer renderer = new Renderer(shader,camera);
 		
 		FPS.start(frame);
 		GraphicTile Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0),90);
 		Ecouteur_Boutons.setTile(loader,Tile);
-		Tiles = new ArrayList<GraphicTile>();
-		constructions = new ArrayList<GraphicConstruction>();
+		List<GraphicTile> Tiles = new ArrayList<GraphicTile>(createTerrain(loader));
+		List<GraphicConstruction> Constructions = new ArrayList<GraphicConstruction>();
 		
 		GraphicConstruction Construction = new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader);
-        Ecouteur_Boutons.setConstruction(Construction);
-        grid = new Grid();
-        
+		Ecouteur_Boutons.setConstruction(Construction);
+		grid = new Grid();
+		
 		//*************GUI Renderer Set-up******************
 		
 		Texture fond = new Texture(loader.loadTexture("fond.png"),new Vector2f(Display.getWidth()-200,0),new Vector2f(200,Display.getHeight()));
@@ -246,6 +244,8 @@ public class Game {
 			
 			shader.loadViewMatrix(camera);
 			
+			
+
 			if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && Ecouteur_Boutons.isPick())
 				renderer.draw(Construction.getObject3d(),shader);
 			if(moteur.get_etat_jeu() == Phase_Jeu.POSER_TUILE)
@@ -254,14 +254,14 @@ public class Game {
 			/*for(GraphicTile tile:Tiles)
 				renderer.draw(tile.getObject3D(), shader);*/
 			
-			ecouteurSouris.run(Tile, Tiles, Construction, constructions);
+			ecouteurSouris.run(Tile, Tiles, Construction, Constructions);
 			
-			drawTile(renderer,shader);
+			drawTile(renderer,shader,Tiles);
 			
 			//for(GraphicConstruction construction:Constructions)
 			//	renderer.draw(construction.getObject3d(), shader);
 			
-			drawConstruction(renderer,shader);
+			drawConstruction(renderer,shader,Constructions);
 			
 			//renderer.draw(table, shader);
 			

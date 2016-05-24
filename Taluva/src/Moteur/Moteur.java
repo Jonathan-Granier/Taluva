@@ -254,6 +254,11 @@ public class Moteur extends Phase{
 	
 	// Renvoie une tuile piochée aléatoirement dans la pioche
 	public Tuile piocher(){
+		if (pioche_vide())
+		{
+			System.out.println("Pioche vide");
+			return null;
+		}
 		if(annul.size()==0){
 			annul.add(T.clone());
 			//prev.add(((Joueur_Humain) j_courant).clone());

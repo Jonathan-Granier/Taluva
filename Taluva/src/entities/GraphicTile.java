@@ -74,31 +74,6 @@ public class GraphicTile {
 		}
 	}
 	
-	public void setAngle(){
-		switch(tile.get_Orientation_Volcan()){
-		case O:
-			object3d.setRotY(90);
-			break;
-		case S_O:
-			object3d.setRotY(150);
-			break;
-		case S_E:
-			object3d.setRotY(210);
-			break;
-		case E:
-			object3d.setRotY(270);
-			break;
-		case N_E:
-			object3d.setRotY(330);
-			break;
-		case N_O:
-			object3d.setRotY(30);
-			break;
-		default:
-			System.out.println("Rotate cannot be done");
-	}
-	}
-	
 	public Vector3f getPostionVolcano() {
 		return postionVolcano;
 	}

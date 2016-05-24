@@ -36,9 +36,10 @@ public class Test_Taluva {
         Avancement avancement = new Avancement(ihm);
         m.addPhaseListener(avancement);
         m.MajListeners();
+        
         game = new Game();
         game.play(frame,m);
-
+        
 	}
 		
 	public static void main(String[] args) {

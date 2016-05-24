@@ -953,16 +953,16 @@ public class Terrain {
 	
 	// Renvoie la liste des emplacements possibles pour la Tuile tuile
 	public ArrayList<Action_Tuile> liste_coups_tuile_possibles(Tuile tuile){
-		Tuile tuile_a_tester = tuile.clone();
 		ArrayList<Action_Tuile> res = new  ArrayList<Action_Tuile>();
 		for(int o=0;o<6;o++){
 			for(int i=limites.xmin-2;i<limites.xmax+2;i++){
 				for(int j=limites.ymin-2;j<limites.ymax+1;j++){
-					if(placement_tuile_autorise(tuile_a_tester, new Point(i,j)))
-						res.add(new Action_Tuile(tuile_a_tester.clone(),new Point(i,j),getCase(i,j).getNiveau()+1));
+					if(placement_tuile_autorise(tuile, new Point(i,j)))
+						res.add(new Action_Tuile(tuile.clone(),new Point(i,j),getCase(i,j).getNiveau()+1));
 				}
 			}
-			tuile_a_tester.Tourner_horaire();
+			tuile = tuile.clone();
+			tuile.Tourner_horaire();
 		}
 		return res;
 	}

@@ -24,10 +24,9 @@ public class Liste_coup_construction {
 		tour = new ArrayList<Point>();
 		temple= new ArrayList<Point>();
 		extension = new ArrayList<Action_Construction>();
-		System.out.println("Liste_coup_construction: constructeur");
-		for(int i= limites.xmin; i< limites.xmax; i++)
+		for(int i= limites.xmin; i<= limites.xmax; i++)
 		{
-			for(int j = limites.ymin; j < limites.ymax; j++)
+			for(int j = limites.ymin; j <= limites.ymax; j++)
 			{
 				p = new Point(i,j);
 				if(t.placement_batiment_autorise(Case.Type_Batiment.HUTTE, joueur.getCouleur(), p))
@@ -74,9 +73,9 @@ public class Liste_coup_construction {
 	{
 		int nb_action = huttes.size() + extension.size() + temple.size() + tour.size();
 		Random r = new Random();
-		System.out.println("Il y a "+ nb_action + " action possibles, j'ai tiré: ");
+		//System.out.println("Il y a "+ nb_action + " action possibles.");
 		int index = r.nextInt(nb_action);
-		System.out.println("Il y a "+ nb_action + " action possibles, j'ai tiré: " + index);
+		//System.out.println("J'ai tiré: " + index);
 
 		if(index < huttes.size())
 			return new Action_Construction(Action_Construction.Type.HUTTE, huttes.get(index));
@@ -100,21 +99,25 @@ public class Liste_coup_construction {
 		{
 			System.out.print("(" +huttes.get(i).x +"," + huttes.get(i).y +")");
 		}
+		System.out.println();
 		System.out.println("Liste des coups: tour");
 		for(int i=0; i< tour.size(); i++)
 		{
 			System.out.print("(" +tour.get(i).x +"," + tour.get(i).y +")");
 		}
+		System.out.println();
 		System.out.println("Liste des coups: temple");
 		for(int i=0; i< temple.size(); i++)
 		{
 			System.out.print("(" +temple.get(i).x +"," + temple.get(i).y +")");
 		}
+		System.out.println();
 		System.out.println("liste des coups: extension");
 		for(int i=0; i< this.extension.size(); i++)
 		{
 			this.extension.get(i).afficher();
 		}
+		System.out.println();
 	}
 	
 	public Liste_coup_construction clone()

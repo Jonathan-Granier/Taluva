@@ -33,7 +33,8 @@ public class IA_Random extends IA_Generique{
 		// on génère la liste des coup possible, et on en choisit un
 		ArrayList<Action_Tuile> liste_coup = m.getTerrain().liste_coups_tuile_possibles(tuile);
 		Random R = new Random();
-		System.out.println(" IA rand: on me demande de jouer un coup parmi: "+ liste_coup.size());
+		int index = R.nextInt(liste_coup.size());
+		System.out.println(" IA rand: on me demande de jouer un coup parmi: "+ liste_coup.size() + ". J'ai roll " + index);
 		return liste_coup.get(R.nextInt(liste_coup.size()));
 	}
 
@@ -42,7 +43,6 @@ public class IA_Random extends IA_Generique{
 	public Action_Construction get_coup_construction() {
 		m.getTerrain().afficher();
 		Liste_coup_construction liste_coup = m.get_liste_coup_construction();
-		liste_coup.affichage();
 		return m.get_liste_coup_construction().get_random_action();
 	}
 

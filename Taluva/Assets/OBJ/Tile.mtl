@@ -2,7 +2,7 @@
 # File Created: 19.05.2016 21:41:35
 
 newmtl 01___Default
-	Ns 20.0000
+	Ns 29.0000
 	Ni 1.5000
 	d 1.0000
 	Tr 0.0000
@@ -10,7 +10,7 @@ newmtl 01___Default
 	illum 2
 	Ka 0.5880 0.5880 0.5880
 	Kd 0.5880 0.5880 0.5880
-	Ks 0.4100 0.4100 0.4100
+	Ks 0.8100 0.8100 0.8100
 	Ke 0.0000 0.0000 0.0000
 	map_Ka Tile_texture_test.png
 	map_Kd Tile_texture_test.png
