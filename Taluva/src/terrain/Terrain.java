@@ -377,7 +377,7 @@ public class Terrain {
 				res.add(citeP);
 			}
 		}
-		System.out.println("Separation depuis " + P.x + "," + P.y + " en " + res.size() + " parties");
+		//System.out.println("Separation depuis " + P.x + "," + P.y + " en " + res.size() + " parties");
 		return res;
 	}
 	
@@ -545,7 +545,7 @@ public class Terrain {
 					// On joue alors sur des tuiles
 					// On verifie qu'on n'ecrase pas une cite entiere ni une tour ou un temple
 					if(!cases_t[0].est_Libre() || !cases_t[1].est_Libre() || !cases_t[2].est_Libre()){
-						System.out.println("Ca ecrase pitetre des choses interdites");
+						//System.out.println("Ca ecrase pitetre des choses interdites");
 						// Si on ecrase au moins un batiment
 						if(cases_t[0].getBType() == Case.Type_Batiment.TEMPLE || cases_t[0].getBType() == Case.Type_Batiment.TOUR)
 							return false;
@@ -580,7 +580,7 @@ public class Terrain {
 								return false;
 						}
 
-						System.out.println("Ah ba non");
+						//System.out.println("Ah ba non");
 					}
 					
 					// On vérifie la disposition des volcans
@@ -844,7 +844,7 @@ public class Terrain {
 	private void fusion_cite(Cite C, Cite C2){
 		int index_C = cites_indexOf(C);
 		int index_C2 = cites_indexOf(C2);
-		System.out.println("FUSION " + index_C2 + " -> " + index_C);
+		//System.out.println("FUSION " + index_C2 + " -> " + index_C);
 		ArrayList<Point> ptsC2 = C2.getPts();
 		Point P;
 		for(int i=0;i<ptsC2.size();i++){
@@ -953,15 +953,16 @@ public class Terrain {
 	
 	// Renvoie la liste des emplacements possibles pour la Tuile tuile
 	public ArrayList<Action_Tuile> liste_coups_tuile_possibles(Tuile tuile){
+		Tuile tuile_a_tester = tuile.clone();
 		ArrayList<Action_Tuile> res = new  ArrayList<Action_Tuile>();
 		for(int o=0;o<6;o++){
 			for(int i=limites.xmin-2;i<limites.xmax+2;i++){
 				for(int j=limites.ymin-2;j<limites.ymax+1;j++){
-					if(placement_tuile_autorise(tuile, new Point(i,j)))
-						res.add(new Action_Tuile(tuile.clone(),new Point(i,j),getCase(i,j).getNiveau()+1));
+					if(placement_tuile_autorise(tuile_a_tester, new Point(i,j)))
+						res.add(new Action_Tuile(tuile_a_tester.clone(),new Point(i,j),getCase(i,j).getNiveau()+1));
 				}
 			}
-			tuile.Tourner_horaire();
+			tuile_a_tester.Tourner_horaire();
 		}
 		return res;
 	}
