@@ -257,7 +257,7 @@ public class Moteur extends Phase{
 		if(annul.size()==0){
 			annul.add(T.clone());
 			//prev.add(((Joueur_Humain) j_courant).clone());
-			prev = ((Joueur_Humain) j_courant).clone();
+			if(j_courant instanceof Joueur_Humain) prev = ((Joueur_Humain) j_courant).clone();
 		}
 		Random r = new Random();
 		tuile_pioche = tuiles.remove(r.nextInt(tuiles.size()));
@@ -321,7 +321,7 @@ public class Moteur extends Phase{
 		if(T.placer_batiment(bat_choisi,j_courant.getCouleur(), P) == 0){
 			annul.add(T.clone());
 			histo_jeu.add(new Etat_de_jeu(T,j_courant));
-			next = ((Joueur_Humain) j_courant).clone();
+			if(j_courant instanceof Joueur_Humain) next = ((Joueur_Humain) j_courant).clone();
 			//etat = Etat.FIN_DE_TOUR;
 			Incremente_Phase_Jeu();
 			return 0;
