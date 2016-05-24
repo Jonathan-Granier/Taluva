@@ -20,6 +20,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.Dimension;
 
 import Ecouteur.Ecouteur_Boutons;
+import Ecouteur.KeyboardListener;
 import Moteur.Moteur;
 
 
@@ -174,7 +175,9 @@ public class IHM {
         panelJ2.setLayout(new GridLayout(1,4));
 
         canvas.setSize(width, height-height/3);
-
+        canvas.setFocusable(true);
+        frame.addKeyListener(new KeyboardListener());
+        
         try {
             Display.setParent(canvas);
         } catch (Exception e) {

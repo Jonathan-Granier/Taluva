@@ -62,6 +62,26 @@ public class GraphicConstruction {
 		return Case.Type_Batiment.VIDE;
 	}
 
+	public void setType(Case.Type_Batiment type){
+		switch(type){
+		case HUTTE:
+			this.type = GraphicType.HUT; 
+			break;
+		case TOUR:
+			this.type = GraphicType.TOWER; 
+			break;
+		case TEMPLE:
+			this.type = GraphicType.TEMPLE;
+			break;
+		case VIDE:
+			this.type = GraphicType.NULL;
+			break;
+		default:
+			System.out.println("Unknow construction type");	
+		}
+		this.setObject3d();
+	}
+	
 	public GraphicConstruction(GraphicConstruction gc) {
 		this.object3d = new Object3D(gc.getObject3d());
 		this.type = gc.getType();
