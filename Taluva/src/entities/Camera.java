@@ -1,5 +1,7 @@
 package entities;
 
+import java.awt.Point;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
@@ -11,7 +13,7 @@ import utils.InputHandler.inputType;
 
 public class Camera {
 	
-	private static final float ZOOM_OUT_MAX = 100;
+	private static final float ZOOM_OUT_MAX = 200;
 	
 	private static final float SPEED = 1.5f;
 	
@@ -25,10 +27,11 @@ public class Camera {
 	
 	
 	public Camera(){
+		float x = 3f/4f*Terrain.CENTRE.y*Grid.HEIGHT_OF_HEXA - Grid.HEIGHT_OF_HEXA/2f;
+		float y = Terrain.TAILLE*Grid.WIDTH_OF_HEXA/2f + Grid.WIDTH_OF_HEXA*2f + Terrain.CENTRE.x * Grid.WIDTH_OF_HEXA/2f;
+		lookAt = new Vector3f(x,0,y);
 		position.x = Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f+100;
 		position.z = Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f;
-		lookAt.x = Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f+100;
-		lookAt.z = Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f;
 	}
 
 	public boolean between(float start,float end){
