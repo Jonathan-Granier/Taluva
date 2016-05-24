@@ -10,7 +10,8 @@ public class KeyboardListener implements KeyListener {
 	}
 	
 	@Override
-	public void keyPressed(KeyEvent e) {	
+	public void keyPressed(KeyEvent e) {
+		System.out.println("Right key pressed");
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             System.out.println("Right key pressed");
         }

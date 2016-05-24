@@ -57,6 +57,8 @@ public class Game {
 	private List<GraphicTile> Tiles;
 	private List<GraphicConstruction> constructions;
 	private Loader loader;
+	private static float delay = 0;
+	private static final float TIME = 200000;
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
@@ -94,6 +96,15 @@ public class Game {
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 			constructions.get(i).getObject3d().setPosition(worldPos);
 			renderer.draw(constructions.get(i).getObject3d(),shader);
+		}
+	}
+	
+	public static void delay(){
+		if(delay == 0){
+			delay = FPS.getTime()/1000;
+		}
+		if(delay+TIME>FPS.getTime()/1000 && delay!=0 ){
+			delay = 0;
 		}
 	}
 	
@@ -268,12 +279,14 @@ public class Game {
 			
 			ecouteurSouris.run(Tile, Tiles, Construction, constructions);
 			
-			drawTile(renderer,shader);
+			if(Game.delay==0)
+				drawTile(renderer,shader);
 			
 			//for(GraphicConstruction construction:Constructions)
 			//	renderer.draw(construction.getObject3d(), shader);
 			
-			drawConstruction(renderer,shader);
+			if(Game.delay==0)
+				drawConstruction(renderer,shader);
 			
 			//renderer.draw(table, shader);
 			
