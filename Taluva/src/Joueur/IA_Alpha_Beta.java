@@ -95,9 +95,12 @@ public class IA_Alpha_Beta extends IA_Generique {
 			while( i < liste.size() && score_max < score)
 			{
 				// /!\ Simuler dans moteur virtuel
-				//simulercoup(liste.get(i));
 				m.placer_tuile(liste.get(i).getPosition());
-				liste_construction = m.getTerrain().liste_coups_construction_possibles(this.getCouleur());
+				m.getTerrain().afficher();
+				m.Maj_liste_coup_construction();
+				System.out.println("IA AB, C_bon: liste_size: " + m.get_liste_coup_construction().size());
+				liste_construction = m.get_liste_coup_construction().to_ArrayList();
+				System.out.println("IA AB, C_bon: liste_size: " + liste_construction.size());
 				score_courant = choisir_construction_bon(liste_construction, score, profondeur -1).get_Heuristique();
 				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
 				if(score_courant == score_max)
@@ -131,7 +134,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 		// Si la profondeur est a 0, on renvoie l'heuristique. -> profondeur = nb de phase a générer
 		if(profondeur == 0 )
 		{
-			// /!\ regarder dans moteur virtuel
 			while( i < liste.size() && score_max < score)
 			{
 				// /!\ Simuler dans moteur virtuel
@@ -153,16 +155,17 @@ public class IA_Alpha_Beta extends IA_Generique {
 			}
 		}
 		else
-		{
+		{	
 			while( i < liste.size() && score_max < score)
 			{
 				// /!\ Simuler dans moteur virtuel
 				m.jouer_action(liste.get(i));
 				
 				// Generate generique tuile
-				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
-				liste_tuile = m.getTerrain().liste_coups_tuile_possibles(tuile);
 				// TODO
+				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
+				m.Maj_liste_coup_construction();
+				liste_tuile = m.getTerrain().liste_coups_tuile_possibles(tuile);
 				score_courant = choisir_tuile_mauvais(liste_tuile, score_max, profondeur -1);
 				if(score_courant == score_max)
 				{
@@ -181,13 +184,17 @@ public class IA_Alpha_Beta extends IA_Generique {
 		}
 		// on renvoie un coup parmi les coups optimaux.
 		Random R = new Random();
-		System.out.println("IA_A&B[Construction_Bon], profondeur:" + profondeur + " Nombre de possibilités optimales: " + liste_construction_retour.size());
+		System.out.println("IA_A&B[Construction_Bon], profondeur:" + profondeur 
+				+ " Nombre de possibilités optimales: " + liste_construction_retour.size() 
+				+ " Nb de coup testés: " + liste.size()
+				+ " Nb huttes du joueur: " + m.get_Jcourant().getHutte());
 		this.coup_construction = liste_construction_retour.get(R.nextInt(liste_construction_retour.size()));
 		return new Coup_Construction_Heuristique(score_max, this.coup_construction);
 	}
 	
 	private int choisir_tuile_mauvais(ArrayList<Action_Tuile> liste_tuile, int score, int profondeur)
 	{
+		//System.out.println("IA_A&B(tuile_mauvais)");
 		/*
 		 int i=0, score_min = Integer.MAX_VALUE;
 		int score_courant;
@@ -252,7 +259,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 			{
 				// /!\ Simuler dans moteur virtuel
 				//TODO
-				//simulercoup(liste.get(i));
 
 				score_courant = Heuristique();
 				if (score_courant < score_min)

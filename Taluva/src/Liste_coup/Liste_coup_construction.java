@@ -146,4 +146,30 @@ public class Liste_coup_construction {
 		return null;
 	}
 	
+	public int size()
+	{
+		return this.extension.size() + this.huttes.size() + this.temple.size() + this.tour.size();
+	}
+	
+	public ArrayList<Action_Construction> to_ArrayList()
+	{
+		ArrayList<Action_Construction> res = new ArrayList<Action_Construction>();
+		for(int i =0; i < this.tour.size(); i++)
+		{
+			res.add(new Action_Construction(Action_Construction.Type.TOUR, tour.get(i)));
+		}
+		for(int i =0; i < this.temple.size(); i++)
+		{
+			res.add(new Action_Construction(Action_Construction.Type.TEMPLE, temple.get(i)));
+		}
+		for(int i =0; i < this.huttes.size(); i++)
+		{
+			res.add(new Action_Construction(Action_Construction.Type.HUTTE, huttes.get(i)));
+		}
+		for(int i =0; i < this.extension.size(); i++)
+		{
+			res.add(this.extension.get(i));
+		}
+		return res;
+	}
 }
