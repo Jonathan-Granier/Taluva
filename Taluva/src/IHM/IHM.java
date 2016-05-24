@@ -48,9 +48,9 @@ public class IHM {
         action = new JPanel();
         annuler_refaire = new JPanel();
         p = new JLabel("Piocher");
-        t = new JLabel("tuile");
+        t = new JLabel("Poser");
         c = new JLabel("Construire");
-        f = new JLabel("Fin de tour");
+        f = new JLabel("Finir");
         Annuler = new JButton("Annuler");
         Refaire = new JButton("Refaire");
         Pioche = new JButton("Piocher");
