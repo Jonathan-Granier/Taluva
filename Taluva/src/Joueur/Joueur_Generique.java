@@ -110,18 +110,18 @@ public abstract class Joueur_Generique {
 	// Clone un Joueur_Generique 
 	//TODO
 	//Rajouter les IA en plus
-	public Joueur_Generique clone(Moteur m_copie)
+	public Joueur_Generique clone(Moteur m)
 	{
 		// Instancie le clone en fonction du type de la source
 		Joueur_Generique clone = new Joueur_Humain(this.getCouleur());
 		
 		if(this instanceof IA_Random)
 		{
-			clone = new IA_Random(this.getCouleur(),m_copie);
+			clone = new IA_Random(this.getCouleur(),m);
 		}
 		else if(this instanceof IA_Alpha_Beta)
 		{
-			clone = new IA_Alpha_Beta(((IA_Alpha_Beta) this).getProfondeur(),this.getCouleur(),m_copie);
+			clone = new IA_Alpha_Beta(((IA_Alpha_Beta) this).getProfondeur(),this.getCouleur(),m);
 		}
 		
 		clone.setHutte(getHutte());
