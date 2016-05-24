@@ -1,5 +1,6 @@
 package Joueur;
 
+import Moteur.Moteur;
 import terrain.Case.Couleur_Joueur;
 
 //import main.Moteur;
@@ -106,14 +107,29 @@ public abstract class Joueur_Generique {
 		this.hutteDetruite = hutteDetruite + n;
 	}
 	
-	
-	
-	public void copie_Joueur_Generique(Joueur_Generique dest)
+	// Clone un Joueur_Generique 
+	//TODO
+	//Rajouter les IA en plus
+	public Joueur_Generique clone(Moteur m_copie)
 	{
-		dest.setHutte(getHutte());
-		dest.setTemple(getTemple());
-		dest.setTour(getTour());
-		dest.setHutteDetruite(getHutteDetruite());
+		// Instancie le clone en fonction du type de la source
+		Joueur_Generique clone = new Joueur_Humain(this.getCouleur());
+		
+		if(this instanceof IA_Random)
+		{
+			clone = new IA_Random(this.getCouleur(),m_copie);
+		}
+		else if(this instanceof IA_Alpha_Beta)
+		{
+			clone = new IA_Alpha_Beta(((IA_Alpha_Beta) this).getProfondeur(),this.getCouleur(),m_copie);
+		}
+		
+		clone.setHutte(getHutte());
+		clone.setTemple(getTemple());
+		clone.setTour(getTour());
+		clone.setHutteDetruite(getHutteDetruite());
+		
+		return clone;
 	}
 	
 }
