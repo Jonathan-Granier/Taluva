@@ -34,14 +34,16 @@ public class IA_Random extends IA_Generique{
 		ArrayList<Action_Tuile> liste_coup = m.getTerrain().liste_coups_tuile_possibles(tuile);
 		Random R = new Random();
 		int index = R.nextInt(liste_coup.size());
-		System.out.println(" IA rand: on me demande de jouer un coup parmi: "+ liste_coup.size() + ". J'ai roll " + index);
-		return liste_coup.get(R.nextInt(liste_coup.size()));
+		System.out.println(" IA rand(tuile): on me demande de jouer un coup parmi: "+ liste_coup.size() + ". J'ai roll " + index);
+		//liste_coup.get(index).afficher_Action_Tuile();
+		return liste_coup.get(index);
 	}
 
 
 	@Override
 	public Action_Construction get_coup_construction() {
 		m.getTerrain().afficher();
+		m.Maj_liste_coup_construction();
 		Liste_coup_construction liste_coup = m.get_liste_coup_construction();
 		return m.get_liste_coup_construction().get_random_action();
 	}
