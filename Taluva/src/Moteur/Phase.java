@@ -132,7 +132,7 @@ public class Phase {
 	}
 	
 	
-	public Phase clone()
+	public Phase clone_Phase()
 	{
 		Phase clone = new Phase();
 		clone.phase_jeu = this.phase_jeu;
