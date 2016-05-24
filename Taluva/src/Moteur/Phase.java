@@ -121,7 +121,7 @@ public class Phase {
 			default:
 				return 1;
 		}
-		//TODO
+		//TODOcopie_Joueur_Generique(m_copie.j_cou
 		//Appeler listener
 		for(PhaseListener listener : getPhaseListeners()) 
 		{
@@ -129,6 +129,18 @@ public class Phase {
 		}
 		
 		return 0;
+	}
+	
+	
+	public Phase clone()
+	{
+		Phase clone = new Phase();
+		clone.phase_jeu = this.phase_jeu;
+		for(PhaseListener listener : getPhaseListeners()) 
+		{
+			clone.addPhaseListener(listener);
+		}
+		return clone;
 	}
 
 }
