@@ -82,6 +82,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    			pick = true;
 	    			Construction.setType(GraphicType.TEMPLE);
 	    			Construction.setObject3d();
+	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
 	    		}
 	    		break;	
 	    	
@@ -91,6 +92,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    			pick = true;
 	    			Construction.setType(GraphicType.TOWER);
 	    			Construction.setObject3d();
+	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
 	    		}
 	    		break;
 	    		
@@ -100,6 +102,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    			pick = true;
 	    			Construction.setType(GraphicType.HUT);
 	    			Construction.setObject3d();
+	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
 	    		}
 	    		
 	    		break;	
@@ -110,6 +113,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    			pick = true;
 	    			Construction.setType(GraphicType.TEMPLE);
 	    			Construction.setObject3d();
+	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
 	    		}
 	    		break;	
 	    	
@@ -119,6 +123,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    			pick = true;
 	    			Construction.setType(GraphicType.TOWER);
 	    			Construction.setObject3d();
+	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
 	    		}
 	    		break;	
 	    	

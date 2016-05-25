@@ -20,16 +20,20 @@ import entities.GraphicConstruction;
 import gui.Drawable;
 
 import Ecouteur.ButtonConstruction;
+import Ecouteur.ButtonExtension;
 import Moteur.Moteur;
 import Moteur.Phase.Phase_Jeu;
 
 public class Menu_circulaire_creation {
 	Moteur moteur;
-	ButtonConstruction bouton_hute,bouton_tour,bouton_temple,bouton_foret,bouton_plage,bouton_montagne,bouton_plaine,bouton_lac;
+	ButtonConstruction bouton_hute,bouton_tour,bouton_temple;
+	ButtonExtension bouton_foret,bouton_plage,bouton_montagne,bouton_plaine,bouton_lac;
 	Grid grille;
 	Drawable drawable;
+	Drawable drawableExtension;
 	float rayon;
 	private static boolean draw = false;
+	private static boolean drawExtension= false;
 	
 	
 	public Menu_circulaire_creation(Moteur moteur,Loader loader,GraphicConstruction Construction,Grid grille){
@@ -38,16 +42,23 @@ public class Menu_circulaire_creation {
 		bouton_tour = new ButtonConstruction(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"tower",Construction,moteur);
 		bouton_temple = new ButtonConstruction(loader.loadTexture("Button_Temple.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"temple",Construction,moteur);
 		
-		bouton_foret = new ButtonConstruction(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"hut",Construction,moteur);
-		bouton_plage = new ButtonConstruction(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"tower",Construction,moteur);
-		bouton_montagne = new ButtonConstruction(loader.loadTexture("Button_Temple.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"temple",Construction,moteur);
-		bouton_plaine = new ButtonConstruction(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"hut",Construction,moteur);
-		bouton_lac = new ButtonConstruction(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"tower",Construction,moteur);
+		bouton_foret = new ButtonExtension(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.FORET,moteur,Construction);
+		bouton_plage = new ButtonExtension(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.SABLE,moteur,Construction);
+		bouton_montagne = new ButtonExtension(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.MONTAGNE,moteur,Construction);
+		bouton_plaine = new ButtonExtension(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.PLAINE,moteur,Construction);
+		bouton_lac = new ButtonExtension(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.LAC,moteur,Construction);
 		this.grille=grille;
 		drawable=new Drawable(loader);
+		drawableExtension = new Drawable(loader);
 		drawable.bindButton(bouton_hute);
 		drawable.bindButton(bouton_tour);
 		drawable.bindButton(bouton_temple);
+
+		drawableExtension.bindButton(bouton_foret);
+		drawableExtension.bindButton(bouton_plage);
+		drawableExtension.bindButton(bouton_montagne);
+		drawableExtension.bindButton(bouton_plaine);
+		drawableExtension.bindButton(bouton_lac);
 		rayon=Grid.HEIGHT_OF_HEXA*5;
 		
 	}
@@ -84,58 +95,69 @@ public class Menu_circulaire_creation {
 				
 			}
 			else{
+				ButtonExtension.setP(new Point(i,j));
 				Cite cite = moteur.getTerrain().getCite(coord.indices);
 				if(cite.getCouleur()==moteur.get_Jcourant().getCouleur()){
-					
+					drawExtension = true;
 					//etat et position du bouton foret de l'extention
 					ArrayList<Point> liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.FORET);
-					bouton_foret.setGrey(liste==null);
-					bouton_foret.setPosition(new Vector2f(coord.worldPos.x,coord.worldPos.z-rayon));
+					bouton_foret.setGrey(liste.isEmpty());
+					bouton_foret.setPosition(new Vector2f(Mouse.getX(),Display.getHeight()- Mouse.getY()-rayon));
 					
 					//etat et position du bouton montagne de l'extention
 					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.MONTAGNE);	
-					bouton_montagne.setGrey(liste==null);
-					bouton_montagne.setPosition(new Vector2f(coord.worldPos.x-rayon*(float) Math.sin(Math.PI*2f/5f),coord.worldPos.z-rayon*(float) Math.cos(Math.PI*2f/5f)));
+					bouton_montagne.setGrey(liste.isEmpty());
+					bouton_montagne.setPosition(new Vector2f(Mouse.getX()-rayon*(float) Math.sin(Math.PI*2f/5f),Display.getHeight()- Mouse.getY()-rayon*(float) Math.cos(Math.PI*2f/5f)));
 					
 					//etat et position du bouton sable de l'extention
 					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.SABLE);	
-					bouton_plage.setGrey(liste==null);
-					bouton_plage.setPosition(new Vector2f(coord.worldPos.x-rayon*(float) Math.sin(Math.PI*4f/5f),coord.worldPos.z-rayon*(float) Math.cos(Math.PI*4f/5f)));
+					bouton_plage.setGrey(liste.isEmpty());
+					bouton_plage.setPosition(new Vector2f(Mouse.getX()-rayon*(float) Math.sin(Math.PI*4f/5f),Display.getHeight()- Mouse.getY()-rayon*(float) Math.cos(Math.PI*4f/5f)));
 					
 					//etat et position du bouton plaine de l'extention
 					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.PLAINE);	
-					bouton_montagne.setGrey(liste.isEmpty());
-					bouton_montagne.setPosition(new Vector2f(coord.worldPos.x-rayon*(float) Math.sin(Math.PI*6f/5f),coord.worldPos.z-rayon*(float) Math.cos(Math.PI*6f/5f)));
+					bouton_plaine.setGrey(liste.isEmpty());
+					bouton_plaine.setPosition(new Vector2f(Mouse.getX()-rayon*(float) Math.sin(Math.PI*6f/5f),Display.getHeight()- Mouse.getY()-rayon*(float) Math.cos(Math.PI*6f/5f)));
 					
 					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.LAC);	
 					bouton_lac.setGrey(liste.isEmpty());
-					bouton_lac.setPosition(new Vector2f(coord.worldPos.x-rayon*(float) Math.sin(Math.PI*8f/5f),coord.worldPos.z-rayon*(float) Math.cos(Math.PI*8f/5f)));
+					bouton_lac.setPosition(new Vector2f(Mouse.getX()-rayon*(float) Math.sin(Math.PI*8f/5f),Display.getHeight()- Mouse.getY()-rayon*(float) Math.cos(Math.PI*8f/5f)));
 				}
 			}
 		}
-		
-
-
 		
 	}
 
 	public static void setDraw(boolean d){
 		draw = d;
+		drawExtension = d;
 	}
 	
 	public void draw(){
 		if(ButtonConstruction.isClicked())
 			draw = false;
+		
+		if(ButtonExtension.isClicked())
+			drawExtension = false;
 		if(draw){
 			bouton_hute.update();
 			bouton_temple.update();
 			bouton_tour.update();
 			drawable.draw();
 		}
+		if(drawExtension){
+			bouton_foret.update();
+			bouton_montagne.update();
+			bouton_plage.update();
+			bouton_plaine.update();
+			bouton_lac.update();
+			drawableExtension.draw();
+		}
 	}
 	
 	public void cleanUp(){
 		drawable.cleanUp();
+		drawableExtension.cleanUp();
 	}
 	
 }

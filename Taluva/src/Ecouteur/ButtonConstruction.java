@@ -40,7 +40,7 @@ public class ButtonConstruction extends Button {
 			moteur.select_temple();
 		}
 		moteur.placer_batiment(p);
-		System.out.println(clicked);
+		Construction.setColour(moteur.get_Jcourant().getCouleur());
 	}
 
 	public static boolean isPick() {

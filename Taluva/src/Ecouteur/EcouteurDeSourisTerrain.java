@@ -165,8 +165,8 @@ public class EcouteurDeSourisTerrain {
 				 */
 				
 				//Si anuler on enleve le sommet de la pile graphic
-				if(Ecouteur_Boutons.isUndo())
-					Tiles.remove(Tiles.size()-1);
+				//if(Ecouteur_Boutons.isUndo())
+				//	Tiles.remove(Tiles.size()-1);
 				
 				 if(coords!=null && m.placer_tuile(coords.indices) == 0)
 				 {
