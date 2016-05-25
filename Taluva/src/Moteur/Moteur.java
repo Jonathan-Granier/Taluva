@@ -404,7 +404,6 @@ public class Moteur extends Phase{
 			histo_jeu.add(this.get_EDJ_courant());
 			switch (bat_choisi){
 				case HUTTE : 
-					if(Est_joueur_Courant(j2))System.out.println("maggle");
 					j_courant.decrementeHutte(1);
 					break;
 				case TOUR : j_courant.decrementeTour();
@@ -507,10 +506,9 @@ public class Moteur extends Phase{
 		Action_Construction action_construction = ((IA_Generique) j_courant).get_coup_construction();
 		// SI c'est une extension
 		Point point_construction = action_construction.get_coord();
-		
 		if(action_construction.get_type() == Action_Construction.Type.EXTENSION)
 		{
-			if((T.etendre_cite(point_construction,action_construction.get_type_extension()))!= 0)
+			if((etendre_cite(point_construction,action_construction.get_type_extension()))!= 0)
 			{
 				System.out.println("[jouer_IA] Impossible d'etendre la cité");
 				return 1;
@@ -519,7 +517,8 @@ public class Moteur extends Phase{
 		else
 		{
 			bat_choisi = Action_vers_Batiment(action_construction.get_type());
-			if(T.placer_batiment(bat_choisi, j_courant.getCouleur(), point_construction) != 0)
+			System.out.println("[JOUER IA] Bat choisi : "+ bat_choisi);
+			if(placer_batiment(point_construction) != 0)
 			{
 				System.out.println("[jouer_IA] Impossible de poser un batiment");
 				return 1;
