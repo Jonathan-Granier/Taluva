@@ -85,7 +85,7 @@ public class Game {
 	public void drawConstruction(Renderer renderer,Shader shader){
 		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
 		//Check listConstruction with listAction_Batiment("IA mode useful")
-		constructions.clear();
+		constructions = new ArrayList<GraphicConstruction>();
 		
 		if(constructions.size() < listConstruction.size()){
 			for(int i=constructions.size();i<listConstruction.size();i++){
@@ -180,8 +180,7 @@ public class Game {
 	}
 
 	public static boolean delay(){
-	if(delay == 0){
-			delay = FPS.getTime()/1000;
+		if(delay == 0){
 			draw = false;
 		}
 		if(delay>TIME && delay!=0 ){
