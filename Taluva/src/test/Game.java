@@ -61,7 +61,6 @@ public class Game {
 	private static float delay = 0;
 	private static final float TIME = 200000;
 	private static boolean draw=true;
-	private static boolean clear = false;
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
@@ -86,10 +85,7 @@ public class Game {
 	public void drawConstruction(Renderer renderer,Shader shader){
 		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
 		//Check listConstruction with listAction_Batiment("IA mode useful")
-		if(Game.clear){
-			constructions.clear();
-			Game.clear = false;
-		}
+		constructions.clear();
 		
 		if(constructions.size() < listConstruction.size()){
 			for(int i=constructions.size();i<listConstruction.size();i++){
@@ -182,11 +178,7 @@ public class Game {
 			moteur.getTerrain().afficher();
 		}
 	}
-	
-	public static void clean(){
-		clear = true;
-	}
-	
+
 	public static boolean delay(){
 	if(delay == 0){
 			delay = FPS.getTime()/1000;
