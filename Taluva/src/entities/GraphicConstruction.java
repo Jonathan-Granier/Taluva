@@ -27,7 +27,7 @@ public class GraphicConstruction {
 	public GraphicConstruction(GraphicType type, Vector3f colour, Loader loader) {
 		this.hut =  new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
 		this.temple = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
-		this.tower = new Object3D("Tower", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
+		this.tower = new Object3D("Tower", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
 		switch (type) {
 		case HUT:
 			this.object3d = hut;
