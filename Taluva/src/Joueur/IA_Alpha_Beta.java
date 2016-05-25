@@ -27,12 +27,14 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private int score_zone_city = 15;
 	private int score_div_city_temple = 2;
 	private int score_div_city_temple_tower = Integer.MAX_VALUE;
-	Action_Construction coup_construction;
+	private boolean set_CC;
+	private Action_Construction coup_construction;
 	
 	public IA_Alpha_Beta (Couleur_Joueur c, Moteur m)
 	{
 		super(c, m);
 		this.profondeur = 1;
+		set_CC = false;
 	}
 	public IA_Alpha_Beta (int profondeur, Couleur_Joueur c, Moteur m)
 	{
@@ -41,8 +43,13 @@ public class IA_Alpha_Beta extends IA_Generique {
 	}
 	@Override
 	public Action_Construction get_coup_construction() {
-		System.out.println("IA A&B: Get_coup_construction (il est déjà calculé)");
-		return coup_construction;
+		System.out.println("IA A&B: Get_coup_construction");
+		if(set_CC)
+			System.out.println("IA A&B: set_CC == true");
+		else
+			System.out.println("IA A&B: set_CC == false");
+		this.coup_construction.afficher();
+		return this.coup_construction;
 	}
 	@Override
 	public Action_Tuile get_coup_tuile(Tuile tuile) {
@@ -103,12 +110,10 @@ public class IA_Alpha_Beta extends IA_Generique {
 				// /!\ Simuler dans moteur virtuel
 				if(	m.placer_tuile(liste.get(i).getPosition()) != 0)
 				{
-					System.out.println("IA A&B, probleme au placement de tuile,( retour != 0)");
+					//System.out.println("IA A&B, probleme au placement de tuile,( retour != 0)");
 				}
-				System.out.println("############Tuile placée IA A&B (Tuile_bon)");
 				m.Maj_liste_coup_construction();
 				liste_construction = m.get_liste_coup_construction().to_ArrayList();
-				System.out.println("IA AB, C_bon: liste_size_CC: " + liste_construction.size());
 				retour_REC = choisir_construction_bon(liste_construction, score, profondeur -1);
 				score_courant = retour_REC.get_Heuristique();
 				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
@@ -124,16 +129,17 @@ public class IA_Alpha_Beta extends IA_Generique {
 					TH_retour.setActionTuile(liste.get(i));
 					TH_retour.setHeuristique(retour_REC.get_Heuristique());
 					coup_construction_retour = retour_REC.get_Action_Construction();
+					System.out.println("Le score_max est modifié [IA A&B]");
 				}
 				//annuler_coup();
-				System.out.println("############IA: A&B: Annulation du coup (tuile_Bon)");
 				m.annuler();
 				i++;
 			}
-			this.coup_construction = coup_construction_retour;
 		}
 		// on renvoie un coup random parmi les coups optimaux
 		this.coup_construction = coup_construction_retour;
+		this.coup_construction.afficher();
+		this.set_CC = true;
 		return TH_retour;
 	}
 	
@@ -162,9 +168,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_construction_retour.add(liste.get(i));
 				}
 				//annuler_coup();
-				m.getTerrain().afficher();
 				m.annuler();
-				m.getTerrain().afficher();
 				i++;
 			}
 		}
