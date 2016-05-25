@@ -20,6 +20,7 @@ import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
 import Liste_coup.Liste_coup_construction;
 import terrain.Case;
+import terrain.Case.Couleur_Joueur;
 import terrain.Terrain;
 import terrain.Tuile;
 import test.Game;
@@ -116,7 +117,7 @@ public class Moteur extends Phase{
 			case 'L' :	return Case.Type.LAC;
 			case 'S' :	return Case.Type.SABLE;
 			case 'F' :	return Case.Type.FORET;
-			default :	System.out.println("Erreur de type dans le fichier");
+			default :	System.out.println("[char_to_char] Erreur de type dans le fichier");
 						return null;
 		}
 	}
@@ -229,6 +230,15 @@ public class Moteur extends Phase{
 		}
 		return 2;
 	}
+	 public Couleur_Joueur get_Couleur_Joueur_Adverse()
+	 {
+		if(Est_joueur_Courant(j1))
+		{
+			return j2.getCouleur();
+		}
+		return j1.getCouleur();
+	 }
+	
 	
 	public boolean Est_joueur_Courant(Joueur_Generique j)
 	{
@@ -308,7 +318,7 @@ public class Moteur extends Phase{
 				case TOUR : return !(j_courant.getTour()>0);
 				case TEMPLE : return !(j_courant.getTemple()>0);
 				default :
-					System.out.println("Type non défini d'action construction");
+					System.out.println("[joueur_elimine] Type non défini d'action construction");
 					return false;
 				}
 			}
@@ -365,7 +375,7 @@ public class Moteur extends Phase{
 			//histo_jeu.add(this.get_EDJ_courant());
 			//etat = Etat.CONSTRUIRE_BATIMENT;
 			Incremente_Phase_Jeu();
-			if(joueur_elimine())System.out.println("MOTEUR / Placer_tuile/ joueur elimine (marche?)");
+			if(joueur_elimine())System.out.println("[MOTEUR / Placer_tuile] joueur elimine (marche?)");
 			return 0;
 		}
 		else return 1;
@@ -408,7 +418,7 @@ public class Moteur extends Phase{
 					break;
 				case TEMPLE : j_courant.decrementeTemple();
 					break;
-				default : System.out.println("Message d'erreur pour bat_choisi");
+				default : System.out.println("[placer_batiment] Message d'erreur pour bat_choisi");
 					break;
 			}
 			Incremente_Phase_Jeu();
@@ -449,27 +459,27 @@ public class Moteur extends Phase{
 	public int fin_de_tour(){
 		if(victoire_aux_batiments()){
 			if(Est_joueur_Courant(j1))System.out.println("Le joueur 1 a gagné!!!\nScore : "+score(j1)+"\nScore j2 : "+score(j2));
-			else System.out.println("Le joueur 2 a gagné!!!\nScore j2 : "+score(j2)+"\nScore j1 : "+score(j1));
+			else System.out.println("[Fin de tour] Le joueur 2 a gagné!!!\nScore j2 : "+score(j2)+"\nScore j1 : "+score(j1));
 			j_gagnant = j_courant;
 			return 0;
 		}
 		else if(pioche_vide()){
 			if(score(j1)>score(j2)){
-				System.out.println("Le joueur 1 a gagné!!!\nScore j1 : "+score(j1)+"\nScore j2 : "+score(j2));
+				System.out.println("[Fin de tour] Le joueur 1 a gagné!!!\nScore j1 : "+score(j1)+"\nScore j2 : "+score(j2));
 				j_gagnant = j1;
 			}
 			else if(score(j1)<score(j2)){
-				System.out.println("Le joueur 2 a gagné!!!\nScore j2 : "+score(j2)+"\nScore j1 : "+score(j2));
+				System.out.println("[Fin de tour] Le joueur 2 a gagné!!!\nScore j2 : "+score(j2)+"\nScore j1 : "+score(j2));
 				j_gagnant = j2;
 			}
 			else {
-				System.out.println("Il y a une égalité parfaite, vous avez tous les 2 gagné!!!");
+				System.out.println("[Fin de tour] Il y a une égalité parfaite, vous avez tous les 2 gagné!!!");
 				j_gagnant = j_courant;
 			}
 			return 0;
 		}
 		else{
-			System.out.println("LES SCORES : \nJ1 : "+score(j1)+"\nJ2 : "+score(j2));
+			System.out.println("[Fin de tour] LES SCORES : \nJ1 : "+score(j1)+"\nJ2 : "+score(j2));
 			annul.clear();
 			redo.clear();
 			swap_joueur();
@@ -493,6 +503,7 @@ public class Moteur extends Phase{
 		action_tuile = ((IA_Generique) j_courant).get_coup_tuile(tuile_pioche);
 		//TODO 
 		//Delay
+		
 		tuile_pioche.set_Orientation_Volcan(action_tuile.getTuile().get_Orientation_Volcan());
 		if (placer_tuile(action_tuile.getPosition())!=0)
 		{
@@ -626,13 +637,13 @@ public class Moteur extends Phase{
 		Case.Type_Batiment batiment = Action_vers_Batiment(action.get_type());
 		if(action.get_type() == Action_Construction.Type.EXTENSION){
 			if((T.etendre_cite(p,action.get_type_extension()))!= 0){
-				System.out.println("Impossible de construire [EXTENSION]");
+				System.out.println("[jouer_Action] Impossible de construire [EXTENSION]");
 				return 1;
 			}
 		}
 		else {
 			if(T.placer_batiment(batiment, j_courant.getCouleur(),p) != 0){
-				System.out.println("Impossible de construire ["+action.get_type()+"]");
+				System.out.println("[jouer_Action] Impossible de construire ["+action.get_type()+"]");
 				return 1;
 			}
 		}
