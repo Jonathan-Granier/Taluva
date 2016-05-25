@@ -86,6 +86,11 @@ public class Game {
 	public void drawConstruction(Renderer renderer,Shader shader){
 		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
 		//Check listConstruction with listAction_Batiment("IA mode useful")
+		if(Game.clear){
+			constructions.clear();
+			Game.clear = false;
+		}
+		
 		if(constructions.size() < listConstruction.size()){
 			for(int i=constructions.size();i<listConstruction.size();i++){
 				constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader));
@@ -93,11 +98,6 @@ public class Game {
 				Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 				constructions.get(i).getObject3d().setPosition(worldPos);
 			}
-		}
-		
-		if(Game.clear){
-			constructions.clear();
-			Game.clear = false;
 		}
 		
 		for(int i=0;i<listConstruction.size();i++){
