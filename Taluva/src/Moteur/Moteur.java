@@ -550,7 +550,7 @@ public class Moteur extends Phase{
 		if(annul.size()<1)
 			return 1;
 		Etat_de_jeu tmp = annul.pop();
-		redo.push(tmp);
+		redo.push(this.get_EDJ_courant());
 		this.set_etat_de_jeu(tmp);
 		this.Decremente_Phase_Jeu();
 		//histo_jeu.remove(histo_jeu.size()-1);
@@ -563,7 +563,7 @@ public class Moteur extends Phase{
 		if(redo.isEmpty()) 
 			return 1;
 		Etat_de_jeu tmp = redo.pop();
-		annul.push(tmp);
+		annul.push(this.get_EDJ_courant());
 		this.Incremente_Phase_Jeu();
 		this.set_etat_de_jeu(tmp);
 		return 0;
