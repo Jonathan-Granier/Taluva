@@ -192,7 +192,7 @@ public class Game {
 			delay = FPS.getTime()/1000;
 			draw = false;
 		}
-		if(delay+TIME>FPS.getTime()/1000 && delay!=0 ){
+		if(delay>TIME && delay!=0 ){
 			delay = 0;
 			draw = true;
 			return true;
