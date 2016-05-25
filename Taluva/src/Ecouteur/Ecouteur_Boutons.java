@@ -56,7 +56,8 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		break;
 	    		
 	    	case "Hutte j1" :
-	    		if(moteur.get_Jcourant() == moteur.getJ1()){
+	    		if(moteur.Est_joueur_Courant(moteur.getJ1())){
+	    			System.out.println("hutte selectionnée");
 	    			moteur.select_hutte();
 	    			pick = true;
 	    			Construction.setType(GraphicType.HUT);
@@ -66,7 +67,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		break;	
 	    	
 	    	case "Temple j1" :
-	    		if(moteur.get_Jcourant() == moteur.getJ1()){
+	    		if(moteur.Est_joueur_Courant(moteur.getJ1())){
 	    			moteur.select_temple();
 	    			pick = true;
 	    			Construction.setType(GraphicType.TEMPLE);
@@ -75,7 +76,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		break;	
 	    	
 	    	case "Tour j1" :
-	    		if(moteur.get_Jcourant() == moteur.getJ1()){
+	    		if(moteur.Est_joueur_Courant(moteur.getJ1())){
 	    			moteur.select_tour();
 	    			pick = true;
 	    			Construction.setType(GraphicType.TOWER);
@@ -84,7 +85,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		break;
 	    		
 	    	case "Hutte j2" :
-	    		if(moteur.get_Jcourant() == moteur.getJ2()){
+	    		if(moteur.Est_joueur_Courant(moteur.getJ2())){
 	    			moteur.select_hutte();
 	    			pick = true;
 	    			Construction.setType(GraphicType.HUT);
@@ -94,7 +95,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		break;	
 	    	
 	    	case "Temple j2" :
-	    		if(moteur.get_Jcourant() == moteur.getJ2()){
+	    		if(moteur.Est_joueur_Courant(moteur.getJ2())){
 	    			moteur.select_temple();
 	    			pick = true;
 	    			Construction.setType(GraphicType.TEMPLE);
@@ -103,7 +104,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		break;	
 	    	
 	    	case "Tour j2" :
-	    		if(moteur.get_Jcourant() == moteur.getJ2()){
+	    		if(moteur.Est_joueur_Courant(moteur.getJ2())){
 	    			moteur.select_tour();
 	    			pick = true;
 	    			Construction.setType(GraphicType.TOWER);

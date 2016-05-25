@@ -232,6 +232,11 @@ public class Moteur extends Phase{
 		return 2;
 	}
 	
+	public boolean Est_joueur_Courant(Joueur_Generique j)
+	{
+		return j_courant.getCouleur().equals(j.getCouleur());
+	}
+	
 	// Renvoie le type de batiment choisi par le joueur
 	public Case.Type_Batiment get_bat_choisi(){
 		return bat_choisi;
@@ -652,26 +657,7 @@ public class Moteur extends Phase{
 		return m_copie;
 	}
 	
-	//Sert potentiellement à rien
-	@SuppressWarnings("unused")
-	private Joueur_Generique copie_type_joueur(Joueur_Generique src, Joueur_Generique dest, Moteur m_copie)
-	{
-		if(src instanceof Joueur_Humain)
-		{
-			dest = new Joueur_Humain(src.getCouleur());
-		}
-		
-		else if(src instanceof IA_Random)
-		{
-			dest = new IA_Random(src.getCouleur(),m_copie);
-		}
-		else if(src instanceof IA_Alpha_Beta)
-		{
-			dest = new IA_Alpha_Beta(((IA_Alpha_Beta) src).getProfondeur(),src.getCouleur(),m_copie);
-		}
-		
-		return dest;
-	}
+	
 	
 	// Prend en parametre une action construction et simule une construction avec les données
 	// Renvoie 0 si tout s'est bien passé, 0 sinon
