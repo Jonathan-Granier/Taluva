@@ -105,6 +105,7 @@ public class Terrain {
 		return histo_batiments;
 	}
 	
+	// Renvoie la cite presente au point P (null si aucune cite)
 	public Cite getCite(Point P){
 		int i = getIndexCite(P);
 		if(i < 0 || i >= cites.size()){
@@ -322,18 +323,21 @@ public class Terrain {
 		c.setOrientation(oV);
 		c.incrNiveau();
 		if(c.retirer_batiments() == 0){
-			histo_batiments.remove(getIndexHistoBatiments(new Point(x,y)));
 			Point P = new Point(x,y);
+			int index_bat = getIndexHistoBatiments(P);
+			if(index_bat != -1) histo_batiments.remove(index_bat);
+			else System.out.println("Erreur poser_hexa : gestion de l'historique_batiments");
 			Cite cite = getCite(P);
 			ArrayList<Cite> citesSeparees = citesSeparation(P);
 			// On enleve la cite d'origine
-			cites.remove(cites_indexOf(cite));
 			if(citesSeparees.size()>0){
+				int index_c = cites_indexOf(cite);
+				cites.remove(index_c);
 				// On separe une cite en 2 ou 3
 				// On decale les indices
 				for(int i=limites.xmin;i<=limites.xmax;i++){
 					for(int j=limites.ymin;j<=limites.ymax;j++){
-						if(index_cite[i][j]>cites_indexOf(cite)){
+						if(index_cite[i][j]>index_c){
 							index_cite[i][j] = index_cite[i][j]-1;
 						}
 					}
@@ -675,16 +679,17 @@ public class Terrain {
 			for(int i=0;i<pts_extension.size();i++){
 				int n = getCase(pts_extension.get(i)).getNiveau();
 				ArrayList<Cite> cites_proches = getCitesContact(pts_extension.get(i),c);
-				histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,P,c));
+				histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,pts_extension.get(i),c));
 				getCase(pts_extension.get(i)).ajouter_batiment(Case.Type_Batiment.HUTTE,c);
 				cite.ajouter(pts_extension.get(i), Case.Type_Batiment.HUTTE);
 				index_cite[pts_extension.get(i).x][pts_extension.get(i).y]=index_c;
 				if(cites_proches.size()>1){
 					// Cette extension connecte deux cites
-					for(i=1;i<cites_proches.size();i++){
-						fusion_cite(cites_proches.get(i-1),cites_proches.get(i));
+					for(int j=1;j<cites_proches.size();j++){
+						fusion_cite(cites_proches.get(0),cites_proches.get(j));
 					}
 				}
+				cite = getCite(P);
 			}
 			return 0;
 		}
@@ -704,7 +709,7 @@ public class Terrain {
 	}
 
 	// Renvoie l'ensemble des points concernes par l'extension de la cite sur les cases de Type type.
-	private ArrayList<Point> getPts_extension_cite(Cite cite, Case.Type type){
+	public ArrayList<Point> getPts_extension_cite(Cite cite, Case.Type type){
 		ArrayList<Point> res = new ArrayList<Point>();
 		ArrayList<Point> ptsCite = cite.getPts();
 		boolean [][] appartient_res = new boolean[TAILLE][TAILLE];
