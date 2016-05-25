@@ -57,6 +57,9 @@ public class Game {
 	private List<GraphicTile> Tiles;
 	private List<GraphicConstruction> constructions;
 	private Loader loader;
+	private static float delay = 0;
+	private static final float TIME = 200000;
+	private static boolean draw=true;
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
@@ -173,6 +176,25 @@ public class Game {
 		}
 	}
 	
+	public static boolean delay(){
+	if(delay == 0){
+			delay = FPS.getTime()/1000;
+			draw = false;
+		}
+		if(delay+TIME>FPS.getTime()/1000 && delay!=0 ){
+			delay = 0;
+			draw = true;
+			return true;
+		}
+		return false;
+	}
+	
+	public static void increaseDelay(){
+		if(!draw)
+			delay ++;
+		
+	}
+	
 	public void play(JFrame frame,Moteur m){
 		Window.createDislay();
 		this.moteur = m;
@@ -286,7 +308,12 @@ public class Game {
 			drawable.draw();
 
 			Window.updateDisplay();
-			
+			if(Mouse.getX()>0 && Mouse.getX()<Display.getWidth() && Mouse.getY()>0 && Mouse.getY()<Display.getHeight()){
+				Display.getParent().setFocusable(true);
+			}
+			else{
+				Display.getParent().setFocusable(false);
+			}
 		}
 		
 		waterShader.cleanUp();
