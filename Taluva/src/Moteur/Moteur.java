@@ -449,7 +449,7 @@ public class Moteur extends Phase{
 	// Actualise aussi les données et change de joueur
 	public int fin_de_tour(){
 		if(victoire_aux_batiments()){
-			if(j_courant == j1)System.out.println("Le joueur 1 a gagné!!!");
+			if(Est_joueur_Courant(j1))System.out.println("Le joueur 1 a gagné!!!");
 			else System.out.println("Le joueur 2 a gagné!!!");
 			j_gagnant = j_courant;
 			return 0;
