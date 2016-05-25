@@ -29,7 +29,7 @@ public class IHM {
 	private JFrame frame;
 	private Moteur m;
 	private int width,height;
-	private JPanel ecran, boutons, frise, bas, joueurs, action, annuler_refaire,panelJ1;
+	private JPanel ecran, boutons, frise, bas, joueurs, action, annuler_refaire,panelJ1,panelJ2;
 	private JLabel p, t, c, f,Joueur1,Joueur2;
 	private JButton Annuler,Refaire,Pioche,FDT,templeJ1,tourJ1,hutteJ1,templeJ2,tourJ2,hutteJ2;
 	private Canvas canvas;
@@ -65,6 +65,7 @@ public class IHM {
         templeJ2 = new JButton();
         tourJ2 = new JButton();
         hutteJ2 = new JButton();
+        panelJ2 = new JPanel();
         canvas = new Canvas();
 
 
@@ -178,7 +179,6 @@ public class IHM {
         hutteJ2.addActionListener(ht2);
         hutteJ2.setIcon(image_hutte);
         
-        JPanel panelJ2 = new JPanel();
         panelJ2.setLayout(new GridLayout(1,4));
 
         canvas.setSize(width, height-height/3);
@@ -274,14 +274,16 @@ public class IHM {
         ecran.add(action, gbc);
         
         panelJ1.add(Joueur1);
-        panelJ1.add(templeJ1);
-        panelJ1.add(tourJ1);
         panelJ1.add(hutteJ1);
+        panelJ1.add(tourJ1);
+        panelJ1.add(templeJ1);
           
         panelJ2.add(Joueur2);
-        panelJ2.add(templeJ2);
-        panelJ2.add(tourJ2);
         panelJ2.add(hutteJ2);
+        panelJ2.add(tourJ2);
+        panelJ2.add(templeJ2);
+       
+        
         
         frame.add(ecran);
         
