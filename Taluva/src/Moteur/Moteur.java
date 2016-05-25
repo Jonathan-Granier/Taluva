@@ -640,24 +640,15 @@ public class Moteur extends Phase{
 	
 	private void set_etat_de_jeu(Etat_de_jeu edj)
 	{
-		//get_EDJ_courant();
-		System.out.println("Set EDJ");
-		edj.afficher();
 		this.j1 = edj.getj1();
 		this.j2 = edj.getj2();
 		this.j_courant = edj.getj_courant();
-		this.T.afficher();
 		this.T = edj.getTerrain().clone();
-		this.T.afficher();
-		//this.set_Phase_Jeu(edj.getPdj().get_etat_jeu());
-		get_EDJ_courant();
 	}
 	
 	private Etat_de_jeu get_EDJ_courant()
 	{
-		System.out.println("Get EDJ");
 		Etat_de_jeu edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
-		//edj.afficher();
 		return edj;
 	}	
 	
