@@ -253,7 +253,7 @@ public class Game {
 		
 		while(!Display.isCloseRequested()){
 			FPS.updateFPS();
-
+			Game.increaseDelay();
 			//Button
 			/*button_hut.update();
 			button_tower.update();
@@ -309,7 +309,7 @@ public class Game {
 
 			Window.updateDisplay();
 			if(Mouse.getX()>0 && Mouse.getX()<Display.getWidth() && Mouse.getY()>0 && Mouse.getY()<Display.getHeight()){
-				Display.getParent().setFocusable(true);
+				//Display.getParent().setFocusable(true);
 			}
 			else{
 				Display.getParent().setFocusable(false);

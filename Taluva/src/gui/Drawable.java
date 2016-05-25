@@ -69,6 +69,7 @@ public class Drawable {
 			shader.loadHover(gui.isHover());
 
 			shader.loadClicked(gui.isClicked());
+			shader.loadGrey(gui.isGrey());
 			GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
 		}
 		GL11.glEnable(GL11.GL_DEPTH_TEST);

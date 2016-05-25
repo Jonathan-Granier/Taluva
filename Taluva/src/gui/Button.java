@@ -28,7 +28,7 @@ public abstract class Button {
 	public void update(){
 		int mouseX = Mouse.getX();
 		int mouseY = Display.getHeight() - Mouse.getY();
-		if(mouseX>=position.x && mouseX<=position.x+dimension.x && mouseY>=position.y && mouseY<=position.y+dimension.y){
+		if(mouseX>=position.x && mouseX<=position.x+dimension.x && mouseY>=position.y && mouseY<=position.y+dimension.y && !gui.isGrey()){
 			gui.setHover(true);
 			if(Mouse.isButtonDown(0)){
 				gui.setClicked(true);
@@ -47,6 +47,14 @@ public abstract class Button {
 		
 	}
 	
+	public boolean isGrey() {
+			return gui.isGrey();
+	}
+	
+	public void setGrey(boolean grey) {
+		gui.setGrey(grey);
+	}
+	
 	public static void setGameBlocked(boolean gameBlocked) {
 		Button.gameBlocked = gameBlocked;
 	}
@@ -59,5 +67,22 @@ public abstract class Button {
 		return isPressed;
 	}
 	
+	public Vector2f getPosition() {
+		return position;
+	}
+
+	public void setPosition(Vector2f position) {
+		this.position = position;
+		this.gui.setPosition(position);
+	}
+
+	public Vector2f getDimension() {
+		return dimension;
+	}
+
+	public void setDimension(Vector2f dimension) {
+		this.dimension = dimension;
+		this.gui.setDimension(dimension);
+	}
 	
 }
