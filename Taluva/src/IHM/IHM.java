@@ -82,7 +82,7 @@ public class IHM {
         bas.setLayout(new GridLayout(1,2));
         joueurs.setLayout(new GridBagLayout());
         action.setLayout(new GridBagLayout());
-        annuler_refaire.setLayout(new GridLayout(2,1));
+        annuler_refaire.setLayout(new GridBagLayout());
         
         
         //frise
@@ -191,12 +191,15 @@ public class IHM {
         }
         
         GridBagConstraints gbc = new GridBagConstraints();
-        int largeur = 9;
+        int largeur_total = 16;
+        int hauteur_caneva = 9;
+        // le caneva fait exactement 2/3 de la fenetre
         
+
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth=largeur;
-        gbc.gridheight = 9;
+        gbc.gridwidth = largeur_total;
+        gbc.gridheight = hauteur_caneva;
         gbc.fill = GridBagConstraints.BOTH;
         ecran.add(canvas,gbc);
         canvas.getSize();
@@ -205,11 +208,11 @@ public class IHM {
         
         //création de la frise
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridwidth =largeur;
+        gbc.gridwidth = largeur_total-2;
         
         gbc.gridheight = 1;
         gbc.gridx = 0;
-        gbc.gridy = 9;
+        gbc.gridy = hauteur_caneva;
         frise.add(p,BorderLayout.CENTER);
         frise.add(t,BorderLayout.CENTER);
         frise.add(c,BorderLayout.CENTER);
@@ -218,7 +221,7 @@ public class IHM {
         
         GridBagConstraints gbc3 = new GridBagConstraints();
         gbc3.fill = GridBagConstraints.BOTH;
-        gbc3.gridwidth =1;
+        gbc3.gridwidth = 2;
         gbc3.gridheight = 2;
         gbc3.weightx = gbc3.weighty = 1.0;
         gbc3.gridx = 0;
@@ -228,50 +231,70 @@ public class IHM {
         gbc3.gridy = 12;
         joueurs.add(panelJ2,gbc3);
         
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-        gbc.gridx = 1;
-        gbc.gridy = 10;
-        ecran.add(joueurs, gbc);
-        
+       
+        //Pioche
         GridBagConstraints gbc2 = new GridBagConstraints();
-        gbc2.weightx = gbc2.weighty = 1.0;
+        gbc2.weightx = 0.3;
+        gbc2.weighty = 0.5;
+        gbc2.gridx = 2;
+        gbc2.gridy = 0;
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.gridwidth = 3;
+        gbc2.gridheight = 1;
+        action.add(Pioche,gbc2);
+       
+        //Joueur
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 0.3;
+        gbc.weighty = 0.5;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        action.add(joueurs, gbc);
+        
+        //Fin de Tour
+        gbc2.gridx = 5;
+        gbc2.gridy = 0;
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.gridwidth = 3;
+        gbc2.gridheight = 1;       
+        action.add(FDT,gbc2);
+        
+        
         gbc2.gridx = 0;
         gbc2.gridy = 0;
         gbc2.fill = GridBagConstraints.BOTH;
-        gbc2.gridwidth = 2;
-        gbc2.gridheight = 4;
-        action.add(Pioche,gbc2);
-        
-        gbc2.gridx = 2;
-        gbc2.gridy = 0;
-        gbc2.fill = GridBagConstraints.BOTH;
-        gbc2.gridwidth = 2;
+        gbc2.gridwidth = 1;
         gbc2.gridheight = 2;
-        action.add(Annuler,gbc2);
+        annuler_refaire.add(Annuler,gbc2);
 
-        gbc2.gridx = 2;
+        gbc2.gridx = 0;
         gbc2.gridy = 2;
         gbc2.fill = GridBagConstraints.BOTH;
-        gbc2.gridwidth = 2;
+        gbc2.gridwidth = 1;
         gbc2.gridheight = 2;
-        action.add(Refaire,gbc2);
+        annuler_refaire.add(Refaire,gbc2);
         
-        gbc2.gridx = 4;
-        gbc2.gridy = 0;
-        gbc2.fill = GridBagConstraints.BOTH;
-        gbc2.gridwidth = gbc2.gridheight = 4;       
-        action.add(FDT,gbc2);
+       
         
 
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-        gbc.gridx = 2;
+        gbc.gridwidth = largeur_total-2;
+        gbc.gridheight = hauteur_caneva;
+        gbc.gridx = 0;
         gbc.weightx = gbc.weighty = 1.0;
         gbc.gridy = 10;
         ecran.add(action, gbc);
+        
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 2;
+        gbc.gridx = largeur_total-1;
+        gbc.weightx = 0.3;
+        gbc.weighty = 0.5;
+        gbc.gridy = 9;
+        ecran.add(annuler_refaire, gbc);
         
         panelJ1.add(Joueur1);
         panelJ1.add(hutteJ1);
@@ -290,10 +313,7 @@ public class IHM {
         //fenetre.pack();
         frame.setSize(width,height);
         frame.setVisible(true);
-        
-		
-        
-  
+
 
     }
 
