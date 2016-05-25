@@ -7,7 +7,8 @@ public class Phase {
 		DEBUT_DE_TOUR,
 		POSER_TUILE,
 		CONSTRUIRE_BATIMENT,
-		FIN_DE_TOUR;
+		FIN_DE_TOUR,
+		FIN_DE_PARTIE;
 	}
 	private Phase_Jeu phase_jeu;
 	private final EventListenerList listeners = new EventListenerList();
@@ -131,6 +132,9 @@ public class Phase {
 		return 0;
 	}
 	
+	protected void finir_partie(){
+		phase_jeu = Phase_Jeu.FIN_DE_PARTIE;
+	}
 	
 	public Phase clone_Phase()
 	{

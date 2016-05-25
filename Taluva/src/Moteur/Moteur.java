@@ -375,7 +375,10 @@ public class Moteur extends Phase{
 			//histo_jeu.add(this.get_EDJ_courant());
 			//etat = Etat.CONSTRUIRE_BATIMENT;
 			Incremente_Phase_Jeu();
-			if(joueur_elimine())System.out.println("[MOTEUR / Placer_tuile] joueur elimine (marche?)");
+			if(joueur_elimine()){
+				System.out.println("[MOTEUR / Placer_tuile] joueur elimine (marche?)");
+				finir_partie();
+			}
 			return 0;
 		}
 		else return 1;
@@ -462,6 +465,7 @@ public class Moteur extends Phase{
 			if(Est_joueur_Courant(j1))System.out.println("Le joueur 1 a gagné!!!\nScore : "+score(j1)+"\nScore j2 : "+score(j2));
 			else System.out.println("[Fin de tour] Le joueur 2 a gagné!!!\nScore j2 : "+score(j2)+"\nScore j1 : "+score(j1));
 			j_gagnant = j_courant;
+			finir_partie();
 			return 0;
 		}
 		else if(pioche_vide()){
@@ -477,6 +481,7 @@ public class Moteur extends Phase{
 				System.out.println("[Fin de tour] Il y a une égalité parfaite, vous avez tous les 2 gagné!!!");
 				j_gagnant = j_courant;
 			}
+			finir_partie();
 			return 0;
 		}
 		else{

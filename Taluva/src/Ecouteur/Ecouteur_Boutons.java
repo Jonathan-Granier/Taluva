@@ -62,7 +62,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		break;
 	    	
 	    	case "Fin_de_tour" :
-	    		moteur.fin_de_tour();
+	    		if(moteur.get_etat_jeu() != Phase_Jeu.CONSTRUIRE_BATIMENT)moteur.fin_de_tour();
 	    		break;
 	    		
 	    	case "Hutte j1" :
