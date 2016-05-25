@@ -25,6 +25,7 @@ import loaders.Loader;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import Action.Action_Tuile;
+import IHM.Menu_circulaire_creation;
 import Moteur.Phase;
 import Moteur.Phase.Phase_Jeu;
 import Moteur.Moteur;
@@ -64,7 +65,7 @@ public class EcouteurDeSourisTerrain {
 		this.grid = grid;
 	}
 	
-	public void run(GraphicTile Tile,List<GraphicTile> Tiles,GraphicConstruction construction, List<GraphicConstruction> constructions)
+	public void run(GraphicTile Tile,List<GraphicTile> Tiles,GraphicConstruction construction, List<GraphicConstruction> constructions,Menu_circulaire_creation marking_menu)
 	{
 		picker.update(Tile.getHeight());
 		Vector3f point = picker.getCurrentObjectPoint();
@@ -73,6 +74,7 @@ public class EcouteurDeSourisTerrain {
 		{
 			// Si le clique gauche est appuyé rapidement
 			CliqueGaucheSouris_Rapide(Tile,Tiles,construction,constructions,snap);
+			marking_menu.tuile_vide_cliquer(point);
 			
 		}
 	}

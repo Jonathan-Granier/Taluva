@@ -1,5 +1,7 @@
 package Ecouteur;
 
+import java.awt.Point;
+
 import org.lwjgl.util.vector.Vector2f;
 
 import Moteur.Moteur;
@@ -14,6 +16,7 @@ public class ButtonConstruction extends Button {
 	private GraphicConstruction Construction;
 	private Moteur moteur;
 	private static boolean pick;
+	private static Point p;
 	
 	public ButtonConstruction(int textureId, Vector2f position, Vector2f dimension,String label,GraphicConstruction Construction,Moteur moteur) {
 		super(textureId, position, dimension);
@@ -26,25 +29,16 @@ public class ButtonConstruction extends Button {
 	protected void action() {
 		pick = true;
 		if(label.equals("tower")){
-			type = GraphicType.TOWER;
 			moteur.select_tour();
-			Construction.setType(GraphicType.TOWER);
 		}
 		else if(label.equals("hut")){
-			type = GraphicType.HUT;
 			moteur.select_hutte();
-			Construction.setType(GraphicType.HUT);
 		}
 		else if(label.equals("temple")){
-			type = GraphicType.TEMPLE;
 			moteur.select_temple();
-			Construction.setType(GraphicType.TEMPLE);
 		}
-		else{
-			type = GraphicType.NULL;
-			Construction.setType(GraphicType.NULL);
-		}
-		Construction.setObject3d();
+		moteur.placer_batiment(p);
+		System.out.println(p);
 	}
 
 	public static boolean isPick() {
@@ -53,6 +47,10 @@ public class ButtonConstruction extends Button {
 
 	public static void setPick(boolean pick) {
 		ButtonConstruction.pick = pick;
+	}
+	
+	public static void setPoint(Point point){
+		p = point;
 	}
 	
 }

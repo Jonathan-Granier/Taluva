@@ -18,6 +18,7 @@ import Ecouteur.ButtonEndOfTurn;
 import Ecouteur.ButtonPick;
 import Ecouteur.EcouteurDeSourisTerrain;
 import Ecouteur.Ecouteur_Boutons;
+import IHM.Menu_circulaire_creation;
 import Joueur.Joueur_Humain;
 import entities.Camera;
 import entities.GraphicConstruction;
@@ -261,6 +262,9 @@ public class Game {
 		
 		SkyboxRenderer skyboxRenderer = new SkyboxRenderer(loader,renderer.getProjectionMatrix());
 		
+		//*************Marking Menu Set-up******************
+		Menu_circulaire_creation marking_menu = new Menu_circulaire_creation(moteur,loader,Construction,grid);
+		
 		while(!Display.isCloseRequested()){
 			if(Mouse.getX()>0 && Mouse.getX()<Display.getWidth() && Mouse.getY()>0 && Mouse.getY()<Display.getHeight()){
 				Display.getParent().setFocusable(true);
@@ -297,7 +301,6 @@ public class Game {
 			shader.loadViewMatrix(camera);
 			
 			
-
 			if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && Ecouteur_Boutons.isPick())
 				renderer.draw(Construction.getObject3d(),shader);
 			if(moteur.get_etat_jeu() == Phase_Jeu.POSER_TUILE)
@@ -306,7 +309,7 @@ public class Game {
 			/*for(GraphicTile tile:Tiles)
 				renderer.draw(tile.getObject3D(), shader);*/
 			
-			ecouteurSouris.run(Tile, Tiles, Construction, constructions);
+			ecouteurSouris.run(Tile, Tiles, Construction, constructions,marking_menu);
 			
 			drawTile(renderer,shader);
 			
@@ -325,6 +328,8 @@ public class Game {
 			
 			drawable.draw();
 
+			marking_menu.draw();
+			
 			Window.updateDisplay();
 
 		}
@@ -333,6 +338,7 @@ public class Game {
 		drawable.cleanUp();
 		shader.cleanUp();
 		loader.cleanUp();
+		marking_menu.cleanUp();
 		Window.closeDisplay();
 	}
 	
