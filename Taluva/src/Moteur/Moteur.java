@@ -225,10 +225,8 @@ public class Moteur extends Phase{
 	public int get_num_Jcourant(){
 		if(j_courant.getCouleur().equals(j1.getCouleur()))
 		{
-			System.out.println("Cest le J1 le joueur Courant");
 			return 1;
 		}
-		System.out.println("Cest le J2 le joueur Courant");
 		return 2;
 	}
 	
@@ -493,7 +491,8 @@ public class Moteur extends Phase{
 		
 		piocher();
 		action_tuile = ((IA_Generique) j_courant).get_coup_tuile(tuile_pioche);
-		//TODO
+		//TODO 
+		//Delay
 		tuile_pioche.set_Orientation_Volcan(action_tuile.getTuile().get_Orientation_Volcan());
 		if (placer_tuile(action_tuile.getPosition())!=0)
 		{
