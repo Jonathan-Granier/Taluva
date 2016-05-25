@@ -23,7 +23,7 @@ public abstract class Joueur_Generique {
 	{
 		temple = 3;
 		tour = 2;
-		hutte = 20;
+		hutte = 2;
 		hutteDetruite = 0;
 		this.c = c;
 		
@@ -96,7 +96,7 @@ public abstract class Joueur_Generique {
 	}
 	public void decrementeHutte(int n)
 	{
-		if(hutte - n > 0)
+		if(hutte - n >= 0)
 		{
 			this.hutte = hutte - n;
 		}
