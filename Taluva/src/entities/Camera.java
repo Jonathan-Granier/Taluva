@@ -6,6 +6,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
+import IHM.Menu_circulaire_creation;
 import terrain.Terrain;
 import utils.Grid;
 import utils.InputHandler;
@@ -46,6 +47,8 @@ public class Camera {
 	public void move(){
 		float zoomLevel = Mouse.getDWheel() *0.1f;
 		
+		//if(Mouse.getDWheel()!=0)
+			//Menu_circulaire_creation.setDraw(false);
 		
 		if (distanceFromPivot - zoomLevel > 5f && distanceFromPivot - zoomLevel < ZOOM_OUT_MAX )
 			distanceFromPivot -= zoomLevel;
@@ -57,9 +60,13 @@ public class Camera {
 				pitch -= pitchChange;
 			float angleChange = Mouse.getDX() * 0.3f;
 			angleAroundPivot -= angleChange;
-			
+			if(pitchChange!=0 && angleChange!=0)
+				Menu_circulaire_creation.setDraw(false);
 		}
 		
+		if(zoomLevel!=0)
+			Menu_circulaire_creation.setDraw(false);
+			
 		float horizontalDistance = calculateHorizontal();
 		float verticalDistance = calculateVertical();
 		calculateCameraPosition(horizontalDistance,verticalDistance);

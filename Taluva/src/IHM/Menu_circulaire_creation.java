@@ -29,7 +29,7 @@ public class Menu_circulaire_creation {
 	Grid grille;
 	Drawable drawable;
 	float rayon;
-	private boolean draw = false;
+	private static boolean draw = false;
 	
 	
 	public Menu_circulaire_creation(Moteur moteur,Loader loader,GraphicConstruction Construction,Grid grille){
@@ -113,9 +113,19 @@ public class Menu_circulaire_creation {
 				}
 			}
 		}
+		
+
+
+		
 	}
 
+	public static void setDraw(boolean d){
+		draw = d;
+	}
+	
 	public void draw(){
+		if(ButtonConstruction.isClicked())
+			draw = false;
 		if(draw){
 			bouton_hute.update();
 			bouton_temple.update();

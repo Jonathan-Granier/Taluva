@@ -69,7 +69,7 @@ public class EcouteurDeSourisTerrain {
 	{
 		picker.update(Tile.getHeight());
 		Vector3f point = picker.getCurrentObjectPoint();
-		Coords snap = mouseMoved(Tile,construction,point);
+		Coords snap = mouseMoved(Tile,construction,point,marking_menu);
 		if(InputHandler.reset(InputHandler.isButtonDown(0) == inputType.INSTANT))
 		{
 			// Si le clique gauche est appuyé rapidement
@@ -79,7 +79,7 @@ public class EcouteurDeSourisTerrain {
 		}
 	}
 	
-	private Coords mouseMoved(GraphicTile Tile,GraphicConstruction construction,Vector3f point){
+	private Coords mouseMoved(GraphicTile Tile,GraphicConstruction construction,Vector3f point,Menu_circulaire_creation marking_menu){
 		Coords snap = null;
 		
 		switch (m.get_etat_jeu())
@@ -96,8 +96,7 @@ public class EcouteurDeSourisTerrain {
 					Tile.rotate();
 					m.tourner_tuile();
 				}
-		
-		
+				
 				InputHandler.isKeyDown(Tile);
 		
 				//Snap
@@ -116,6 +115,7 @@ public class EcouteurDeSourisTerrain {
 				
 				return snap;
 			case CONSTRUIRE_BATIMENT:
+				
 				if(point!=null){
 					construction.getObject3d().setPosition(new Vector3f(point.x,construction.getHeight(),point.z));
 				}
@@ -198,8 +198,8 @@ public class EcouteurDeSourisTerrain {
 				 * 
 				 */
 				//Si anuler on enleve le sommet de la pile graphic
-				if(Ecouteur_Boutons.isUndo())
-					constructions.remove(constructions.size()-1);
+				/*if(Ecouteur_Boutons.isUndo())
+					constructions.remove(constructions.size()-1);*/
 				
 				System.out.println("Etat :" + m.get_etat_jeu());
 				if ( m.get_bat_choisi() == Case.Type_Batiment.VIDE)
@@ -208,14 +208,17 @@ public class EcouteurDeSourisTerrain {
 				}
 				else
 				{
-					if (coords!=null && m.placer_batiment(coords.indices)== 0)
-					{
-						constructions.add(new GraphicConstruction(construction));
-						constructions.get(constructions.size()-1).getObject3d().setPosition(coords.worldPos);
-						m.Maj_liste_coup_construction();
-					}
-					else{
-						System.out.println("Il est impossible de poser un batiment ici");
+					if(Ecouteur_Boutons.isPick()){
+						if (coords!=null && m.placer_batiment(coords.indices)== 0)
+						{
+							constructions.add(new GraphicConstruction(construction));
+							constructions.get(constructions.size()-1).getObject3d().setPosition(coords.worldPos);
+							m.Maj_liste_coup_construction();
+							m.getTerrain().afficher();
+						}
+						else{
+							System.out.println("Il est impossible de poser un batiment ici");
+						}
 					}
 				}
 				

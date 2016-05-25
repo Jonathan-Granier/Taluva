@@ -13,6 +13,7 @@ import entities.GraphicConstruction;
 import entities.GraphicTile;
 import entities.GraphicConstruction.GraphicType;
 import Moteur.Moteur;
+import Moteur.Phase.Phase_Jeu;
 
 public class Ecouteur_Boutons implements ActionListener {
 	
@@ -43,10 +44,15 @@ public class Ecouteur_Boutons implements ActionListener {
 	    	case "Annuler" :
 	    		moteur.annuler();
 	    		undo = true;
+	    		if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
+	    			pick = true;
+	    		else
+	    			pick = false;
 	    		break;
 	    		
 	    	case "Refaire" :
 	    		moteur.refaire();
+	    		pick = true;
 	    		break;
 	    	
 	    	case "Piocher" :
@@ -129,9 +135,6 @@ public class Ecouteur_Boutons implements ActionListener {
 	public static boolean isUndo(){
 		return undo;
 	}
-	
-	public static void setPick(boolean pick) {
-		Ecouteur_Boutons.pick = pick;
-	}
+
     
 }
