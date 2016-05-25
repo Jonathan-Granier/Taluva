@@ -263,7 +263,7 @@ public class Moteur extends Phase{
 	
 	// Echange le joueur courant
 		public void swap_joueur(){
-			if(j_courant == j1)
+			if(Est_joueur_Courant(j1))
 			{
 				j_courant = j2;
 			}
