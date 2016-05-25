@@ -16,6 +16,7 @@ public class ButtonConstruction extends Button {
 	private GraphicConstruction Construction;
 	private Moteur moteur;
 	private static boolean pick;
+	private static boolean clicked;
 	private static Point p;
 	
 	public ButtonConstruction(int textureId, Vector2f position, Vector2f dimension,String label,GraphicConstruction Construction,Moteur moteur) {
@@ -28,6 +29,7 @@ public class ButtonConstruction extends Button {
 	@Override
 	protected void action() {
 		pick = true;
+		clicked = true;
 		if(label.equals("tower")){
 			moteur.select_tour();
 		}
@@ -38,7 +40,7 @@ public class ButtonConstruction extends Button {
 			moteur.select_temple();
 		}
 		moteur.placer_batiment(p);
-		System.out.println(p);
+		System.out.println(clicked);
 	}
 
 	public static boolean isPick() {
@@ -49,6 +51,14 @@ public class ButtonConstruction extends Button {
 		ButtonConstruction.pick = pick;
 	}
 	
+	public static boolean isClicked() {
+		if(clicked){
+			clicked = false;
+			return true;
+		}
+		return false;
+	}
+
 	public static void setPoint(Point point){
 		p = point;
 	}
