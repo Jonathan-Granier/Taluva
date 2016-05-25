@@ -403,7 +403,9 @@ public class Moteur extends Phase{
 			redo.clear();
 			histo_jeu.add(this.get_EDJ_courant());
 			switch (bat_choisi){
-				case HUTTE : j_courant.decrementeHutte(1);
+				case HUTTE : 
+					if(Est_joueur_Courant(j2))System.out.println("maggle");
+					j_courant.decrementeHutte(1);
 					break;
 				case TOUR : j_courant.decrementeTour();
 					break;
@@ -449,18 +451,18 @@ public class Moteur extends Phase{
 	// Actualise aussi les données et change de joueur
 	public int fin_de_tour(){
 		if(victoire_aux_batiments()){
-			if(Est_joueur_Courant(j1))System.out.println("Le joueur 1 a gagné!!!");
-			else System.out.println("Le joueur 2 a gagné!!!");
+			if(Est_joueur_Courant(j1))System.out.println("Le joueur 1 a gagné!!!\nScore : "+score(j1)+"\nScore j2 : "+score(j2));
+			else System.out.println("Le joueur 2 a gagné!!!\nScore j2 : "+score(j2)+"\nScore j1 : "+score(j1));
 			j_gagnant = j_courant;
 			return 0;
 		}
 		else if(pioche_vide()){
 			if(score(j1)>score(j2)){
-				System.out.println("Le joueur 1 a gagné!!!");
+				System.out.println("Le joueur 1 a gagné!!!\nScore j1 : "+score(j1)+"\nScore j2 : "+score(j2));
 				j_gagnant = j1;
 			}
 			else if(score(j1)<score(j2)){
-				System.out.println("Le joueur 1 a gagné!!!");
+				System.out.println("Le joueur 2 a gagné!!!\nScore j2 : "+score(j2)+"\nScore j1 : "+score(j2));
 				j_gagnant = j2;
 			}
 			else {
@@ -470,6 +472,7 @@ public class Moteur extends Phase{
 			return 0;
 		}
 		else{
+			System.out.println("LES SCORES : \nJ1 : "+score(j1)+"\nJ2 : "+score(j2));
 			annul.clear();
 			redo.clear();
 			swap_joueur();
