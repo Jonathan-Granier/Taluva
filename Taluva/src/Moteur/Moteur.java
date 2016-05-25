@@ -42,7 +42,6 @@ public class Moteur extends Phase{
 	private Joueur_Generique j2;
 	private Joueur_Generique j_gagnant;
 
-
 	public static int nb_max_Huttes = 20;
 	public static int nb_max_Tours = 2;
 	public static int nb_max_Temples = 3;
@@ -54,7 +53,6 @@ public class Moteur extends Phase{
 		CONSTRUIRE_BATIMENT,
 		FIN_DE_TOUR;
 	}
-	
 	private Etat etat;
 	*/
 	
@@ -230,7 +228,9 @@ public class Moteur extends Phase{
 		}
 		return 2;
 	}
-	 public Couleur_Joueur get_Couleur_Joueur_Adverse()
+	
+	// Récupère la joueur du joueur adverse (opposé du joueur courant)
+	public Couleur_Joueur get_Couleur_Joueur_Adverse()
 	 {
 		if(Est_joueur_Courant(j1))
 		{
@@ -239,7 +239,7 @@ public class Moteur extends Phase{
 		return j1.getCouleur();
 	 }
 	
-	
+	// Renvoie vrai si j est le joueur courant
 	public boolean Est_joueur_Courant(Joueur_Generique j)
 	{
 		return j_courant.getCouleur().equals(j.getCouleur());
@@ -569,7 +569,7 @@ public class Moteur extends Phase{
 		return 0;
 	}
 	
-	// Permet de reposer une tuile qui a été annulée qui a été annulée
+	// Permet de reposer une tuile qui a été annulée
 	// Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int refaire(){
 		if(redo.isEmpty()) 
@@ -628,21 +628,19 @@ public class Moteur extends Phase{
 		return m_copie;
 	}
 	
-	
-	
 	// Prend en parametre une action construction et simule une construction avec les données
-	// Renvoie 0 si tout s'est bien passé, 0 sinon
+	// Renvoie 0 si tout s'est bien passé, 1 sinon
 	public int jouer_action(Action_Construction action){
 		Point p = action.get_coord();
-		Case.Type_Batiment batiment = Action_vers_Batiment(action.get_type());
+		bat_choisi = Action_vers_Batiment(action.get_type());
 		if(action.get_type() == Action_Construction.Type.EXTENSION){
-			if((T.etendre_cite(p,action.get_type_extension()))!= 0){
+			if((etendre_cite(p,action.get_type_extension()))!= 0){
 				System.out.println("[jouer_Action] Impossible de construire [EXTENSION]");
 				return 1;
 			}
 		}
 		else {
-			if(T.placer_batiment(batiment, j_courant.getCouleur(),p) != 0){
+			if(placer_batiment(p) != 0){
 				System.out.println("[jouer_Action] Impossible de construire ["+action.get_type()+"]");
 				return 1;
 			}
@@ -650,6 +648,19 @@ public class Moteur extends Phase{
 		return 0;
 	}
 	
+	// Prend en parametre une action tuile et simule une construction avec les données
+	// Renvoie 0 si tout s'est bien passé, 1 sinon
+	public int jouer_action(Action_Tuile action){
+		tuile_pioche = action.getTuile();
+		Point p = action.getPosition();
+		if(placer_tuile(p) != 0){
+			System.out.println("[jouer_Action] Impossible de poser la tuile");
+			return 1;
+		}
+		return 0;
+	}
+	
+	// Modifie l'état de jeu actuel
 	private void set_etat_de_jeu(Etat_de_jeu edj)
 	{
 		this.j1 = edj.getj1();
@@ -658,12 +669,14 @@ public class Moteur extends Phase{
 		this.T = edj.getTerrain().clone();
 	}
 	
+	// Revoie l'état de jeu actuel
 	private Etat_de_jeu get_EDJ_courant()
 	{
 		Etat_de_jeu edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
 		return edj;
 	}	
 	
+	/*
 	private void afficher_pile(Stack<Etat_de_jeu> Stack_edj)
 	{
 		Stack<Etat_de_jeu> tmp = new Stack<Etat_de_jeu>();
@@ -675,6 +688,6 @@ public class Moteur extends Phase{
 		while(!tmp.isEmpty())
 			Stack_edj.push(tmp.pop());
 	}
-		
+	*/
 	
 }
