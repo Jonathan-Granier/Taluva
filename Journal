@@ -54,9 +54,17 @@ Classe Cité & gestion des cité & extensions
 IHM: premier prototypes
 
 Lundi 23/05/16
+Rajout des Nuages et de la mer sur le terrain (Merci Dimitri)
 Avancements sur les IA : premiers tests (non concluants)
 Corrections sur le moteur (maj mineures + intégration des tests pour les IA)
 La classe Etat_jeu est désormais "Phase_jeu"
 Création de la classe Etat_de_jeu (d'attributs Terrain et Joueur courant)
 Maj de l'interface et IHM (correction de quelques bugs)
 Audits IHM
+
+Mardi 24/05/16
+Modification Annuler/Refaire (utilisation d'une pile au lieu d'une ArrayList)
+Correction des bugs d'Annuler/Refaire
+On peut finalement eliminer le joueur
+Correction des problèmes de Merge
+
