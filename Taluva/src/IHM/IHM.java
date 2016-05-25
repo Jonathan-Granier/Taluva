@@ -182,8 +182,8 @@ public class IHM {
         panelJ2.setLayout(new GridLayout(1,4));
 
         canvas.setSize(width, height-height/3);
-        canvas.setFocusable(true);
-        frame.addKeyListener(new KeyboardListener());
+        //canvas.setFocusable(true);
+        //frame.addKeyListener(new KeyboardListener());
         
         try {
             Display.setParent(canvas);

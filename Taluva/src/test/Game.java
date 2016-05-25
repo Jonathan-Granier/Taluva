@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -60,6 +61,7 @@ public class Game {
 	private static float delay = 0;
 	private static final float TIME = 200000;
 	private static boolean draw=true;
+	private static boolean clear = false;
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
@@ -91,6 +93,11 @@ public class Game {
 				Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 				constructions.get(i).getObject3d().setPosition(worldPos);
 			}
+		}
+		
+		if(Game.clear){
+			constructions.clear();
+			Game.clear = false;
 		}
 		
 		for(int i=0;i<listConstruction.size();i++){
@@ -176,6 +183,10 @@ public class Game {
 		}
 	}
 	
+	public static void clean(){
+		clear = true;
+	}
+	
 	public static boolean delay(){
 	if(delay == 0){
 			delay = FPS.getTime()/1000;
@@ -195,7 +206,7 @@ public class Game {
 		
 	}
 	
-	public void play(JFrame frame,Moteur m){
+	public void play(JFrame frame,Moteur m,JPanel panel){
 		Window.createDislay();
 		this.moteur = m;
 		Camera camera = new Camera();
@@ -252,6 +263,14 @@ public class Game {
 		SkyboxRenderer skyboxRenderer = new SkyboxRenderer(loader,renderer.getProjectionMatrix());
 		
 		while(!Display.isCloseRequested()){
+			if(Mouse.getX()>0 && Mouse.getX()<Display.getWidth() && Mouse.getY()>0 && Mouse.getY()<Display.getHeight()){
+				Display.getParent().setFocusable(true);
+				panel.setFocusable(false);
+			}
+			else{
+				panel.setFocusable(true);
+				Display.getParent().setFocusable(false);
+			}
 			FPS.updateFPS();
 			Game.increaseDelay();
 			//Button
@@ -308,12 +327,7 @@ public class Game {
 			drawable.draw();
 
 			Window.updateDisplay();
-			if(Mouse.getX()>0 && Mouse.getX()<Display.getWidth() && Mouse.getY()>0 && Mouse.getY()<Display.getHeight()){
-				//Display.getParent().setFocusable(true);
-			}
-			else{
-				Display.getParent().setFocusable(false);
-			}
+
 		}
 		
 		waterShader.cleanUp();
