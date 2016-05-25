@@ -1,6 +1,7 @@
 package Ecouteur;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import loaders.Loader;
 
@@ -18,6 +19,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	String action;
 	Moteur moteur;
 	private static boolean pick;
+	private static boolean undo;
 	private static GraphicTile Tile;
 	private static GraphicConstruction Construction;
 	
@@ -36,9 +38,11 @@ public class Ecouteur_Boutons implements ActionListener {
 	
     public void actionPerformed(ActionEvent e) {
     	pick = false;
+    	undo = false;
     	switch (action){
 	    	case "Annuler" :
 	    		moteur.annuler();
+	    		undo = true;
 	    		break;
 	    		
 	    	case "Refaire" :
@@ -122,6 +126,10 @@ public class Ecouteur_Boutons implements ActionListener {
 		return pick;
 	}
 
+	public static boolean isUndo(){
+		return undo;
+	}
+	
 	public static void setPick(boolean pick) {
 		Ecouteur_Boutons.pick = pick;
 	}

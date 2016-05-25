@@ -162,6 +162,10 @@ public class EcouteurDeSourisTerrain {
 				 *
 				 */
 				
+				//Si anuler on enleve le sommet de la pile graphic
+				if(Ecouteur_Boutons.isUndo())
+					Tiles.remove(Tiles.size()-1);
+				
 				 if(coords!=null && m.placer_tuile(coords.indices) == 0)
 				 {
 					Tiles.add(new GraphicTile(Tile));
@@ -191,6 +195,10 @@ public class EcouteurDeSourisTerrain {
 				 * 		 
 				 * 
 				 */
+				//Si anuler on enleve le sommet de la pile graphic
+				if(Ecouteur_Boutons.isUndo())
+					constructions.remove(constructions.size()-1);
+				
 				System.out.println("Etat :" + m.get_etat_jeu());
 				if ( m.get_bat_choisi() == Case.Type_Batiment.VIDE)
 				{
