@@ -23,7 +23,7 @@ public abstract class Joueur_Generique {
 	{
 		temple = 3;
 		tour = 2;
-		hutte = 2;
+		hutte = 20;
 		hutteDetruite = 0;
 		this.c = c;
 		
