@@ -78,6 +78,7 @@ public class EcouteurDeSourisTerrain {
 				marking_menu.tuile_vide_cliquer(point);
 			
 		}
+		
 	}
 	
 	private Coords mouseMoved(GraphicTile Tile,GraphicConstruction construction,Vector3f point,Menu_circulaire_creation marking_menu){

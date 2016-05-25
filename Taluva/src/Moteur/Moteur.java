@@ -517,6 +517,7 @@ public class Moteur extends Phase{
 			System.out.println("[jouer_IA] Impossible de poser la tuile");
 			return 1;
 		}
+		Game.initDelay();
 
 		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		Maj_liste_coup_construction();
@@ -530,6 +531,7 @@ public class Moteur extends Phase{
 				System.out.println("[jouer_IA] Impossible d'etendre la cité");
 				return 1;
 			}
+			Game.initDelay();
 		}
 		else
 		{
@@ -540,6 +542,7 @@ public class Moteur extends Phase{
 				System.out.println("[jouer_IA] Impossible de poser un batiment");
 				return 1;
 			}
+			Game.initDelay();
 		}
 
 		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));

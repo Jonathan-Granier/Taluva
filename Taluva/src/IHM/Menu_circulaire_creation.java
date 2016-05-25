@@ -15,7 +15,7 @@ import terrain.Case.Type_Batiment;
 import terrain.Cite;
 import utils.Grid;
 import utils.Grid.Coords;
-
+import entities.Camera;
 import entities.GraphicConstruction;
 import gui.Drawable;
 
@@ -34,9 +34,10 @@ public class Menu_circulaire_creation {
 	float rayon;
 	private static boolean draw = false;
 	private static boolean drawExtension= false;
+	private Camera camera;
 	
 	
-	public Menu_circulaire_creation(Moteur moteur,Loader loader,GraphicConstruction Construction,Grid grille){
+	public Menu_circulaire_creation(Moteur moteur,Loader loader,GraphicConstruction Construction,Grid grille,Camera camera){
 		this.moteur=moteur;
 		bouton_hute = new ButtonConstruction(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"hut",Construction,moteur);
 		bouton_tour = new ButtonConstruction(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"tower",Construction,moteur);
@@ -60,10 +61,30 @@ public class Menu_circulaire_creation {
 		drawableExtension.bindButton(bouton_plaine);
 		drawableExtension.bindButton(bouton_lac);
 		rayon=Grid.HEIGHT_OF_HEXA*5;
+		this.camera = camera;
 		
 	}
 	
+	private void setDimension(){
+		int ratio = 100;
+		if(camera.getDistanceFromPivot() < 100)
+			ratio = 50;
+			
+		bouton_hute.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
+		bouton_tour.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
+		bouton_temple.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
+		
+		bouton_foret.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
+		bouton_plage.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
+		bouton_montagne.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
+		bouton_plaine.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
+		bouton_lac.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
+
+		rayon = Grid.HEIGHT_OF_HEXA*5/(camera.getDistanceFromPivot()/(ratio-15));
+	}
+	
 	public void tuile_vide_cliquer(Vector3f picker){
+		setDimension();
 		float s_x,s_y;
 		int i,j;
 		Coords coord; 
@@ -134,11 +155,12 @@ public class Menu_circulaire_creation {
 	}
 	
 	public void draw(){
-		if(ButtonConstruction.isClicked())
+		if(ButtonConstruction.isClicked() || drawExtension)
 			draw = false;
 		
-		if(ButtonExtension.isClicked())
+		if(ButtonExtension.isClicked() || draw)
 			drawExtension = false;
+		
 		if(draw){
 			bouton_hute.update();
 			bouton_temple.update();

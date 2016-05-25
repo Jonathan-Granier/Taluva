@@ -19,6 +19,7 @@ import Ecouteur.ButtonPick;
 import Ecouteur.EcouteurDeSourisTerrain;
 import Ecouteur.Ecouteur_Boutons;
 import IHM.Menu_circulaire_creation;
+import Joueur.IA_Generique;
 import Joueur.Joueur_Humain;
 import entities.Camera;
 import entities.GraphicConstruction;
@@ -60,8 +61,8 @@ public class Game {
 	private List<GraphicConstruction> constructions;
 	private Loader loader;
 	private static float delay = 0;
-	private static final float TIME = 200000;
-	private static boolean draw=true;
+	private static final float TIME = 80;
+	private static boolean runDelay=false;
 	private static boolean clear = false;
 	
 	//Draw all Tile
@@ -74,6 +75,10 @@ public class Game {
 				Tiles.remove(Tiles.size()-1);
 			}
 		}
+		
+		int loop = listTile.size()-1;
+		if(Game.checkDelay() || !runDelay)
+			loop = listTile.size();
 		
 		if(Tiles.size() < listTile.size()){
 			for(int i = Tiles.size(); i<listTile.size();i++){
@@ -112,6 +117,8 @@ public class Game {
 		//	Game.clear = false;
 		}
 		
+
+			
 		if(constructions.size() < listConstruction.size()){
 			for(int i=constructions.size();i<listConstruction.size();i++){
 				constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader));
@@ -122,7 +129,11 @@ public class Game {
 			}
 		}
 		
-		for(int i=0;i<listConstruction.size();i++){
+		int loop = listConstruction.size()-1;
+		if(Game.checkDelay() || !runDelay)
+			loop = listConstruction.size();
+		
+		for(int i=0;i<loop;i++){
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 			constructions.get(i).getObject3d().setPosition(worldPos);
 			renderer.draw(constructions.get(i).getObject3d(),shader);
@@ -209,22 +220,22 @@ public class Game {
 		clear = true;
 	}
 	
-	public static boolean delay(){
-		if(delay == 0){
-			draw = false;
+	public static void initDelay(){
+		runDelay = true;
+		delay = 0;
+	}
+	
+	public static boolean checkDelay(){
+		if(delay>TIME){
+			runDelay = false;
 		}
-		if(delay>TIME && delay!=0 ){
-			delay = 0;
-			draw = true;
-			return true;
-		}
-		return false;
+		
+		return delay>TIME;
 	}
 	
 	public static void increaseDelay(){
-		if(!draw)
-			delay ++;
-		
+		if(runDelay)
+			delay++;
 	}
 	
 	public void play(JFrame frame,Moteur m,JPanel panel){
@@ -284,7 +295,7 @@ public class Game {
 		SkyboxRenderer skyboxRenderer = new SkyboxRenderer(loader,renderer.getProjectionMatrix());
 		
 		//*************Marking Menu Set-up******************
-		Menu_circulaire_creation marking_menu = new Menu_circulaire_creation(moteur,loader,Construction,grid);
+		Menu_circulaire_creation marking_menu = new Menu_circulaire_creation(moteur,loader,Construction,grid,camera);
 		
 		while(!Display.isCloseRequested()){
 			if(Mouse.getX()>0 && Mouse.getX()<Display.getWidth() && Mouse.getY()>0 && Mouse.getY()<Display.getHeight()){
@@ -332,11 +343,13 @@ public class Game {
 			
 			ecouteurSouris.run(Tile, Tiles, Construction, constructions,marking_menu);
 			
-			drawTile(renderer,shader);
+			
 			
 			//for(GraphicConstruction construction:Constructions)
 			//	renderer.draw(construction.getObject3d(), shader);
 			
+
+			drawTile(renderer,shader);
 			drawConstruction(renderer,shader);
 			
 			//renderer.draw(table, shader);

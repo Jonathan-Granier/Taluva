@@ -169,5 +169,9 @@ public class Camera {
 	public void setLookAt(Vector3f v){
 		lookAt = v;
 	}
+
+	public float getDistanceFromPivot() {
+		return distanceFromPivot;
+	}
 	
 }

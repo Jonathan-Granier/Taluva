@@ -79,6 +79,7 @@ public class Texture {
 	
 	public void setDimension(Vector2f dimension) {
 		this.dimension = dimension;
+		this.scale = new Vector2f(dimension.x/Display.getWidth(),dimension.y/Display.getHeight());
 	}
 	
 }
