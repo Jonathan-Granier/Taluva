@@ -32,12 +32,15 @@ public class ButtonConstruction extends Button {
 		clicked = true;
 		if(label.equals("tower")){
 			moteur.select_tour();
+			Construction.setType(GraphicType.HUT);
 		}
 		else if(label.equals("hut")){
 			moteur.select_hutte();
+			Construction.setType(GraphicType.HUT);
 		}
 		else if(label.equals("temple")){
 			moteur.select_temple();
+			Construction.setType(GraphicType.HUT);
 		}
 		moteur.placer_batiment(p);
 		Construction.setColour(moteur.get_Jcourant().getCouleur());

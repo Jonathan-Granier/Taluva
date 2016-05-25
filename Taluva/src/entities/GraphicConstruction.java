@@ -120,10 +120,10 @@ public class GraphicConstruction {
 	public void setColour(Couleur_Joueur colour) {
 		switch(colour){
 			case ROUGE:
-				this.colour = new Vector3f(1,0,0);
+				this.colour = new Vector3f(0.6f,0,0);
 			break;
 			case JAUNE:
-				this.colour = new Vector3f(1,1,0);
+				this.colour = new Vector3f(0.6f,0.6f,0);
 			break;
 			case BLANC:
 				this.colour = new Vector3f(0.5f,0.5f,0.5f);
