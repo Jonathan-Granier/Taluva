@@ -123,7 +123,7 @@ public class GraphicConstruction {
 				this.colour = new Vector3f(1,0,0);
 			break;
 			case JAUNE:
-				this.colour = new Vector3f(0,1,1);
+				this.colour = new Vector3f(1,1,0);
 			break;
 			case BLANC:
 				this.colour = new Vector3f(0.5f,0.5f,0.5f);

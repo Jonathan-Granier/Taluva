@@ -74,7 +74,8 @@ public class EcouteurDeSourisTerrain {
 		{
 			// Si le clique gauche est appuyé rapidement
 			CliqueGaucheSouris_Rapide(Tile,Tiles,construction,constructions,snap);
-			marking_menu.tuile_vide_cliquer(point);
+			if(point!=null)
+				marking_menu.tuile_vide_cliquer(point);
 			
 		}
 	}
