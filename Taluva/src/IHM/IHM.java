@@ -310,11 +310,6 @@ public class IHM {
 		return m;
 	}
 
-	public void setM(Moteur m) {
-		this.m = m;
-	}
-
-
 	public int getWidth() {
 		return width;
 	}

@@ -569,52 +569,11 @@ public class Moteur extends Phase{
 		return 0;
 	}
 	
-	// ---------------- Fonction Pour le type Etat -------------------
-	/*	
-	public int IncrementeEtat()
+	//Renvoie vrai si la pile Redo est vide
+	public boolean PileRefaireVide()
 	{
-		switch (etat)
-		{
-			case DEBUT_DE_TOUR:
-				etat = Etat.POSER_TUILE;
-				break;
-			case POSER_TUILE:
-				etat = Etat.CONSTRUIRE_BATIMENT;
-				break;
-			case CONSTRUIRE_BATIMENT:
-				etat = Etat.FIN_DE_TOUR;
-				j_courant = next;
-				break;
-			case FIN_DE_TOUR:
-				etat = Etat.DEBUT_DE_TOUR;
-				break;
-			default:
-				return 1;
-		}
-		return 0;
+		return redo.isEmpty();
 	}
-	
-	public int DecrementeEtat()
-	{
-		switch (etat)
-		{
-			case DEBUT_DE_TOUR:
-				break;
-			case POSER_TUILE:
-				break;
-			case CONSTRUIRE_BATIMENT:
-				etat = Etat.POSER_TUILE;
-				break;
-			case FIN_DE_TOUR:
-				etat = Etat.CONSTRUIRE_BATIMENT;
-				j_courant = prev;
-				break;
-			default:
-				return 1;
-		}
-		return 0;
-	}
-	*/
 	// -------------------- Fonction pour les listes de coup --------------------------
 	
 	// Met à jour la liste des constructions possibles dans la configuration actuelle

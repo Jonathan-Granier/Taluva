@@ -30,7 +30,14 @@ public class Avancement implements PhaseListener {
 		{
 			case DEBUT_DE_TOUR:
 				ihm.getAnnuler().setEnabled(false);
-				ihm.getRefaire().setEnabled(false);
+				if(ihm.getM().PileRefaireVide())
+				{
+					ihm.getRefaire().setEnabled(false);
+				}
+				else
+				{
+					ihm.getRefaire().setEnabled(true);
+				}
 				ihm.getPioche().setEnabled(true);
 				ihm.getFDT().setEnabled(false);
 				
@@ -50,7 +57,14 @@ public class Avancement implements PhaseListener {
 			
 			case POSER_TUILE:
 				ihm.getAnnuler().setEnabled(false);
-				ihm.getRefaire().setEnabled(false);
+				if(ihm.getM().PileRefaireVide())
+				{
+					ihm.getRefaire().setEnabled(false);
+				}
+				else
+				{
+					ihm.getRefaire().setEnabled(true);
+				}
 				ihm.getPioche().setEnabled(false);
 				ihm.getFDT().setEnabled(false);
 				
@@ -70,7 +84,14 @@ public class Avancement implements PhaseListener {
 				
 			case CONSTRUIRE_BATIMENT:
 				ihm.getAnnuler().setEnabled(true);
-				ihm.getRefaire().setEnabled(true);
+				if(ihm.getM().PileRefaireVide())
+				{
+					ihm.getRefaire().setEnabled(false);
+				}
+				else
+				{
+					ihm.getRefaire().setEnabled(true);
+				}
 				ihm.getPioche().setEnabled(false);
 				ihm.getFDT().setEnabled(false);
 				if(ihm.getM().get_num_Jcourant()==1){
@@ -94,7 +115,7 @@ public class Avancement implements PhaseListener {
 				
 			case FIN_DE_TOUR:
 				ihm.getAnnuler().setEnabled(true);
-				ihm.getRefaire().setEnabled(true);
+				ihm.getRefaire().setEnabled(false);
 				ihm.getPioche().setEnabled(false);
 				ihm.getFDT().setEnabled(true);
 				
