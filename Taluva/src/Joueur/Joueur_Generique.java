@@ -96,7 +96,7 @@ public abstract class Joueur_Generique {
 	}
 	public void decrementeHutte(int n)
 	{
-		if(hutte - n > 0)
+		if(hutte - n >= 0)
 		{
 			this.hutte = hutte - n;
 		}

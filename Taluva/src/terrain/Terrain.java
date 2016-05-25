@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import Action.Action_Batiment;
 import Action.Action_Construction;
 import Action.Action_Tuile;
+import test.Game;
 
 public class Terrain {
 	
@@ -34,10 +35,13 @@ public class Terrain {
 	private ArrayList<Cite> cites;
 	private int [][] index_cite;
 	
+	private int [] index_bat_supprime;
+	
 	public Terrain(){
 		t = new Case[TAILLE][TAILLE];
 		index_cite = new int [TAILLE][TAILLE];
 		limites  = new Coord(CENTRE.x,CENTRE.y,CENTRE.x,CENTRE.y);
+		index_bat_supprime = new int [3];
 		for(int i=0;i<TAILLE;i++){
 			for(int j=0;j<TAILLE;j++){
 				index_cite[i][j] = -1;
@@ -266,9 +270,9 @@ public class Terrain {
 				/////////
 				//if(x>limites.xmax) limites.xmax = x;
 				//if(x-1<limites.xmin) limites.xmin = x-1;
-				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan());
-				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan());
-				poser_hexa(x-1,y,tuile.get_type_case(Case.Orientation.O),tuile.get_Orientation_Volcan());
+				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan(),0);
+				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan(),1);
+				poser_hexa(x-1,y,tuile.get_type_case(Case.Orientation.O),tuile.get_Orientation_Volcan(),2);
 			}
 			else{
 				/////////
@@ -291,9 +295,9 @@ public class Terrain {
 				///////
 				//if(x+1>limites.xmax) limites.xmax = x+1;
 				//if(x<limites.xmin) limites.xmin = x;
-				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan());
-				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan());
-				poser_hexa(x+1,y+1,tuile.get_type_case(Case.Orientation.E),tuile.get_Orientation_Volcan());
+				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan(),0);
+				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan(),1);
+				poser_hexa(x+1,y+1,tuile.get_type_case(Case.Orientation.E),tuile.get_Orientation_Volcan(),2);
 			}
 			histo_tuiles.add(new Action_Tuile(tuile,new Point(x,y),getCase(x,y).getNiveau()));
 			return 0;
@@ -317,7 +321,7 @@ public class Terrain {
 		return res;
 	}
 	
-	private void poser_hexa(int x, int y, Case.Type type, Case.Orientation oV){
+	private void poser_hexa(int x, int y, Case.Type type, Case.Orientation oV, int i_bat_suppr){
 		Case c = getCase(x,y);
 		c.setType(type);
 		c.setOrientation(oV);
@@ -325,7 +329,11 @@ public class Terrain {
 		if(c.retirer_batiments() == 0){
 			Point P = new Point(x,y);
 			int index_bat = getIndexHistoBatiments(P);
-			if(index_bat != -1) histo_batiments.remove(index_bat);
+			if(index_bat != -1){
+				index_bat_supprime[i_bat_suppr] = index_bat;
+				histo_batiments.remove(index_bat);
+				Game.clean();
+			}
 			else System.out.println("Erreur poser_hexa : gestion de l'historique_batiments");
 			Cite cite = getCite(P);
 			ArrayList<Cite> citesSeparees = citesSeparation(P);
@@ -676,20 +684,21 @@ public class Terrain {
 		Case.Couleur_Joueur c = cite.getCouleur();
 		ArrayList<Point> pts_extension = getPts_extension_cite(cite,type);
 		if(pts_extension.size()>0){
-			for(int i=0;i<pts_extension.size();i++){
-				int n = getCase(pts_extension.get(i)).getNiveau();
-				ArrayList<Cite> cites_proches = getCitesContact(pts_extension.get(i),c);
-				histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,pts_extension.get(i),c));
-				getCase(pts_extension.get(i)).ajouter_batiment(Case.Type_Batiment.HUTTE,c);
-				cite.ajouter(pts_extension.get(i), Case.Type_Batiment.HUTTE);
-				index_cite[pts_extension.get(i).x][pts_extension.get(i).y]=index_c;
+			for(Point pt_extension : pts_extension){
+				int n = getCase(pt_extension).getNiveau();
+				ArrayList<Cite> cites_proches = getCitesContact(pt_extension,c);
+				histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,pt_extension,c));
+				getCase(pt_extension).ajouter_batiment(Case.Type_Batiment.HUTTE,c);
+				cite.ajouter(pt_extension, Case.Type_Batiment.HUTTE);
+				index_cite[pt_extension.x][pt_extension.y]=index_c;
 				if(cites_proches.size()>1){
 					// Cette extension connecte deux cites
 					for(int j=1;j<cites_proches.size();j++){
 						fusion_cite(cites_proches.get(0),cites_proches.get(j));
 					}
+					cite = getCite(P);
+					index_c = cites_indexOf(cite);
 				}
-				cite = getCite(P);
 			}
 			return 0;
 		}
@@ -1022,6 +1031,10 @@ public class Terrain {
 			for(int j = 0; j<cites.get(i).getPts().size(); j++){
 				System.out.println(cites.get(i).getPts().get(j));
 			}
+		}
+		System.out.println("histo_batiments, taille " + histo_batiments.size());
+		for(int i = 0; i<histo_batiments.size();i++){
+			System.out.println(histo_batiments.get(i).getPosition() + " - " + histo_batiments.get(i).getTypeBatiment());
 		}
 		System.out.println("");
 		System.out.println("");

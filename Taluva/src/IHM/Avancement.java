@@ -95,15 +95,61 @@ public class Avancement implements PhaseListener {
 				ihm.getPioche().setEnabled(false);
 				ihm.getFDT().setEnabled(false);
 				if(ihm.getM().get_num_Jcourant()==1){
-					ihm.getTempleJ1().setEnabled(true);
-					ihm.getTourJ1().setEnabled(true);
-					ihm.getHutteJ1().setEnabled(true);
+					if(ihm.getM().getJ1().getTemple() <= 0)
+					{
+						ihm.getTempleJ1().setEnabled(false);
+					}
+					else
+					{
+						ihm.getTempleJ1().setEnabled(true);
+					}
+					
+					if(ihm.getM().getJ1().getTour() <= 0)
+					{
+						ihm.getTourJ1().setEnabled(false);
+					}
+					else
+					{
+						ihm.getTourJ1().setEnabled(true);
+					}
+					
+					if(ihm.getM().getJ1().getHutte() <= 0)
+					{
+						ihm.getHutteJ1().setEnabled(false);
+					}
+					else
+					{
+						ihm.getHutteJ1().setEnabled(true);
+					}
 				}
 				else{
 				
-					ihm.getTempleJ2().setEnabled(true);
-					ihm.getTourJ2().setEnabled(true);
-					ihm.getHutteJ2().setEnabled(true);
+					if(ihm.getM().getJ2().getTemple() <= 0)
+					{
+						ihm.getTempleJ2().setEnabled(false);
+					}
+					else
+					{
+						ihm.getTempleJ2().setEnabled(true);
+					}
+					
+					if(ihm.getM().getJ2().getTour() <= 0)
+					{
+						ihm.getTourJ2().setEnabled(false);
+					}
+					else
+					{
+						ihm.getTourJ2().setEnabled(true);
+					}
+					
+					if(ihm.getM().getJ2().getHutte() <= 0)
+					{
+						ihm.getHutteJ2().setEnabled(false);
+					}
+					else
+					{
+						ihm.getHutteJ2().setEnabled(true);
+					}
 				}
 				
 				ihm.getP().setBackground(Color.WHITE);
