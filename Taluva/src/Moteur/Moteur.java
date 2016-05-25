@@ -441,6 +441,7 @@ public class Moteur extends Phase{
 			j_courant.decrementeHutte(res);
 			annul.push(edj);
 			redo.clear();
+			Incremente_Phase_Jeu();
 			return 0;
 		}
 		return 1;
@@ -488,6 +489,7 @@ public class Moteur extends Phase{
 			bat_choisi = Case.Type_Batiment.VIDE;
 			if(j_courant instanceof IA_Generique)
 			{
+				System.out.println("[MOTEUR] UNE IA JOUE!");
 				jouer_IA();
 			}
 			return 1;
