@@ -42,7 +42,7 @@ public class Test_Taluva {
         m.MajListeners();
         
         game = new Game();
-        game.play(frame,m);
+        game.play(frame,m,ihm.getBas());
         
 	}
 		
