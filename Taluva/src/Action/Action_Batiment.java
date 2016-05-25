@@ -15,9 +15,9 @@ public class Action_Batiment {
 		this.bt = bt;
 		this.niveau = niveau;
 		this.c = c;
-		if(bt != Case.Type_Batiment.HUTTE) this.nb_batiments = nb_batiments;
+		if(bt == Case.Type_Batiment.HUTTE) this.nb_batiments = nb_batiments;
 		else this.nb_batiments = 1;
-		this.P = P;
+		this.P = new Point(P.x,P.y);
 	}
 	
 	public Action_Batiment clone(){
@@ -37,7 +37,7 @@ public class Action_Batiment {
 	}
 	
 	public Point getPosition(){
-		return P;
+		return new Point(P.x,P.y);
 	}
 	
 	public Case.Couleur_Joueur getCouleur(){
