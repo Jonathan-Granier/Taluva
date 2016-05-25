@@ -377,7 +377,7 @@ public class Moteur extends Phase{
 			Incremente_Phase_Jeu();
 			if(joueur_elimine()){
 				System.out.println("[MOTEUR / Placer_tuile] joueur elimine (marche?)");
-				finir_partie();
+				//finir_partie();
 			}
 			return 0;
 		}
