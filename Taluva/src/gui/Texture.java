@@ -10,6 +10,8 @@ public class Texture {
 	private Vector2f scale;
 	private boolean hover;
 	private boolean clicked;
+	private Vector2f dimension;
+	private boolean grey;
 	
 	public Texture(int textureId, Vector2f position, Vector2f dimension) {
 		this.textureId = textureId;
@@ -19,8 +21,18 @@ public class Texture {
 		this.scale = new Vector2f(dimension.x/Display.getWidth(),dimension.y/Display.getHeight());
 		this.hover = false;
 		this.clicked = false;
+		this.dimension = dimension;
+		this.grey = false;
 	}
 
+	public boolean isGrey() {
+		return grey;
+	}
+
+	public void setGrey(boolean grey) {
+		this.grey = grey;
+	}
+	
 	public int getTextureId() {
 		return textureId;
 	}
@@ -51,6 +63,18 @@ public class Texture {
 
 	public void setClicked(boolean clicked) {
 		this.clicked = clicked;
+	}
+	
+	public void setPosition(Vector2f position) {
+		this.position = position;
+	}
+	
+	public Vector2f getDimension() {
+		return dimension;
+	}
+	
+	public void setDimension(Vector2f dimension) {
+		this.dimension = dimension;
 	}
 	
 }
