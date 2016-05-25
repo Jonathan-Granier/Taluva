@@ -88,7 +88,19 @@ public class Game {
 		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
 		//Check listConstruction with listAction_Batiment("IA mode useful")
 		if(Game.clear){
-			constructions.clear();
+			while(listConstruction.size()<constructions.size()){
+				constructions.remove(constructions.size()-1);
+				System.out.println("GAME on remove 1 construction");
+			}
+			int [] ind_bat_suppr = moteur.getTerrain().getIndexBatSuppr();
+			for(int i=0;i<2;i++){
+				if(ind_bat_suppr[i] >= 0  && ind_bat_suppr[i] < constructions.size()){
+					constructions.set(ind_bat_suppr[i],new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader));
+					constructions.get(ind_bat_suppr[i]).setType(listConstruction.get(ind_bat_suppr[i]).getTypeBatiment());
+					Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(ind_bat_suppr[i]).getPosition(),listConstruction.get(ind_bat_suppr[i]).getNiveau()-1));
+					constructions.get(ind_bat_suppr[i]).getObject3d().setPosition(worldPos);
+				}
+			}
 			Game.clear = false;
 		}
 		

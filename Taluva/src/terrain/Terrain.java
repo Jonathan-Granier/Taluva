@@ -41,7 +41,9 @@ public class Terrain {
 		t = new Case[TAILLE][TAILLE];
 		index_cite = new int [TAILLE][TAILLE];
 		limites  = new Coord(CENTRE.x,CENTRE.y,CENTRE.x,CENTRE.y);
-		index_bat_supprime = new int [3];
+		index_bat_supprime = new int [2];
+		index_bat_supprime[0] = -1;
+		index_bat_supprime[1] = -1;
 		for(int i=0;i<TAILLE;i++){
 			for(int j=0;j<TAILLE;j++){
 				index_cite[i][j] = -1;
@@ -270,9 +272,12 @@ public class Terrain {
 				/////////
 				//if(x>limites.xmax) limites.xmax = x;
 				//if(x-1<limites.xmin) limites.xmin = x-1;
-				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan(),0);
-				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan(),1);
-				poser_hexa(x-1,y,tuile.get_type_case(Case.Orientation.O),tuile.get_Orientation_Volcan(),2);
+				int indice_bat_suppr = 0;
+				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan(),indice_bat_suppr);
+				if(tuile.get_type_case(Case.Orientation.N) != Case.Type.VOLCAN) indice_bat_suppr ++;
+				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan(),indice_bat_suppr);
+				if(tuile.get_type_case(Case.Orientation.S) != Case.Type.VOLCAN) indice_bat_suppr ++;
+				poser_hexa(x-1,y,tuile.get_type_case(Case.Orientation.O),tuile.get_Orientation_Volcan(),indice_bat_suppr);
 			}
 			else{
 				/////////
@@ -295,9 +300,12 @@ public class Terrain {
 				///////
 				//if(x+1>limites.xmax) limites.xmax = x+1;
 				//if(x<limites.xmin) limites.xmin = x;
-				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan(),0);
-				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan(),1);
-				poser_hexa(x+1,y+1,tuile.get_type_case(Case.Orientation.E),tuile.get_Orientation_Volcan(),2);
+				int indice_bat_suppr = 0;
+				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan(),indice_bat_suppr);
+				if(tuile.get_type_case(Case.Orientation.N) != Case.Type.VOLCAN) indice_bat_suppr ++;
+				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan(),indice_bat_suppr);
+				if(tuile.get_type_case(Case.Orientation.S) != Case.Type.VOLCAN) indice_bat_suppr ++;
+				poser_hexa(x+1,y+1,tuile.get_type_case(Case.Orientation.E),tuile.get_Orientation_Volcan(),indice_bat_suppr);
 			}
 			histo_tuiles.add(new Action_Tuile(tuile,new Point(x,y),getCase(x,y).getNiveau()));
 			return 0;
@@ -307,6 +315,7 @@ public class Terrain {
 		}
 	}
 	
+	// Renvoie l'indice dans l'historique des batiments de l'action_batiment du point P
 	private int getIndexHistoBatiments(Point P){
 		int i = 0;
 		boolean trouve = false;
@@ -321,17 +330,26 @@ public class Terrain {
 		return res;
 	}
 	
-	private void poser_hexa(int x, int y, Case.Type type, Case.Orientation oV, int i_bat_suppr){
+	// Renvoie les indices des deux cases dont les batiments ont ete ecrases lors de la derniere pose de tuile
+	public int [] getIndexBatSuppr(){
+		return index_bat_supprime;
+	}
+	
+	private void poser_hexa(int x, int y, Case.Type type, Case.Orientation oV, int index_bat_suppr){
 		Case c = getCase(x,y);
 		c.setType(type);
 		c.setOrientation(oV);
 		c.incrNiveau();
 		if(c.retirer_batiments() == 0){
+			// On a retiré des batiments : il faut gerer l'historique et les cites
 			Point P = new Point(x,y);
-			int index_bat = getIndexHistoBatiments(P);
-			if(index_bat != -1){
-				index_bat_supprime[i_bat_suppr] = index_bat;
-				histo_batiments.remove(index_bat);
+			int index_bat_histo = getIndexHistoBatiments(P);
+			if(index_bat_histo != -1){
+				// On met a jour l'historique (on supprime le dernier element et on le place a l'endroit à supprimer)
+				// et on met a jour index_bat_supprime pour indiquer le batiment à actualiser
+				index_bat_supprime[index_bat_suppr] = index_bat_histo;
+				histo_batiments.set(index_bat_histo,histo_batiments.get(histo_batiments.size()-1));
+				histo_batiments.remove(histo_batiments.size()-1);
 				Game.clean();
 			}
 			else System.out.println("Erreur poser_hexa : gestion de l'historique_batiments");
@@ -368,6 +386,9 @@ public class Terrain {
 				cite.retirer(P);
 				index_cite[x][y] = -1;
 			}
+		}
+		else{
+			if(index_bat_suppr<2) index_bat_supprime[index_bat_suppr] = -1;
 		}
 	}
 	
