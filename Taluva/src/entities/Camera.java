@@ -8,6 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import IHM.Menu_circulaire_creation;
 import terrain.Terrain;
+import utils.FPS;
 import utils.Grid;
 import utils.InputHandler;
 import utils.InputHandler.inputType;
@@ -134,6 +135,22 @@ public class Camera {
 		
 	}
 	
+	public void increaseZ(float dz){
+		lookAt.z += SPEED * dz;
+	}
+
+	public void increaseX(float dx){
+		lookAt.x += SPEED * dx;
+	}
+	
+	public void decreaseZ(float dz){
+		lookAt.z -= SPEED * dz;
+	}
+	
+	public void decreaseX(float dx){
+		lookAt.x -= SPEED * dx;
+	}
+	
 	private void calculateCameraPosition(float hD, float vD){
 		float offsetX = (float) (hD * Math.sin(Math.toRadians(angleAroundPivot)));
 		float offsetZ = (float) (hD * Math.cos(Math.toRadians(angleAroundPivot)));
@@ -172,6 +189,14 @@ public class Camera {
 
 	public float getDistanceFromPivot() {
 		return distanceFromPivot;
+	}
+
+	public void setDistanceFromPivot(float distanceFromPivot) {
+		this.distanceFromPivot = distanceFromPivot;
+	}
+
+	public float getAngleAroundPivot() {
+		return angleAroundPivot;
 	}
 	
 }

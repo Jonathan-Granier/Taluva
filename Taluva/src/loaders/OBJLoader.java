@@ -40,7 +40,7 @@ public class OBJLoader {
 		Vector3f min = new Vector3f();
 		Vector3f max = new Vector3f();
 		
-		System.out.println("Loading "+fileName+".obj ...");
+		System.out.println("loadObjModel: Loading "+fileName+".obj ...");
 		
 		try{
 			while(true){
@@ -153,7 +153,7 @@ public class OBJLoader {
 			normalsFinal[currentNorm++] = normal.z;
 		}
 		
-		System.out.println("Loading successful vertice:"+verticesFinal.length+" texture:"+textureFinal.length+" normal:"+normalsFinal.length+" indices:"+indicesArray.length);
+		System.out.println("loadObjModel: Loading successful vertice:"+verticesFinal.length+" texture:"+textureFinal.length+" normal:"+normalsFinal.length+" indices:"+indicesArray.length);
 		
 		
 		
@@ -314,7 +314,7 @@ public class OBJLoader {
 		Vector3f min = new Vector3f();
 		Vector3f max = new Vector3f();
 		
-		System.out.println("Loading "+fileName+".obj ...");
+		System.out.println("loadObjModels: Loading "+fileName+".obj ...");
 		int last = 0;
 		Models models = new Models();
 		
@@ -424,7 +424,7 @@ public class OBJLoader {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		System.out.println("Loading successful");
+		System.out.println("loadObjModels: Loading successful");
 		
 		return models;
 	}

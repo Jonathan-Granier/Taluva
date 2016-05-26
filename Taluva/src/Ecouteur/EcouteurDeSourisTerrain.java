@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -52,36 +53,51 @@ import terrain.Tuile;
 
 
 
-public class EcouteurDeSourisTerrain {
+public class EcouteurDeSourisTerrain implements MouseListener {
 	
 	private Moteur m;
 	private MousePicker picker;
 	private Grid grid;
+	private GraphicTile Tile;
+	private List<GraphicTile> Tiles;
+	private GraphicConstruction construction;
+	private List<GraphicConstruction> constructions;
+	private Menu_circulaire_creation marking_menu;
+	private Coords snap;
+	private Vector3f point;
+	private float timer = 0;
+	private static final long TIME = 20;
 	
-	public EcouteurDeSourisTerrain(Moteur m,MousePicker picker,Grid grid)
+	public EcouteurDeSourisTerrain(Moteur m,MousePicker picker,Grid grid,GraphicTile Tile,List<GraphicTile> Tiles,GraphicConstruction construction, List<GraphicConstruction> constructions,Menu_circulaire_creation marking_menu)
 	{
 		this.m = m;
 		this.picker = picker;
 		this.grid = grid;
+		this.Tiles = Tiles;
+		this.Tile = Tile;
+		this.construction = construction;
+		this.constructions = constructions;
+		this.marking_menu = marking_menu;
 	}
 	
-	public void run(GraphicTile Tile,List<GraphicTile> Tiles,GraphicConstruction construction, List<GraphicConstruction> constructions,Menu_circulaire_creation marking_menu)
+	public void run()
 	{
 		picker.update(Tile.getHeight());
-		Vector3f point = picker.getCurrentObjectPoint();
-		Coords snap = mouseMoved(Tile,construction,point,marking_menu);
-		if(InputHandler.reset(InputHandler.isButtonDown(0) == inputType.INSTANT))
+		point = picker.getCurrentObjectPoint();
+		snap = mouseMoved();
+		if(timer>0)
+			timer++;
+		/*if(InputHandler.reset(InputHandler.isButtonDown(0) == inputType.INSTANT))
 		{
 			// Si le clique gauche est appuyé rapidement
 			CliqueGaucheSouris_Rapide(Tile,Tiles,construction,constructions,snap);
-			if(point!=null)
-				marking_menu.tuile_vide_cliquer(point);
-			
-		}
+
+		
+		}*/
 		
 	}
 	
-	private Coords mouseMoved(GraphicTile Tile,GraphicConstruction construction,Vector3f point,Menu_circulaire_creation marking_menu){
+	private Coords mouseMoved(){
 		Coords snap = null;
 		
 		switch (m.get_etat_jeu())
@@ -99,8 +115,6 @@ public class EcouteurDeSourisTerrain {
 					m.tourner_tuile();
 				}
 				
-				InputHandler.isKeyDown(Tile);
-		
 				//Snap
 				Tile.setPostionVolcano();
 				snap = grid.snap(Tile.getObject3D(),Tile.getObject3D().getPosition(),Tile.getObject3D().getRotY());
@@ -121,6 +135,7 @@ public class EcouteurDeSourisTerrain {
 				if(point!=null){
 					construction.getObject3d().setPosition(new Vector3f(point.x,construction.getHeight(),point.z));
 				}
+			
 				
 				//Snap
 				snap = grid.snap(construction.getObject3d(),construction.getObject3d().getPosition());
@@ -144,9 +159,27 @@ public class EcouteurDeSourisTerrain {
 		}
 	}
 	
-	private void CliqueGaucheSouris_Rapide(GraphicTile Tile,List<GraphicTile> Tiles,GraphicConstruction construction, List<GraphicConstruction> constructions,Coords coords)
-	{
-		Point Point_courant = new Point(Mouse.getX(),Mouse.getY());
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		timer++;
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
 		
 		switch (m.get_etat_jeu())
 		{
@@ -170,20 +203,24 @@ public class EcouteurDeSourisTerrain {
 				//if(Ecouteur_Boutons.isUndo())
 				//	Tiles.remove(Tiles.size()-1);
 				
-				 if(coords!=null && m.placer_tuile(coords.indices) == 0)
-				 {
-					Tiles.add(new GraphicTile(Tile));
-					Tiles.get(Tiles.size()-1).getObject3D().setPosition(coords.worldPos);
-					Tiles.get(Tiles.size()-1).getObject3D().setRotY(Tile.getObject3D().getRotY());
-					m.Maj_liste_coup_construction();
-			
-				 }
-				 else
-				 {
-					 System.out.println("Il est impossible de poser une tuille ici");
-				 }
+				if(SwingUtilities.isLeftMouseButton(e) && timer < TIME ){
+					 if(snap!=null && m.placer_tuile(snap.indices) == 0 )
+					 {
+						Tiles.add(new GraphicTile(Tile));
+						Tiles.get(Tiles.size()-1).getObject3D().setPosition(snap.worldPos);
+						Tiles.get(Tiles.size()-1).getObject3D().setRotY(Tile.getObject3D().getRotY());
+						m.Maj_liste_coup_construction();
 				
-				
+					 }
+					 else
+					 {
+						 System.out.println("Il est impossible de poser une tuille ici");
+					 }
+				}
+				//else if(SwingUtilities.isRightMouseButton(e)){
+				//		Tile.rotate();
+				//		m.tourner_tuile();
+				//}
 				
 				break;
 			case CONSTRUIRE_BATIMENT:
@@ -203,6 +240,9 @@ public class EcouteurDeSourisTerrain {
 				/*if(Ecouteur_Boutons.isUndo())
 					constructions.remove(constructions.size()-1);*/
 				
+				if(point!=null)
+					marking_menu.tuile_vide_cliquer(point);
+				
 				System.out.println("Etat :" + m.get_etat_jeu());
 				if ( m.get_bat_choisi() == Case.Type_Batiment.VIDE)
 				{
@@ -211,10 +251,10 @@ public class EcouteurDeSourisTerrain {
 				else
 				{
 					if(Ecouteur_Boutons.isPick()){
-						if (coords!=null && m.placer_batiment(coords.indices)== 0)
+						if (snap!=null && m.placer_batiment(snap.indices)== 0)
 						{
 							constructions.add(new GraphicConstruction(construction));
-							constructions.get(constructions.size()-1).getObject3d().setPosition(coords.worldPos);
+							constructions.get(constructions.size()-1).getObject3d().setPosition(snap.worldPos);
 							m.Maj_liste_coup_construction();
 							m.getTerrain().afficher();
 						}
@@ -230,5 +270,6 @@ public class EcouteurDeSourisTerrain {
 			default:
 				break;
 		}
+		timer = 0;
 	}
 }

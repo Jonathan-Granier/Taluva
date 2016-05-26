@@ -1,8 +1,13 @@
 package test;
 
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -53,7 +58,7 @@ import water.WaterShader;
 import water.WaterTile;
 import utils.MousePicker;
 
-public class Game {
+public class Game implements Observer,KeyListener  {
 	
 	private Moteur moteur;
 	private Grid grid;
@@ -64,6 +69,23 @@ public class Game {
 	private static final float TIME = 80;
 	private static boolean runDelay=false;
 	private static boolean clear = false;
+	private Camera camera;
+	private MousePicker picker;
+	private Renderer renderer;
+	private GraphicTile Tile;
+	private GraphicConstruction Construction;
+	private Shader shader;
+	private List<Light> lights;
+	private Light sun;
+	private EcouteurDeSourisTerrain ecouteurSouris;
+	private Menu_circulaire_creation marking_menu;
+	private WaterShader waterShader;
+	private WaterRenderer waterRenderer;
+	private WaterTile water;
+	private SkyboxRenderer skyboxRenderer;
+	private Canvas canvas;
+	
+	private boolean[] keys = {false,false,false,false};
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
@@ -162,142 +184,163 @@ public class Game {
 			delay++;
 	}
 	
-	public void play(JFrame frame,Moteur m,JPanel panel){
+	public void init(JFrame frame,Moteur m,Canvas canvas){
 		Window.createDislay();
 		this.moteur = m;
-		Camera camera = new Camera();
+		this.canvas = canvas;
+		camera = new Camera();
 		loader = new Loader();
-		Shader shader = new Shader();
-		Renderer renderer = new Renderer(shader,camera);
+		shader = new Shader();
+		renderer = new Renderer(shader,camera);
 		
 		FPS.start(frame);
-		GraphicTile Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0),90);
+		Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0),90);
 		Ecouteur_Boutons.setTile(loader,Tile);
 		Tiles = new ArrayList<GraphicTile>();
 		constructions = new ArrayList<GraphicConstruction>();
 		
-		GraphicConstruction Construction = new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader);
+		Construction = new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader);
 		Ecouteur_Boutons.setConstruction(Construction);
 		grid = new Grid();
 		
-		//*************GUI Renderer Set-up******************
-		
-		Texture fond = new Texture(loader.loadTexture("fond.png"),new Vector2f(Display.getWidth()-200,0),new Vector2f(200,Display.getHeight()));
-		ButtonConstruction button_hut = new ButtonConstruction(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(100,100),"hut",Construction,moteur);
-		ButtonConstruction button_tower = new ButtonConstruction(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,200),new Vector2f(100,100),"tower",Construction,moteur);
-		ButtonConstruction button_temple = new ButtonConstruction(loader.loadTexture("Button_Temple.png"),new Vector2f(Display.getWidth()-150,350),new Vector2f(100,100),"temple",Construction,moteur);
-		ButtonEndOfTurn button_end = new ButtonEndOfTurn(loader.loadTexture("Button_Fin.png"),new Vector2f(Display.getWidth()-150,500),new Vector2f(100,100),moteur);
-		ButtonPick button_pick = new ButtonPick(loader.loadTexture("Button_pioche.png"),new Vector2f(Display.getWidth()-125,650),new Vector2f(50,50),moteur,Tile,loader);
-		
-		Drawable drawable = new Drawable(loader);
-		/*drawable.bindTexture(fond);
-		drawable.bindButton(button_hut);
-		drawable.bindButton(button_tower);
-		drawable.bindButton(button_temple);
-		drawable.bindButton(button_end);
-		drawable.bindButton(button_pick);*/
-		
-		//Object3D table = new Object3D("Table",loader,new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,0,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f-200),0,0,0,0.3f);
-
-
-		
-		List<Light> lights = new ArrayList<Light>();
-		Light sun = new Light(new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,15000,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f),new Vector3f(1,1,1));
+		lights = new ArrayList<Light>();
+		sun = new Light(new Vector3f(Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f,15000,Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f),new Vector3f(1,1,1));
 		lights.add(sun);
 
-		MousePicker picker = new MousePicker(camera,renderer.getProjectionMatrix());
+		picker = new MousePicker(camera,renderer.getProjectionMatrix());
 
-		//Create listener
-		EcouteurDeSourisTerrain ecouteurSouris = new EcouteurDeSourisTerrain(moteur,picker,grid);
 		
 		//*************Water Renderer Set-up******************
 		
-		WaterShader waterShader = new WaterShader();
-		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader,renderer.getProjectionMatrix());
-		WaterTile water = new WaterTile(0,0,0);
+		waterShader = new WaterShader();
+		waterRenderer = new WaterRenderer(loader, waterShader,renderer.getProjectionMatrix());
+		water = new WaterTile(0,0,0);
 		
-		SkyboxRenderer skyboxRenderer = new SkyboxRenderer(loader,renderer.getProjectionMatrix());
+		skyboxRenderer = new SkyboxRenderer(loader,renderer.getProjectionMatrix());
 		
 		//*************Marking Menu Set-up******************
-		Menu_circulaire_creation marking_menu = new Menu_circulaire_creation(moteur,loader,Construction,grid,camera);
+		marking_menu = new Menu_circulaire_creation(moteur,loader,Construction,grid,camera);
+
+		//Create listener
+		ecouteurSouris = new EcouteurDeSourisTerrain(moteur,picker,grid,Tile, Tiles, Construction, constructions,marking_menu);
 		
-		while(!Display.isCloseRequested()){
-			if(Mouse.getX()>0 && Mouse.getX()<Display.getWidth() && Mouse.getY()>0 && Mouse.getY()<Display.getHeight()){
-				Display.getParent().setFocusable(true);
-				panel.setFocusable(false);
-			}
-			else{
-				panel.setFocusable(true);
-				Display.getParent().setFocusable(false);
-			}
-			FPS.updateFPS();
-			Game.increaseDelay();
-			//Button
-			/*button_hut.update();
-			button_tower.update();
-			button_temple.update();
-			button_end.update();
-			button_pick.update();*/
-			
-			camera.move();
-			
-			picker.update(Tile.getHeight());
-			Vector3f point = picker.getCurrentObjectPoint();
-
-			/*if(button_tower.type != GraphicType.NULL || button_temple.type != GraphicType.NULL || button_hut.type != GraphicType.NULL)
-				constructionGestion(point,Construction,Constructions,grid);
-			else
-				tileGestion(point,Tile,Tiles,grid);*/
-			
-			renderer.prepare();
-			
-			shader.start();
-			shader.loadLights(lights);
-			
-			shader.loadViewMatrix(camera);
-			
-			
-			if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && Ecouteur_Boutons.isPick())
-				renderer.draw(Construction.getObject3d(),shader);
-			if(moteur.get_etat_jeu() == Phase_Jeu.POSER_TUILE)
-				renderer.draw(Tile.getObject3D(),shader);
-			
-			/*for(GraphicTile tile:Tiles)
-				renderer.draw(tile.getObject3D(), shader);*/
-			
-			ecouteurSouris.run(Tile, Tiles, Construction, constructions,marking_menu);
-			
-			
-			
-			//for(GraphicConstruction construction:Constructions)
-			//	renderer.draw(construction.getObject3d(), shader);
-			
-
-			drawTile(renderer,shader);
-			drawConstruction(renderer,shader);
-			
-			//renderer.draw(table, shader);
-			
-			shader.stop();
-			
-			waterRenderer.render(water, camera,sun);
-			
-			skyboxRenderer.render(camera);
-			
-			drawable.draw();
-
-			marking_menu.draw();
-			
-			Window.updateDisplay();
-
-		}
+		TimerOpenGL timer = new TimerOpenGL();
+		timer.addObserver(this);
+		canvas.addMouseListener(ecouteurSouris);
+	}
+	
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		FPS.updateFPS();
+		Game.increaseDelay();
+		updateCamera();
+		camera.move();
 		
+		picker.update(Tile.getHeight());
+		Vector3f point = picker.getCurrentObjectPoint();
+
+		
+		renderer.prepare();
+		
+		shader.start();
+		shader.loadLights(lights);
+		
+		shader.loadViewMatrix(camera);
+		
+		
+		if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && Ecouteur_Boutons.isPick())
+			renderer.draw(Construction.getObject3d(),shader);
+		if(moteur.get_etat_jeu() == Phase_Jeu.POSER_TUILE)
+			renderer.draw(Tile.getObject3D(),shader);
+		
+		
+		ecouteurSouris.run();
+		
+
+		drawTile(renderer,shader);
+		drawConstruction(renderer,shader);
+		
+		shader.stop();
+		
+		waterRenderer.render(water, camera,sun);
+		
+		skyboxRenderer.render(camera);
+
+		marking_menu.draw();
+		
+		Window.updateDisplay();
+
+	}
+	
+	public void cleanUp(){
 		waterShader.cleanUp();
-		drawable.cleanUp();
 		shader.cleanUp();
 		loader.cleanUp();
 		marking_menu.cleanUp();
 		Window.closeDisplay();
+	}
+
+	public void updateCamera(){
+		if(keys[0]){
+			camera.increaseZ((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
+			camera.increaseX((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
+		}
+		else if(keys[1]){
+			camera.decreaseZ((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
+			camera.decreaseX((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
+		}
+		else if(keys[2]){
+			camera.decreaseZ((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
+			camera.increaseX((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
+		}
+		else if(keys[3]){
+			camera.increaseZ((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
+			camera.decreaseX((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
+		}
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		switch(e.getKeyCode()){
+		case KeyEvent.VK_Z:
+			keys[0] = true;
+			break;
+		case KeyEvent.VK_S:
+			keys[1] = true;
+			break;
+		case KeyEvent.VK_Q:
+			keys[2] = true;
+			break;
+		case KeyEvent.VK_D:
+			keys[3] = true;
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		switch(e.getKeyCode()){
+		case KeyEvent.VK_Z:
+			keys[0] = false;
+			break;
+		case KeyEvent.VK_S:
+			keys[1] = false;
+			break;
+		case KeyEvent.VK_Q:
+			keys[2] = false;
+			break;
+		case KeyEvent.VK_D:
+			keys[3] = false;
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
 	}
 	
 }
