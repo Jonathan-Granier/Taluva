@@ -22,7 +22,7 @@ public class ButtonConstruction extends Button {
 	public ButtonConstruction(int textureId, Vector2f position, Vector2f dimension,String label,GraphicConstruction Construction,Moteur moteur) {
 		super(textureId, position, dimension);
 		this.label = label;
-		this.Construction = Construction;
+		//this.Construction = Construction;
 		this.moteur = moteur;
 	}
 
@@ -32,18 +32,19 @@ public class ButtonConstruction extends Button {
 		clicked = true;
 		if(label.equals("tower")){
 			moteur.select_tour();
-			Construction.setType(GraphicType.HUT);
+			//Construction.setType(GraphicType.TOWER);
 		}
 		else if(label.equals("hut")){
 			moteur.select_hutte();
-			Construction.setType(GraphicType.HUT);
+			//Construction.setType(GraphicType.HUT);
 		}
 		else if(label.equals("temple")){
 			moteur.select_temple();
-			Construction.setType(GraphicType.HUT);
+			//Construction.setType(GraphicType.TEMPLE);
 		}
+		//Construction.setColour(moteur.get_Jcourant().getCouleur());
+		//Construction.setObject3d();
 		moteur.placer_batiment(p);
-		Construction.setColour(moteur.get_Jcourant().getCouleur());
 	}
 
 	public static boolean isPick() {

@@ -28,6 +28,23 @@ public class Case {
 					return Color.BLACK;
 			}
 		}
+		
+		public char toChar(){
+			switch (this){
+			case BLANC:
+				return 'W';
+			case BLEU:
+				return 'B';
+			case JAUNE:
+				return 'J';
+			case NEUTRE:
+				return '_';
+			case VERT:
+				return 'V';
+			default:
+				return ' ';
+			}
+		}
 	}
 	
 	public enum Type{

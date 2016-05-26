@@ -72,6 +72,8 @@ public class Terrain {
 				tmp.t[i][j] = this.t[i][j].clone();
 			}
 		}
+		tmp.index_bat_supprime[0] = this.index_bat_supprime[0];
+		tmp.index_bat_supprime[1] = this.index_bat_supprime[1];
 		tmp.limites  = this.limites.clone();
 		tmp.empty = this.empty;
 		for(int i = 0;i<this.histo_tuiles.size();i++){
@@ -111,13 +113,13 @@ public class Terrain {
 		return histo_batiments;
 	}
 	
-	// Renvoie la cite presente au point P (null si aucune cite)
+	// Renvoie la cite presente au point P
 	public Cite getCite(Point P){
 		int i = getIndexCite(P);
 		if(i < 0 || i >= cites.size()){
 			//System.out.println("Erreur : Terrain.getCite(" + P.x + "," + P.y + ") : index " + i + ", taille " + cites.size());
 			System.out.println("Terrain.getCite(" + P.x + "," + P.y + ") : pas de cite ici");
-			return new Cite(P, null, null);
+			return new Cite(P, Case.Couleur_Joueur.NEUTRE, Case.Type_Batiment.VIDE);
 		}
 		return cites.get(i);
 	}
@@ -349,7 +351,7 @@ public class Terrain {
 				// On met a jour l'historique (on supprime le dernier element et on le place a l'endroit à supprimer)
 				// et on met a jour index_bat_supprime pour indiquer le batiment à actualiser
 				index_bat_supprime[index_bat_suppr] = index_bat_histo;
-				histo_batiments.set(index_bat_histo,histo_batiments.get(histo_batiments.size()-1));
+				histo_batiments.set(index_bat_histo,histo_batiments.get(histo_batiments.size()-1).clone());
 				histo_batiments.remove(histo_batiments.size()-1);
 				Game.majHistoBatiments();
 			}
@@ -701,32 +703,35 @@ public class Terrain {
 	// Etend la cite presente au point P sur les cases de Type type.
 	// Renvoie 0 si l'extension a reussi, 1 sinon
 	public int etendre_cite(Point P, Case.Type type){
-		Cite cite = getCite(P);
-		int index_c = cites_indexOf(cite);
-		Case.Couleur_Joueur c = cite.getCouleur();
-		ArrayList<Point> pts_extension = getPts_extension_cite(cite,type);
-		if(pts_extension.size()>0){
-			for(Point pt_extension : pts_extension){
-				// On traite chaque case a etendre
-				int n = getCase(pt_extension).getNiveau();
-				ArrayList<Cite> cites_proches = getCitesContact(pt_extension,c);
-				// On l'ajoute a l'historique
-				histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,pt_extension,c));
-				// On ajoute les batiments sur la case
-				getCase(pt_extension).ajouter_batiment(Case.Type_Batiment.HUTTE,c);
-				// On ajoute a la cite
-				cite.ajouter(pt_extension, Case.Type_Batiment.HUTTE);
-				index_cite[pt_extension.x][pt_extension.y]=index_c;
-				if(cites_proches.size()>1){
-					// Cette extension connecte deux cites ou plus
-					for(int j=1;j<cites_proches.size();j++){
-						fusion_cite(cites_proches.get(0),cites_proches.get(j));
+		Case.Couleur_Joueur c = getCase(P).getCouleur();
+		if(!getCase(P).est_Libre() && c != Case.Couleur_Joueur.NEUTRE){
+			Cite cite = getCite(P);
+			int index_c = cites_indexOf(cite);
+			ArrayList<Point> pts_extension = getPts_extension_cite(cite,type);
+			if(pts_extension.size()>0){
+				for(Point pt_extension : pts_extension){
+					// On traite chaque case a etendre
+					int n = getCase(pt_extension).getNiveau();
+					ArrayList<Cite> cites_proches = getCitesContact(pt_extension,c);
+					// On l'ajoute a l'historique
+					histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,pt_extension,c));
+					// On ajoute les batiments sur la case
+					getCase(pt_extension).ajouter_batiment(Case.Type_Batiment.HUTTE,c);
+					// On ajoute a la cite
+					cite.ajouter(pt_extension, Case.Type_Batiment.HUTTE);
+					index_cite[pt_extension.x][pt_extension.y]=index_c;
+					if(cites_proches.size()>1){
+						// Cette extension connecte deux cites ou plus
+						for(int j=1;j<cites_proches.size();j++){
+							fusion_cite(cites_proches.get(0),cites_proches.get(j));
+						}
+						cite = getCite(P);
+						index_c = cites_indexOf(cite);
 					}
-					cite = getCite(P);
-					index_c = cites_indexOf(cite);
 				}
+				return 0;
 			}
-			return 0;
+			else return 1;
 		}
 		else return 1;
 	}
@@ -1050,6 +1055,18 @@ public class Terrain {
 				if(index_cite[j][i] == -1) System.out.print("_");
 				else System.out.print(index_cite[j][i]);
 			}
+			System.out.print("  ");
+			for(int j=limites.xmin;j<=limites.xmax;j++){
+				System.out.print(t[j][i].getCouleur().toChar());
+			}
+
+			System.out.print("  ");
+			for(int j=limites.xmin;j<=limites.xmax;j++){
+				if(index_cite[j][i] != -1)
+					System.out.print(getCite(new Point(j,i)).getCouleur().toChar());
+				else
+					System.out.print("_");
+			}
 			System.out.println("");
 		}
 		for(int i = 0; i<cites.size();i++){
@@ -1060,7 +1077,7 @@ public class Terrain {
 		}
 		System.out.println("histo_batiments, taille " + histo_batiments.size());
 		for(int i = 0; i<histo_batiments.size();i++){
-			System.out.println(histo_batiments.get(i).getPosition() + " - " + histo_batiments.get(i).getTypeBatiment());
+			System.out.println(histo_batiments.get(i).getPosition() + " - " + histo_batiments.get(i).getTypeBatiment() + " - " + histo_batiments.get(i).getCouleur());
 		}
 		System.out.println("");
 		System.out.println("");

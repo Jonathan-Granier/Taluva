@@ -91,10 +91,10 @@ public class Menu_circulaire_creation {
 		s_x=picker.x;
 		s_y=picker.z;
 		coord = grille.snap(new Vector3f(s_x,0,s_y));
-		i=coord.indices.x;
-		j=coord.indices.y;
 		draw = false;
-		if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT){
+		if(coord != null && moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT){
+			i=coord.indices.x;
+			j=coord.indices.y;
 			if(moteur.getTerrain().getCase(i, j).ajout_batiment_autorise()){
 				draw = true;
 				ButtonConstruction.setPoint(new Point(i,j));

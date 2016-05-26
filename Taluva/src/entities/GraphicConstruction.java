@@ -87,6 +87,9 @@ public class GraphicConstruction {
 		this.type = gc.getType();
 		this.colour = gc.getColour();
 		this.height = gc.height;
+		this.hut = gc.hut;
+		this.tower = gc.tower;
+		this.temple = gc.temple;
 	}
 
 	public void setType(GraphicType type) {
@@ -111,6 +114,7 @@ public class GraphicConstruction {
 		default:
 			System.out.println("Unknow construction type");
 		}
+		if(object3d == null) System.out.println("YOLOOOOO");
 	}
 
 	public Object3D getObject3d() {

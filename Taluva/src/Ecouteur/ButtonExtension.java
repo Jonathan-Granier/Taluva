@@ -21,14 +21,14 @@ public class ButtonExtension extends Button {
 		super(textureId, position, dimension);
 		this.type = type;
 		this.m = m;
-		this.Construction = Construction;
+		//this.Construction = Construction;
 	}
 
 	@Override
 	protected void action() {
 		clicked = true;
 		m.etendre_cite(p,type);
-		Construction.setColour(m.get_Jcourant().getCouleur());
+		//Construction.setColour(m.get_Jcourant().getCouleur());
 	}
 
 	public static boolean isClicked() {
