@@ -10,7 +10,7 @@ public class Action_Tuile {
 	
 	public Action_Tuile(Tuile tuile, Point P, int niveau){
 		this.tuile = tuile;
-		this.P = P;
+		this.P = new Point(P.x,P.y);
 		this.niveau = niveau;
 	}
 	

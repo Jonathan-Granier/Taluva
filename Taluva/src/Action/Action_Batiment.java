@@ -37,7 +37,7 @@ public class Action_Batiment {
 	}
 	
 	public Point getPosition(){
-		return new Point(P.x,P.y);
+		return P;
 	}
 	
 	public Case.Couleur_Joueur getCouleur(){
