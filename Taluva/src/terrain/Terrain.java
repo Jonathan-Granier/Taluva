@@ -35,15 +35,15 @@ public class Terrain {
 	private ArrayList<Cite> cites;
 	private int [][] index_cite;
 	
-	private int [] index_bat_supprime;
+	//private int [] index_bat_supprime;
 	
 	public Terrain(){
 		t = new Case[TAILLE][TAILLE];
 		index_cite = new int [TAILLE][TAILLE];
 		limites  = new Coord(CENTRE.x,CENTRE.y,CENTRE.x,CENTRE.y);
-		index_bat_supprime = new int [2];
-		index_bat_supprime[0] = -1;
-		index_bat_supprime[1] = -1;
+		//index_bat_supprime = new int [2];
+		//index_bat_supprime[0] = -1;
+		//index_bat_supprime[1] = -1;
 		for(int i=0;i<TAILLE;i++){
 			for(int j=0;j<TAILLE;j++){
 				index_cite[i][j] = -1;
@@ -72,8 +72,8 @@ public class Terrain {
 				tmp.t[i][j] = this.t[i][j].clone();
 			}
 		}
-		tmp.index_bat_supprime[0] = this.index_bat_supprime[0];
-		tmp.index_bat_supprime[1] = this.index_bat_supprime[1];
+		//tmp.index_bat_supprime[0] = this.index_bat_supprime[0];
+		//tmp.index_bat_supprime[1] = this.index_bat_supprime[1];
 		tmp.limites  = this.limites.clone();
 		tmp.empty = this.empty;
 		for(int i = 0;i<this.histo_tuiles.size();i++){
@@ -334,9 +334,9 @@ public class Terrain {
 	}
 	
 	// Renvoie les indices des deux cases dont les batiments ont ete ecrases lors de la derniere pose de tuile
-	public int [] getIndexBatSuppr(){
-		return index_bat_supprime;
-	}
+	//public int [] getIndexBatSuppr(){
+	//	return index_bat_supprime;
+	//}
 	
 	private void poser_hexa(int x, int y, Case.Type type, Case.Orientation oV, int index_bat_suppr){
 		Case c = getCase(x,y);
@@ -350,10 +350,10 @@ public class Terrain {
 			if(index_bat_histo != -1){
 				// On met a jour l'historique (on supprime le dernier element et on le place a l'endroit à supprimer)
 				// et on met a jour index_bat_supprime pour indiquer le batiment à actualiser
-				index_bat_supprime[index_bat_suppr] = index_bat_histo;
+				//index_bat_supprime[index_bat_suppr] = index_bat_histo;
 				histo_batiments.set(index_bat_histo,histo_batiments.get(histo_batiments.size()-1).clone());
 				histo_batiments.remove(histo_batiments.size()-1);
-				Game.majHistoBatiments();
+				//Game.majHistoBatiments();
 			}
 			else System.out.println("Erreur poser_hexa : gestion de l'historique_batiments");
 			Cite cite = getCite(P);
@@ -390,9 +390,9 @@ public class Terrain {
 				index_cite[x][y] = -1;
 			}
 		}
-		else{
-			if(index_bat_suppr<2) index_bat_supprime[index_bat_suppr] = -1;
-		}
+		//else{
+		//	if(index_bat_suppr<2) index_bat_supprime[index_bat_suppr] = -1;
+		//}
 	}
 	
 	// Renvoie l'ensemble de cites issu de la suppression des batiments au point P

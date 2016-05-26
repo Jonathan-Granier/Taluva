@@ -119,25 +119,25 @@ public class Game implements Observer,KeyListener  {
 	public void drawConstruction(Renderer renderer,Shader shader){
 		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
 		//Check listConstruction with listAction_Batiment("IA mode useful")
-		if(Game.clear){
+		//if(Game.clear){
 		//if(listConstruction.size()<constructions.size()){
 			// Des constructions on été enlevées : on met à jour notre liste selon getIndexBatSuppr
 			// (il faut actualiser à ces indices et supprimer les derniers éléments)
 			while(listConstruction.size()<constructions.size()){
 				constructions.remove(constructions.size()-1);
 			}
-			int [] ind_bat_suppr = moteur.getTerrain().getIndexBatSuppr();
+			/*int [] ind_bat_suppr = moteur.getTerrain().getIndexBatSuppr();
 			for(int i=0;i<2;i++){
 				if(ind_bat_suppr[i] >= 0  && ind_bat_suppr[i] < constructions.size()){
-					constructions.set(ind_bat_suppr[i],new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader));
+					//constructions.set(ind_bat_suppr[i],new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader));
 					constructions.get(ind_bat_suppr[i]).setColour(listConstruction.get(ind_bat_suppr[i]).getCouleur());
 					constructions.get(ind_bat_suppr[i]).setType(listConstruction.get(ind_bat_suppr[i]).getTypeBatiment());
 					Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(ind_bat_suppr[i]).getPosition(),listConstruction.get(ind_bat_suppr[i]).getNiveau()-1));
 					constructions.get(ind_bat_suppr[i]).getObject3d().setPosition(worldPos);
 				}
 			}
-			Game.clear = false;
-		}
+			Game.clear = false;*/
+		//}
 		
 
 			
@@ -151,20 +151,22 @@ public class Game implements Observer,KeyListener  {
 			}
 		}
 		
-		int loop = listConstruction.size()-1;
-		if(Game.checkDelay() || !runDelay)
-			loop = listConstruction.size();
+		int loop = listConstruction.size();
+		//if(Game.checkDelay() || !runDelay)
+		//	loop = listConstruction.size();
 		
 		for(int i=0;i<loop;i++){
+			constructions.get(i).setColour(listConstruction.get(i).getCouleur());
+			constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 			constructions.get(i).getObject3d().setPosition(worldPos);
 			renderer.draw(constructions.get(i).getObject3d(),shader);
 		}
 	}
 	
-	public static void majHistoBatiments(){
-		clear = true;
-	}
+	//public static void majHistoBatiments(){
+	//	clear = true;
+	//}
 	
 	public static void initDelay(){
 		runDelay = true;
