@@ -673,9 +673,9 @@ public class Moteur extends Phase{
 	// Modifie l'état de jeu actuel
 	private void set_etat_de_jeu(Etat_de_jeu edj)
 	{
-		this.j1 = edj.getj1();
-		this.j2 = edj.getj2();
-		this.j_courant = edj.getj_courant();
+		this.j1 = edj.getj1().clone();
+		this.j2 = edj.getj2().clone();
+		this.j_courant = edj.getj_courant().clone();
 		this.T = edj.getTerrain().clone();
 	}
 	
