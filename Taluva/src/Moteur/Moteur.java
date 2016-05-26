@@ -633,7 +633,6 @@ public class Moteur extends Phase{
 		m_copie.j_courant = j_courant.clone(m_copie);
 		m_copie.j1 = j1.clone(m_copie);
 		m_copie.j2 = j2.clone(m_copie);
-		m_copie.j_gagnant = j_gagnant.clone(m_copie);
 		
 		while(m_copie.get_etat_jeu() != this.get_etat_jeu())m_copie.Incremente_Phase_Jeu();
 		return m_copie;

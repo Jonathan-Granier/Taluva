@@ -17,8 +17,8 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private Action_Construction coup_construction;
 	private boolean set_CC;
 	
-	private static int score_temple = 500;
-	private static int score_tour = 100;
+	private static int score_temple = 5000;
+	private static int score_tour = 1000;
 	private static int score_hutte = 1;
 	private static int score_deplete_mult = 5;
 	private static int tower_deplete_mult = 4;
@@ -26,7 +26,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private static int hut_deplete_mult = 1;
 	private static int hut_deplete_cant_play_mult = 5;
 	private static int score_city = 5;
-	private static int score_zone_city = 5;
+	private static int score_zone_city = 55;
 	private static int score_div_city_temple = 2;
 	private static int score_div_city_temple_tower = Integer.MAX_VALUE;
 	
@@ -63,12 +63,12 @@ public class IA_Alpha_Beta extends IA_Generique {
 	}
 	@Override
 	public Action_Tuile get_coup_tuile(Tuile tuile) {
-		//Moteur virtuel= m.clone();
-		//Moteur reel = m;
-		//this.m = virtuel;
+		Moteur virtuel= m.clone();
+		Moteur reel = m;
+		this.m = virtuel;
 		ArrayList<Action_Tuile> list_tuile_possible = m.getTerrain().liste_coups_tuile_possibles(tuile);
 		Coup_Tuile_Heuristique  coup_T_H= choisir_tuile_bon( list_tuile_possible, tuile, Integer.MAX_VALUE, this.profondeur);
-		//this.m = reel;
+		this.m = reel;
 		this.set_CC = true;
 		System.out.println("IA a&b: set CC <- true");
 		return coup_T_H.getActionTuile();
@@ -141,7 +141,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 					TH_retour.setActionTuile(liste.get(i));
 					TH_retour.setHeuristique(retour_REC.get_Heuristique());
 					coup_construction_retour = retour_REC.get_Action_Construction();
-					System.out.println("Le score_max est modifié [IA A&B]");
 				}
 				//annuler_coup();
 				m.annuler();
