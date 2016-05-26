@@ -19,11 +19,11 @@ public class Avancement implements PhaseListener {
 	public void maj(Phase_Jeu NouveauEtat){
 			
 		if(ihm.getM().get_num_Jcourant()==1){
-			ihm.getJoueur1().setBackground(Color.YELLOW);
+			ihm.getJoueur1().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 			ihm.getJoueur2().setBackground(Color.WHITE);
 		}
 		else{
-			ihm.getJoueur2().setBackground(Color.YELLOW);
+			ihm.getJoueur2().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 			ihm.getJoueur1().setBackground(Color.WHITE);
 		}
         switch (NouveauEtat)
@@ -49,7 +49,7 @@ public class Avancement implements PhaseListener {
 				ihm.getTourJ2().setEnabled(false);
 				ihm.getHutteJ2().setEnabled(false);
 				
-				ihm.getP().setBackground(Color.YELLOW);
+				ihm.getP().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getT().setBackground(Color.WHITE);
 				ihm.getC().setBackground(Color.WHITE);
 				ihm.getF().setBackground(Color.WHITE);
@@ -76,8 +76,8 @@ public class Avancement implements PhaseListener {
 				ihm.getTourJ2().setEnabled(false);
 				ihm.getHutteJ2().setEnabled(false);
 				
-				ihm.getP().setBackground(Color.WHITE);
-				ihm.getT().setBackground(Color.YELLOW);
+				ihm.getP().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getT().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getC().setBackground(Color.WHITE);
 				ihm.getF().setBackground(Color.WHITE);
 				break;
@@ -95,66 +95,20 @@ public class Avancement implements PhaseListener {
 				ihm.getPioche().setEnabled(false);
 				ihm.getFDT().setEnabled(false);
 				if(ihm.getM().get_num_Jcourant()==1){
-					if(ihm.getM().getJ1().getTemple() <= 0)
-					{
-						ihm.getTempleJ1().setEnabled(false);
-					}
-					else
-					{
-						ihm.getTempleJ1().setEnabled(true);
-					}
-					
-					if(ihm.getM().getJ1().getTour() <= 0)
-					{
-						ihm.getTourJ1().setEnabled(false);
-					}
-					else
-					{
-						ihm.getTourJ1().setEnabled(true);
-					}
-					
-					if(ihm.getM().getJ1().getHutte() <= 0)
-					{
-						ihm.getHutteJ1().setEnabled(false);
-					}
-					else
-					{
-						ihm.getHutteJ1().setEnabled(true);
-					}
+					ihm.getTempleJ1().setEnabled(!(ihm.getM().getJ1().getTemple() <= 0));
+					ihm.getTourJ1().setEnabled(!(ihm.getM().getJ1().getTour() <= 0));
+					ihm.getHutteJ1().setEnabled(!(ihm.getM().getJ1().getHutte() <= 0));
+
 				}
 				else{
-				
-					if(ihm.getM().getJ2().getTemple() <= 0)
-					{
-						ihm.getTempleJ2().setEnabled(false);
-					}
-					else
-					{
-						ihm.getTempleJ2().setEnabled(true);
-					}
-					
-					if(ihm.getM().getJ2().getTour() <= 0)
-					{
-						ihm.getTourJ2().setEnabled(false);
-					}
-					else
-					{
-						ihm.getTourJ2().setEnabled(true);
-					}
-					
-					if(ihm.getM().getJ2().getHutte() <= 0)
-					{
-						ihm.getHutteJ2().setEnabled(false);
-					}
-					else
-					{
-						ihm.getHutteJ2().setEnabled(true);
-					}
+					ihm.getTempleJ2().setEnabled(!(ihm.getM().getJ2().getTemple() <= 0));
+					ihm.getTourJ2().setEnabled(!(ihm.getM().getJ2().getTour() <= 0));
+					ihm.getHutteJ2().setEnabled(!(ihm.getM().getJ2().getHutte() <= 0));
 				}
 				
-				ihm.getP().setBackground(Color.WHITE);
-				ihm.getT().setBackground(Color.WHITE);
-				ihm.getC().setBackground(Color.YELLOW);
+				ihm.getP().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getT().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getC().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getF().setBackground(Color.WHITE);
 				break;
 				
@@ -173,10 +127,10 @@ public class Avancement implements PhaseListener {
 				ihm.getTourJ2().setEnabled(false);
 				ihm.getHutteJ2().setEnabled(false);
 				
-				ihm.getP().setBackground(Color.WHITE);
-				ihm.getT().setBackground(Color.WHITE);
-				ihm.getC().setBackground(Color.WHITE);
-				ihm.getF().setBackground(Color.YELLOW);
+				ihm.getP().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getT().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getC().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getF().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				break;
 			default:
 				

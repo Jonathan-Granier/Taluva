@@ -1,13 +1,33 @@
 package terrain;
 
+import java.awt.Color;
+
 public class Case {
 	
 	public enum Couleur_Joueur{
-		ROUGE,
+		VERT,
 		JAUNE,
 		BLANC,
-		MARRON,
+		BLEU,
 		NEUTRE;
+		public Color getcolor(){
+			switch (this){
+				case VERT:
+					return Color.GREEN;
+					
+				case JAUNE:
+					return Color.YELLOW;
+					
+				case BLANC:
+					return Color.WHITE;
+					
+				case BLEU:
+					return Color.BLUE;
+					
+				default:
+					return Color.BLACK;
+			}
+		}
 	}
 	
 	public enum Type{
