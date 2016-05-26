@@ -19,7 +19,7 @@ public class Case {
 					return Color.YELLOW;
 					
 				case BLANC:
-					return Color.WHITE;
+					return Color.LIGHT_GRAY;
 					
 				case BLEU:
 					return Color.CYAN;
