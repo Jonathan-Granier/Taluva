@@ -30,12 +30,14 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private static int score_div_city_temple = 2;
 	private static int score_div_city_temple_tower = Integer.MAX_VALUE;
 	
+	// Constructeur sans profondeur donné, joue seulement son tour.
 	public IA_Alpha_Beta (Couleur_Joueur c, Moteur m)
 	{
 		super(c, m);
 		this.profondeur = 1;
 		set_CC = false;
 	}
+	// Constructeur avec profondeur donnée
 	public IA_Alpha_Beta (int profondeur, Couleur_Joueur c, Moteur m)
 	{
 		super(c, m);
@@ -207,7 +209,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_construction_retour.add(liste.get(i));
 				}
 				//annuler_coup();
-				System.out.println("[[[ IA A&B CCB: annulation");
 				m.annuler();
 				i++;
 			}
@@ -347,9 +348,9 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private int Calculer_points_heur(Joueur_Generique c) {
 		// on compte le score d'un joueur dans le terrain.
 		int score =0;
-		score += (m.nb_max_Temples - c.getTemple()) * score_temple;
-		score += (m.nb_max_Tours - c.getTour()) * score_tour;
-		score += (m.nb_max_Huttes - c.getHutte()) * score_hutte;
+		score += (Moteur.nb_max_Temples - c.getTemple()) * IA_Alpha_Beta.score_temple;
+		score += (Moteur.nb_max_Tours - c.getTour()) * IA_Alpha_Beta.score_tour;
+		score += (Moteur.nb_max_Huttes - c.getHutte()) * IA_Alpha_Beta.score_hutte;
 		//score += city_count( c.getCouleur()) * score_city;
 		
 		// Si le joueur s'est débarassé de toutes ses pièces de 2 catégorie, il a gagné.
@@ -360,12 +361,12 @@ public class IA_Alpha_Beta extends IA_Generique {
 		// Sinon, s'il s'en raproche:
 		else if(c.getHutte() == 0 || c.getTour()==0 || c.getTemple()==0)
 		{
-			score += (m.get_nbTuiles()/ 2) * this.score_deplete_mult 
-					/Math.max( c.getHutte()*this.hut_deplete_mult , Math.max(c.getTemple()* this.temple_deplete_mult, c.getTour()* this.tower_deplete_mult) );
+			score += (m.get_nbTuiles()/ 2) * IA_Alpha_Beta.score_deplete_mult 
+					/Math.max( c.getHutte()*IA_Alpha_Beta.hut_deplete_mult , Math.max(c.getTemple()* IA_Alpha_Beta.temple_deplete_mult, c.getTour()* IA_Alpha_Beta.tower_deplete_mult) );
 			// Attention, c'est dangereux de ne plus avoir de huttes.
 			if(c.getHutte() == 0)
 			{
-				score -= (m.get_nbTuiles()/ 2) * this.hut_deplete_cant_play_mult;
+				score -= (m.get_nbTuiles()/ 2) * IA_Alpha_Beta.hut_deplete_cant_play_mult;
 			}
 		}
 		// Ajouter les points dus aux qualités des cités;
@@ -378,20 +379,20 @@ public class IA_Alpha_Beta extends IA_Generique {
 	// Calculer la valeur d'une cité.
 	private int valeur_cite( Cite c, Joueur_Generique j)
 	{
-		int score_cite = this.score_city + c.getTaille() * this.score_zone_city;
+		int score_cite = IA_Alpha_Beta.score_city + c.getTaille() * IA_Alpha_Beta.score_zone_city;
 		// Si la cité nous permettra de créer un temple, elle en vaux la moitié des points
 		if(c.getTaille() >= 3 && c.getNbTemples() > 0 && indestructible_city(c) && m.get_nbTuiles()/2 > 1 && j.getTemple()>0)
 		{
 			// check destructible
-			score_cite += this.score_temple;
+			score_cite += IA_Alpha_Beta.score_temple;
 		}
 		if(c.getNbTemples() > 0)
 		{
-			score_cite = score_cite/ this.score_div_city_temple;
+			score_cite = score_cite/ IA_Alpha_Beta.score_div_city_temple;
 		}
 		if( c.getNbTemples()>0 && c.getNbTours()>0)
 		{
-			score_cite = score_cite / this.score_div_city_temple_tower;
+			score_cite = score_cite / IA_Alpha_Beta.score_div_city_temple_tower;
 		}
 		return score_cite;
 	}

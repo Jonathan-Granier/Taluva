@@ -4,6 +4,7 @@ public class Actions_Tour {
 	public Action_Tuile action_tuile;
 	public Action_Construction action_construction;
 	
+	// Renvoie les deux actions d'un tour.
 	public Actions_Tour(Action_Tuile AT, Action_Construction AC)
 	{
 		this.action_construction = AC;

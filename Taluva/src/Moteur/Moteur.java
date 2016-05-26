@@ -507,7 +507,7 @@ public class Moteur extends Phase{
 		Action_Tuile action_tuile;
 		
 		piocher();
-		action_tuile = ((IA_Generique) j_courant).get_coup_tuile(tuile_pioche);
+		action_tuile = j_courant.get_coup_tuile(tuile_pioche);
 		//TODO 
 		//Delay
 		
@@ -520,7 +520,7 @@ public class Moteur extends Phase{
 
 		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		Maj_liste_coup_construction();
-		Action_Construction action_construction = ((IA_Generique) j_courant).get_coup_construction();
+		Action_Construction action_construction = j_courant.get_coup_construction();
 		// SI c'est une extension
 		Point point_construction = action_construction.get_coord();
 		if(action_construction.get_type() == Action_Construction.Type.EXTENSION)
