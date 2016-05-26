@@ -184,7 +184,7 @@ public class Terrain {
 			return index_cite[i][j];
 		else
 			System.out.println("Erreur : Terrain.getIndexCite(" + i + "," + j + ")");
-			return 0;
+			return -1;
 	}
 
 /*
@@ -958,8 +958,8 @@ public class Terrain {
 		if(c == Case.Couleur_Joueur.NEUTRE) return res;
 		Point P;
 		int nb;
-		for(int i=limites.xmin;i<limites.xmax;i++){
-			for(int j=limites.ymin;j<limites.ymax;j++){
+		for(int i=limites.xmin;i<=limites.xmax;i++){
+			for(int j=limites.ymin;j<=limites.ymax;j++){
 				P = new Point(i,j);
 				if(getCase(P).getCouleur() == c){
 					// Il y a une cite au point P, c'est une extension
@@ -989,8 +989,8 @@ public class Terrain {
 		ArrayList<Action_Construction> res = new  ArrayList<Action_Construction>();
 		if(c == Case.Couleur_Joueur.NEUTRE) return res;
 		Point P;
-		for(int i=limites.xmin;i<limites.xmax;i++){
-			for(int j=limites.ymin;j<limites.ymax;j++){
+		for(int i=limites.xmin;i<=limites.xmax;i++){
+			for(int j=limites.ymin;j<=limites.ymax;j++){
 				P = new Point(i,j);
 				if(getCase(P).est_Libre()){
 					if(placement_batiment_autorise(Case.Type_Batiment.HUTTE, c, P))
@@ -1009,8 +1009,8 @@ public class Terrain {
 	public ArrayList<Action_Tuile> liste_coups_tuile_possibles(Tuile tuile){
 		ArrayList<Action_Tuile> res = new  ArrayList<Action_Tuile>();
 		for(int o=0;o<6;o++){
-			for(int i=limites.xmin-2;i<limites.xmax+2;i++){
-				for(int j=limites.ymin-2;j<limites.ymax+1;j++){
+			for(int i=limites.xmin-2;i<=limites.xmax+2;i++){
+				for(int j=limites.ymin-2;j<=limites.ymax+1;j++){
 					if(placement_tuile_autorise(tuile, new Point(i,j)))
 						res.add(new Action_Tuile(tuile.clone(),new Point(i,j),getCase(i,j).getNiveau()+1));
 				}

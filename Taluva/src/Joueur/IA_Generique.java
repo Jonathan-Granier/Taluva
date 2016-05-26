@@ -15,6 +15,7 @@ public abstract class IA_Generique extends Joueur_Generique{
 	}
 	public abstract Action_Construction get_coup_construction();
 	public abstract Action_Tuile get_coup_tuile(Tuile tuile);
+	public abstract Actions_Tour get_coup_tour(Tuile tuile);
 	
 	
 
