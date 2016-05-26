@@ -63,8 +63,21 @@ Maj de l'interface et IHM (correction de quelques bugs)
 Audits IHM
 
 Mardi 24/05/16
-Modification Annuler/Refaire (utilisation d'une pile au lieu d'une ArrayList)
+Modification Annuler/Refaire (utilisation d'une stack au lieu d'une ArrayList)
 Correction des bugs d'Annuler/Refaire
 On peut finalement eliminer le joueur
 Correction des problèmes de Merge
 
+Mercredi 25/05/16
+Modification de l'IHM de jeu (réarangement du menu swing)
+Ajout de la Phase de jeu : "FIN DE PARTIE"
+Découpage des tuiles (photoshop) pour l'intégration à l'interface graphique
+Couleurs des joueurs rajoutés
+Avancement des IA (Alpha_Beta, et Random)
+Modifications mineures sur le moteur (nettoyage + fonctions relatives aux IA)
+
+Jeudi 26/05/16
+Audits de Code
+Rajout d'un Timer pour gérer la dualité Swing+OpenGL
+Rajout des Observers à la place des Listener d'état
+Correction bugs mineurs dans le Terrain
