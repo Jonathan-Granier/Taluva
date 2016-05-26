@@ -44,7 +44,6 @@ public class IA_Random extends IA_Generique{
 	public Action_Construction get_coup_construction() {
 		m.getTerrain().afficher();
 		m.Maj_liste_coup_construction();
-		Liste_coup_construction liste_coup = m.get_liste_coup_construction();
 		return m.get_liste_coup_construction().get_random_action();
 	}
 
