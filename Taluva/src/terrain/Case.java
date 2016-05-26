@@ -22,7 +22,7 @@ public class Case {
 					return Color.WHITE;
 					
 				case BLEU:
-					return Color.BLUE;
+					return Color.CYAN;
 					
 				default:
 					return Color.BLACK;
