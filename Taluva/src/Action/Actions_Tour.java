@@ -1,7 +1,4 @@
-package Joueur;
-
-import Action.Action_Construction;
-import Action.Action_Tuile;
+package Action;
 
 public class Actions_Tour {
 	public Action_Tuile action_tuile;

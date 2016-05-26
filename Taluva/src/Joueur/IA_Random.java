@@ -6,6 +6,7 @@ import java.util.Random;
 
 import Action.Action_Construction;
 import Action.Action_Tuile;
+import Action.Actions_Tour;
 import Liste_coup.Liste_coup_construction;
 import Moteur.Moteur;
 import terrain.Case;
