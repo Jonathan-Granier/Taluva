@@ -9,26 +9,25 @@ import Moteur.Moteur;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import terrain.Cite;
-import terrain.Terrain;
 import terrain.Tuile;
 
 public class IA_Alpha_Beta extends IA_Generique {
 	private int profondeur;
-	
-	private int score_temple = 500;
-	private int score_tour = 100;
-	private int score_hutte = 1;
-	private int score_deplete_mult = 5;
-	private int tower_deplete_mult = 4;
-	private int temple_deplete_mult = 4;
-	private int hut_deplete_mult = 1;
-	private int hut_deplete_cant_play_mult = 5;
-	private int score_city = 15;
-	private int score_zone_city = 15;
-	private int score_div_city_temple = 2;
-	private int score_div_city_temple_tower = Integer.MAX_VALUE;
-	private boolean set_CC;
 	private Action_Construction coup_construction;
+	private boolean set_CC;
+	
+	private static int score_temple = 500;
+	private static int score_tour = 100;
+	private static int score_hutte = 1;
+	private static int score_deplete_mult = 5;
+	private static int tower_deplete_mult = 4;
+	private static int temple_deplete_mult = 4;
+	private static int hut_deplete_mult = 1;
+	private static int hut_deplete_cant_play_mult = 5;
+	private static int score_city = 5;
+	private static int score_zone_city = 5;
+	private static int score_div_city_temple = 2;
+	private static int score_div_city_temple_tower = Integer.MAX_VALUE;
 	
 	public IA_Alpha_Beta (Couleur_Joueur c, Moteur m)
 	{
@@ -41,6 +40,13 @@ public class IA_Alpha_Beta extends IA_Generique {
 		super(c, m);
 		this.profondeur = profondeur;
 	}
+	
+	@Override
+	public Actions_Tour get_coup_tour(Tuile tuile)
+	{
+		return null;
+	}
+	
 	@Override
 	public Action_Construction get_coup_construction() {
 		System.out.println("IA A&B: Get_coup_construction");
@@ -59,6 +65,8 @@ public class IA_Alpha_Beta extends IA_Generique {
 		ArrayList<Action_Tuile> list_tuile_possible = m.getTerrain().liste_coups_tuile_possibles(tuile);
 		Coup_Tuile_Heuristique  coup_T_H= choisir_tuile_bon( list_tuile_possible, tuile, Integer.MAX_VALUE, this.profondeur);
 		//this.m = reel;
+		this.set_CC = true;
+		System.out.println("IA a&b: set CC <- true");
 		return coup_T_H.getActionTuile();
 	}
 	
