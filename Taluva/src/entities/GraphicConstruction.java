@@ -119,7 +119,7 @@ public class GraphicConstruction {
 
 	public void setColour(Couleur_Joueur colour) {
 		switch(colour){
-			case ROUGE:
+			case VERT:
 				this.colour = new Vector3f(0.6f,0,0);
 			break;
 			case JAUNE:
@@ -128,7 +128,7 @@ public class GraphicConstruction {
 			case BLANC:
 				this.colour = new Vector3f(0.5f,0.5f,0.5f);
 			break;
-			case MARRON:
+			case BLEU:
 				this.colour = new Vector3f(0.6f,0.3f,0);
 			break;
 			case NEUTRE:
