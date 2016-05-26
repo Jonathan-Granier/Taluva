@@ -13,6 +13,7 @@ import java.util.Stack;
 
 import Action.Action_Construction;
 import Action.Action_Tuile;
+import Action.Actions_Tour;
 import Joueur.IA_Alpha_Beta;
 import Joueur.IA_Generique;
 import Joueur.IA_Random;
@@ -504,15 +505,15 @@ public class Moteur extends Phase{
 	// Fait jouer le tour pour une IA
 	public int jouer_IA()
 	{
-		Action_Tuile action_tuile;
+		Actions_Tour action_tour;
 		
 		piocher();
-		action_tuile = j_courant.get_coup_tuile(tuile_pioche);
+		action_tour = j_courant.get_coup_tour(tuile_pioche);
 		//TODO 
 		//Delay
 		
-		tuile_pioche.set_Orientation_Volcan(action_tuile.getTuile().get_Orientation_Volcan());
-		if (placer_tuile(action_tuile.getPosition())!=0)
+		tuile_pioche.set_Orientation_Volcan(action_tour.getAction_tuile().getTuile().get_Orientation_Volcan());
+		if (placer_tuile(action_tour.getAction_tuile().getPosition())!=0)
 		{
 			System.out.println("[jouer_IA] Impossible de poser la tuile");
 			return 1;
@@ -520,7 +521,7 @@ public class Moteur extends Phase{
 
 		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		Maj_liste_coup_construction();
-		Action_Construction action_construction = j_courant.get_coup_construction();
+		Action_Construction action_construction = action_tour.getAction_construction();
 		// SI c'est une extension
 		Point point_construction = action_construction.get_coord();
 		if(action_construction.get_type() == Action_Construction.Type.EXTENSION)
