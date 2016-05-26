@@ -31,15 +31,15 @@ public class Liste_coup_construction {
 				p = new Point(i,j);
 				if(t.placement_batiment_autorise(Case.Type_Batiment.HUTTE, joueur.getCouleur(), p))
 				{
-					huttes.add(p);
+					huttes.add(new Point(p));
 				}
 				if(t.placement_batiment_autorise(Case.Type_Batiment.TEMPLE, joueur.getCouleur(), p))
 				{
-					temple.add(p);
+					temple.add(new Point(p));
 				}
 				if(t.placement_batiment_autorise(Case.Type_Batiment.TOUR, joueur.getCouleur(), p))
 				{
-					tour.add(p);
+					tour.add(new Point(p));
 				}
 			}
 		}
@@ -92,7 +92,7 @@ public class Liste_coup_construction {
 		return null;
 	}
 	
-	public void affichage()
+	public void afficher()
 	{
 		System.out.println("Liste des coups: huttes");
 		for(int i=0; i< huttes.size(); i++)

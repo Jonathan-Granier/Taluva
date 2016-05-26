@@ -19,7 +19,7 @@ public class Action_Construction {
 	// Constructeur d'une action-construction hors extension
 	public Action_Construction(Type t, Point coord)
 	{
-		this.coord = new Point(coord.x,coord.x);
+		this.coord = new Point(coord.x,coord.y);
 		if(t == Type.EXTENSION){
 			System.out.println("Erreur : constructeur Action_Construction invalide");
 		}
@@ -35,7 +35,7 @@ public class Action_Construction {
 	// une case de la cité à étendre, le nb de huttes nécessaire et le type de terrain de l'extension).
 	public Action_Construction(Point coord, Case.Type type_extension, int nb_huttes)
 	{
-		this.coord = new Point(coord.x,coord.x);
+		this.coord = new Point(coord.x,coord.y);
 		this.type = Type.EXTENSION;
 		this.type_extension = type_extension;
 		this.nb_batiments = nb_huttes;
