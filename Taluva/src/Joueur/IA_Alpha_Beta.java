@@ -44,7 +44,8 @@ public class IA_Alpha_Beta extends IA_Generique {
 	@Override
 	public Actions_Tour get_coup_tour(Tuile tuile)
 	{
-		return null;
+		Action_Tuile AT_retour = get_coup_tuile(tuile);
+		return new Actions_Tour(AT_retour, this.coup_construction);
 	}
 	
 	@Override
