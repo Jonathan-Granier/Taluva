@@ -94,7 +94,7 @@ newmtl Roof
 	illum 2
 	Ka 0.5882 0.5882 0.5882
 	Kd 0.5882 0.5882 0.5882
-	Ks 0.5760 0.5760 0.5760
+	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka roof2.png
 	map_Kd roof2.png

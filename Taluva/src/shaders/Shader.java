@@ -26,10 +26,7 @@ public class Shader extends ShaderProgram{
 	private int location_shineDamper;
 	private int location_reflectivity;
 	private int location_textured;
-	private int location_toShadowMapSpace;
-	private int location_shadowMap;
 	private int location_diffuseMap;
-	private int location_reciveShadow;
 	private int loacation_notAllow;
 	private int location_playerColour;
 	
@@ -53,10 +50,7 @@ public class Shader extends ShaderProgram{
 		location_reflectivity = super.getUniformLocation("reflectivity");
 		location_textured = super.getUniformLocation("textured");
 		location_diffuse = super.getUniformLocation("diffuseColour");
-		location_toShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
-		location_shadowMap = super.getUniformLocation("shadowMap"); 
 		location_diffuseMap = super.getUniformLocation("diffuseMap"); 
-		location_reciveShadow = super.getUniformLocation("reciveShadow");
 		loacation_notAllow = super.getUniformLocation("notAllow");
 		location_playerColour = super.getUniformLocation("playerColour");
 		
@@ -70,7 +64,6 @@ public class Shader extends ShaderProgram{
 	
 	public void connectTextureUnits(){
 		super.loadInt(location_diffuseMap, 0);
-		super.loadInt(location_shadowMap, 1);
 	}
 	
 	public void loadDiffuse(Vector3f diffuse){
@@ -102,10 +95,6 @@ public class Shader extends ShaderProgram{
 		super.loadBoolean(loacation_notAllow, notAllow);
 	}
 	
-	public void loadReceiveShadow(boolean reciveShadow){
-		super.loadBoolean(location_reciveShadow, reciveShadow);
-	}
-	
 	public void loadTextured(boolean textured){
 		super.loadBoolean(location_textured, textured);
 	}
@@ -123,8 +112,5 @@ public class Shader extends ShaderProgram{
 		super.loadMatrix(location_viewMatrix, viewMatrix);
 	}
 	
-	public void loadToShadowSpaceMatrix(Matrix4f matrix){
-		super.loadMatrix(location_toShadowMapSpace, matrix);
-	}
 
 }
