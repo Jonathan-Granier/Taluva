@@ -134,6 +134,10 @@ public class Phase {
 	
 	protected void finir_partie(){
 		phase_jeu = Phase_Jeu.FIN_DE_PARTIE;
+		for(PhaseListener listener : getPhaseListeners()) 
+		{
+			listener.ChangementPhase(phase_jeu);
+		}
 	}
 	
 	public Phase clone_Phase()
