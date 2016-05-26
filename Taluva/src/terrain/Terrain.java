@@ -115,7 +115,8 @@ public class Terrain {
 	public Cite getCite(Point P){
 		int i = getIndexCite(P);
 		if(i < 0 || i >= cites.size()){
-			System.out.println("Erreur : Terrain.getCite : index " + i + ", taille " + cites.size());
+			//System.out.println("Erreur : Terrain.getCite(" + P.x + "," + P.y + ") : index " + i + ", taille " + cites.size());
+			System.out.println("Terrain.getCite(" + P.x + "," + P.y + ") : pas de cite ici");
 			return new Cite(P, null, null);
 		}
 		return cites.get(i);
@@ -183,7 +184,7 @@ public class Terrain {
 		if(i>=limites.xmin && j>=limites.ymin && i<=limites.xmax && j<=limites.ymax)
 			return index_cite[i][j];
 		else
-			System.out.println("Erreur : Terrain.getIndexCite(" + i + "," + j + ")");
+			System.out.println("Terrain.getIndexCite(" + i + "," + j + ") : hors terrain.");
 			return -1;
 	}
 
