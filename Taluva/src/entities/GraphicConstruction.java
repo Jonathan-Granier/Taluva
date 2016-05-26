@@ -22,7 +22,7 @@ public class GraphicConstruction {
 	private Object3D tower;
 	private Vector3f colour;
 	private float height;
-	private Loader loader;
+	//private Loader loader;
 
 	public GraphicConstruction(GraphicType type, Vector3f colour, Loader loader) {
 		this.hut =  new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
@@ -43,7 +43,7 @@ public class GraphicConstruction {
 		}
 		this.height = 0;
 		this.colour = colour;
-		this.loader = loader;
+		//this.loader = loader;
 	}
 
 	public Case.Type_Batiment getType_Batiment() {
@@ -87,9 +87,9 @@ public class GraphicConstruction {
 		this.type = gc.getType();
 		this.colour = gc.getColour();
 		this.height = gc.height;
-		this.hut = gc.hut;
-		this.tower = gc.tower;
-		this.temple = gc.temple;
+		this.hut = new Object3D(gc.hut);
+		this.tower = new Object3D(gc.tower);
+		this.temple = new Object3D(gc.temple);
 	}
 
 	public void setType(GraphicType type) {
