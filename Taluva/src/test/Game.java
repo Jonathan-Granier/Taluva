@@ -70,10 +70,8 @@ public class Game {
 		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
 		//Check listTile with listActionTile("IA mode useful")
 		
-		if(listTile.size()<Tiles.size()){
-			while(listTile.size()<Tiles.size()){
-				Tiles.remove(Tiles.size()-1);
-			}
+		while(listTile.size()<Tiles.size()){
+			Tiles.remove(Tiles.size()-1);
 		}
 		
 		int loop = listTile.size()-1;
@@ -99,8 +97,10 @@ public class Game {
 	public void drawConstruction(Renderer renderer,Shader shader){
 		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
 		//Check listConstruction with listAction_Batiment("IA mode useful")
-		//if(Game.clear){
-		if(listConstruction.size()<constructions.size()){
+		if(Game.clear){
+		//if(listConstruction.size()<constructions.size()){
+			// Des constructions on été enlevées : on met à jour notre liste selon getIndexBatSuppr
+			// (il faut actualiser à ces indices et supprimer les derniers éléments)
 			while(listConstruction.size()<constructions.size()){
 				constructions.remove(constructions.size()-1);
 			}
@@ -114,7 +114,7 @@ public class Game {
 					constructions.get(ind_bat_suppr[i]).getObject3d().setPosition(worldPos);
 				}
 			}
-		//	Game.clear = false;
+			Game.clear = false;
 		}
 		
 
@@ -140,7 +140,7 @@ public class Game {
 		}
 	}
 	
-	public static void clean(){
+	public static void majHistoBatiments(){
 		clear = true;
 	}
 	

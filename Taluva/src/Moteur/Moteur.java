@@ -576,6 +576,7 @@ public class Moteur extends Phase{
 		this.set_etat_de_jeu(tmp);
 		this.Decremente_Phase_Jeu();
 		//histo_jeu.remove(histo_jeu.size()-1);
+		Game.majHistoBatiments();
 		return 0;
 	}
 	
@@ -588,6 +589,7 @@ public class Moteur extends Phase{
 		annul.push(this.get_EDJ_courant());
 		this.Incremente_Phase_Jeu();
 		this.set_etat_de_jeu(tmp);
+		Game.majHistoBatiments();
 		return 0;
 	}
 	

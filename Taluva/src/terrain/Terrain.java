@@ -350,7 +350,7 @@ public class Terrain {
 				index_bat_supprime[index_bat_suppr] = index_bat_histo;
 				histo_batiments.set(index_bat_histo,histo_batiments.get(histo_batiments.size()-1));
 				histo_batiments.remove(histo_batiments.size()-1);
-				//Game.clean();
+				Game.majHistoBatiments();
 			}
 			else System.out.println("Erreur poser_hexa : gestion de l'historique_batiments");
 			Cite cite = getCite(P);
@@ -706,14 +706,18 @@ public class Terrain {
 		ArrayList<Point> pts_extension = getPts_extension_cite(cite,type);
 		if(pts_extension.size()>0){
 			for(Point pt_extension : pts_extension){
+				// On traite chaque case a etendre
 				int n = getCase(pt_extension).getNiveau();
 				ArrayList<Cite> cites_proches = getCitesContact(pt_extension,c);
+				// On l'ajoute a l'historique
 				histo_batiments.add(new Action_Batiment(Case.Type_Batiment.HUTTE,n,n,pt_extension,c));
+				// On ajoute les batiments sur la case
 				getCase(pt_extension).ajouter_batiment(Case.Type_Batiment.HUTTE,c);
+				// On ajoute a la cite
 				cite.ajouter(pt_extension, Case.Type_Batiment.HUTTE);
 				index_cite[pt_extension.x][pt_extension.y]=index_c;
 				if(cites_proches.size()>1){
-					// Cette extension connecte deux cites
+					// Cette extension connecte deux cites ou plus
 					for(int j=1;j<cites_proches.size();j++){
 						fusion_cite(cites_proches.get(0),cites_proches.get(j));
 					}
