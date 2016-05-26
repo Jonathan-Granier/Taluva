@@ -110,10 +110,10 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 					Tile.getObject3D().setPosition(new Vector3f(point.x,Tile.getHeight(),point.z));
 				}
 		
-				if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT)){
-					Tile.rotate();
-					m.tourner_tuile();
-				}
+				//if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT)){
+				//	Tile.rotate();
+				//	m.tourner_tuile();
+				//}
 				
 				//Snap
 				Tile.setPostionVolcano();
@@ -217,10 +217,10 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 						 System.out.println("Il est impossible de poser une tuille ici");
 					 }
 				}
-				//else if(SwingUtilities.isRightMouseButton(e)){
-				//		Tile.rotate();
-				//		m.tourner_tuile();
-				//}
+				else if(SwingUtilities.isRightMouseButton(e)){
+						Tile.rotate();
+						m.tourner_tuile();
+				}
 				
 				break;
 			case CONSTRUIRE_BATIMENT:
