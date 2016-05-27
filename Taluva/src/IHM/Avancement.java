@@ -4,12 +4,14 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
+import Joueur.BatimentCountListener;
+import Joueur.Joueur_Generique;
 import Moteur.Phase.Phase_Jeu;
 import Moteur.PhaseListener;
 import Moteur.Phase;
 import Moteur.Moteur;
 
-public class Avancement implements PhaseListener {
+public class Avancement implements PhaseListener, BatimentCountListener {
 	IHM ihm;
 	public Avancement(IHM ihm){
 		this.ihm=ihm;
@@ -38,15 +40,15 @@ public class Avancement implements PhaseListener {
 				{
 					ihm.getRefaire().setEnabled(true);
 				}
-				ihm.getPiocher().setEnabled(true);
+				ihm.getPioche().setEnabled(true);
 				ihm.getFDT().setEnabled(false);
 				
 				ihm.getTemple().setEnabled(false);
 				ihm.getTour().setEnabled(false);
 				ihm.getHutte().setEnabled(false);
 				
-				
-				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getPiocher().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getPoser().setBackground(Color.WHITE);
 				ihm.getConstruire().setBackground(Color.WHITE);
 				ihm.getFinir().setBackground(Color.WHITE);
 				break;
@@ -61,7 +63,7 @@ public class Avancement implements PhaseListener {
 				{
 					ihm.getRefaire().setEnabled(true);
 				}
-				ihm.getPiocher().setEnabled(false);
+				ihm.getPioche().setEnabled(false);
 				ihm.getFDT().setEnabled(false);
 				
 				ihm.getTemple().setEnabled(false);
@@ -69,7 +71,7 @@ public class Avancement implements PhaseListener {
 				ihm.getHutte().setEnabled(false);
 				
 				
-				
+				ihm.getPiocher().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getConstruire().setBackground(Color.WHITE);
 				ihm.getFinir().setBackground(Color.WHITE);
@@ -85,7 +87,7 @@ public class Avancement implements PhaseListener {
 				{
 					ihm.getRefaire().setEnabled(true);
 				}
-				ihm.getPiocher().setEnabled(false);
+				ihm.getPioche().setEnabled(false);
 				ihm.getFDT().setEnabled(false);
 				if(ihm.getM().get_num_Jcourant()==1){
 					ihm.getTemple().setEnabled(!(ihm.getM().getJ1().getTemple() <= 0));
@@ -99,7 +101,7 @@ public class Avancement implements PhaseListener {
 					ihm.getHutte().setEnabled(!(ihm.getM().getJ2().getHutte() <= 0));
 				}
 				
-				
+				ihm.getPiocher().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getConstruire().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getFinir().setBackground(Color.WHITE);
@@ -110,14 +112,14 @@ public class Avancement implements PhaseListener {
 			case FIN_DE_TOUR:
 				ihm.getAnnuler().setEnabled(true);
 				ihm.getRefaire().setEnabled(false);
-				ihm.getPiocher().setEnabled(false);
+				ihm.getPioche().setEnabled(false);
 				ihm.getFDT().setEnabled(true);
 				
 				ihm.getTemple().setEnabled(false);
 				ihm.getTour().setEnabled(false);
 				ihm.getHutte().setEnabled(false);
 				
-				
+				ihm.getPiocher().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getConstruire().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
 				ihm.getFinir().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
@@ -134,6 +136,26 @@ public class Avancement implements PhaseListener {
 	public void ChangementPhase(Phase_Jeu NouveauEtat) {
 		maj(NouveauEtat);
 		
+	}
+
+	@Override
+	public void MajBatimentCount(Joueur_Generique j, int hutte, int tour, int temple) {
+		// TODO Auto-generated method stub
+		if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ1()))
+		{
+			ihm.getInfoJ1()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
+			ihm.getInfoJ1()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
+			ihm.getInfoJ1()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
+			
+		}
+		else if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ2()))
+		{
+			ihm.getInfoJ2()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
+			ihm.getInfoJ2()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
+			ihm.getInfoJ2()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
+			
+		}
+
 	}
 	
 	

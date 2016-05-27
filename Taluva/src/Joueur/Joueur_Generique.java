@@ -1,9 +1,12 @@
 package Joueur;
 
+import javax.swing.event.EventListenerList;
+
 import Action.Action_Construction;
 import Action.Action_Tuile;
 import Action.Actions_Tour;
 import Moteur.Moteur;
+import Moteur.PhaseListener;
 import terrain.Case.Couleur_Joueur;
 import terrain.Tuile;
 
@@ -22,6 +25,7 @@ import terrain.Tuile;
 public abstract class Joueur_Generique {
 	private int temple, tour, hutte,hutteDetruite;
 	private Couleur_Joueur c;
+	private final EventListenerList listeners = new EventListenerList();
 	
 	public Joueur_Generique(Couleur_Joueur c)
 	{
@@ -69,16 +73,19 @@ public abstract class Joueur_Generique {
 	public void setTemple(int temple)
 	{
 		this.temple = temple;
+		MajListeners();
 	}
 	
 	public void setTour(int tour)
 	{
 		this.tour = tour;
+		MajListeners();
 	}
 	
 	public void setHutte(int hutte)
 	{
 		this.hutte = hutte;
+		MajListeners();
 	}
 	
 	public void setHutteDetruite(int hutteDetruite)
@@ -92,6 +99,7 @@ public abstract class Joueur_Generique {
 		{
 			this.temple = temple-1;
 		}
+		MajListeners();
 	}
 
 	
@@ -101,6 +109,7 @@ public abstract class Joueur_Generique {
 		{
 			this.tour = tour-1;
 		}
+		MajListeners();
 		
 	}
 	public void decrementeHutte(int n)
@@ -109,6 +118,7 @@ public abstract class Joueur_Generique {
 		{
 			this.hutte = hutte - n;
 		}
+		MajListeners();
 	}
 	
 	public void incrementeHutteDetruite(int n)
@@ -164,5 +174,38 @@ public abstract class Joueur_Generique {
 		
 		return clone;
 	}
+	
+	
+	// Listener
+	
+
+	//Ajoute un ecouteur d'Etat listener
+	public void addBatimentCountListener(BatimentCountListener listener)
+	{
+		
+		listeners.add(BatimentCountListener.class, listener);
+	}
+	
+	//Supprime un ecouteur d'Etat listener
+	public void removeBatimentCountListener(BatimentCountListener listener)
+	{
+		listeners.remove(BatimentCountListener.class, listener);
+	}
+	//Appel tous les listeners pour les mettre à jour
+	public void MajListeners()
+	{
+		for(BatimentCountListener listener : getBatimentCountListeners()) 
+		{
+			listener.MajBatimentCount(this,this.hutte,this.tour,this.temple);
+		}
+	}
+	
+
+	//Renvoi la liste des ecouteurs d'Etat
+	public BatimentCountListener[] getBatimentCountListeners()
+	{
+		 return listeners.getListeners(BatimentCountListener.class);
+	}
+	
 	
 }

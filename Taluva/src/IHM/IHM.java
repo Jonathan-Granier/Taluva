@@ -30,13 +30,11 @@ public class IHM {
 	private JFrame frame;
 	private Moteur m;
 	private int width,height;
-	private JPanel ecran, boutons_Construction, frise, bas, joueurs, action, annuler_refaire,
-  StatJ1, StatJ2;
-	private JLabel  Piocher, Poser, Construire, Finir, image_Temple_J1, image_Tour_J1, image_Hutte_J1,image_Temple_J2, image_Tour_J2, image_Hutte_J2,
-	nb_Hutte_J1,nb_Tour_J1,nb_Temple_J1, nb_Hutte_J2,nb_Tour_J2,nb_Temple_J2;
+	private JPanel ecran, boutons_Construction, frise, bas, joueurs, action, annuler_refaire;
+	private JLabel  Piocher, Poser, Construire, Finir;
 	private JButton Annuler,Refaire,Pioche,FDT,temple,tour,hutte;
 	
-	// On factorise
+	//Pour les joueurs
 	private JLabel[] InfoJ1,InfoJ2;
 	private JPanel[] Image_Stat_J1,Image_Stat_J2;
 	private JPanel panelJ1,panelJ2;
@@ -72,15 +70,6 @@ public class IHM {
         action = new JPanel();
         annuler_refaire = new JPanel();
        
-       // A delete
-        StatJ1 = new JPanel();
-        StatJ2 = new JPanel();
-        
-        // A delete
-        image_Temple_J1  = new JLabel();
-        image_Tour_J1  = new JLabel(); 
-        image_Hutte_J1  = new JLabel();
-        
         canvas = new Canvas();
         
         //Joueurs
@@ -106,23 +95,11 @@ public class IHM {
         ecran.setLayout(new GridBagLayout());
        
         
-        boutons_Construction.setLayout(new GridBagLayout());
+        
         
         bas.setLayout(new GridLayout(1,2));
-        joueurs.setLayout(new GridLayout(2,1));
-        action.setLayout(new GridBagLayout());
         
-        StatJ1.setLayout(new GridBagLayout());
-        panelJ1.setLayout(new GridLayout(1,4));
-        
-        StatJ2.setLayout(new GridBagLayout());
-        panelJ2.setLayout(new GridLayout(1,4));
-        
-        
-        
-        
-        
-        
+      
         
         // On ajoute tout les elements au JPanel Ecran
         AjoutCaneva();
@@ -130,224 +107,7 @@ public class IHM {
         AjoutFrise();
         AjoutBoutonAction();
         AjoutAnnulerRefaire();
-        
-        //Set du format des noms des joueurs
-        
-       
-		
-		/*
-        nb_Hutte_J1 = InitStatConstruction(Integer.toString(m.nb_max_Huttes));
-        nb_Tour_J1 = InitStatConstruction(Integer.toString(m.nb_max_Tours));
-        nb_Temple_J1 = InitStatConstruction(Integer.toString(m.nb_max_Temples));
-        
-        */
-      //  panelJ1.setLayout(new GridLayout(3,2));
-        
-	
-     /*   
-        nb_Hutte_J2 = InitStatConstruction(Integer.toString(m.nb_max_Huttes));
-        nb_Tour_J2 = InitStatConstruction(Integer.toString(m.nb_max_Tours));
-        nb_Temple_J2 = InitStatConstruction(Integer.toString(m.nb_max_Temples));
-     */   
-       // panelJ2.setLayout(new GridLayout(3,2));
-        
-        
-        
-        //Creer les images qui seront dans les données des joueurs
-     /*   image_Temple_J1  = InitImage(Fichier_Temple);
-        image_Tour_J1  = InitImage(Fichier_Tour); 
-        image_Hutte_J1  = InitImage(Fichier_Hutte);
-        image_Temple_J2  = InitImage(Fichier_Temple);
-        image_Tour_J2  = InitImage(Fichier_Tour); 
-        image_Hutte_J2  = InitImage(Fichier_Hutte);
-        
-        
-     */   
-        
-        
-        //Création des boutons
-        
-        
-     
-        
-     
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-
-        
-      
-        
-        
-        //Bouton Construction
-        /*
-        GridBagConstraints gbc3 = new GridBagConstraints();
-        gbc3.fill = GridBagConstraints.BOTH;
-        gbc3.gridwidth = 2;
-        gbc3.gridheight = 2;
-        gbc3.weightx = gbc3.weighty = 1.0;
-        gbc3.gridx = 0;
-        gbc3.gridy = 10;
-        boutons_Construction.add(hutte,gbc3);
-        gbc3.gridx = 0;
-        gbc3.gridy = 11;
-        boutons_Construction.add(tour,gbc3);
-        gbc3.gridx = 0;
-        gbc3.gridy = 12;
-        boutons_Construction.add(temple,gbc3);
-        
-       */
-        //Joueurs
-        /*
-        gbc3.fill = GridBagConstraints.NONE;
-        gbc3.gridwidth = 1;
-        gbc3.gridheight = 1;
-        gbc3.weightx = 1.0;
-        gbc3.weighty = 1.0;
-        gbc3.gridx = 0;
-        gbc3.gridy = 0;
-    //    gbc3.gridheight = 1;
-        StatJ1.add(image_Hutte_J1,gbc3);
-        gbc3.gridx = 1;
-        StatJ1.add(nb_Hutte_J1,gbc3);
-        gbc3.gridx = 2;
-        StatJ1.add(image_Tour_J1,gbc3);
-        gbc3.gridx = 3;
-        StatJ1.add(nb_Tour_J1,gbc3);
-        gbc3.gridx = 4;
-        StatJ1.add(image_Temple_J1,gbc3);
-        gbc3.gridx = 5;
-        StatJ1.add(nb_Temple_J1,gbc3);
-        
-        gbc3.fill = GridBagConstraints.NONE;
-        gbc3.gridwidth = 1;
-        gbc3.gridheight = 1;
-        gbc3.weightx = 1.0;
-        gbc3.weighty = 1.0;
-        gbc3.gridx = 0;
-        gbc3.gridy = 0;
-    //    gbc3.gridheight = 1;
-        StatJ2.add(Joueur2);
-        StatJ2.add(image_Hutte_J2,gbc3);
-        gbc3.gridx = 1;
-        StatJ2.add(nb_Hutte_J2,gbc3);
-        gbc3.gridx = 2;
-        StatJ2.add(image_Tour_J2,gbc3);
-        gbc3.gridx = 3;
-        StatJ2.add(nb_Tour_J2,gbc3);
-        gbc3.gridx = 4;
-        StatJ2.add(image_Temple_J2,gbc3);
-        gbc3.gridx = 5;
-        StatJ2.add(nb_Temple_J2,gbc3);
-        
-       
-        
-     
-        gbc3.fill = GridBagConstraints.VERTICAL;
-        gbc3.gridwidth = 1;
-        gbc3.gridheight = 1;
-        gbc3.weightx = 1.0;
-        gbc3.weighty = 1.0;
-        gbc3.gridx = 0;
-        gbc3.gridy = 0;
-        panelJ1.add(Joueur1,gbc3);
-        
-        gbc3.fill = GridBagConstraints.VERTICAL;
-        gbc3.gridx = 0;
-        gbc3.gridy = 0;
-        panelJ1.add(StatJ1,gbc3);
-       
-        
-        gbc3.fill = GridBagConstraints.VERTICAL;
-        gbc3.gridwidth = 1;
-        gbc3.gridheight = 1;
-        gbc3.weightx = 1.0;
-        gbc3.weighty = 1.0;
-        gbc3.gridx = 0;
-        gbc3.gridy = 0;
-        
-        
-        panelJ2.add(Joueur2,gbc3);
-        gbc3.fill = GridBagConstraints.VERTICAL;
-        gbc3.gridx = 1;
-        gbc3.gridy = 0;
-        panelJ2.add(StatJ2,gbc3);
-       
-
-        */
-        /*
-        
-        //GridBagConstraints gbc3 = new GridBagConstraints();
-        gbc3.fill = GridBagConstraints.VERTICAL;
-        gbc3.gridwidth = 1;
-        gbc3.gridheight = 2;
-        gbc3.weightx = 1.0;
-        gbc3.weighty = 1.0;
-        gbc3.gridx = 0;
-        gbc3.gridy = 9;
-  //      joueurs.add(panelJ1,gbc3);
-        gbc3.gridx = 1;
-        gbc3.gridy = 10;
-    //    joueurs.add(StatJ1,gbc3);
-        
-        gbc3.gridx = 0;
-        gbc3.gridy = 11;
-     //   joueurs.add(panelJ2,gbc3);
-        
-        gbc3.gridx = 0;
-        gbc3.gridy = 12;
-   //     joueurs.add(StatJ2,gbc3);
-      */  
-        
-       
-       
-        //Joueur
- /*       gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 0.3;
-        gbc.weighty = 0.5;
-        gbc.gridwidth = 2;
-        gbc.gridheight = 1;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        action.add(joueurs, gbc);
-  */      
-        
-        
-        
-        /*
-        gbc2.gridx = 0;
-        gbc2.gridy = 0;
-        gbc2.fill = GridBagConstraints.BOTH;
-        gbc2.gridwidth = 1;
-        gbc2.gridheight = 2;
-        annuler_refaire.add(Annuler,gbc2);
-
-        gbc2.gridx = 0;
-        gbc2.gridy = 2;
-        gbc2.fill = GridBagConstraints.BOTH;
-        gbc2.gridwidth = 1;
-        gbc2.gridheight = 2;
-        annuler_refaire.add(Refaire,gbc2);
-        
-       
-        
-        */
-
-        
-       
-        
-  //      panelJ1.add(Joueur1);
-       /* panelJ1.add(hutteJ1);
-        panelJ1.add(tourJ1);
-        panelJ1.add(templeJ1);*/
           
-    //    panelJ2.add(Joueur2);
-    /*    panelJ2.add(hutteJ2);
-        panelJ2.add(tourJ2);
-        panelJ2.add(templeJ2);*/
-      
-        
-       
-        
         frame.add(ecran);
         
         //fenetre.pack();
@@ -455,7 +215,9 @@ public class IHM {
 	//Ajoute les boutons action au Panel Ecran
 	private void AjoutBoutonAction()
 	{
-		//TODO
+		boutons_Construction.setLayout(new GridBagLayout());
+        action.setLayout(new GridBagLayout());
+		
 		Pioche = FaireBouton("Piocher");
         FDT = FaireBouton("Fin_de_tour");
         hutte = FaireBouton("Hutte",Fichier_Hutte);
@@ -547,6 +309,11 @@ public class IHM {
 	private void AjoutJoueurs()
 	{
 		int i;
+		joueurs.setLayout(new GridLayout(2,1));
+	    panelJ1.setLayout(new GridLayout(1,4));
+	    panelJ2.setLayout(new GridLayout(1,4));
+		
+		
 		for(i=0;i<3;i++)
         {
         	Image_Stat_J1[i] = new JPanel();
@@ -671,7 +438,8 @@ public class IHM {
 	     label.setOpaque(true);
 	     return label;
 	}
-	
+
+
 	public JFrame getFrame() {
 		return frame;
 	}
@@ -727,13 +495,8 @@ public class IHM {
 	}
 
 
-	public JPanel getPanelJ1() {
-		return panelJ1;
-	}
-
-
-	public JPanel getPanelJ2() {
-		return panelJ2;
+	public JLabel getPiocher() {
+		return Piocher;
 	}
 
 
@@ -752,16 +515,6 @@ public class IHM {
 	}
 
 
-	public JLabel getJoueur1() {
-		return Joueur1;
-	}
-
-
-	public JLabel getJoueur2() {
-		return Joueur2;
-	}
-
-
 	public JButton getAnnuler() {
 		return Annuler;
 	}
@@ -772,7 +525,7 @@ public class IHM {
 	}
 
 
-	public JButton getPiocher() {
+	public JButton getPioche() {
 		return Pioche;
 	}
 
@@ -797,9 +550,110 @@ public class IHM {
 	}
 
 
+	public JLabel[] getInfoJ1() {
+		return InfoJ1;
+	}
+
+
+	public JLabel[] getInfoJ2() {
+		return InfoJ2;
+	}
+
+
+	public JPanel[] getImage_Stat_J1() {
+		return Image_Stat_J1;
+	}
+
+
+	public JPanel[] getImage_Stat_J2() {
+		return Image_Stat_J2;
+	}
+
+
+	public JPanel getPanelJ1() {
+		return panelJ1;
+	}
+
+
+	public JPanel getPanelJ2() {
+		return panelJ2;
+	}
+
+
+	public JLabel getJoueur1() {
+		return Joueur1;
+	}
+
+
+	public JLabel getJoueur2() {
+		return Joueur2;
+	}
+
+
+	public static String getFichier_Temple() {
+		return Fichier_Temple;
+	}
+
+
+	public static String getFichier_Tour() {
+		return Fichier_Tour;
+	}
+
+
+	public static String getFichier_Hutte() {
+		return Fichier_Hutte;
+	}
+
+
+	public static int getLargeur_total() {
+		return largeur_total;
+	}
+
+
+	public static int getHauteur_caneva() {
+		return hauteur_caneva;
+	}
+
+
+	public static int getHauteur_total() {
+		return hauteur_total;
+	}
+
+
+	public static int getTaille_joueur() {
+		return taille_joueur;
+	}
+
+
+	public static int getTaille_annuler_refaire() {
+		return taille_annuler_refaire;
+	}
+
+
+	public static int getTaille_pioche() {
+		return taille_pioche;
+	}
+
+
+	public static int getTaille_construction() {
+		return taille_construction;
+	}
+
+
+	public static int getTaille_fin_de_tour() {
+		return taille_fin_de_tour;
+	}
+
+
+	public static int getTaille_frise() {
+		return taille_frise;
+	}
+
+
 	public Canvas getCanvas() {
 		return canvas;
 	}
+	
 
 	
 }

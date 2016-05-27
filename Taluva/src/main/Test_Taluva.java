@@ -43,6 +43,8 @@ public class Test_Taluva implements Runnable{
         ihm.run();
         Avancement avancement = new Avancement(ihm);
         m.addPhaseListener(avancement);
+        m.getJ1().addBatimentCountListener(avancement);
+        m.getJ2().addBatimentCountListener(avancement);
         m.MajListeners();
         ihm.getCanvas().setFocusable(false);
         
