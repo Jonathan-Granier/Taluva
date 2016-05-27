@@ -97,6 +97,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 	{
 		int i=0, score_max = Integer.MIN_VALUE;
 		int score_courant;
+		Random R = new Random();
 		Coup_Tuile_Heuristique TH_retour = new Coup_Tuile_Heuristique(0,null);
 		Coup_Construction_Heuristique retour_REC;
 		Action_Construction coup_construction_retour = null;
@@ -110,7 +111,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 				m.placer_tuile(liste.get(i).getPosition());
 				score_courant = Heuristique();
 				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
-				if(score_courant == score_max)
+				if(score_courant == score_max && R.nextInt(100)<20)
 				{
 					TH_retour.setActionTuile(liste.get(i));
 				}
@@ -138,7 +139,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 				retour_REC = choisir_construction_bon(this.Action_Construction_Memoire.get(profondeur/2), score, profondeur -1);
 				score_courant = retour_REC.get_Heuristique();
 				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
-				if(score_courant == score_max)
+				if(score_courant == score_max && R.nextInt(100)<20)
 				{
 					TH_retour.setActionTuile(liste.get(i));
 					coup_construction_retour = retour_REC.get_Action_Construction();
@@ -412,7 +413,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 				liste_tuile.remove(i);
 			}
 			i++;
-			System.out.println("Boucli infini." + i + " stack size :" + liste_tuile.size());
 		}
 		return liste_tuile;
 	}
