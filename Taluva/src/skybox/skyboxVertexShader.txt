@@ -10,6 +10,6 @@ uniform mat4 transformationMatrix;
 void main(void){
 	
 	gl_Position =  projectionMatrix * viewMatrix * transformationMatrix * vec4(position, 1.0); 
-	textureCoords = vec3(position.x,position.y,position.z);
+	textureCoords = vec3(position.x/2.0 + 0.5,position.y/2.0 + 0.5,position.z/2.0 + 0.5);
 	
 }
