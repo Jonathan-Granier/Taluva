@@ -64,6 +64,7 @@ public class Action_Construction {
 	
 	public void afficher()
 	{
+		System.out.println("Action_construction");
 		System.out.print(this.type + "(" + this.coord.x + "," + this.coord.y + ")");
 		if(this.type == Type.EXTENSION)
 			System.out.print("[" + this.type_extension + "]");

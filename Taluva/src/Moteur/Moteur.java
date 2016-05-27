@@ -468,7 +468,7 @@ public class Moteur extends Phase{
 	// Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
 	// Actualise aussi les données et change de joueur
 	public int fin_de_tour(){
-		T.afficher();
+		//T.afficher();
 		if(victoire_aux_batiments()){
 			if(Est_joueur_Courant(j1))System.out.println("Le joueur 1 a gagné!!!\nScore : "+score(j1)+"\nScore j2 : "+score(j2));
 			else System.out.println("[Fin de tour] Le joueur 2 a gagné!!!\nScore j2 : "+score(j2)+"\nScore j1 : "+score(j1));
@@ -493,7 +493,7 @@ public class Moteur extends Phase{
 			return 0;
 		}
 		else{
-			System.out.println("[Fin de tour] LES SCORES : \nJ1 : "+score(j1)+"\nJ2 : "+score(j2));
+			//System.out.println("[Fin de tour] LES SCORES : \nJ1 : "+score(j1)+"\nJ2 : "+score(j2));
 			annul.clear();
 			redo.clear();
 			swap_joueur();
@@ -502,7 +502,7 @@ public class Moteur extends Phase{
 			bat_choisi = Case.Type_Batiment.VIDE;
 			if(j_courant instanceof IA_Generique)
 			{
-				System.out.println("[MOTEUR] UNE IA JOUE!");
+				//System.out.println("[MOTEUR] UNE IA JOUE!");
 				jouer_IA();
 			}
 			return 1;
