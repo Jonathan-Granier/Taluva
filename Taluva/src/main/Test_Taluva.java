@@ -47,8 +47,7 @@ public class Test_Taluva implements Runnable{
         m.getJ1().addBatimentCountListener(avancement);
         m.getJ2().addBatimentCountListener(avancement);
         m.MajListeners();
-        if(OSValidator.isWindows())
-        	ihm.getCanvas().setFocusable(false);
+        ihm.getCanvas().setFocusable(false);
         
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
@@ -56,8 +55,7 @@ public class Test_Taluva implements Runnable{
         game.init(frame,m,ihm.getCanvas());
         
         frame.addKeyListener(game);
-        if(OSValidator.isWindows())
-        	frame.setFocusable(true);
+        frame.setFocusable(true);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we){
