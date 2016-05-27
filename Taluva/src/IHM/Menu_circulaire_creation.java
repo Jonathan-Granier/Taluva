@@ -21,6 +21,7 @@ import gui.Drawable;
 
 import Ecouteur.ButtonConstruction;
 import Ecouteur.ButtonExtension;
+import Ecouteur.Ecouteur_Boutons;
 import Moteur.Moteur;
 import Moteur.Phase.Phase_Jeu;
 
@@ -67,20 +68,22 @@ public class Menu_circulaire_creation {
 	
 	private void setDimension(){
 		int ratio = 100;
-		if(camera.getDistanceFromPivot() < 100)
-			ratio = 50;
+		float distance = camera.getDistanceFromPivot();
+		if(camera.getDistanceFromPivot()<50){
+			distance = 50;
+		}
+			bouton_hute.setDimension(new Vector2f(50/(distance/ratio),50/(distance/ratio)));
+			bouton_tour.setDimension(new Vector2f(50/(distance/ratio),50/(distance/ratio)));
+			bouton_temple.setDimension(new Vector2f(50/(distance/ratio),50/(distance/ratio)));
 			
-		bouton_hute.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
-		bouton_tour.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
-		bouton_temple.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
+			bouton_foret.setDimension(new Vector2f(50/(distance/ratio),50/(distance/ratio)));
+			bouton_plage.setDimension(new Vector2f(50/(distance/ratio),50/(distance/ratio)));
+			bouton_montagne.setDimension(new Vector2f(50/(distance/ratio),50/(distance/ratio)));
+			bouton_plaine.setDimension(new Vector2f(50/(distance/ratio),50/(distance/ratio)));
+			bouton_lac.setDimension(new Vector2f(50/(distance/ratio),50/(distance/ratio)));
+	
+			rayon = Grid.HEIGHT_OF_HEXA*6/(distance/(ratio));
 		
-		bouton_foret.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
-		bouton_plage.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
-		bouton_montagne.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
-		bouton_plaine.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
-		bouton_lac.setDimension(new Vector2f(36/(camera.getDistanceFromPivot()/ratio),36/(camera.getDistanceFromPivot()/ratio)));
-
-		rayon = Grid.HEIGHT_OF_HEXA*5/(camera.getDistanceFromPivot()/(ratio-15));
 	}
 	
 	public void tuile_vide_cliquer(Vector3f picker){
@@ -92,7 +95,11 @@ public class Menu_circulaire_creation {
 		s_y=picker.z;
 		coord = grille.snap(new Vector3f(s_x,0,s_y));
 		draw = false;
-		if(coord != null && moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT){
+		
+		if(coord!=null && (moteur.getTerrain().getCase(coord.indices).est_Vide() || moteur.getTerrain().getCase(coord.indices).est_Libre()))
+			drawExtension = false;
+		
+		if(coord != null && moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && !Ecouteur_Boutons.isPick()){
 			i=coord.indices.x;
 			j=coord.indices.y;
 			if(moteur.getTerrain().getCase(i, j).ajout_batiment_autorise()){
@@ -101,17 +108,17 @@ public class Menu_circulaire_creation {
 				//etat bouton hutte
 				bouton_hute.setGrey(!(moteur.getTerrain().placement_batiment_autorise(Type_Batiment.HUTTE,moteur.get_Jcourant().getCouleur() , coord.indices)));
 				//gerer la position du bouton hutte
-				bouton_hute.setPosition(new Vector2f(Mouse.getX(),Display.getHeight()- Mouse.getY()-rayon));
+				bouton_hute.setPosition(new Vector2f(Mouse.getX()-rayon/2,Display.getHeight()- Mouse.getY()-rayon/2-rayon));
 				
 				//etat bouton temple
 				bouton_temple.setGrey(!(moteur.getTerrain().placement_batiment_autorise(Type_Batiment.TEMPLE,moteur.get_Jcourant().getCouleur() , coord.indices)));
 				//gerer la position du bouton temple
-				bouton_temple.setPosition(new Vector2f(Mouse.getX()-rayon*(float) Math.sin(Math.PI*2f/3f),Display.getHeight()- Mouse.getY()-rayon*(float) Math.cos(Math.PI*2f/3f)));
+				bouton_temple.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*2f/3f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*2f/3f)));
 				
 				//etat bouton tour
 				bouton_tour.setGrey(!(moteur.getTerrain().placement_batiment_autorise(Type_Batiment.TOUR,moteur.get_Jcourant().getCouleur() , coord.indices)));
 				//gerer la position du bouton tour
-				bouton_tour.setPosition(new Vector2f(Mouse.getX()-rayon*(float) Math.sin(Math.PI*4f/3f),Display.getHeight()- Mouse.getY()-rayon*(float) Math.cos(Math.PI*4f/3f)));
+				bouton_tour.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*4f/3f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*4f/3f)));
 	
 				
 			}
@@ -123,26 +130,26 @@ public class Menu_circulaire_creation {
 					//etat et position du bouton foret de l'extention
 					ArrayList<Point> liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.FORET);
 					bouton_foret.setGrey(liste.isEmpty());
-					bouton_foret.setPosition(new Vector2f(Mouse.getX(),Display.getHeight()- Mouse.getY()-rayon));
+					bouton_foret.setPosition(new Vector2f(Mouse.getX()-rayon/2,Display.getHeight()- Mouse.getY()-rayon/2-rayon));
 					
 					//etat et position du bouton montagne de l'extention
 					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.MONTAGNE);	
 					bouton_montagne.setGrey(liste.isEmpty());
-					bouton_montagne.setPosition(new Vector2f(Mouse.getX()-rayon*(float) Math.sin(Math.PI*2f/5f),Display.getHeight()- Mouse.getY()-rayon*(float) Math.cos(Math.PI*2f/5f)));
+					bouton_montagne.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*2f/5f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*2f/5f)));
 					
 					//etat et position du bouton sable de l'extention
 					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.SABLE);	
 					bouton_plage.setGrey(liste.isEmpty());
-					bouton_plage.setPosition(new Vector2f(Mouse.getX()-rayon*(float) Math.sin(Math.PI*4f/5f),Display.getHeight()- Mouse.getY()-rayon*(float) Math.cos(Math.PI*4f/5f)));
+					bouton_plage.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*4f/5f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*4f/5f)));
 					
 					//etat et position du bouton plaine de l'extention
 					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.PLAINE);	
 					bouton_plaine.setGrey(liste.isEmpty());
-					bouton_plaine.setPosition(new Vector2f(Mouse.getX()-rayon*(float) Math.sin(Math.PI*6f/5f),Display.getHeight()- Mouse.getY()-rayon*(float) Math.cos(Math.PI*6f/5f)));
+					bouton_plaine.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*6f/5f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*6f/5f)));
 					
 					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.LAC);	
 					bouton_lac.setGrey(liste.isEmpty());
-					bouton_lac.setPosition(new Vector2f(Mouse.getX()-rayon*(float) Math.sin(Math.PI*8f/5f),Display.getHeight()- Mouse.getY()-rayon*(float) Math.cos(Math.PI*8f/5f)));
+					bouton_lac.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*8f/5f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*8f/5f)));
 				}
 			}
 		}
@@ -160,6 +167,11 @@ public class Menu_circulaire_creation {
 		
 		if(ButtonExtension.isClicked() || draw)
 			drawExtension = false;
+		
+		if(Ecouteur_Boutons.isClicked()){
+			draw = false;
+			drawExtension = false;
+		}
 		
 		if(draw){
 			bouton_hute.update();

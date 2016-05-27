@@ -74,63 +74,30 @@ public class Camera {
 		
 		yangle = 180 - angleAroundPivot;
 		
-		between(0,90);
-		
-        /*position.x = (float) ( -Math.sin(cameraX*(Math.PI/180)) * Math.cos((cameraY)*(Math.PI/180)));
-        position.y = (float) (  -Math.sin((cameraY)*(Math.PI/180)));
-        position.z = (float) ( -Math.cos((cameraX)*(Math.PI/180)) * Math.cos((cameraY)*(Math.PI/180)));*/
 		
 		float offsetX = (float) (horizontalDistance * Math.sin(Math.toRadians(angleAroundPivot)));
 		float offsetZ = (float) (horizontalDistance * Math.cos(Math.toRadians(angleAroundPivot)));
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_Z)){
-			/*if(between(0,45) || between(315,360) )
-				lookAt.z += SPEED;
-			else if(between(180,255) || between(135,180))
-				lookAt.z -= SPEED;
-			else if(between(90,135) || between(45,90))
-				lookAt.x += SPEED;
-			else if(between(270,315) || between(225,270))
-				lookAt.x -= SPEED;*/
 			lookAt.z += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
 			lookAt.x += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+			Menu_circulaire_creation.setDraw(false);
 			
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			/*if(between(0,45) || between(315,360) )
-				lookAt.z -= SPEED;
-			else if(between(180,255) || between(135,180))
-				lookAt.z += SPEED;
-			else if(between(90,135) || between(45,90))
-				lookAt.x -= SPEED;
-			else if(between(270,315) || between(225,270))
-				lookAt.x += SPEED;*/
 			lookAt.z -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
 			lookAt.x -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+			Menu_circulaire_creation.setDraw(false);
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
-			/*if(between(0,45) || between(315,360) )
-				lookAt.x += SPEED;
-			else if(between(180,255) || between(135,180))
-				lookAt.x -= SPEED;
-			else if(between(90,135) || between(45,90))
-				lookAt.z -= SPEED;
-			else if(between(270,315) || between(225,270))
-				lookAt.z += SPEED;*/
 			lookAt.z -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
 			lookAt.x += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+			Menu_circulaire_creation.setDraw(false);
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-			/*if(between(0,45) || between(315,360) )
-				lookAt.x -= SPEED;
-			else if(between(180,255) || between(135,180))
-				lookAt.x += SPEED;
-			else if(between(90,135) || between(45,90))
-				lookAt.z += SPEED;
-			else if(between(270,315) || between(225,270))
-				lookAt.z -= SPEED;*/
 			lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
 			lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+			Menu_circulaire_creation.setDraw(false);
 		}
 		
 	}

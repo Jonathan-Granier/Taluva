@@ -21,6 +21,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	Moteur moteur;
 	private static boolean pick;
 	private static boolean undo;
+	private static boolean clicked = false;
 	private static GraphicTile Tile;
 	private static GraphicConstruction Construction;
 	
@@ -40,19 +41,15 @@ public class Ecouteur_Boutons implements ActionListener {
     public void actionPerformed(ActionEvent e) {
     	pick = false;
     	undo = false;
+    	clicked = true;
     	switch (action){
 	    	case "Annuler" :
 	    		moteur.annuler();
 	    		undo = true;
-	    		if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
-	    			pick = true;
-	    		else
-	    			pick = false;
 	    		break;
 	    		
 	    	case "Refaire" :
 	    		moteur.refaire();
-	    		pick = true;
 	    		break;
 	    	
 	    	case "Piocher" :
@@ -171,5 +168,12 @@ public class Ecouteur_Boutons implements ActionListener {
 		return undo;
 	}
 
-    
+	public static boolean isClicked() {
+		if(clicked){
+			clicked = false;
+			return true;
+		}
+		return clicked;
+	}
+
 }

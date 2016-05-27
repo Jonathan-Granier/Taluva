@@ -305,6 +305,7 @@ public class Game implements Observer,KeyListener  {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
+		Menu_circulaire_creation.setDraw(false);
 		switch(e.getKeyCode()){
 		case KeyEvent.VK_Z:
 			keys[0] = true;
