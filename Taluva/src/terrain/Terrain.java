@@ -7,7 +7,6 @@ import java.util.Hashtable;
 import Action.Action_Batiment;
 import Action.Action_Construction;
 import Action.Action_Tuile;
-import test.Game;
 
 public class Terrain {
 	
@@ -606,7 +605,6 @@ public class Terrain {
 						index_c = cites_indexOf(cite);
 					}
 				}
-				this.afficher();
 				return 0;
 			}
 			else return 1;
@@ -708,7 +706,6 @@ public class Terrain {
 				}
 			}
 			getCase(P).ajouter_batiment(b,c);
-			this.afficher();
 			return 0;
 		}
 		else return 1;
