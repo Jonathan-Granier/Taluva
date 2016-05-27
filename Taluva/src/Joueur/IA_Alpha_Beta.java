@@ -78,7 +78,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 			System.out.println("IA A&B: set_CC == true");
 		else
 			System.out.println("IA A&B: set_CC == false");
-		this.coup_construction.afficher();
 		return this.coup_construction;
 	}
 	@Override
@@ -159,8 +158,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 		}
 		// on renvoie un coup random parmi les coups optimaux
 		this.coup_construction = coup_construction_retour;
-		this.coup_tuile = TH_retour.getActionTuile();
-		this.coup_tuile.afficher_Action_Tuile();
 		this.set_CC = true;
 		return TH_retour;
 	}
@@ -169,7 +166,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 	{
 		int i=0, score_max = Integer.MIN_VALUE;
 		int score_courant;
-		ArrayList<Action_Tuile> liste_tuile;
 		ArrayList<Action_Construction> liste_construction_retour = new ArrayList<Action_Construction>();
 		// Si la profondeur est a 0, on renvoie l'heuristique. -> profondeur = nb de phase a générer
 		if(profondeur == 0 )
@@ -281,7 +277,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 		
 		int i=0, score_min = Integer.MAX_VALUE;
 		int score_courant;
-		// Si la profondeur est a 0, on renvoie l'heuristique. -> profondeur = nb de phase a générer
+		// Si la profondeur est a 0, on renvoie c.getTemple()) l'heuristique. -> profondeur = nb de phase a générer
 		if(profondeur == 0 )
 		{
 			// /!\ regarder dans moteur virtuel
@@ -328,14 +324,14 @@ public class IA_Alpha_Beta extends IA_Generique {
 	{
 		int bonPoints;
 		int mauvaisPoints;
-		if(this.getCouleur() == m.getJ1().getCouleur())
+		if(m.EstLeMemeJoueur(this, m.getJ1()))
 		{
-			bonPoints = Calculer_points_heur(m.getJ1());
+			bonPoints = Calculer_points_heur(m.get_Jcourant());
 			mauvaisPoints = Calculer_points_heur(m.getJ2());
 		}
 		else
 		{
-			bonPoints = Calculer_points_heur(m.getJ2());
+			bonPoints = Calculer_points_heur(m.get_Jcourant());
 			mauvaisPoints = Calculer_points_heur(m.getJ1());
 		}
 		return bonPoints - mauvaisPoints;
@@ -350,7 +346,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 		// Si le joueur s'est débarassé de toutes ses pièces de 2 catégorie, il a gagné.
 		if((c.getHutte() == 0 && c.getTemple() == 0) || (c.getTemple() ==0 && c.getTour() ==0) || (c.getHutte()==0 && c.getTour()==0))
 		{
-			score += 1000000000;; 
+			score += 1000000000;
 		}
 		// Sinon, s'il s'en raproche:
 		else if(c.getHutte() == 0 || c.getTour()==0 || c.getTemple()==0)
