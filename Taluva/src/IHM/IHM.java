@@ -103,8 +103,6 @@ public class IHM {
 	public void run() {
         
 		// Creation d'une fenetre
-		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ecran.setLayout(new GridBagLayout());
        
         

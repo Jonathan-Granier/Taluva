@@ -46,6 +46,7 @@ public class Test_Taluva implements Runnable{
         m.MajListeners();
         ihm.getCanvas().setFocusable(false);
         
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
         game = new Game();
         game.init(frame,m,ihm.getCanvas());
@@ -61,6 +62,7 @@ public class Test_Taluva implements Runnable{
                 if(result == JOptionPane.OK_OPTION){
                 	game.cleanUp();
                     frame.setVisible(false);
+            		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     frame.dispose(); //canvas's removeNotify() will be called
                 }
             }
