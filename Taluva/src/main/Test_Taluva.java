@@ -18,6 +18,7 @@ import org.lwjgl.opengl.Display;
 import Ecouteur.KeyboardListener;
 import IHM.Avancement;
 import IHM.IHM;
+import Joueur.IA_Alpha_Beta;
 import Joueur.IA_Random;
 import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
@@ -38,6 +39,7 @@ public class Test_Taluva implements Runnable{
         Terrain table = new Terrain();
         Moteur m = new Moteur(table);
         Joueur_Generique ia = new IA_Random(Couleur_Joueur.JAUNE,m);
+        Joueur_Generique ia2 = new IA_Alpha_Beta(Couleur_Joueur.VERT,m);
         m.add_j1(j1);
         m.add_j2(ia);
         IHM ihm = new IHM(m, frame);

@@ -19,7 +19,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private boolean set_CC;
 	private ArrayList<ArrayList<Action_Construction>> Action_Construction_Memoire;
 	private ArrayList<ArrayList<Action_Tuile>> Action_Tuile_Memoire; 
-	private int[] nb_coup_test;
 	
 	private static int score_temple = 5000;
 	private static int score_tour = 1000;
@@ -30,7 +29,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private static int hut_deplete_mult = 1;
 	private static int hut_deplete_cant_play_mult = 5;
 	private static int score_city = 5;
-	private static int score_zone_city = 5;
+	private static int score_zone_city = 15;
 	private static int score_div_city_temple = 2;
 	private static int score_div_city_temple_tower = Integer.MAX_VALUE;
 	
@@ -48,7 +47,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 			Action_Tuile_Memoire.add(new ArrayList<Action_Tuile>());
 			Action_Construction_Memoire.add(new ArrayList<Action_Construction>());
 		}
-		this.nb_coup_test = new int[profondeur+1];
 	}
 	// Constructeur avec profondeur donnée
 	public IA_Alpha_Beta (int profondeur, Couleur_Joueur c, Moteur m)
@@ -64,17 +62,12 @@ public class IA_Alpha_Beta extends IA_Generique {
 			Action_Tuile_Memoire.add(new ArrayList<Action_Tuile>());
 			Action_Construction_Memoire.add(new ArrayList<Action_Construction>());
 		}
-		this.nb_coup_test = new int[profondeur+1];
 	}
 	
 	@Override
 	public Actions_Tour get_coup_tour(Tuile tuile)
 	{
-		this.m.getTerrain().afficher();
 		Action_Tuile AT_retour = get_coup_tuile(tuile);
-		System.out.println("IA A&B: coup choisi (CC)");
-		this.coup_construction.afficher();
-		this.m.getTerrain().afficher();
 		return new Actions_Tour(AT_retour, this.coup_construction);
 	}
 	
@@ -131,7 +124,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 				}
 				//annuler_coup();
 				m.annuler();
-				System.out.println("Annulation.");
 				i++;
 			}
 		}
@@ -212,8 +204,9 @@ public class IA_Alpha_Beta extends IA_Generique {
 				// Generate generique tuile
 				// TODO
 				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
-				liste_tuile = m.getTerrain().liste_coups_tuile_possibles(tuile);
-				score_courant = choisir_tuile_mauvais(liste_tuile, score_max, profondeur -1);
+				this.Action_Tuile_Memoire.set(profondeur/2, m.getTerrain().liste_coups_tuile_possibles(tuile));
+				this.tuile_tri(this.Action_Tuile_Memoire.get(profondeur/2));
+				score_courant = choisir_tuile_mauvais(this.Action_Tuile_Memoire.get(profondeur/2), score_max, profondeur -1);
 				if(score_courant == score_max)
 				{
 					liste_construction_retour.add(liste.get(i));
@@ -264,7 +257,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 		}
 		else
 		{
-			while( i < liste_tuile.size() && score_min < score)
+			while( i < liste_tuile.size() && score_min > score)
 			{
 				// /!\ Simuler dans moteur virtuel
 				m.placer_tuile(liste_tuile.get(i).getPosition());
@@ -292,7 +285,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 		if(profondeur == 0 )
 		{
 			// /!\ regarder dans moteur virtuel
-			while( i < liste_construction.size() && score_min < score)
+			while( i < liste_construction.size() && score_min > score)
 			{
 				// /!\ Simuler dans moteur virtuel
 				m.jouer_action(liste_construction.get(i));
@@ -308,7 +301,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 		}
 		else
 		{
-			while( i < liste_construction.size() && score_min < score)
+			while( i < liste_construction.size() && score_min > score)
 			{
 				// /!\ Simuler dans moteur virtuel
 				m.jouer_action(liste_construction.get(i));
@@ -317,6 +310,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 				//TODO
 				Tuile tuile = new Tuile(Case.Type.VIDE,Case.Type.VIDE);
 				this.Action_Tuile_Memoire.set(profondeur/2, m.getTerrain().liste_coups_tuile_possibles(tuile));
+				this.tuile_tri(this.Action_Tuile_Memoire.get(profondeur/2));
 				score_courant = choisir_tuile_bon(this.Action_Tuile_Memoire.get(profondeur/2), tuile, score_min, profondeur -1).getHeuristique();
 				if (score_courant < score_min)
 				{
@@ -339,7 +333,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 			bonPoints = Calculer_points_heur(m.getJ1());
 			mauvaisPoints = Calculer_points_heur(m.getJ2());
 		}
-			
 		else
 		{
 			bonPoints = Calculer_points_heur(m.getJ2());
@@ -407,6 +400,25 @@ public class IA_Alpha_Beta extends IA_Generique {
 	public int getProfondeur()
 	{
 		return this.profondeur;
+	}
+	
+	private ArrayList<Action_Tuile> tuile_tri(ArrayList<Action_Tuile> liste_tuile)
+	{
+		Random R = new Random();
+		int i=0;
+		while( i < liste_tuile.size())
+		{
+			if(liste_tuile.get(i).getNiveau() > 1)
+			{
+			}
+			else if (R.nextInt(liste_tuile.size()) > 25)
+			{
+				liste_tuile.remove(i);
+			}
+			i++;
+			System.out.println("Boucli infini." + i + " stack size :" + liste_tuile.size());
+		}
+		return liste_tuile;
 	}
 		
 }
