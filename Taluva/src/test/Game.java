@@ -103,6 +103,7 @@ public class Game implements Observer,KeyListener  {
 		if(Tiles.size() < listTile.size()){
 			for(int i = Tiles.size(); i<listTile.size();i++){
 				Tiles.add(new GraphicTile(listTile.get(i).getTuile(),loader, new Vector3f(0,0,0)));
+				Tile.setTile(listTile.get(i).getTuile());
 				Vector3f worldPos = new Vector3f(grid.toWorldPos(listTile.get(i).getPosition(),Tiles.get(i).getObject3D().getRotY(),listTile.get(i).getNiveau()-1));
 				Tiles.get(i).setAngle();
 				Tiles.get(i).getObject3D().setPosition(worldPos);

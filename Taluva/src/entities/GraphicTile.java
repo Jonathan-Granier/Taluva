@@ -185,7 +185,6 @@ public class GraphicTile {
 		int i = 0;
 		boolean found = false;
 		while(i<25 && !found){
-			System.out.println(texture_name[i] + "--" + texture_name[i].charAt(1) + "--" + texture_name[i].charAt(2));
 			switch(tile.get_type_case(Orientation.S)){
 			case MONTAGNE:
 				if(texture_name[i].charAt(1) == 'M' )
@@ -328,7 +327,7 @@ public class GraphicTile {
 			if(!found)
 				i++;
 		}
-		System.out.println(texture_name[i]);
+
 		if(i<25)
 			object3d = new Object3D(objects3d[i]);
 	}

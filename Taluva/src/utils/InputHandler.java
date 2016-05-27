@@ -41,7 +41,7 @@ public class InputHandler {
     	if(b){
 			type = inputType.NONE;
     	}
-    	return b && !Button.isGameBlocked();
+    	return b;
     }
     
 	public static inputType isButtonDown(int event){
