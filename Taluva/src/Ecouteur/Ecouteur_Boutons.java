@@ -65,7 +65,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		// TODO
 	    		if(moteur.get_etat_jeu() != Phase_Jeu.CONSTRUIRE_BATIMENT)moteur.fin_de_tour();
 	    		break;
-	    		
+	    	/*	
 	    	case "Hutte j1" :
 	    		if(moteur.Est_joueur_Courant(moteur.getJ1())){
 	    			System.out.println("hutte selectionnée");
@@ -127,6 +127,33 @@ public class Ecouteur_Boutons implements ActionListener {
 	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
 	    		}
 	    		break;	
+	    	*/	
+	    	case "Hutte" :
+    			System.out.println("hutte selectionnée");
+    			moteur.select_hutte();
+    			pick = true;
+    			Construction.setType(GraphicType.HUT);
+    			Construction.setObject3d();
+    			Construction.setColour(moteur.get_Jcourant().getCouleur());
+	    		break;	
+	    	
+	    	case "Temple" :
+	    		
+    			moteur.select_temple();
+    			pick = true;
+    			Construction.setType(GraphicType.TEMPLE);
+    			Construction.setObject3d();
+    			Construction.setColour(moteur.get_Jcourant().getCouleur());
+    		
+	    		break;	
+	    	
+	    	case "Tour" :
+    			moteur.select_tour();
+    			pick = true;
+    			Construction.setType(GraphicType.TOWER);
+    			Construction.setObject3d();
+    			Construction.setColour(moteur.get_Jcourant().getCouleur());
+	    		break;
 	    	
 	    	default :
 	    		System.out.println("Bouton non défini");

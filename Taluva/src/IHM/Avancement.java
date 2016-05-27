@@ -38,21 +38,17 @@ public class Avancement implements PhaseListener {
 				{
 					ihm.getRefaire().setEnabled(true);
 				}
-				ihm.getPioche().setEnabled(true);
+				ihm.getPiocher().setEnabled(true);
 				ihm.getFDT().setEnabled(false);
 				
-				ihm.getTempleJ1().setEnabled(false);
-				ihm.getTourJ1().setEnabled(false);
-				ihm.getHutteJ1().setEnabled(false);
+				ihm.getTemple().setEnabled(false);
+				ihm.getTour().setEnabled(false);
+				ihm.getHutte().setEnabled(false);
 				
-				ihm.getTempleJ2().setEnabled(false);
-				ihm.getTourJ2().setEnabled(false);
-				ihm.getHutteJ2().setEnabled(false);
 				
-				ihm.getP().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getT().setBackground(Color.WHITE);
-				ihm.getC().setBackground(Color.WHITE);
-				ihm.getF().setBackground(Color.WHITE);
+				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getConstruire().setBackground(Color.WHITE);
+				ihm.getFinir().setBackground(Color.WHITE);
 				break;
 			
 			case POSER_TUILE:
@@ -65,21 +61,18 @@ public class Avancement implements PhaseListener {
 				{
 					ihm.getRefaire().setEnabled(true);
 				}
-				ihm.getPioche().setEnabled(false);
+				ihm.getPiocher().setEnabled(false);
 				ihm.getFDT().setEnabled(false);
 				
-				ihm.getTempleJ1().setEnabled(false);
-				ihm.getTourJ1().setEnabled(false);
-				ihm.getHutteJ1().setEnabled(false);
+				ihm.getTemple().setEnabled(false);
+				ihm.getTour().setEnabled(false);
+				ihm.getHutte().setEnabled(false);
 				
-				ihm.getTempleJ2().setEnabled(false);
-				ihm.getTourJ2().setEnabled(false);
-				ihm.getHutteJ2().setEnabled(false);
 				
-				ihm.getP().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getT().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getC().setBackground(Color.WHITE);
-				ihm.getF().setBackground(Color.WHITE);
+				
+				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getConstruire().setBackground(Color.WHITE);
+				ihm.getFinir().setBackground(Color.WHITE);
 				break;
 				
 			case CONSTRUIRE_BATIMENT:
@@ -92,45 +85,43 @@ public class Avancement implements PhaseListener {
 				{
 					ihm.getRefaire().setEnabled(true);
 				}
-				ihm.getPioche().setEnabled(false);
+				ihm.getPiocher().setEnabled(false);
 				ihm.getFDT().setEnabled(false);
 				if(ihm.getM().get_num_Jcourant()==1){
-					ihm.getTempleJ1().setEnabled(!(ihm.getM().getJ1().getTemple() <= 0));
-					ihm.getTourJ1().setEnabled(!(ihm.getM().getJ1().getTour() <= 0));
-					ihm.getHutteJ1().setEnabled(!(ihm.getM().getJ1().getHutte() <= 0));
+					ihm.getTemple().setEnabled(!(ihm.getM().getJ1().getTemple() <= 0));
+					ihm.getTour().setEnabled(!(ihm.getM().getJ1().getTour() <= 0));
+					ihm.getHutte().setEnabled(!(ihm.getM().getJ1().getHutte() <= 0));
 
 				}
 				else{
-					ihm.getTempleJ2().setEnabled(!(ihm.getM().getJ2().getTemple() <= 0));
-					ihm.getTourJ2().setEnabled(!(ihm.getM().getJ2().getTour() <= 0));
-					ihm.getHutteJ2().setEnabled(!(ihm.getM().getJ2().getHutte() <= 0));
+					ihm.getTemple().setEnabled(!(ihm.getM().getJ2().getTemple() <= 0));
+					ihm.getTour().setEnabled(!(ihm.getM().getJ2().getTour() <= 0));
+					ihm.getHutte().setEnabled(!(ihm.getM().getJ2().getHutte() <= 0));
 				}
 				
-				ihm.getP().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getT().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getC().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getF().setBackground(Color.WHITE);
+				
+				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getConstruire().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getFinir().setBackground(Color.WHITE);
+				
 				break;
 				
 				
 			case FIN_DE_TOUR:
 				ihm.getAnnuler().setEnabled(true);
 				ihm.getRefaire().setEnabled(false);
-				ihm.getPioche().setEnabled(false);
+				ihm.getPiocher().setEnabled(false);
 				ihm.getFDT().setEnabled(true);
 				
-				ihm.getTempleJ1().setEnabled(false);
-				ihm.getTourJ1().setEnabled(false);
-				ihm.getHutteJ1().setEnabled(false);
+				ihm.getTemple().setEnabled(false);
+				ihm.getTour().setEnabled(false);
+				ihm.getHutte().setEnabled(false);
 				
-				ihm.getTempleJ2().setEnabled(false);
-				ihm.getTourJ2().setEnabled(false);
-				ihm.getHutteJ2().setEnabled(false);
 				
-				ihm.getP().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getT().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getC().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getF().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getConstruire().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				ihm.getFinir().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+				
 				break;
 			default:
 				
