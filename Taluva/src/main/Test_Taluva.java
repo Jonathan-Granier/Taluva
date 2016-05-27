@@ -33,13 +33,13 @@ public class Test_Taluva implements Runnable{
 	public void run() {
     	final Game game;
         final JFrame frame = new JFrame();
-        Joueur_Humain j1 = new Joueur_Humain(Couleur_Joueur.BLANC);
+        Joueur_Humain j1 = new Joueur_Humain(Couleur_Joueur.BLEU);
         Joueur_Humain j2 = new Joueur_Humain(Couleur_Joueur.VERT);
         Terrain table = new Terrain();
         Moteur m = new Moteur(table);
-        Joueur_Generique ia = new IA_Random(Couleur_Joueur.VERT,m);
+        Joueur_Generique ia = new IA_Random(Couleur_Joueur.JAUNE,m);
         m.add_j1(j1);
-        m.add_j2(j2);
+        m.add_j2(ia);
         IHM ihm = new IHM(m, frame);
         ihm.run();
         Avancement avancement = new Avancement(ihm);
@@ -59,7 +59,7 @@ public class Test_Taluva implements Runnable{
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we){
-                int result = JOptionPane.showConfirmDialog(frame, "Do you want to quit the Application?");
+                int result = JOptionPane.showConfirmDialog(frame, "Voulez-vous vraiment quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
                 if(result == JOptionPane.OK_OPTION){
                 	game.cleanUp();
                     frame.setVisible(false);
