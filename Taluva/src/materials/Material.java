@@ -34,6 +34,10 @@ public class Material {
 		return textureID;
 	}
 	
+	public void setID(int id){
+		textureID = id;
+	}
+	
 	public boolean getIsTextured(){
 		return textured;
 	}

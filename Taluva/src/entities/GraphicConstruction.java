@@ -8,7 +8,7 @@ import terrain.Case.Couleur_Joueur;
 
 public class GraphicConstruction {
 
-	private static final float HEIGHT_OF_TILE = 1;
+	private static final float HEIGHT_OF_TILE = 1.5f;
 
 	public enum GraphicType {
 		HUT, TOWER, TEMPLE, NULL;
@@ -157,7 +157,7 @@ public class GraphicConstruction {
 	}
 
 	public void increaseHeight(int level) {
-		height = level * HEIGHT_OF_TILE;
+		this.height = level * HEIGHT_OF_TILE;
 	}
 
 	public void decreaseHeight() {

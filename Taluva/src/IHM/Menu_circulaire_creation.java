@@ -43,11 +43,11 @@ public class Menu_circulaire_creation {
 		bouton_tour = new ButtonConstruction(loader.loadTexture("Button_tower.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"tower",Construction,moteur);
 		bouton_temple = new ButtonConstruction(loader.loadTexture("Button_Temple.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),"temple",Construction,moteur);
 		
-		bouton_foret = new ButtonExtension(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.FORET,moteur,Construction);
-		bouton_plage = new ButtonExtension(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.SABLE,moteur,Construction);
-		bouton_montagne = new ButtonExtension(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.MONTAGNE,moteur,Construction);
-		bouton_plaine = new ButtonExtension(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.PLAINE,moteur,Construction);
-		bouton_lac = new ButtonExtension(loader.loadTexture("Button_Hut.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.LAC,moteur,Construction);
+		bouton_foret = new ButtonExtension(loader.loadTexture("Tile/F.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.FORET,moteur,Construction);
+		bouton_plage = new ButtonExtension(loader.loadTexture("Tile/S.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.SABLE,moteur,Construction);
+		bouton_montagne = new ButtonExtension(loader.loadTexture("Tile/M.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.MONTAGNE,moteur,Construction);
+		bouton_plaine = new ButtonExtension(loader.loadTexture("Tile/P.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.PLAINE,moteur,Construction);
+		bouton_lac = new ButtonExtension(loader.loadTexture("Tile/L.png"),new Vector2f(Display.getWidth()-150,50),new Vector2f(36,36),Case.Type.LAC,moteur,Construction);
 		this.grille=grille;
 		drawable=new Drawable(loader);
 		drawableExtension = new Drawable(loader);

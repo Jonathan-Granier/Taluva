@@ -197,6 +197,7 @@ public class Game implements Observer,KeyListener  {
 		
 		FPS.start(frame);
 		Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0),90);
+		GraphicTile.setTexture(loader);
 		Ecouteur_Boutons.setTile(loader,Tile);
 		Tiles = new ArrayList<GraphicTile>();
 		constructions = new ArrayList<GraphicConstruction>();

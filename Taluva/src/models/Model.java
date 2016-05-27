@@ -22,6 +22,9 @@ public class Model {
 		return texture;
 	}
 
+	public void setTexture(Material texture){
+		this.texture = texture;
+	}
 	
 	
 }

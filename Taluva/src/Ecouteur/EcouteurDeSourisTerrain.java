@@ -41,6 +41,7 @@ import utils.Grid.Coords;
 import utils.InputHandler;
 import utils.InputHandler.inputType;
 import utils.MousePicker;
+import utils.OSValidator;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -87,13 +88,13 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 		snap = mouseMoved();
 		if(timer>0)
 			timer++;
-		/*if(InputHandler.reset(InputHandler.isButtonDown(0) == inputType.INSTANT))
+		if(OSValidator.isWindows() && InputHandler.reset(InputHandler.isButtonDown(0) == inputType.INSTANT))
 		{
 			// Si le clique gauche est appuyé rapidement
-			CliqueGaucheSouris_Rapide(Tile,Tiles,construction,constructions,snap);
+			CliqueGaucheSouris_Rapide();
 
 		
-		}*/
+		}
 		
 	}
 	
@@ -110,10 +111,12 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 					Tile.getObject3D().setPosition(new Vector3f(point.x,Tile.getHeight(),point.z));
 				}
 		
-				//if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT)){
-				//	Tile.rotate();
-				//	m.tourner_tuile();
-				//}
+				if(OSValidator.isWindows()){
+					if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT)){
+						Tile.rotate();
+						m.tourner_tuile();
+					}
+				}
 				
 				//Snap
 				Tile.setPostionVolcano();
@@ -159,6 +162,96 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 		}
 	}
 	
+	
+	private void CliqueGaucheSouris_Rapide(){
+		switch (m.get_etat_jeu())
+		{
+			case DEBUT_DE_TOUR:
+				break;
+			case POSER_TUILE:
+				/*
+				 * 
+				 * 
+				 * 
+				 * Essayer de poser Tuile
+				 * Si Erreur 
+				 * 	Afficher-erreur
+				 * Sinon 
+				 * 	Increment Etat;
+				 * 	Mettre à jour les coups possible Batiment; 
+				 *
+				 */
+				
+				//Si anuler on enleve le sommet de la pile graphic
+				//if(Ecouteur_Boutons.isUndo())
+				//	Tiles.remove(Tiles.size()-1);
+				
+				 if(snap!=null && m.placer_tuile(snap.indices) == 0 )
+				 {
+					Tiles.add(new GraphicTile(Tile));
+					Tiles.get(Tiles.size()-1).getObject3D().setPosition(snap.worldPos);
+					Tiles.get(Tiles.size()-1).getObject3D().setRotY(Tile.getObject3D().getRotY());
+					m.Maj_liste_coup_construction();
+			
+				 }
+				 else
+				 {
+					 System.out.println("Il est impossible de poser une tuille ici");
+				 }
+
+
+				
+				break;
+			case CONSTRUIRE_BATIMENT:
+				/*
+				 * Si batiment selection est vide
+				 * 	Menu deroulant
+				 * Sinon 
+				 * 	Verifie construction possible
+				 * 	Si erreur
+				 * 		afficher erreur;
+				 * 	Sinon
+				 * 		Increment Etat;
+				 * 		 
+				 * 
+				 */
+				//Si anuler on enleve le sommet de la pile graphic
+				/*if(Ecouteur_Boutons.isUndo())
+					constructions.remove(constructions.size()-1);*/
+				
+				if(point!=null)
+					marking_menu.tuile_vide_cliquer(point);
+				
+				System.out.println("Etat :" + m.get_etat_jeu());
+				if ( m.get_bat_choisi() == Case.Type_Batiment.VIDE)
+				{
+					// 	Menu deroulant
+				}
+				else
+				{
+					if(Ecouteur_Boutons.isPick()){
+						if (snap!=null && m.placer_batiment(snap.indices)== 0)
+						{
+							constructions.add(new GraphicConstruction(construction));
+							constructions.get(constructions.size()-1).getObject3d().setPosition(snap.worldPos);
+							m.Maj_liste_coup_construction();
+							m.getTerrain().afficher();
+						}
+						else{
+							System.out.println("Il est impossible de poser un batiment ici");
+						}
+					}
+				}
+				
+				break;
+			case FIN_DE_TOUR:
+				break;
+			default:
+				break;
+		}
+	}
+	
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
@@ -203,7 +296,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 				//if(Ecouteur_Boutons.isUndo())
 				//	Tiles.remove(Tiles.size()-1);
 				
-				if(SwingUtilities.isLeftMouseButton(e) && timer < TIME ){
+				if(e.getButton() == MouseEvent.BUTTON1 && timer < TIME ){
 					 if(snap!=null && m.placer_tuile(snap.indices) == 0 )
 					 {
 						Tiles.add(new GraphicTile(Tile));
@@ -217,7 +310,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 						 System.out.println("Il est impossible de poser une tuille ici");
 					 }
 				}
-				else if(SwingUtilities.isRightMouseButton(e)){
+				else if(e.getButton() == MouseEvent.BUTTON3){
 						Tile.rotate();
 						m.tourner_tuile();
 				}

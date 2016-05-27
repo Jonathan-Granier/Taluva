@@ -172,7 +172,7 @@ public class OBJLoader {
 		normalsArray.add(currentNorm);
 	}
 	
-	private static Material loadMaterial(String fileName,Loader loader){
+	public static Material loadMaterial(String fileName,Loader loader){
 		FileReader fr = null;
 		try {
 			fr = new FileReader(new File("Assets/OBJ/"+fileName));

@@ -25,6 +25,7 @@ import Moteur.Moteur;
 import terrain.Terrain;
 import terrain.Case.Couleur_Joueur;
 import test.Game;
+import utils.OSValidator;
 
 
 public class Test_Taluva implements Runnable{
@@ -46,17 +47,17 @@ public class Test_Taluva implements Runnable{
         m.getJ1().addBatimentCountListener(avancement);
         m.getJ2().addBatimentCountListener(avancement);
         m.MajListeners();
-        ihm.getCanvas().setFocusable(false);
+        if(OSValidator.isWindows())
+        	ihm.getCanvas().setFocusable(false);
         
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
         game = new Game();
         game.init(frame,m,ihm.getCanvas());
         
-        //ihm.getBas().addMouseListener(new KeyboardListener());
-        //frame.addMouseListener(new KeyboardListener());
         frame.addKeyListener(game);
-        frame.setFocusable(true);
+        if(OSValidator.isWindows())
+        	frame.setFocusable(true);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we){
@@ -65,7 +66,7 @@ public class Test_Taluva implements Runnable{
                 	game.cleanUp();
                     frame.setVisible(false);
             		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.dispose(); //canvas's removeNotify() will be called
+                    frame.dispose();
                 }
             }
         });

@@ -57,8 +57,10 @@ public class Ecouteur_Boutons implements ActionListener {
 	    	
 	    	case "Piocher" :
 	    		moteur.piocher();
-	    		Tile.getObject3D().setRotY(90);
-				Tile.setTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE));
+	    		Case.Type nord = moteur.get_tuile_pioche().get_type_case(Case.Orientation.N);
+	    		Case.Type sud = moteur.get_tuile_pioche().get_type_case(Case.Orientation.S);
+				Tile.setTile(new Tuile(nord,sud));
+				Tile.getObject3D().setRotY(90);
 	    		break;
 	    	
 	    	case "Fin_de_tour" :
