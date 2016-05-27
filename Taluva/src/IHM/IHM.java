@@ -587,6 +587,7 @@ public class IHM {
 	private JButton FaireBouton(String nom_bouton)
 	{
 		JButton bouton = new JButton(nom_bouton);
+		bouton.setFocusable(false);
 		Ecouteur_Boutons ecouteur_bouton = new Ecouteur_Boutons(nom_bouton,m);
         bouton.addActionListener(ecouteur_bouton);
         return bouton;
