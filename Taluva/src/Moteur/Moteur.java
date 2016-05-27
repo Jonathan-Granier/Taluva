@@ -230,6 +230,12 @@ public class Moteur extends Phase{
 		return 2;
 	}
 	
+	//Renvoi vrai si a et b sont le même joueur
+	public boolean EstLeMemeJoueur(Joueur_Generique a, Joueur_Generique b)
+	{
+		return a.getCouleur().equals(b.getCouleur());
+	}
+	
 	// Récupère la joueur du joueur adverse (opposé du joueur courant)
 	public Couleur_Joueur get_Couleur_Joueur_Adverse()
 	 {
