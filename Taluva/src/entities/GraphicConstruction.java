@@ -22,7 +22,6 @@ public class GraphicConstruction {
 	private Object3D tower;
 	private Vector3f colour;
 	private float height;
-	//private Loader loader;
 
 	public GraphicConstruction(GraphicType type, Vector3f colour, Loader loader) {
 		this.hut =  new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
@@ -43,7 +42,6 @@ public class GraphicConstruction {
 		}
 		this.height = 0;
 		this.colour = colour;
-		//this.loader = loader;
 	}
 
 	public Case.Type_Batiment getType_Batiment() {
@@ -114,7 +112,6 @@ public class GraphicConstruction {
 		default:
 			System.out.println("Unknow construction type");
 		}
-		if(object3d == null) System.out.println("YOLOOOOO");
 	}
 
 	public Object3D getObject3d() {
@@ -130,10 +127,13 @@ public class GraphicConstruction {
 				this.colour = new Vector3f(0.6f,0.6f,0);
 			break;
 			case BLANC:
-				this.colour = new Vector3f(0.5f,0.5f,0.5f);
+				this.colour = new Vector3f(0.9f,0.9f,0.9f);
 			break;
 			case BLEU:
-				this.colour = new Vector3f(0.6f,0.3f,0);
+				this.colour = new Vector3f(0,0.3f,0.9f);
+			break;
+			case ROSE:
+				this.colour = new Vector3f(0.9f,0.5f,0.5f);
 			break;
 			case NEUTRE:
 				this.colour = new Vector3f(0,0,0);
