@@ -10,12 +10,15 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import Ecouteur.Ecouteur_Boutons;
 
 
 public class Menu_Demarrage extends JPanel {
@@ -31,116 +34,92 @@ public class Menu_Demarrage extends JPanel {
 	public Menu_Demarrage() throws IOException {
 		backgroundImage = ImageIO.read(new File("../Images/Taluva_Demarrage.png"));
 		
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridBagLayout());
 		menu = new JPanel();
 		JPanel vide = new JPanel();
+		JButton rien = new JButton();
+		rien.setVisible(false);
+		vide.add(rien);
 		vide.setOpaque(false);
-		menu.setLayout(new GridLayout(7,0));
+		menu.setLayout(new GridLayout(7,1));
 		
 		taluva = new JLabel("Taluva");
 		taluva.setFont(new Font("Courier", Font.BOLD+Font.ITALIC,84));
 		taluva.setHorizontalAlignment(SwingConstants.CENTER);
 		taluva.setForeground(Color.BLACK);
 		taluva.setOpaque(false);
-	        
-		GridBagConstraints gbc_Taluva = new GridBagConstraints();
-		gbc_Taluva.weightx = 0.3;
-		gbc_Taluva.weighty = 0.5;
-		gbc_Taluva.gridx = 0;
-		gbc_Taluva.gridy = 0;
-		gbc_Taluva.fill = GridBagConstraints.BOTH;
-		gbc_Taluva.gridwidth = 3;
-		gbc_Taluva.gridheight = 1;
-	    menu.add(taluva,gbc_Taluva);
+	    menu.add(taluva);
 		
 		continuer = new JButton("Continuer");
 		continuer.setBackground(Color.WHITE);
 		continuer.setFont(new Font("Continuer", Font.BOLD+Font.ITALIC,40));
-		GridBagConstraints gbc_Continuer = new GridBagConstraints();
-		gbc_Continuer.weightx = 0.3;
-		gbc_Continuer.weighty = 0.5;
-		gbc_Continuer.gridx = 0;
-		gbc_Continuer.gridy = 1;
-		gbc_Continuer.fill = GridBagConstraints.BOTH;
-		gbc_Continuer.gridwidth = 3;
-		gbc_Continuer.gridheight = 3;
 		continuer.setOpaque(false);
-		menu.add(continuer,gbc_Continuer);
+		menu.add(continuer);
 		
 		nouveau = new JButton("Nouveau");
 		nouveau.setBackground(Color.WHITE);
 		nouveau.setFont(new Font("Nouveau", Font.BOLD+Font.ITALIC,40));
-		GridBagConstraints gbc_Nouveau = new GridBagConstraints();
-		gbc_Nouveau.weightx = 0.3;
-		gbc_Nouveau.weighty = 0.5;
-		gbc_Nouveau.gridx = 0;
-		gbc_Nouveau.gridy = 4;
-		gbc_Nouveau.fill = GridBagConstraints.BOTH;
-		gbc_Nouveau.gridwidth = 3;
-		gbc_Nouveau.gridheight = 3;
 		nouveau.setOpaque(false);
-		menu.add(nouveau,gbc_Nouveau);
+		menu.add(nouveau);
 		
 		charger = new JButton("Charger");
 		charger.setBackground(Color.WHITE);
 		charger.setFont(new Font("Charger", Font.BOLD+Font.ITALIC,40));
-		GridBagConstraints gbc_Charger = new GridBagConstraints();
-		gbc_Charger.weightx = 0.3;
-		gbc_Charger.weighty = 0.5;
-		gbc_Charger.gridx = 0;
-		gbc_Charger.gridy = 7;
-		gbc_Charger.fill = GridBagConstraints.BOTH;
-		gbc_Charger.gridwidth = 3;
-		gbc_Charger.gridheight = 3;
 		charger.setOpaque(false);
-		menu.add(charger,gbc_Charger);
+		menu.add(charger);
 		
 		regles = new JButton("Règles");
 		regles.setBackground(Color.WHITE);
 		regles.setFont(new Font("Règles", Font.BOLD+Font.ITALIC,40));
-		GridBagConstraints gbc_Regle = new GridBagConstraints();
-		gbc_Regle.weightx = 0.3;
-		gbc_Regle.weighty = 0.5;
-		gbc_Regle.gridx = 0;
-		gbc_Regle.gridy = 10;
-		gbc_Regle.fill = GridBagConstraints.BOTH;
-		gbc_Regle.gridwidth = 3;
-		gbc_Regle.gridheight = 3;
 		regles.setOpaque(false);
-		menu.add(regles,gbc_Regle);
+		menu.add(regles);
 		
 		credits = new JButton("Crédits");
 		credits.setBackground(Color.WHITE);
 		credits.setFont(new Font("Crédits", Font.BOLD+Font.ITALIC,40));
-		GridBagConstraints gbc_Credits = new GridBagConstraints();
-		gbc_Credits.weightx = 0.3;
-		gbc_Credits.weighty = 0.5;
-		gbc_Credits.gridx = 0;
-		gbc_Credits.gridy = 13;
-		gbc_Credits.fill = GridBagConstraints.BOTH;
-		gbc_Credits.gridwidth = 3;
-		gbc_Credits.gridheight = 3;
 		credits.setOpaque(false);
-		menu.add(credits,gbc_Credits);
+		menu.add(credits);
 		
 		quitter = new JButton("Quitter");
 		quitter.setBackground(Color.WHITE);
 		quitter.setFont(new Font("Quitter", Font.BOLD+Font.ITALIC,40));
-		GridBagConstraints gbc_Quitter = new GridBagConstraints();
-		gbc_Quitter.weightx = 0.3;
-		gbc_Quitter.weighty = 0.5;
-		gbc_Quitter.gridx = 0;
-		gbc_Quitter.gridy = 16;
-		gbc_Quitter.fill = GridBagConstraints.BOTH;
-		gbc_Quitter.gridwidth = 3;
-		gbc_Quitter.gridheight = 3;
 		quitter.setOpaque(false);
-		menu.add(quitter,gbc_Quitter);
+		menu.add(quitter);
 		
 		menu.setBackground(Color.WHITE);
 		menu.setOpaque(true);
-		this.add(menu,BorderLayout.EAST);
+		GridBagConstraints gbc_this = new GridBagConstraints();
 		
+//		gbc_this.gridx = 0;
+//		gbc_this.gridy = 0;
+//		gbc_this.anchor = GridBagConstraints.LINE_END;
+		GridBagConstraints aff = new GridBagConstraints();
+		/*ArrayList<JButton> tmp = new ArrayList<JButton>();
+		for(int i=0;i<9;i++){
+			tmp.add(new JButton());
+			tmp.get(i).setVisible(true);
+		}
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++){
+				aff.gridx=i;
+				aff.gridy=j;
+				aff.gridheight=1;
+				aff.gridwidth=1;
+				aff.fill=GridBagConstraints.BOTH;
+				if((i==2)&&(j==1)){
+					aff.gridy=GridBagConstraints.REMAINDER;
+					this.add(menu,aff);
+				}
+				else 
+					this.add(tmp.get(i*3+j),aff);
+			}
+		}*/
+		aff.gridx=0;
+		aff.gridy=0;
+		aff.gridheight=1;
+		aff.gridwidth=1;
+		aff.fill=GridBagConstraints.BOTH;
+		this.add(menu,aff);
 		
 	}
 
