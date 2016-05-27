@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
@@ -31,9 +32,9 @@ public class IHM {
 	private int width,height;
 	private JPanel ecran, boutons_Construction, frise, bas, joueurs, action, annuler_refaire,
   StatJ1, StatJ2;
-	private JLabel  Poser, Construire, Finir, image_Temple_J1, image_Tour_J1, image_Hutte_J1,image_Temple_J2, image_Tour_J2, image_Hutte_J2,
+	private JLabel  Piocher, Poser, Construire, Finir, image_Temple_J1, image_Tour_J1, image_Hutte_J1,image_Temple_J2, image_Tour_J2, image_Hutte_J2,
 	nb_Hutte_J1,nb_Tour_J1,nb_Temple_J1, nb_Hutte_J2,nb_Tour_J2,nb_Temple_J2;
-	private JButton Annuler,Refaire,Piocher,FDT,temple,tour,hutte;
+	private JButton Annuler,Refaire,Pioche,FDT,temple,tour,hutte;
 	
 	// On factorise
 	private JLabel[] InfoJ1,InfoJ2;
@@ -45,11 +46,14 @@ public class IHM {
 	private static String Fichier_Temple = "Assets/Texture/Button_Temple.png";
 	private static String Fichier_Tour = "Assets/Texture/Button_tower.png";
 	private static String Fichier_Hutte = "Assets/Texture/Button_Hut.png";
-	private static int largeur_total = 3;
+	private static int largeur_total = 30;
     private static int hauteur_caneva = 9;
     private static int hauteur_total = 12;
     private static int taille_joueur = 1;
     private static int taille_annuler_refaire = 1;
+    private static int taille_pioche = 4;
+    private static int taille_construction = 4;
+    private static int taille_fin_de_tour = 3;
     private static int taille_frise = largeur_total - taille_joueur - taille_annuler_refaire;
 	private Canvas canvas;
 	 
@@ -384,24 +388,67 @@ public class IHM {
 	private void AjoutFrise()
 	{
 		
-		frise.setLayout(new GridLayout(1,3));
-		// Pioche = initFriseElement("Pioche");
-        Poser =  initFriseElement("Poser");
+		//Creation de Panel Temp
+		JPanel[] PanelFrise = new JPanel[3];
+		for(int i=0;i<3; i++)
+		{
+			PanelFrise[i] = new JPanel();
+			PanelFrise[i].setLayout(new GridLayout(1,1));
+		}
+		
+		PanelFrise[0].setLayout(new GridLayout(1,2));
+		
+		
+		frise.setLayout(new GridBagLayout());
+		Piocher = initFriseElement("Piocher");
+		Poser =  initFriseElement("Poser");
         Construire =  initFriseElement("Construire");
         Finir =  initFriseElement("Finir");
+        
+        PanelFrise[0].add(Piocher,BorderLayout.CENTER);
+        PanelFrise[0].add(Poser,BorderLayout.CENTER);
+        PanelFrise[1].add(Construire,BorderLayout.CENTER);
+        PanelFrise[2].add(Finir,BorderLayout.CENTER);
+        
+        
+        
         //création de la frise
         GridBagConstraints gbc = new GridBagConstraints();
-        
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridwidth = taille_frise;
-        
+        gbc.weightx = 0.25;
+        gbc.weighty = 1.0;
+        gbc.gridwidth = taille_pioche;
         gbc.gridheight = 1;
-        gbc.gridx = taille_joueur;
-        gbc.gridy = hauteur_caneva;
-        //frise.add(p,BorderLayout.CENTER);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        
+        frise.add(PanelFrise[0], gbc);
+        gbc.gridwidth = taille_construction;
+        gbc.gridx = taille_pioche;
+        gbc.weightx = 0.135;
+        frise.add( PanelFrise[1], gbc);
+        gbc.gridwidth = taille_fin_de_tour;
+        gbc.gridx = taille_pioche + taille_construction;
+        gbc.weightx = 0.265;
+        frise.add(PanelFrise[2] ,gbc);
+        
+        
+    /*    
         frise.add(Poser,BorderLayout.CENTER);
         frise.add(Construire,BorderLayout.CENTER);
         frise.add(Finir,BorderLayout.CENTER);
+  */      
+        
+        gbc.fill = GridBagConstraints.BOTH;
+     //   gbc.gridwidth = taille_frise;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.1;
+        
+        gbc.gridwidth = taille_frise;
+        gbc.gridheight = 1;
+        gbc.gridx = taille_joueur;
+        gbc.gridy = hauteur_caneva;
+    
         ecran.add(frise,gbc);
         
         
@@ -411,7 +458,7 @@ public class IHM {
 	private void AjoutBoutonAction()
 	{
 		//TODO
-		Piocher = FaireBouton("Piocher");
+		Pioche = FaireBouton("Piocher");
         FDT = FaireBouton("Fin_de_tour");
         hutte = FaireBouton("Hutte",Fichier_Hutte);
         tour = FaireBouton("Tour", Fichier_Tour);
@@ -432,9 +479,9 @@ public class IHM {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = taille_pioche;
         gbc.gridheight = 1;
-        action.add(Piocher,gbc);
+        action.add(Pioche,gbc);
         
 
         //Bouton construction 
@@ -443,7 +490,7 @@ public class IHM {
         gbc.weighty = 0.5;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        gbc.gridx = 3;
+        gbc.gridx = taille_construction;
         gbc.gridy = 0;
         action.add(boutons_Construction, gbc);
         
@@ -454,7 +501,7 @@ public class IHM {
         gbc.gridx = 5;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = taille_fin_de_tour;
         gbc.gridheight = 1;       
         action.add(FDT,gbc);
         
@@ -587,6 +634,7 @@ public class IHM {
 	private JButton FaireBouton(String nom_bouton)
 	{
 		JButton bouton = new JButton(nom_bouton);
+		bouton.setFocusable(false);
 		Ecouteur_Boutons ecouteur_bouton = new Ecouteur_Boutons(nom_bouton,m);
         bouton.addActionListener(ecouteur_bouton);
         return bouton;
@@ -597,11 +645,14 @@ public class IHM {
 	// Creer un bouton a partir de son nom et son image
 	private JButton FaireBouton(String nom_bouton, String nom_image)
 	{
-		JButton bouton = new JButton();
+		
+		ImageIcon image = new ImageIcon(nom_image);
+		JButton bouton = new JButton(image);
+		bouton.setFocusable(false);
 		Ecouteur_Boutons ecouteur_bouton = new Ecouteur_Boutons(nom_bouton,m);
-        ImageIcon image = new ImageIcon(nom_image);
+        
         bouton.addActionListener(ecouteur_bouton);
-        bouton.setIcon(image);
+       // bouton.setIcon(image);
         return bouton;  
 	}
 	
@@ -724,7 +775,7 @@ public class IHM {
 
 
 	public JButton getPiocher() {
-		return Piocher;
+		return Pioche;
 	}
 
 
