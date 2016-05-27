@@ -184,11 +184,43 @@ public class GraphicTile {
 		this.tile = tile.clone();
 		int i = 0;
 		boolean found = false;
+		Orientation o1,o2;
+		switch(tile.get_Orientation_Volcan()){
+		case E:
+			o1 = Orientation.N;
+			o2 = Orientation.S;
+			break;
+		case N_E:
+			o1 = Orientation.O;
+			o2 = Orientation.S;
+			break;
+		case N_O:
+			o1 = Orientation.S;
+			o2 = Orientation.E;
+			break;
+		case O:
+			o1 = Orientation.S;
+			o2 = Orientation.N;
+			break;
+		case S_E:
+			o1 = Orientation.N;
+			o2 = Orientation.O;
+			break;
+		case S_O:
+			o1 = Orientation.E;
+			o2 = Orientation.N;
+			break;
+		default:
+			o1 = Orientation.NONE;
+			o2 = Orientation.NONE;
+			break;
+		
+		}
 		while(i<25 && !found){
-			switch(tile.get_type_case(Orientation.S)){
+			switch(tile.get_type_case(o1)){
 			case MONTAGNE:
 				if(texture_name[i].charAt(1) == 'M' )
-					switch(tile.get_type_case(Orientation.N)){
+					switch(tile.get_type_case(o2)){
 					case MONTAGNE:
 						if(texture_name[i].charAt(2) == 'M' )
 							found = true;
@@ -215,7 +247,7 @@ public class GraphicTile {
 				break;
 			case PLAINE:
 				if(texture_name[i].charAt(1) == 'P' )
-					switch(tile.get_type_case(Orientation.N)){
+					switch(tile.get_type_case(o2)){
 					case MONTAGNE:
 						if(texture_name[i].charAt(2) == 'M' )
 							found = true;
@@ -242,7 +274,7 @@ public class GraphicTile {
 				break;
 			case LAC:
 				if(texture_name[i].charAt(1) == 'L' )
-					switch(tile.get_type_case(Orientation.N)){
+					switch(tile.get_type_case(o2)){
 					case MONTAGNE:
 						if(texture_name[i].charAt(2) == 'M' )
 							found = true;
@@ -269,7 +301,7 @@ public class GraphicTile {
 				break;
 			case SABLE:
 				if(texture_name[i].charAt(1) == 'S' )
-					switch(tile.get_type_case(Orientation.N)){
+					switch(tile.get_type_case(o2)){
 					case MONTAGNE:
 						if(texture_name[i].charAt(2) == 'M' )
 							found = true;
@@ -296,7 +328,7 @@ public class GraphicTile {
 				break;
 			case FORET:
 				if(texture_name[i].charAt(1) == 'F' )
-					switch(tile.get_type_case(Orientation.N)){
+					switch(tile.get_type_case(o2)){
 					case MONTAGNE:
 						if(texture_name[i].charAt(2) == 'M' )
 							found = true;
