@@ -9,6 +9,7 @@ public class Case {
 		JAUNE,
 		BLANC,
 		BLEU,
+		ROSE,
 		NEUTRE;
 		public Color getcolor(){
 			switch (this){
@@ -24,8 +25,11 @@ public class Case {
 				case BLEU:
 					return Color.CYAN;
 					
+				case ROSE:
+					return Color.PINK;
+					
 				default:
-					return Color.BLACK;
+					return Color.RED;
 			}
 		}
 		

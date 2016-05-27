@@ -2,6 +2,7 @@ package terrain;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import Action.Action_Batiment;
 import Action.Action_Construction;
@@ -25,35 +26,21 @@ public class Terrain {
 	
 	public final static int TAILLE = 200;
 	public final static Point CENTRE = new Point(TAILLE/2,TAILLE/2);
+	private final static int TAILLE_HASH = 250;
 	
-	private Case [][] t;
+	private Hashtable<Point,Case> t;
 	private boolean empty;
 	private Coord limites;
 	
 	private ArrayList<Action_Tuile> histo_tuiles;
 	private ArrayList<Action_Batiment> histo_batiments;
 	private ArrayList<Cite> cites;
-	private int [][] index_cite;
-	
-	//private int [] index_bat_supprime;
+	private Hashtable<Point,Integer> index_cite;
 	
 	public Terrain(){
-		t = new Case[TAILLE][TAILLE];
-		index_cite = new int [TAILLE][TAILLE];
+		t = new Hashtable<Point,Case>(TAILLE_HASH);
+		index_cite = new Hashtable<Point,Integer>(TAILLE_HASH);
 		limites  = new Coord(CENTRE.x,CENTRE.y,CENTRE.x,CENTRE.y);
-		//index_bat_supprime = new int [2];
-		//index_bat_supprime[0] = -1;
-		//index_bat_supprime[1] = -1;
-		for(int i=0;i<TAILLE;i++){
-			for(int j=0;j<TAILLE;j++){
-				index_cite[i][j] = -1;
-			}
-		}
-		for(int i=limites.xmin;i<=limites.xmax;i++){
-			for(int j=limites.ymin;j<=limites.ymax;j++){
-				t[i][j] = new Case(Case.Type.VIDE);
-			}
-		}
 		empty = true;
 		histo_tuiles = new ArrayList<Action_Tuile>();
 		histo_batiments = new ArrayList<Action_Batiment>();
@@ -62,18 +49,9 @@ public class Terrain {
 	
 	public Terrain clone(){
 		Terrain tmp = new Terrain();
-		for(int i=0;i<TAILLE;i++){
-			for(int j=0;j<TAILLE;j++){
-				tmp.index_cite[i][j] = this.index_cite[i][j];
-			}
-		}
-		for(int i=limites.xmin;i<=limites.xmax;i++){
-			for(int j=limites.ymin;j<=limites.ymax;j++){
-				tmp.t[i][j] = this.t[i][j].clone();
-			}
-		}
-		//tmp.index_bat_supprime[0] = this.index_bat_supprime[0];
-		//tmp.index_bat_supprime[1] = this.index_bat_supprime[1];
+		tmp.index_cite.putAll(this.index_cite);
+		for(Point P : this.t.keySet())
+			tmp.t.put(P,this.t.get(P).clone());
 		tmp.limites  = this.limites.clone();
 		tmp.empty = this.empty;
 		for(int i = 0;i<this.histo_tuiles.size();i++){
@@ -89,16 +67,13 @@ public class Terrain {
 	}
 	
 	public Case getCase(Point P){
-		return getCase(P.x,P.y);
+		Case c = t.get(P);
+		if(c != null) return c;
+		else return new Case(Case.Type.VIDE);
 	}
 	
 	public Case getCase(int i, int j){
-		//if(i>=0 && j>=0 && i<TAILLE && j<TAILLE)
-		if(i>=limites.xmin && j>=limites.ymin && i<=limites.xmax && j<=limites.ymax)
-			return t[i][j];
-		else{
-			return new Case(Case.Type.VIDE);
-		}
+		return getCase(new Point(i,j));
 	}
 	
 	public boolean isEmpty(){
@@ -117,7 +92,6 @@ public class Terrain {
 	public Cite getCite(Point P){
 		int i = getIndexCite(P);
 		if(i < 0 || i >= cites.size()){
-			//System.out.println("Erreur : Terrain.getCite(" + P.x + "," + P.y + ") : index " + i + ", taille " + cites.size());
 			System.out.println("Terrain.getCite(" + P.x + "," + P.y + ") : pas de cite ici");
 			return new Cite(P, Case.Couleur_Joueur.NEUTRE, Case.Type_Batiment.VIDE);
 		}
@@ -180,26 +154,11 @@ public class Terrain {
 	}
 	
 	private int getIndexCite(Point P){
-		int i = P.x;
-		int j = P.y;
-		//if(i>=0 && j>=0 && i<TAILLE && j<TAILLE)
-		if(i>=limites.xmin && j>=limites.ymin && i<=limites.xmax && j<=limites.ymax)
-			return index_cite[i][j];
-		else
-			System.out.println("Terrain.getIndexCite(" + i + "," + j + ") : hors terrain.");
-			return -1;
+		Integer index = index_cite.get(P);
+		if(index != null) return index;
+		else return -1;
 	}
 
-/*
-	// Renvoie la liste des cases calculee depuis une liste de points
-	private ArrayList<Case> getCases(ArrayList<Point> pts){
-		ArrayList<Case> res = new ArrayList<Case>();
-		for(int i=0;i<pts.size();i++){
-			res.add(getCase(pts.get(i)));
-		}
-		return res;
-	}
-*/
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////// PLACEMENT TUILE /////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
@@ -232,83 +191,33 @@ public class Terrain {
 				x = P.x;
 				y = P.y;
 			}
-			//////////
 			if(y+1>limites.ymax){
-				for(int i=limites.xmin;i<=limites.xmax;i++){
-					t[i][y+1] = new Case(Case.Type.VIDE);
-					if(y>limites.ymax)
-						t[i][y] = new Case(Case.Type.VIDE);
-				}
 				limites.ymax = y+1;
 			}
 			if(y<limites.ymin){
-				for(int i=limites.xmin;i<=limites.xmax;i++){
-					t[i][y] = new Case(Case.Type.VIDE);
-					if(y+1<limites.ymin)
-						t[i][y+1] = new Case(Case.Type.VIDE);
-				}
 				limites.ymin = y;
 			}
-			//////////
-			//if(y+1>limites.ymax) limites.ymax = y+1;
-			//if(y<limites.ymin) limites.ymin = y;
-			//poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan());
-			//poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan());
 			if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
-				/////////
 				if(x>limites.xmax){
-					for(int j=limites.ymin;j<=limites.ymax;j++){
-						t[x][j] = new Case(Case.Type.VIDE);
-						if(x-1>limites.xmax)
-							t[x-1][j] = new Case(Case.Type.VIDE);
-					}
 					limites.xmax = x;
 				}
 				if(x-1<limites.xmin){
-					for(int j=limites.ymin;j<=limites.ymax;j++){
-						t[x-1][j] = new Case(Case.Type.VIDE);
-						if(x<limites.xmin)
-							t[x][j] = new Case(Case.Type.VIDE);
-					}
 					limites.xmin = x-1;
 				}
-				/////////
-				//if(x>limites.xmax) limites.xmax = x;
-				//if(x-1<limites.xmin) limites.xmin = x-1;
-				int indice_bat_suppr = 0;
-				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan(),indice_bat_suppr);
-				if(tuile.get_type_case(Case.Orientation.N) != Case.Type.VOLCAN) indice_bat_suppr ++;
-				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan(),indice_bat_suppr);
-				if(tuile.get_type_case(Case.Orientation.S) != Case.Type.VOLCAN) indice_bat_suppr ++;
-				poser_hexa(x-1,y,tuile.get_type_case(Case.Orientation.O),tuile.get_Orientation_Volcan(),indice_bat_suppr);
+				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan());
+				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan());
+				poser_hexa(x-1,y,tuile.get_type_case(Case.Orientation.O),tuile.get_Orientation_Volcan());
 			}
 			else{
-				/////////
 				if(x+1>limites.xmax){
-					for(int j=limites.ymin;j<=limites.ymax;j++){
-						t[x+1][j] = new Case(Case.Type.VIDE);
-						if(x>limites.xmax)
-							t[x][j] = new Case(Case.Type.VIDE);
-					}
 					limites.xmax = x+1;
 				}
 				if(x<limites.xmin){
-					for(int j=limites.ymin;j<=limites.ymax;j++){
-						t[x][j] = new Case(Case.Type.VIDE);
-						if(x+1<limites.xmin)
-							t[x+1][j] = new Case(Case.Type.VIDE);
-					}
 					limites.xmin = x;
 				}
-				///////
-				//if(x+1>limites.xmax) limites.xmax = x+1;
-				//if(x<limites.xmin) limites.xmin = x;
-				int indice_bat_suppr = 0;
-				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan(),indice_bat_suppr);
-				if(tuile.get_type_case(Case.Orientation.N) != Case.Type.VOLCAN) indice_bat_suppr ++;
-				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan(),indice_bat_suppr);
-				if(tuile.get_type_case(Case.Orientation.S) != Case.Type.VOLCAN) indice_bat_suppr ++;
-				poser_hexa(x+1,y+1,tuile.get_type_case(Case.Orientation.E),tuile.get_Orientation_Volcan(),indice_bat_suppr);
+				poser_hexa(x,y,tuile.get_type_case(Case.Orientation.N),tuile.get_Orientation_Volcan());
+				poser_hexa(x,y+1,tuile.get_type_case(Case.Orientation.S),tuile.get_Orientation_Volcan());
+				poser_hexa(x+1,y+1,tuile.get_type_case(Case.Orientation.E),tuile.get_Orientation_Volcan());
 			}
 			histo_tuiles.add(new Action_Tuile(tuile,new Point(x,y),getCase(x,y).getNiveau()));
 			return 0;
@@ -333,27 +242,20 @@ public class Terrain {
 		return res;
 	}
 	
-	// Renvoie les indices des deux cases dont les batiments ont ete ecrases lors de la derniere pose de tuile
-	//public int [] getIndexBatSuppr(){
-	//	return index_bat_supprime;
-	//}
-	
-	private void poser_hexa(int x, int y, Case.Type type, Case.Orientation oV, int index_bat_suppr){
+	private void poser_hexa(int x, int y, Case.Type type, Case.Orientation oV){
 		Case c = getCase(x,y);
 		c.setType(type);
 		c.setOrientation(oV);
 		c.incrNiveau();
+		if(c.getNiveau() == 1) t.put(new Point(x,y), c);
 		if(c.retirer_batiments() == 0){
 			// On a retiré des batiments : il faut gerer l'historique et les cites
 			Point P = new Point(x,y);
 			int index_bat_histo = getIndexHistoBatiments(P);
 			if(index_bat_histo != -1){
 				// On met a jour l'historique (on supprime le dernier element et on le place a l'endroit à supprimer)
-				// et on met a jour index_bat_supprime pour indiquer le batiment à actualiser
-				//index_bat_supprime[index_bat_suppr] = index_bat_histo;
 				histo_batiments.set(index_bat_histo,histo_batiments.get(histo_batiments.size()-1).clone());
 				histo_batiments.remove(histo_batiments.size()-1);
-				//Game.majHistoBatiments();
 			}
 			else System.out.println("Erreur poser_hexa : gestion de l'historique_batiments");
 			Cite cite = getCite(P);
@@ -366,33 +268,29 @@ public class Terrain {
 				// On decale les indices
 				for(int i=limites.xmin;i<=limites.xmax;i++){
 					for(int j=limites.ymin;j<=limites.ymax;j++){
-						if(index_cite[i][j]>index_c){
-							index_cite[i][j] = index_cite[i][j]-1;
-						}
+						Integer index_i_j = index_cite.get(new Point(i,j));
+						if(index_i_j != null && index_i_j>index_c) index_cite.put(new Point(i,j), index_i_j-1);
 					}
 				}
-				// On met a -1 les index de la cite
+				// On supprime l'indexage de la cite
 				for(int i=0;i<cite.getPts().size();i++){
-					P = cite.getPts().get(i);
-					index_cite[P.x][P.y] = -1;
+					Point ptCite = cite.getPts().get(i);
+					index_cite.remove(ptCite);
 				}
-				// Puis on met a jour cites et index_cite[][]
+				// Puis on met a jour cites et index_cite
 				for(int i=0;i<citesSeparees.size();i++){
 					cites.add(citesSeparees.get(i));
 					ArrayList<Point> ptsCite = citesSeparees.get(i).getPts();
 					for(int j=0;j<ptsCite.size();j++){
-						index_cite[ptsCite.get(j).x][ptsCite.get(j).y] = cites.size()-1;
+						index_cite.put(ptsCite.get(j),cites.size()-1);
 					}
 				}
 			}
 			else{
 				cite.retirer(P);
-				index_cite[x][y] = -1;
+				index_cite.remove(P);
 			}
 		}
-		//else{
-		//	if(index_bat_suppr<2) index_bat_supprime[index_bat_suppr] = -1;
-		//}
 	}
 	
 	// Renvoie l'ensemble de cites issu de la suppression des batiments au point P
@@ -428,7 +326,6 @@ public class Terrain {
 				res.add(citeP);
 			}
 		}
-		//System.out.println("Separation depuis " + P.x + "," + P.y + " en " + res.size() + " parties");
 		return res;
 	}
 	
@@ -470,24 +367,7 @@ public class Terrain {
 			}
 		}
 	}
-/*
-	private boolean separe_cite(Point P){
-		ArrayList<Point> voisinsCite = ptsContactDansCite(P);
-		if(voisinsCite.size()>1){
-			boolean case_isolee = false;
-			int i=0;
-			while(!case_isolee && i<voisinsCite.size()-1){
-				case_isolee = true;
-				for(int j=i+1; j<voisinsCite.size(); j++){
-					case_isolee = case_isolee && !point_contact_point(voisinsCite.get(i),voisinsCite.get(j));
-				}
-				i++;
-			}
-			return case_isolee;
-		}
-		else return false;
-	}
-*/
+	
 	private ArrayList<Point> ptsContactDansCite(Point P){
 		Cite cite = getCite(P);
 		ArrayList<Point> ptsCite = cite.getPts();
@@ -596,7 +476,6 @@ public class Terrain {
 					// On joue alors sur des tuiles
 					// On verifie qu'on n'ecrase pas une cite entiere ni une tour ou un temple
 					if(!cases_t[0].est_Libre() || !cases_t[1].est_Libre() || !cases_t[2].est_Libre()){
-						//System.out.println("Ca ecrase pitetre des choses interdites");
 						// Si on ecrase au moins un batiment
 						if(cases_t[0].getBType() == Case.Type_Batiment.TEMPLE || cases_t[0].getBType() == Case.Type_Batiment.TOUR)
 							return false;
@@ -630,8 +509,6 @@ public class Terrain {
 							if(cite.size()==1) // Une seule case : interdit
 								return false;
 						}
-
-						//System.out.println("Ah ba non");
 					}
 					
 					// On vérifie la disposition des volcans
@@ -719,7 +596,7 @@ public class Terrain {
 					getCase(pt_extension).ajouter_batiment(Case.Type_Batiment.HUTTE,c);
 					// On ajoute a la cite
 					cite.ajouter(pt_extension, Case.Type_Batiment.HUTTE);
-					index_cite[pt_extension.x][pt_extension.y]=index_c;
+					index_cite.put(pt_extension,index_c);
 					if(cites_proches.size()>1){
 						// Cette extension connecte deux cites ou plus
 						for(int j=1;j<cites_proches.size();j++){
@@ -729,6 +606,7 @@ public class Terrain {
 						index_c = cites_indexOf(cite);
 					}
 				}
+				this.afficher();
 				return 0;
 			}
 			else return 1;
@@ -771,31 +649,7 @@ public class Terrain {
 		}
 		return res;
 	}
-/*
-	// Renvoie l'ensemble des cases concernees par l'extension de la cite sur les cases de Type type.
-	private ArrayList<Case> getCases_extension_cite(Cite cite, Case.Type type){
-		ArrayList<Case> res = new ArrayList<Case>();
-		ArrayList<Point> ptsCite = cite.getPts();
-		boolean [][] appartient_res = new boolean[TAILLE][TAILLE];
-		for(int i=0;i<TAILLE;i++){
-			for(int j=0;j<TAILLE;j++){
-				appartient_res[i][j] = false;
-			}
-		}
-		if(type != Case.Type.VIDE){
-			for(int i=0;i<ptsCite.size();i++){
-				Point [] voisins = getPtsVoisins(ptsCite.get(i));
-				for(int j=0;j<6;j++){
-					if(getCase(voisins[j]).getType() == type && !appartient_res[voisins[j].x][voisins[j].y] && getCase(voisins[j]).est_Libre()){
-						res.add(getCase(voisins[j]));
-						appartient_res[voisins[j].x][voisins[j].y] = true;
-					}
-				}
-			}
-		}
-		return res;
-	}
-*/
+
 	// Renvoie vrai ssi la cite donnee contient au moins un batiment de type b
 	private boolean cite_contient(Cite cite, Case.Type_Batiment b){
 		switch(b){
@@ -810,35 +664,7 @@ public class Terrain {
 	private boolean cite_taille_3(Cite cite){
 		return cite.getTaille()>=3;
 	}
-/*
-	// Calcule dans res l'ensemble des points de la cite liee a P
-	private ArrayList<Point> getPtsCite(Point P){
-		ArrayList<Point> ptsCite = new ArrayList<Point>();
-		if(getCase(P).getCouleur() != Case.Couleur_Joueur.NEUTRE){
-			boolean [][] appartient_cite = new boolean[TAILLE][TAILLE];
-			for(int i=0;i<TAILLE;i++){
-				for(int j=0;j<TAILLE;j++){
-					appartient_cite[i][j] = false;
-				}
-			}
-			getPtsCite_rec(P,ptsCite,appartient_cite);
-		}
-		return ptsCite;
-	}
 
-	// Recursion de la fonction ci-dessus
-	private void getPtsCite_rec(Point P, ArrayList<Point> res, boolean [][] appartient_cite){
-		Point [] voisins = getPtsVoisins(P);
-		res.add(P);
-		appartient_cite[P.x][P.y] = true;
-		Case.Couleur_Joueur c = getCase(P).getCouleur();
-		for(int i=0;i<6;i++){
-			if(getCase(voisins[i]).getCouleur() == c && !appartient_cite[voisins[i].x][voisins[i].y]){
-				getPtsCite_rec(voisins[i],res,appartient_cite);
-			}
-		}
-	}
-*/
 	///////////////////////////////////////////////////////////////////////////
 	/////////////////////////// PLACEMENT BATIMENT ////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
@@ -865,21 +691,12 @@ public class Terrain {
 			if(n == 0){
 				// C'est une nouvelle cite
 				cites.add(new Cite(P,c,b));
-				index_cite[P.x][P.y] = cites.size()-1;
+				index_cite.put(P,cites.size()-1);
 			}
 			else{
-				/*Point [] ptsVoisins = getPtsVoisins(P);
-				int nb_cites_trouvees = 0;
-				Point [] coord_cite = new Point[6];
-				for(int i=0; i<6; i++){
-					if(!getCase(ptsVoisins[i]).est_Libre() && getCase(ptsVoisins[i]).getCouleur()==c){
-						coord_cite[nb_cites_trouvees] = ptsVoisins[i];
-						nb_cites_trouvees ++;
-					}
-				}*/
 				ArrayList<Cite> cites_trouvees = getCitesContact(P,c);
 				cites_trouvees.get(0).ajouter(P,b);
-				index_cite[P.x][P.y] = cites_indexOf(cites_trouvees.get(0));
+				index_cite.put(P, cites_indexOf(cites_trouvees.get(0)));
 				int nb_cites_trouvees = cites_trouvees.size();
 				if(n != nb_cites_trouvees) System.out.println("ERREUR placer batiment - gestion des cites");
 				// On choisit arbitrairement la cite qui contiendra le batiment
@@ -891,6 +708,7 @@ public class Terrain {
 				}
 			}
 			getCase(P).ajouter_batiment(b,c);
+			this.afficher();
 			return 0;
 		}
 		else return 1;
@@ -904,20 +722,19 @@ public class Terrain {
 	private void fusion_cite(Cite C, Cite C2){
 		int index_C = cites_indexOf(C);
 		int index_C2 = cites_indexOf(C2);
-		//System.out.println("FUSION " + index_C2 + " -> " + index_C);
+		System.out.println("FUSION " + index_C2 + " -> " + index_C);
 		ArrayList<Point> ptsC2 = C2.getPts();
 		Point P;
 		for(int i=0;i<ptsC2.size();i++){
 			P = ptsC2.get(i);
-			index_cite[P.x][P.y] = index_C;
+			index_cite.put(P, index_C);
 		}
 		C.fusionner_avec(C2);
 		cites.remove(index_C2);
 		for(int i=limites.xmin;i<=limites.xmax;i++){
 			for(int j=limites.ymin;j<=limites.ymax;j++){
-				if(index_cite[i][j]>index_C2){
-					index_cite[i][j] = index_cite[i][j]-1;
-				}
+				Integer index_i_j = index_cite.get(new Point(i,j));
+				if(index_i_j != null && index_i_j>index_C2) index_cite.put(new Point(i,j), index_i_j-1);
 			}
 		}
 	}
@@ -940,7 +757,6 @@ public class Terrain {
 				if(b == Case.Type_Batiment.HUTTE) return -1;
 				boolean valide = false;
 				for(int i=0;i<nb_cites_trouvees;i++){
-					//Cite cite = getCite(coord_cite[i]);
 					Cite cite = cites_trouvees.get(i);
 					if(b == Case.Type_Batiment.TOUR)
 						valide = valide || (getCase(P).getNiveau() >= 3 && !cite_contient(cite,Case.Type_Batiment.TOUR));
@@ -1035,34 +851,34 @@ public class Terrain {
 		System.out.println(limites.ymax);
 		for(int i=limites.ymin;i<=limites.ymax;i++){
 			for(int j=limites.xmin;j<=limites.xmax;j++){
-				System.out.print(t[j][i].getType().toChar());
+				System.out.print(getCase(j,i).getType().toChar());
 			}
 			System.out.print("  ");
 			for(int j=limites.xmin;j<=limites.xmax;j++){
-				System.out.print(t[j][i].getNiveau());
+				System.out.print(getCase(j,i).getNiveau());
 			}
 			System.out.print("  ");
 			for(int j=limites.xmin;j<=limites.xmax;j++){
 
-				System.out.print(t[j][i].getBType().toChar());
+				System.out.print(getCase(j,i).getBType().toChar());
 			}
 			System.out.print("  ");
 			for(int j=limites.xmin;j<=limites.xmax;j++){
-				System.out.print(t[j][i].getBNb());
+				System.out.print(getCase(j,i).getBNb());
 			}
 			System.out.print("  ");
 			for(int j=limites.xmin;j<=limites.xmax;j++){
-				if(index_cite[j][i] == -1) System.out.print("_");
-				else System.out.print(index_cite[j][i]);
+				if(getIndexCite(new Point(j,i)) == -1) System.out.print("_");
+				else System.out.print(getIndexCite(new Point(j,i)));
 			}
 			System.out.print("  ");
 			for(int j=limites.xmin;j<=limites.xmax;j++){
-				System.out.print(t[j][i].getCouleur().toChar());
+				System.out.print(getCase(j,i).getCouleur().toChar());
 			}
 
 			System.out.print("  ");
 			for(int j=limites.xmin;j<=limites.xmax;j++){
-				if(index_cite[j][i] != -1)
+				if(getIndexCite(new Point(j,i)) != -1)
 					System.out.print(getCite(new Point(j,i)).getCouleur().toChar());
 				else
 					System.out.print("_");
