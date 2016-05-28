@@ -136,22 +136,19 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 			case CONSTRUIRE_BATIMENT:
 				
 				if(point!=null){
-					construction.getObject3d().setPosition(new Vector3f(point.x,construction.getHeight(),point.z));
+					construction.setPosition(new Vector3f(point.x,construction.getHeight(),point.z));
 				}
 			
 				
 				//Snap
-				snap = grid.snap(construction.getObject3d(),construction.getObject3d().getPosition());
+				snap = grid.snap(construction.getObject3d(),construction.getPosition());
 				if(snap!=null){
-					construction.getObject3d().setPosition(snap.worldPos);
+					construction.setPosition(snap.worldPos);
 					int level = m.getTerrain().getNiveauTheoriqueBatiment(snap.indices)-1;
-					construction.getObject3d().setPosition(snap.worldPos);
 					construction.setHeight(0);
 					construction.increaseHeight(level);
-					construction.getObject3d().setPositionY(construction.getHeight());
-					if(!m.placement_batiment_autorise(snap.indices)){
-						construction.getObject3d().setAllow(false);
-					}
+					construction.setPositionY(construction.getHeight());
+					construction.setAllow(m.placement_batiment_autorise(snap.indices));
 				}
 				
 				return snap;
@@ -232,8 +229,10 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 					if(Ecouteur_Boutons.isPick()){
 						if (snap!=null && m.placer_batiment(snap.indices)== 0)
 						{
-							constructions.add(new GraphicConstruction(construction));
-							constructions.get(constructions.size()-1).getObject3d().setPosition(snap.worldPos);
+							
+							
+							//constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0)));
+							//constructions.get(constructions.size()-1).getObject3d().setPosition(snap.worldPos);
 							m.Maj_liste_coup_construction();
 							m.getTerrain().afficher();
 						}
@@ -346,8 +345,8 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 					if(Ecouteur_Boutons.isPick()){
 						if (snap!=null && m.placer_batiment(snap.indices)== 0)
 						{
-							constructions.add(new GraphicConstruction(construction));
-							constructions.get(constructions.size()-1).getObject3d().setPosition(snap.worldPos);
+							//constructions.add(new GraphicConstruction(construction));
+							//constructions.get(constructions.size()-1).getObject3d().setPosition(snap.worldPos);
 							m.Maj_liste_coup_construction();
 							m.getTerrain().afficher();
 						}

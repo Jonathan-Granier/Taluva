@@ -144,11 +144,11 @@ public class Game implements Observer,KeyListener  {
 			
 		if(constructions.size() < listConstruction.size()){
 			for(int i=constructions.size();i<listConstruction.size();i++){
-				constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader));
+				constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0)));
 				constructions.get(i).setColour(listConstruction.get(i).getCouleur());
 				constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
 				Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
-				constructions.get(i).getObject3d().setPosition(worldPos);
+				constructions.get(i).setPosition(worldPos);
 			}
 		}
 		
@@ -161,7 +161,7 @@ public class Game implements Observer,KeyListener  {
 			constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 			constructions.get(i).getObject3d().setPosition(worldPos);
-			renderer.draw(constructions.get(i).getObject3d(),shader);
+			renderer.draw(constructions.get(i),shader);
 		}
 	}
 	
@@ -203,7 +203,10 @@ public class Game implements Observer,KeyListener  {
 		Tiles = new ArrayList<GraphicTile>();
 		constructions = new ArrayList<GraphicConstruction>();
 		
-		Construction = new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader);
+		GraphicConstruction.setUp(loader);
+		Construction = new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0));
+		
+		Construction.init();
 		Ecouteur_Boutons.setConstruction(Construction);
 		grid = new Grid();
 		
@@ -253,7 +256,7 @@ public class Game implements Observer,KeyListener  {
 		
 		
 		if(moteur.get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT && Ecouteur_Boutons.isPick())
-			renderer.draw(Construction.getObject3d(),shader);
+			renderer.draw(Construction,shader);
 		if(moteur.get_etat_jeu() == Phase_Jeu.POSER_TUILE)
 			renderer.draw(Tile.getObject3D(),shader);
 		

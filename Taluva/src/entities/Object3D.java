@@ -18,6 +18,7 @@ public class Object3D {
 	private String label;
 	private boolean allow = true;
 	private boolean multiObj = false;
+	private boolean construction = false;
 	private Models models;
 	private Vector3f Color;
 	
@@ -25,22 +26,24 @@ public class Object3D {
 		this.model = object3d.getModel();
 		this.models = object3d.getModels();
 		this.multiObj = object3d.isMultiObj();
-		this.position = object3d.getPosition();
+		this.position = new Vector3f(object3d.getPosition());
 		this.rotX = object3d.getRotX();
 		this.rotY = object3d.getRotY();
 		this.rotZ = object3d.getRotZ();
 		this.scale = object3d.getScale();
+		this.construction = object3d.isConstruction();
 		this.Color = new Vector3f(object3d.getColor());
 	}
 	
 	public Object3D(Model model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		this.model = model;
-		this.position = position;
+		this.position = new Vector3f(position);
 		this.rotX = rotX;
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
 		this.Color = new Vector3f(0,0,0);
+		this.construction = false;
 	}
 	
 	public Object3D(String objFilename, Loader loader ) {
@@ -51,16 +54,18 @@ public class Object3D {
 		this.rotZ = 0;
 		this.scale = 1;
 		this.Color = new Vector3f(0,0,0);
+		this.construction = false;
 	}
 	
 	public Object3D(String objFilename, Loader loader,Vector3f position, float rotX, float rotY, float rotZ, float scale ) {
 		this.model = OBJLoader.loadObjModel(objFilename, loader);
-		this.position =position;
+		this.position =new Vector3f(position);
 		this.rotX = rotX;
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
 		this.Color = new Vector3f(0,0,0);
+		this.construction = false;
 	}
 	
 	public Object3D(String objFilename, Loader loader,boolean multiObj) {
@@ -72,17 +77,31 @@ public class Object3D {
 		this.rotZ = 0;
 		this.scale = 1;
 		this.Color = new Vector3f(0,0,0);
+		this.construction = false;
 	}
 	
 	public Object3D(String objFilename, Loader loader,boolean multiObj,Vector3f position, float rotX, float rotY, float rotZ, float scale ) {
 		this.models = OBJLoader.loadObjModels(objFilename, loader);
 		this.multiObj = multiObj;
-		this.position =position;
+		this.position = new Vector3f(position);
 		this.rotX = rotX;
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
 		this.Color = new Vector3f(0,0,0);
+		this.construction = false;
+	}
+	
+	public Object3D(String objFilename, Loader loader,boolean multiObj,Vector3f position, float rotX, float rotY, float rotZ, float scale,boolean construction ) {
+		this.models = OBJLoader.loadObjModels(objFilename, loader);
+		this.multiObj = multiObj;
+		this.position =new Vector3f(position);
+		this.rotX = rotX;
+		this.rotY = rotY;
+		this.rotZ = rotZ;
+		this.scale = scale;
+		this.Color = new Vector3f(0,0,0);
+		this.construction = construction;
 	}
 	
 	public boolean pick(Vector3f mouseRay){
@@ -187,6 +206,14 @@ public class Object3D {
 
 	public void setColor(Vector3f color) {
 		Color = color;
+	}
+
+	public boolean isConstruction() {
+		return construction;
+	}
+
+	public void setConstruction(boolean construction) {
+		this.construction = construction;
 	}
 	
 }

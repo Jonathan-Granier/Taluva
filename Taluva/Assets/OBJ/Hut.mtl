@@ -1,16 +1,118 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 19.05.2016 21:45:35
+# File Created: 28.05.2016 23:36:33
 
-newmtl 01___Default
-	Ns 80.0000
+newmtl supportRoof
+	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
 	Tr 0.0000
 	Tf 1.0000 1.0000 1.0000 
 	illum 2
-	Ka 0.3882 0.2824 0.2824
-	Kd 0.3882 0.2824 0.2824
-	Ks 0.4500 0.4500 0.4500
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka Hut.png
 	map_Kd Hut.png
+
+newmtl roof
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\Roof_hut.png
+	map_Kd Roof_hut.png
+
+newmtl 07___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\wall.png
+	map_Kd wall.png
+
+newmtl pillar
+	Ns 40.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.7451 0.0745 0.0745
+	Kd 0.7451 0.0745 0.0745
+	Ks 0.7920 0.7920 0.7920
+	Ke 0.0000 0.0000 0.0000
+
+newmtl 03___Default
+	Ns 13.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.8745 0.8745 0.8745
+	Kd 0.8745 0.8745 0.8745
+	Ks 0.7733 0.7733 0.7733
+	Ke 0.0000 0.0000 0.0000
+
+newmtl 04___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.8196 0.6471 0.5333
+	Kd 0.8196 0.6471 0.5333
+	Ks 0.7650 0.7650 0.7650
+	Ke 0.0000 0.0000 0.0000
+
+newmtl 06___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 0.6700
+	Tr 0.3300
+	Tf 0.6700 0.6700 0.6700 
+	illum 2
+	Ka 0.9255 0.2353 0.2353
+	Kd 0.9255 0.2353 0.2353
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+
+newmtl 05___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 0.0000 0.0000 0.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+
+newmtl Base
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\Base_C_Hut.png
+	map_Kd Base_C_Hut.png

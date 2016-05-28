@@ -16,34 +16,45 @@ public class GraphicConstruction {
 
 	private GraphicType type;
 
+	private Vector3f position;
 	private Object3D object3d;
-	private Object3D hut;
-	private Object3D temple;
-	private Object3D tower;
+	private static Object3D hut;
+	private static Object3D temple;
+	private static Object3D tower;
+	private boolean allow;
 	private Vector3f colour;
 	private float height;
 
-	public GraphicConstruction(GraphicType type, Vector3f colour, Loader loader) {
-		this.hut =  new Object3D("Hut", loader, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
-		this.temple = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
-		this.tower = new Object3D("Tower", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f);
+	public GraphicConstruction(GraphicType type, Vector3f colour) {
 		switch (type) {
 		case HUT:
-			this.object3d = hut;
+			this.object3d = new Object3D(hut);
 			break;
 		case TOWER:
-			this.object3d = tower;
+			this.object3d = new Object3D(tower);
 			break;
 		case TEMPLE:
-			this.object3d = temple;
+			this.object3d = new Object3D(temple);
 			break;
 		default:
 			System.out.println("Unknow construction type");
 		}
 		this.height = 0;
-		this.colour = colour;
+		this.colour = new Vector3f(colour);
+		this.allow = true;
+		this.position = new Vector3f(0,0,0);
 	}
 
+	public static void setUp(Loader loader){
+		hut =  new Object3D("Hut", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		temple = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		tower = new Object3D("Tower", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+	}
+	
+	public void init(){
+		this.object3d = hut;
+	}
+	
 	public Case.Type_Batiment getType_Batiment() {
 		switch (type) {
 		case HUT:
@@ -83,11 +94,10 @@ public class GraphicConstruction {
 	public GraphicConstruction(GraphicConstruction gc) {
 		this.object3d = new Object3D(gc.getObject3d());
 		this.type = gc.getType();
-		this.colour = gc.getColour();
+		this.colour = new Vector3f(gc.getColour());
 		this.height = gc.height;
-		this.hut = new Object3D(gc.hut);
-		this.tower = new Object3D(gc.tower);
-		this.temple = new Object3D(gc.temple);
+		this.allow = true;
+		this.position = new Vector3f(gc.getPosition());
 	}
 
 	public void setType(GraphicType type) {
@@ -112,6 +122,7 @@ public class GraphicConstruction {
 		default:
 			System.out.println("Unknow construction type");
 		}
+		this.allow = true;
 	}
 
 	public Object3D getObject3d() {
@@ -166,4 +177,24 @@ public class GraphicConstruction {
 		}
 	}
 
+	public boolean isAllow() {
+		return allow;
+	}
+
+	public void setAllow(boolean allow) {
+		this.allow = allow;
+	}
+
+	public Vector3f getPosition() {
+		return position;
+	}
+
+	public void setPositionY(float y){
+		this.position.y = y;
+	}
+	
+	public void setPosition(Vector3f position) {
+		this.position = position;
+	}
+	
 }

@@ -8,8 +8,10 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import entities.Camera;
+import entities.GraphicConstruction;
 import entities.Object3D;
 import materials.Material;
 import entities.Light;
@@ -28,6 +30,8 @@ public class Renderer {
 
 	
 	public Renderer(Shader shader, Camera camera){
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
 		createProjectionMatrix();
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
@@ -46,23 +50,34 @@ public class Renderer {
 		return projectionMatrix;
 	}
 
-	private void drawOne(Object3D object3D,Model texturedModel,Shader shader){
+	private void drawOne(Object3D object3D,Model texturedModel,Shader shader,boolean isConstructionAllow,Vector3f Cposition,Vector3f Color){
 		Mesh model = texturedModel.getRawModel();
 		GL30.glBindVertexArray(model.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		GL20.glEnableVertexAttribArray(2);
-		
+		Matrix4f transformationMatrix;
 		//Transform entity
-		Matrix4f transformationMatrix = Matrix.createTransformationMatrix(object3D.getPosition(), object3D.getRotX(), object3D.getRotY(), object3D.getRotZ(), object3D.getScale());
+		if(Cposition == null)
+			transformationMatrix = Matrix.createTransformationMatrix(object3D.getPosition(), object3D.getRotX(), object3D.getRotY(), object3D.getRotZ(), object3D.getScale());
+		else
+			transformationMatrix = Matrix.createTransformationMatrix(Cposition, object3D.getRotX(), object3D.getRotY(), object3D.getRotZ(), object3D.getScale());
 		shader.loadTransformationMatrix(transformationMatrix);
 		
 		Material texture = texturedModel.getTexture();
 		shader.loadDiffuse(texture.getDiffuse());
 		shader.loadShineVariable(texture.getShineDamper(), texture.getReflectivity());
 		shader.loadTextured(texturedModel.getTexture().getIsTextured());
-		shader.loadNotAllow(!object3D.isAllow());
-		shader.loadPlayerColour(object3D.getColor());
+
+		if(isConstructionAllow)
+			shader.loadNotAllow(!object3D.isAllow());
+		else
+			shader.loadNotAllow(!isConstructionAllow);
+		
+		if(Color == null)
+			shader.loadPlayerColour(new Vector3f(0,0,0));
+		else
+			shader.loadPlayerColour(Color);
 
 		if(texturedModel.getTexture().getIsTextured()){
 			GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -81,12 +96,25 @@ public class Renderer {
 
 		if(object3D.isMultiObj()){
 			for(Model model:object3D.getModels().getModels()){
-				drawOne(object3D,model,shader);
+				drawOne(object3D,model,shader,true,null,null);
 			}
 		}
 		else{
 			Model texturedModel = object3D.getModel();
-			drawOne(object3D,texturedModel,shader);
+			drawOne(object3D,texturedModel,shader,true,null,null);
+		}
+
+	}
+	
+	public void draw(GraphicConstruction construction, Shader shader){
+		if(construction.getObject3d().isMultiObj()){
+			for(Model model:construction.getObject3d().getModels().getModels()){
+				drawOne(construction.getObject3d(),model,shader,construction.isAllow(),construction.getPosition(),construction.getColour());
+			}
+		}
+		else{
+			Model texturedModel = construction.getObject3d().getModel();
+			drawOne(construction.getObject3d(),texturedModel,shader,construction.isAllow(),construction.getPosition(),construction.getColour());
 		}
 
 	}
