@@ -1,33 +1,17 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 19.05.2016 23:02:01
+# File Created: 29.05.2016 17:48:39
 
-newmtl 01___Default
-	Ns 10.0000
+newmtl 06___Default
+	Ns 50.0000
 	Ni 1.5000
 	d 1.0000
 	Tr 0.0000
 	Tf 1.0000 1.0000 1.0000 
 	illum 2
-	Ka 0.5880 0.5880 0.5880
-	Kd 0.5880 0.5880 0.5880
-	Ks 0.0000 0.0000 0.0000
+	Ka 0.7098 0.0000 0.0000
+	Kd 0.7098 0.0000 0.0000
+	Ks 0.8550 0.8550 0.8550
 	Ke 0.0000 0.0000 0.0000
-	map_Ka roche.png
-	map_Kd roche.png
-
-newmtl 02___Default
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5804 0.5804 0.5804
-	Kd 0.5804 0.5804 0.5804
-	Ks 0.7110 0.7110 0.7110
-	Ke 0.0000 0.0000 0.0000
-	map_Ka Pillar_texture.png
-	map_Kd Pillar_texture.png
 
 newmtl roof
 	Ns 10.0000
@@ -43,6 +27,20 @@ newmtl roof
 	map_Ka roof.png
 	map_Kd roof.png
 
+newmtl 02___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5804 0.5804 0.5804
+	Kd 0.5804 0.5804 0.5804
+	Ks 0.7110 0.7110 0.7110
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\Pillar_texture.png
+	map_Kd Pillar_texture.png
+
 newmtl pillar_house
 	Ns 10.0000
 	Ni 1.5000
@@ -54,7 +52,7 @@ newmtl pillar_house
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Hut.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\Hut.png
 	map_Kd Hut.png
 
 newmtl 08___Default
@@ -68,8 +66,9 @@ newmtl 08___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka window.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\window.png
 	map_Kd window.png
+	map_d C:\Users\Dimitri\workspace\Engine\Assets\Texture\window_alpha.png
 
 newmtl 09___Default
 	Ns 10.0000
@@ -95,6 +94,20 @@ newmtl 10___Default
 	Ks 0.9000 0.9000 0.9000
 	Ke 0.0000 0.0000 0.0000
 
+newmtl 12___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\wall.png
+	map_Kd wall.png
+
 newmtl deco_roof
 	Ns 10.0000
 	Ni 1.5000
@@ -106,7 +119,7 @@ newmtl deco_roof
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka tower.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\tower.png
 	map_Kd tower.png
 
 newmtl Pique
@@ -120,3 +133,31 @@ newmtl Pique
 	Kd 0.8824 0.9098 0.0824
 	Ks 0.8550 0.8550 0.8550
 	Ke 0.0000 0.0000 0.0000
+
+newmtl 13___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\Roof_hut.png
+	map_Kd Roof_hut.png
+
+newmtl 11___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\KAMEN.png
+	map_Kd KAMEN.png

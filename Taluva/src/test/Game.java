@@ -160,7 +160,7 @@ public class Game implements Observer,KeyListener  {
 			constructions.get(i).setColour(listConstruction.get(i).getCouleur());
 			constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
-			constructions.get(i).getObject3d().setPosition(worldPos);
+			constructions.get(i).setPosition(worldPos);
 			renderer.draw(constructions.get(i),shader);
 		}
 	}
