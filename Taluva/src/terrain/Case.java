@@ -43,6 +43,8 @@ public class Case {
 				return 'J';
 			case NEUTRE:
 				return '_';
+			case ROSE:
+				return 'R';
 			case VERT:
 				return 'V';
 			default:

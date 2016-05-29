@@ -286,6 +286,8 @@ public class Moteur extends Phase{
 			{
 				j_courant = j1;
 			}
+			
+			
 		}
 	
 	// Renvoie vrai si la pioche est vide
@@ -527,6 +529,10 @@ public class Moteur extends Phase{
 		}
 
 		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
+		j2.afficher_Joueur();
+		j_courant.afficher_Joueur();
+		
+		
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = action_tour.getAction_construction();
 		// SI c'est une extension
@@ -550,6 +556,8 @@ public class Moteur extends Phase{
 			}
 			//Game.initDelay();
 		}
+		j2.afficher_Joueur();
+		j_courant.afficher_Joueur();
 
 		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		fin_de_tour();
@@ -682,7 +690,18 @@ public class Moteur extends Phase{
 	{
 		this.j1 = edj.getj1().clone();
 		this.j2 = edj.getj2().clone();
-		this.j_courant = edj.getj_courant().clone();
+		j1.MajListeners();
+		j2.MajListeners();
+		//On recreer la référance de j_courant vers j1 ou j2
+		if(this.EstLeMemeJoueur(edj.getj1(),edj.getj_courant()))
+		{
+			this.j_courant = j1;
+		}
+		else
+		{
+			this.j_courant = j2;
+		}
+	//	this.j_courant = edj.getj_courant();
 		this.T = edj.getTerrain().clone();
 	}
 	

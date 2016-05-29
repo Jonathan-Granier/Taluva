@@ -147,6 +147,12 @@ public abstract class Joueur_Generique {
 		clone.setTemple(getTemple());
 		clone.setTour(getTour());
 		clone.setHutteDetruite(getHutteDetruite());
+		for(BatimentCountListener listener : getBatimentCountListeners()) 
+		{
+			clone.addBatimentCountListener(listener);
+		}
+		
+		
 		
 		return clone;
 	}
@@ -171,6 +177,11 @@ public abstract class Joueur_Generique {
 		clone.setTemple(getTemple());
 		clone.setTour(getTour());
 		clone.setHutteDetruite(getHutteDetruite());
+		for(BatimentCountListener listener : getBatimentCountListeners()) 
+		{
+			clone.addBatimentCountListener(listener);
+		}
+		
 		
 		return clone;
 	}
@@ -206,6 +217,17 @@ public abstract class Joueur_Generique {
 	{
 		 return listeners.getListeners(BatimentCountListener.class);
 	}
+	
+	public void afficher_Joueur()
+	{
+		System.out.println("#####JOUEUR#####");
+		System.out.println("");
+		System.out.println("Couleur :" + c);
+		System.out.println("Hutte :"+ hutte);
+		System.out.println("Tour :" + tour);
+		System.out.println("Temple : "+ temple);
+	}
+	
 	
 	
 }
