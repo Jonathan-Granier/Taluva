@@ -1,7 +1,6 @@
 package test;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -10,35 +9,19 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import Ecouteur.ButtonConstruction;
-import Ecouteur.ButtonEndOfTurn;
-import Ecouteur.ButtonPick;
 import Ecouteur.EcouteurDeSourisTerrain;
 import Ecouteur.Ecouteur_Boutons;
 import IHM.Menu_circulaire_creation;
-import Joueur.IA_Generique;
-import Joueur.Joueur_Humain;
 import entities.Camera;
 import entities.GraphicConstruction;
 import entities.GraphicConstruction.GraphicType;
 import entities.GraphicTile;
 import entities.Light;
-import entities.Object3D;
-import gui.Drawable;
-import gui.Texture;
 import loaders.Loader;
 import terrain.Case;
-import terrain.Case.Couleur_Joueur;
 import Action.Action_Batiment;
-import Action.Action_Construction;
 import Action.Action_Tuile;
 import Moteur.Phase.Phase_Jeu;
 import Moteur.Moteur;
@@ -50,9 +33,6 @@ import shaders.Shader;
 import skybox.SkyboxRenderer;
 import utils.FPS;
 import utils.Grid;
-import utils.Grid.Coords;
-import utils.InputHandler;
-import utils.InputHandler.inputType;
 import water.WaterRenderer;
 import water.WaterShader;
 import water.WaterTile;
@@ -68,7 +48,6 @@ public class Game implements Observer,KeyListener  {
 	private static float delay = 0;
 	private static final float TIME = 80;
 	private static boolean runDelay=false;
-	private static boolean clear = false;
 	private Camera camera;
 	private MousePicker picker;
 	private Renderer renderer;
@@ -96,9 +75,9 @@ public class Game implements Observer,KeyListener  {
 			Tiles.remove(Tiles.size()-1);
 		}
 		
-		int loop = listTile.size()-1;
-		if(Game.checkDelay() || !runDelay)
-			loop = listTile.size();
+		//int loop = listTile.size()-1;
+		//if(Game.checkDelay() || !runDelay)
+		//	loop = listTile.size();
 		
 		if(Tiles.size() < listTile.size()){
 			for(int i = Tiles.size(); i<listTile.size();i++){
@@ -118,45 +97,28 @@ public class Game implements Observer,KeyListener  {
 	}
 	
 	public void drawConstruction(Renderer renderer,Shader shader){
-		List<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
+		ArrayList<Action_Batiment> listConstruction = new ArrayList<Action_Batiment> (moteur.getTerrain().getHistoBatiments());
 		//Check listConstruction with listAction_Batiment("IA mode useful")
-		//if(Game.clear){
-		//if(listConstruction.size()<constructions.size()){
-			// Des constructions on été enlevées : on met à jour notre liste selon getIndexBatSuppr
-			// (il faut actualiser à ces indices et supprimer les derniers éléments)
-			while(listConstruction.size()<constructions.size()){
-				constructions.remove(constructions.size()-1);
-			}
-			/*int [] ind_bat_suppr = moteur.getTerrain().getIndexBatSuppr();
-			for(int i=0;i<2;i++){
-				if(ind_bat_suppr[i] >= 0  && ind_bat_suppr[i] < constructions.size()){
-					//constructions.set(ind_bat_suppr[i],new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0),loader));
-					constructions.get(ind_bat_suppr[i]).setColour(listConstruction.get(ind_bat_suppr[i]).getCouleur());
-					constructions.get(ind_bat_suppr[i]).setType(listConstruction.get(ind_bat_suppr[i]).getTypeBatiment());
-					Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(ind_bat_suppr[i]).getPosition(),listConstruction.get(ind_bat_suppr[i]).getNiveau()-1));
-					constructions.get(ind_bat_suppr[i]).getObject3d().setPosition(worldPos);
-				}
-			}
-			Game.clear = false;*/
-		//}
-		
 
-			
-		if(constructions.size() < listConstruction.size()){
-			for(int i=constructions.size();i<listConstruction.size();i++){
-				constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0)));
-				constructions.get(i).setColour(listConstruction.get(i).getCouleur());
-				constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
-				Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
-				constructions.get(i).setPosition(worldPos);
-			}
+		// Des constructions on été enlevées : on met à jour notre liste
+		// (il faut supprimer les derniers éléments)
+		while(listConstruction.size()<constructions.size()){
+			constructions.remove(constructions.size()-1);
+		}
+
+		for(int i=constructions.size();i<listConstruction.size();i++){
+			constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0)));
+			//constructions.get(i).setColour(listConstruction.get(i).getCouleur());
+			//constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
+			//Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
+			//constructions.get(i).setPosition(worldPos);
 		}
 		
-		int loop = listConstruction.size();
+		//int loop = listConstruction.size();
 		//if(Game.checkDelay() || !runDelay)
 		//	loop = listConstruction.size();
 		
-		for(int i=0;i<loop;i++){
+		for(int i=0;i<listConstruction.size();i++){
 			constructions.get(i).setColour(listConstruction.get(i).getCouleur());
 			constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
@@ -164,10 +126,6 @@ public class Game implements Observer,KeyListener  {
 			renderer.draw(constructions.get(i),shader);
 		}
 	}
-	
-	//public static void majHistoBatiments(){
-	//	clear = true;
-	//}
 	
 	public static void initDelay(){
 		runDelay = true;
@@ -233,7 +191,7 @@ public class Game implements Observer,KeyListener  {
 		
 		TimerOpenGL timer = new TimerOpenGL();
 		timer.addObserver(this);
-		canvas.addMouseListener(ecouteurSouris);
+		this.canvas.addMouseListener(ecouteurSouris);
 	}
 	
 	@Override
@@ -244,7 +202,7 @@ public class Game implements Observer,KeyListener  {
 		camera.move();
 		
 		picker.update(Tile.getHeight());
-		Vector3f point = picker.getCurrentObjectPoint();
+		//Vector3f point = picker.getCurrentObjectPoint();
 
 		
 		renderer.prepare();
