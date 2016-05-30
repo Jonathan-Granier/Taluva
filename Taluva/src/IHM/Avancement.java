@@ -143,6 +143,7 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 		// TODO Auto-generated method stub
 		if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ1()))
 		{
+			System.out.println("TEST");
 			ihm.getInfoJ1()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
 			ihm.getInfoJ1()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
 			ihm.getInfoJ1()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
@@ -150,10 +151,15 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 		}
 		else if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ2()))
 		{
+			System.out.println("TESTTEST");
 			ihm.getInfoJ2()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
 			ihm.getInfoJ2()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
 			ihm.getInfoJ2()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
 			
+		}
+		else
+		{
+			System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§");
 		}
 
 	}
