@@ -85,6 +85,8 @@ public class Game implements Observer,KeyListener  {
 		//if(Game.checkDelay() || !runDelay)
 		//	loop = listTile.size();
 		
+		if(Tiles.isEmpty() && !listTile.isEmpty()) camera.recenter();
+		
 		if(Tiles.size() < listTile.size()){
 			for(int i = Tiles.size(); i<listTile.size();i++){
 				Tiles.add(new GraphicTile(listTile.get(i).getTuile(),loader, new Vector3f(0,0,0)));

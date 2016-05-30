@@ -185,9 +185,9 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 				
 				 if(snap!=null && m.placer_tuile(snap.indices) == 0 )
 				 {
-					Tiles.add(new GraphicTile(Tile));
-					Tiles.get(Tiles.size()-1).getObject3D().setPosition(snap.worldPos);
-					Tiles.get(Tiles.size()-1).getObject3D().setRotY(Tile.getObject3D().getRotY());
+					//Tiles.add(new GraphicTile(Tile));
+					//Tiles.get(Tiles.size()-1).getObject3D().setPosition(snap.worldPos);
+					//Tiles.get(Tiles.size()-1).getObject3D().setRotY(Tile.getObject3D().getRotY());
 					m.Maj_liste_coup_construction();
 			
 				 }
@@ -297,9 +297,9 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 				if(e.getButton() == MouseEvent.BUTTON1 && timer < TIME ){
 					 if(snap!=null && m.placer_tuile(snap.indices) == 0 )
 					 {
-						Tiles.add(new GraphicTile(Tile));
-						Tiles.get(Tiles.size()-1).getObject3D().setPosition(snap.worldPos);
-						Tiles.get(Tiles.size()-1).getObject3D().setRotY(Tile.getObject3D().getRotY());
+						//Tiles.add(new GraphicTile(Tile));
+						//Tiles.get(Tiles.size()-1).getObject3D().setPosition(snap.worldPos);
+						//Tiles.get(Tiles.size()-1).getObject3D().setRotY(Tile.getObject3D().getRotY());
 						m.Maj_liste_coup_construction();
 				
 					 }
