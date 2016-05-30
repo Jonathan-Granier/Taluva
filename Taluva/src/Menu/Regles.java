@@ -1,7 +1,9 @@
 package Menu;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -35,8 +37,15 @@ public class Regles extends JPanel {
 		
 		prec_suiv = new JPanel();
 		prec_suiv.setOpaque(false);
+		
 		acc_rep = new JPanel();
+		acc_rep.setLayout(new GridLayout(2,1));
 		acc_rep.setOpaque(false);
+		JPanel acc_rep2 = new JPanel();
+		acc_rep2.setLayout(new BorderLayout());
+		acc_rep2.add(acc_rep,BorderLayout.SOUTH);
+		acc_rep2.setOpaque(false);
+		acc_rep.setPreferredSize(new Dimension(acc_rep2.getWidth()/10,acc_rep2.getHeight()/10));
 		
 		prec = new JButton("Précedent");
 		prec.addActionListener(new Ecouteur_boutons_regles("Précedent",this));
@@ -52,12 +61,14 @@ public class Regles extends JPanel {
 		reprendre.addActionListener(new Ecouteur_boutons_regles("Suivant",this));
 
 		prec_suiv.add(prec);
+		JButton vide = new JButton("");
+		prec_suiv.add(vide);
 		prec_suiv.add(suiv);
 
 		acc_rep.add(accueil);
 		acc_rep.add(reprendre);
 		this.add(prec_suiv,BorderLayout.SOUTH);
-		//this.add(acc_rep,BorderLayout.NORTH);
+		this.add(acc_rep2,BorderLayout.EAST);
 	}
 	
 	public void suivant(){
