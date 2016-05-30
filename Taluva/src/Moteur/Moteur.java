@@ -47,10 +47,10 @@ public class Moteur extends Phase{
 	
 	private int nb_Joueur;
 	
-	public static int nb_max_Huttes = 20;
-	public static int nb_max_Tours = 2;
-	public static int nb_max_Temples = 3;
-	public static boolean PIOCHE_ALEATOIRE = true;
+	public static final int nb_max_Huttes = 20;
+	public static final int nb_max_Tours = 2;
+	public static final int nb_max_Temples = 3;
+	public static final boolean PIOCHE_ALEATOIRE = true;
 	
 	/*public enum Etat{
 		DEBUT_DE_TOUR,
@@ -60,6 +60,11 @@ public class Moteur extends Phase{
 	}
 	private Etat etat;
 	*/
+	
+	//TODO Delete test
+	public String nom;
+	
+	
 	
 	// Constructeur du moteur
 	public Moteur(Terrain T,Joueur_Generique j1,Joueur_Generique j2){
@@ -422,10 +427,9 @@ public class Moteur extends Phase{
 			System.out.println("Pioche vide");
 			return null;
 		}
-		if(annul.size()==0){
-			annul.add(new Etat_de_jeu(this.T,j1,j2,j_courant, this.get_etat_jeu()));
+			//annul.add(new Etat_de_jeu(this.T,j1,j2,j_courant, this.get_etat_jeu()));
 			//prev.add(((Joueur_Humain) j_courant).clone());
-		}
+		
 		tuile_pioche = pioche.pop();
 		//etat = Etat.POSER_TUILE;
 		Incremente_Phase_Jeu();
@@ -546,8 +550,8 @@ public class Moteur extends Phase{
 		if (Victoire())
 			return 0;
 		else{
-			annul.clear();
-			redo.clear();
+		//	annul.clear();
+		//	redo.clear();
 			swap_joueur();
 			init_phase_jeu();
 			bat_choisi = Case.Type_Batiment.VIDE;
@@ -686,7 +690,8 @@ public class Moteur extends Phase{
 		
 		piocher();
 		action_tour = j_courant.get_coup_tour(tuile_pioche);
-		
+		System.out.println("Couleur du Joueur 2 " + j2.getCouleur());
+		System.out.println("Couleur du Joueur Courant " + j_courant.getCouleur());
 		tuile_pioche.set_Orientation_Volcan(action_tour.getAction_tuile().getTuile().get_Orientation_Volcan());
 		if (placer_tuile(action_tour.getAction_tuile().getPosition())!=0)
 		{
@@ -719,7 +724,8 @@ public class Moteur extends Phase{
 			}
 			//Game.initDelay();
 		}
-
+		System.out.println("Couleur du Joueur 2 " + j2.getCouleur());
+		System.out.println("Couleur du Joueur Courant " + j_courant.getCouleur());
 		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		fin_de_tour();
 		return 0;
@@ -789,7 +795,7 @@ public class Moteur extends Phase{
 	public Moteur clone(){
 		
 		Moteur m_copie = new Moteur(T.clone());
-		
+		m_copie.nom = "Moteur Copie";
 		// On instancie chaque joueur_copie en fonction du type de l'original
 		/*
 		j1_copie = copie_type_joueur(j1,j1_copie,m_copie);
@@ -798,17 +804,20 @@ public class Moteur extends Phase{
 		j_gagnant_copie = copie_type_joueur(j1,j1_copie,m_copie);
 		*/
 		//m_copie.j_gagnant = new Joueur_Humain(j_gagnant.getCouleur());
-		
-		for(int i=1;i<this.annul.size();i++)m_copie.annul.add(this.annul.get(i));
-		for(int i=0;i<this.redo.size();i++)m_copie.redo.add(this.redo.get(i));
+		/*
+		for(int i=1;i<this.annul.size();i++)
+			m_copie.annul.add(this.annul.get(i));
+		for(int i=0;i<this.redo.size();i++)
+			m_copie.redo.add(this.redo.get(i));
+		*/
 		m_copie.prev = this.prev;
 		m_copie.next = this.next;
 		m_copie.tuile_pioche = this.tuile_pioche;
 		m_copie.bat_choisi = this.bat_choisi;
 		m_copie.liste_coup_construction = this.liste_coup_construction.clone();
 		m_copie.j_courant = j_courant.clone(m_copie);
-		m_copie.j1 = j1.clone(m_copie);
-		m_copie.j2 = j2.clone(m_copie);
+		m_copie.add_j1(j1.clone(m_copie));
+		m_copie.add_j2(j2.clone(m_copie));
 		
 		while(m_copie.get_etat_jeu() != this.get_etat_jeu())m_copie.Incremente_Phase_Jeu();
 		return m_copie;
@@ -896,9 +905,9 @@ public class Moteur extends Phase{
 		if(nb_Joueur == 2)
 			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
 		else if(nb_Joueur == 3)
-			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
+			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j3, this.j_courant, get_etat_jeu());
 		else if(nb_Joueur == 4)
-			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
+			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j3, this.j4, this.j_courant, get_etat_jeu());
 		return edj;
 	}	
 	
