@@ -19,16 +19,22 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 	
 	//actualise l'affichage
 	public void maj(Phase_Jeu NouveauEtat){
-			
-		if(ihm.getM().get_num_Jcourant()==1){
+		
+		ihm.getJoueur1().setBackground(Color.WHITE);
+		ihm.getJoueur2().setBackground(Color.WHITE);
+		if(ihm.getM().get_NbJoueur() >= 3)
+			ihm.getJoueur3().setBackground(Color.WHITE);
+		if(ihm.getM().get_NbJoueur() == 4)
+			ihm.getJoueur4().setBackground(Color.WHITE);
+		if(ihm.getM().get_num_Jcourant()==1)
 			ihm.getJoueur1().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-			ihm.getJoueur2().setBackground(Color.WHITE);
-		}
-		else{
+		else if(ihm.getM().get_num_Jcourant()==2)
 			ihm.getJoueur2().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-			ihm.getJoueur1().setBackground(Color.WHITE);
-		}
-        switch (NouveauEtat)
+		else if(ihm.getM().get_num_Jcourant()==3)
+			ihm.getJoueur3().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+		else if(ihm.getM().get_num_Jcourant()==4)
+			ihm.getJoueur4().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
+		switch (NouveauEtat)
 		{
 			case DEBUT_DE_TOUR:
 				ihm.getAnnuler().setEnabled(false);
@@ -143,6 +149,7 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 		// TODO Auto-generated method stub
 		if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ1()))
 		{
+
 			ihm.getInfoJ1()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
 			ihm.getInfoJ1()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
 			ihm.getInfoJ1()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
@@ -154,6 +161,17 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 			ihm.getInfoJ2()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
 			ihm.getInfoJ2()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
 			
+		}else if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ3()))
+		{
+			ihm.getInfoJ3()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
+			ihm.getInfoJ3()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
+			ihm.getInfoJ3()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
+			
+		}else if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ4()))
+		{
+			ihm.getInfoJ4()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
+			ihm.getInfoJ4()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
+			ihm.getInfoJ4()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
 		}
 	}
 	

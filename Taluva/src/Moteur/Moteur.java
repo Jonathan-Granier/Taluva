@@ -41,8 +41,12 @@ public class Moteur extends Phase{
 	private Joueur_Generique j_courant;
 	private Joueur_Generique j1;
 	private Joueur_Generique j2;
+	private Joueur_Generique j3;
+	private Joueur_Generique j4;
 	private Joueur_Generique j_gagnant;
-
+	
+	private int nb_Joueur;
+	
 	public static int nb_max_Huttes = 20;
 	public static int nb_max_Tours = 2;
 	public static int nb_max_Temples = 3;
@@ -75,6 +79,7 @@ public class Moteur extends Phase{
 		bat_choisi = Case.Type_Batiment.VIDE;
 		histo_jeu = new ArrayList<Etat_de_jeu>();
 		//histo_jeu.add(new Etat_de_jeu(T,this.j1, this.j2, this.j_courant, this.clone_Phase()));
+		nb_Joueur = 2;
 	}
 	
 	// Constructeur du moteur sans joueurs
@@ -88,6 +93,7 @@ public class Moteur extends Phase{
 		init_phase_jeu();
 		bat_choisi = Case.Type_Batiment.VIDE;
 		histo_jeu = new ArrayList<Etat_de_jeu>();
+		nb_Joueur = 0;
 	}
 	
 	// Adders de joueurs
@@ -102,7 +108,18 @@ public class Moteur extends Phase{
 		
 	public void add_j2(Joueur_Generique j2){
 		this.j2 = j2;
+		nb_Joueur = 2;
 		if (j1 instanceof IA_Generique)jouer_IA();
+	}
+	
+	public void add_j3(Joueur_Generique j3){
+		this.j3 = j3;
+		nb_Joueur = 3;
+	}
+	
+	public void add_j4(Joueur_Generique j4){
+		this.j4 = j4;
+		nb_Joueur = 4;
 	}
 	
 	///////////////////////////////////////////////////////////////
@@ -206,6 +223,27 @@ public class Moteur extends Phase{
 		return tuile_pioche;
 	}
 	
+	// Renvoi le nombre joueur
+	public int get_NbJoueur()
+	{
+		return nb_Joueur;
+	}
+	
+	// Initialise le nombre de joueurs ( de 2 à 4) renvoi 0 si tout est correct, 1 sinon
+	public int set_NbJoueur(int n)
+	{
+		if(n>=2 && n<=4)
+		{
+			nb_Joueur = n;
+		}
+		else
+		{
+			return 1;
+		}
+		return 0;
+	}
+	
+	
 	// Renvoie le joueur courant
 	public Joueur_Generique get_Jcourant(){
 		return j_courant;
@@ -221,13 +259,27 @@ public class Moteur extends Phase{
 		return j2;
 	}
 	
+	// Renvoie le joueur 3
+	public Joueur_Generique getJ3(){
+		return j3;
+	}
+	
+	// Renvoie le joueur 4
+	public Joueur_Generique getJ4(){
+		return j4;
+	}
+	
+	
 	// Renvoie le joueur courant
 	public int get_num_Jcourant(){
-		if(j_courant.getCouleur().equals(j1.getCouleur()))
-		{
+	
+		if(EstLeMemeJoueur(j_courant,j1))
 			return 1;
-		}
-		return 2;
+		else if(EstLeMemeJoueur(j_courant,j2))
+			return 2;
+		else if(EstLeMemeJoueur(j_courant,j3))
+			return 3;
+		return 4;
 	}
 	
 	//Renvoi vrai si a et b sont le même joueur
@@ -236,7 +288,7 @@ public class Moteur extends Phase{
 		return a.getCouleur().equals(b.getCouleur());
 	}
 	
-	// Récupère la joueur du joueur adverse (opposé du joueur courant)
+	// Récupère la joueur du joueur adverse (opposé du joueur courant) (Seulement à 2 jouer , fonction pour l'IA
 	public Couleur_Joueur get_Couleur_Joueur_Adverse()
 	 {
 		if(Est_joueur_Courant(j1))
@@ -278,13 +330,32 @@ public class Moteur extends Phase{
 	
 	// Echange le joueur courant
 		public void swap_joueur(){
-			if(Est_joueur_Courant(j1))
+			if(nb_Joueur == 2)
 			{
-				j_courant = j2;
+				if(Est_joueur_Courant(j1))
+					j_courant = j2;
+				else
+					j_courant = j1;
 			}
-			else
+			if(nb_Joueur == 3)
 			{
-				j_courant = j1;
+				if(Est_joueur_Courant(j1))
+					j_courant = j2;
+				else if(Est_joueur_Courant(j2))
+					j_courant = j3;
+				else
+					j_courant = j1;
+			}
+			if(nb_Joueur == 4)
+			{
+				if(Est_joueur_Courant(j1))
+					j_courant = j2;
+				else if(Est_joueur_Courant(j2))
+					j_courant = j3;
+				else if(Est_joueur_Courant(j3))
+					j_courant = j4;
+				else
+					j_courant = j1;
 			}
 			
 			
@@ -471,44 +542,141 @@ public class Moteur extends Phase{
 	// Actualise aussi les données et change de joueur
 	public int fin_de_tour(){
 		//T.afficher();
-		if(victoire_aux_batiments()){
-			if(Est_joueur_Courant(j1))System.out.println("Le joueur 1 a gagné!!!\nScore : "+score(j1)+"\nScore j2 : "+score(j2));
-			else System.out.println("[Fin de tour] Le joueur 2 a gagné!!!\nScore j2 : "+score(j2)+"\nScore j1 : "+score(j1));
-			j_gagnant = j_courant;
-			finir_partie();
+		
+		if (Victoire())
 			return 0;
-		}
-		else if(pioche_vide()){
-			if(score(j1)>score(j2)){
-				System.out.println("[Fin de tour] Le joueur 1 a gagné!!!\nScore j1 : "+score(j1)+"\nScore j2 : "+score(j2));
-				j_gagnant = j1;
-			}
-			else if(score(j1)<score(j2)){
-				System.out.println("[Fin de tour] Le joueur 2 a gagné!!!\nScore j2 : "+score(j2)+"\nScore j1 : "+score(j2));
-				j_gagnant = j2;
-			}
-			else {
-				System.out.println("[Fin de tour] Il y a une égalité parfaite, vous avez tous les 2 gagné!!!");
-				j_gagnant = j_courant;
-			}
-			finir_partie();
-			return 0;
-		}
 		else{
-			//System.out.println("[Fin de tour] LES SCORES : \nJ1 : "+score(j1)+"\nJ2 : "+score(j2));
 			annul.clear();
 			redo.clear();
 			swap_joueur();
-			//etat = Etat.DEBUT_DE_TOUR;
 			init_phase_jeu();
 			bat_choisi = Case.Type_Batiment.VIDE;
 			if(j_courant instanceof IA_Generique)
 			{
-				//System.out.println("[MOTEUR] UNE IA JOUE!");
 				jouer_IA();
 			}
 			return 1;
 		}
+	}
+	
+	public void afficher_score()
+	{
+		System.out.println("Score j1 : "+score(j1)+"\nScore j2 : "+score(j2));
+		if(nb_Joueur >=3)
+			System.out.println("Score j3 : "+score(j3));
+		if(nb_Joueur == 4)
+			System.out.println("Score j4 : "+score(j4));
+	}
+	
+	public boolean Victoire()
+	{
+		if(victoire_aux_batiments()){
+			if(Est_joueur_Courant(j1))
+				System.out.println("Le joueur 1 a gagné!!!");
+			else if(Est_joueur_Courant(j2))
+				System.out.println("Le joueur 2 a gagné!!!");
+			else if(Est_joueur_Courant(j3))
+				System.out.println("Le joueur 3 a gagné!!!");
+			else if(Est_joueur_Courant(j4))
+				System.out.println("Le joueur 4 a gagné!!!");
+			
+			afficher_score();
+			j_gagnant = j_courant;
+			finir_partie();
+			return true;
+		}
+		else if(pioche_vide()){
+			if(nb_Joueur == 2)
+			{
+				if(score(j1)>score(j2)){
+					System.out.println("[Fin de tour] Le joueur 1 a gagné!!!");
+					j_gagnant = j1;
+				}
+				else if(score(j1)<score(j2)){
+					System.out.println("[Fin de tour] Le joueur 2 a gagné!!!");
+					j_gagnant = j2;
+				}
+				else {
+					System.out.println("[Fin de tour] Il y a une égalité parfaite, vous avez tous les 2 gagné!!!");
+					j_gagnant = j_courant;
+				}
+			}
+			else if(nb_Joueur == 3)
+			{
+				if(score(j1)>score(j2) && score(j1)>score(j3)){
+					System.out.println("[Fin de tour] Le joueur 1 a gagné!!!");
+					j_gagnant = j1;
+				}
+				else if(score(j2)>score(j1) && score(j2)>score(j3)){
+					System.out.println("[Fin de tour] Le joueur 2 a gagné!!!");
+					j_gagnant = j2;
+				}
+				else if (score(j3)>score(j1) && score(j3)>score(j2)){
+					System.out.println("[Fin de tour] Le joueur 3 a gagné!!!");
+					j_gagnant = j3;
+				}
+				else {
+					if(score(j1) == score(j2) && score(j1) == score(j3))
+						System.out.println("[Fin de tour] Il y a une égalité parfaite, vous avez tous les 3 gagné!!!");
+					else if(score(j1)==score(j2))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1 et le joueur 2, vous avez tous les 2 gagné!!!");
+					else if(score(j1)==score(j3))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1 et le joueur 3, vous avez tous les 2 gagné!!!");
+					else if(score(j2)==score(j3))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 2 et le joueur 3, vous avez tous les 2 gagné!!!");
+					j_gagnant = j_courant;
+				}
+			}
+			else if(nb_Joueur == 4)
+			{
+				if(score(j1)>score(j2) && score(j1)>score(j3) && score(j1) > score(j4)){
+					System.out.println("[Fin de tour] Le joueur 1 a gagné!!!");
+					j_gagnant = j1;
+				}
+				else if(score(j2)>score(j1) && score(j2)>score(j3)&& score(j2) > score(j4)){
+					System.out.println("[Fin de tour] Le joueur 2 a gagné!!!");
+					j_gagnant = j2;
+				}
+				else if (score(j3)>score(j1) && score(j3)>score(j2)&& score(j3) > score(j4)){
+					System.out.println("[Fin de tour] Le joueur 3 a gagné!!!");
+					j_gagnant = j3;
+				}
+				else if (score(j4)>score(j1) && score(j4)>score(j2)&& score(j4) > score(j3)){
+					System.out.println("[Fin de tour] Le joueur 4 a gagné!!!");
+					j_gagnant = j4;
+				}
+				else {
+					if(score(j1) == score(j2) && score(j1) == score(j3) && score(j1) == score(j4))
+						System.out.println("[Fin de tour] Il y a une égalité parfaite, vous avez tous les 4 gagné!!!");
+					else if(score(j1)==score(j2))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1 et le joueur 2, vous avez tous les 2 gagné!!!");
+					else if(score(j1)==score(j3))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1 et le joueur 3, vous avez tous les 2 gagné!!!");
+					else if(score(j1)==score(j4))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1 et le joueur 4, vous avez tous les 2 gagné!!!");
+					else if(score(j2)==score(j3))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 2 et le joueur 3, vous avez tous les 2 gagné!!!");
+					else if(score(j2)==score(j4))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 2 et le joueur 4, vous avez tous les 2 gagné!!!");
+					else if(score(j3)==score(j4))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 3 et le joueur 4, vous avez tous les 2 gagné!!!");
+					else if(score(j1) == score(j2) && score(j1) == score(j3))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1, le joueur 2 et le joueur 3, vous avez tous les 3 gagné!!!");
+					else if(score(j1) == score(j2) && score(j1) == score(j4))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1, le joueur 2 et le joueur 4, vous avez tous les 3 gagné!!!");
+					else if(score(j1) == score(j3) && score(j1) == score(j4))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1, le joueur 3 et le joueur 4, vous avez tous les 3 gagné!!!");
+					else if(score(j2) == score(j3) && score(j2) == score(j4))
+						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 2, le joueur 3 et le joueur 4, vous avez tous les 3 gagné!!!");
+					//TODO A VOIR pour etre plus préci pour l'IHM
+					j_gagnant = j_courant;
+				}
+			}
+			afficher_score();
+			finir_partie();
+			return true;
+		}
+		return false;
 	}
 	
 	// Fait jouer le tour pour une IA
@@ -518,8 +686,6 @@ public class Moteur extends Phase{
 		
 		piocher();
 		action_tour = j_courant.get_coup_tour(tuile_pioche);
-		//TODO 
-		//Delay
 		
 		tuile_pioche.set_Orientation_Volcan(action_tour.getAction_tuile().getTuile().get_Orientation_Volcan());
 		if (placer_tuile(action_tour.getAction_tuile().getPosition())!=0)
@@ -529,9 +695,6 @@ public class Moteur extends Phase{
 		}
 
 		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
-		j2.afficher_Joueur();
-		j_courant.afficher_Joueur();
-		
 		
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = action_tour.getAction_construction();
@@ -556,8 +719,6 @@ public class Moteur extends Phase{
 			}
 			//Game.initDelay();
 		}
-		j2.afficher_Joueur();
-		j_courant.afficher_Joueur();
 
 		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		fin_de_tour();
@@ -686,29 +847,58 @@ public class Moteur extends Phase{
 	}
 	
 	// Modifie l'état de jeu actuel
+	
 	private void set_etat_de_jeu(Etat_de_jeu edj)
 	{
 		this.j1 = edj.getj1().clone();
 		this.j2 = edj.getj2().clone();
 		j1.MajListeners();
 		j2.MajListeners();
+		if(edj.get_nb_Joueur() >= 3 )
+		{
+			this.j3 = edj.getj3().clone();
+			j3.MajListeners();
+		}
+		if(edj.get_nb_Joueur() == 4 )
+		{
+			this.j4 = edj.getj4().clone();
+			j4.MajListeners();
+		}
 		//On recreer la référance de j_courant vers j1 ou j2
-		if(this.EstLeMemeJoueur(edj.getj1(),edj.getj_courant()))
+		if(EstLeMemeJoueur(edj.getj1(),edj.getj_courant()))
 		{
 			this.j_courant = j1;
 		}
-		else
+		else if (EstLeMemeJoueur(edj.getj2(),edj.getj_courant()))
 		{
 			this.j_courant = j2;
 		}
-	//	this.j_courant = edj.getj_courant();
+		else if (EstLeMemeJoueur(edj.getj3(),edj.getj_courant()))
+		{
+			this.j_courant = j3;
+		}
+		else if(EstLeMemeJoueur(edj.getj4(),edj.getj_courant()))
+		{
+			this.j_courant = j4;
+		}
+		else
+		{
+			System.out.println("[MOTEUR/set_etat_de_jeu] Erreur de link entre j_courant et un joueur");
+		}
+		
 		this.T = edj.getTerrain().clone();
 	}
 	
 	// Revoie l'état de jeu actuel
 	private Etat_de_jeu get_EDJ_courant()
 	{
-		Etat_de_jeu edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
+		Etat_de_jeu edj = new Etat_de_jeu();
+		if(nb_Joueur == 2)
+			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
+		else if(nb_Joueur == 3)
+			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
+		else if(nb_Joueur == 4)
+			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
 		return edj;
 	}	
 	
