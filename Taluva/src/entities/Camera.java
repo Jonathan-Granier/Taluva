@@ -3,6 +3,7 @@ package entities;
 import java.awt.Point;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -137,6 +138,16 @@ public class Camera {
 				lookAt.z -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
 				lookAt.x -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
 			}
+		}
+		
+		if(Mouse.isButtonDown(2)){
+			float offsetDX = Mouse.getDX() * 0.3f;
+			lookAt.z += offsetDX * Math.sin(Math.toRadians(angleAroundPivot));
+			lookAt.x -= offsetDX * Math.cos(Math.toRadians(angleAroundPivot));
+			
+			float offsetDY = Mouse.getDY() * 0.3f;
+			lookAt.z += offsetDY * Math.cos(Math.toRadians(angleAroundPivot));
+			lookAt.x += offsetDY * Math.sin(Math.toRadians(angleAroundPivot));
 		}
 		
 	}

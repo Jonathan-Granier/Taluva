@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.swing.JFrame;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import Ecouteur.EcouteurDeSourisTerrain;
@@ -43,7 +45,7 @@ import water.WaterShader;
 import water.WaterTile;
 import utils.MousePicker;
 
-public class Game implements Observer,KeyListener  {
+public class Game implements Observer,KeyListener,MouseListener {
 	
 	private Moteur moteur;
 	private Grid grid;
@@ -71,6 +73,10 @@ public class Game implements Observer,KeyListener  {
 	private JFrame frame;
 	
 	private boolean[] keys = {false,false,false,false};
+	private boolean keyMiddle = false;
+	private float dx = 0;
+	private float dy = 0;
+	private Vector2f lastMouse = new Vector2f(0,0);
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
@@ -255,6 +261,10 @@ public class Game implements Observer,KeyListener  {
 	}
 
 	public void updateCamera(){
+		if(keyMiddle){
+			
+		}
+		
 		if(keys[0]){
 			camera.increaseZ((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
 			camera.increaseX((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
@@ -332,6 +342,38 @@ public class Game implements Observer,KeyListener  {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(e.getButton() == MouseEvent.BUTTON2){
+			keyMiddle = true;
+			dx = e.getX() - lastMouse.x;
+			dx = e.getY() - lastMouse.y;
+			lastMouse = new Vector2f(e.getX(),e.getY());
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if(e.getButton() == MouseEvent.BUTTON2){
+			keyMiddle = false;
+			dx = 0;
+			dy = 0;
+		}
+		
 	}
 	
 }
