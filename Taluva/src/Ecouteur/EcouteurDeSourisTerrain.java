@@ -234,7 +234,6 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 							//constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0)));
 							//constructions.get(constructions.size()-1).getObject3d().setPosition(snap.worldPos);
 							m.Maj_liste_coup_construction();
-							m.getTerrain().afficher();
 						}
 						else{
 							System.out.println("Il est impossible de poser un batiment ici");
@@ -348,7 +347,6 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 							//constructions.add(new GraphicConstruction(construction));
 							//constructions.get(constructions.size()-1).getObject3d().setPosition(snap.worldPos);
 							m.Maj_liste_coup_construction();
-							m.getTerrain().afficher();
 						}
 						else{
 							System.out.println("Il est impossible de poser un batiment ici");
