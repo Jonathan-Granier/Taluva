@@ -29,9 +29,9 @@ public abstract class Joueur_Generique {
 	
 	public Joueur_Generique(Couleur_Joueur c)
 	{
-		temple = 3;
-		tour = 2;
-		hutte = 20;
+		temple = Moteur.nb_max_Temples;
+		tour = Moteur.nb_max_Tours;
+		hutte = Moteur.nb_max_Huttes;
 		hutteDetruite = 0;
 		this.c = c;
 		
