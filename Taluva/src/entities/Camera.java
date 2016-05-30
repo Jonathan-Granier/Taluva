@@ -173,8 +173,17 @@ public class Camera {
 		return roll;
 	}
 	
-	public void setLookAt(Vector3f v){
-		lookAt = v;
+	public void recenter(){
+		float x = 3f/4f*Terrain.CENTRE.y*Grid.HEIGHT_OF_HEXA - Grid.HEIGHT_OF_HEXA/2f;
+		float y = Terrain.TAILLE*Grid.WIDTH_OF_HEXA/2f + Grid.WIDTH_OF_HEXA*2f + Terrain.CENTRE.x * Grid.WIDTH_OF_HEXA/2f;
+		lookAt = new Vector3f(x,0,y);
+	}
+	
+	public void reset(){
+		recenter();
+		pitch=40;
+		angleAroundPivot=270;
+		distanceFromPivot=100;
 	}
 
 	public float getDistanceFromPivot() {

@@ -291,6 +291,10 @@ public class Game implements Observer,KeyListener,MouseMotionListener  {
 			System.out.println("##### AFFICHAGE MANUEL #####");
 			moteur.getTerrain().afficher();
 			System.out.println("############################");
+			break;
+		case KeyEvent.VK_SPACE:
+			camera.reset();
+			break;
 		default:
 			break;
 		}
