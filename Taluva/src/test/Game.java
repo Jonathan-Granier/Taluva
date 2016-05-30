@@ -259,15 +259,15 @@ public class Game implements Observer,KeyListener  {
 			camera.increaseZ((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
 			camera.increaseX((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
 		}
-		else if(keys[1]){
+		if(keys[1]){
 			camera.decreaseZ((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
 			camera.decreaseX((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
 		}
-		else if(keys[2]){
+		if(keys[2]){
 			camera.decreaseZ((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
 			camera.increaseX((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
 		}
-		else if(keys[3]){
+		if(keys[3]){
 			camera.increaseZ((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
 			camera.decreaseX((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
 		}
@@ -278,15 +278,19 @@ public class Game implements Observer,KeyListener  {
 		Menu_circulaire_creation.setDraw(false);
 		switch(e.getKeyCode()){
 		case KeyEvent.VK_Z:
+		case KeyEvent.VK_UP:
 			keys[0] = true;
 			break;
 		case KeyEvent.VK_S:
+		case KeyEvent.VK_DOWN:
 			keys[1] = true;
 			break;
 		case KeyEvent.VK_Q:
+		case KeyEvent.VK_LEFT:
 			keys[2] = true;
 			break;
 		case KeyEvent.VK_D:
+		case KeyEvent.VK_RIGHT:
 			keys[3] = true;
 			break;
 		case KeyEvent.VK_A:
@@ -306,15 +310,19 @@ public class Game implements Observer,KeyListener  {
 	public void keyReleased(KeyEvent e) {
 		switch(e.getKeyCode()){
 		case KeyEvent.VK_Z:
+		case KeyEvent.VK_UP:
 			keys[0] = false;
 			break;
 		case KeyEvent.VK_S:
+		case KeyEvent.VK_DOWN:
 			keys[1] = false;
 			break;
 		case KeyEvent.VK_Q:
+		case KeyEvent.VK_LEFT:
 			keys[2] = false;
 			break;
 		case KeyEvent.VK_D:
+		case KeyEvent.VK_RIGHT:
 			keys[3] = false;
 			break;
 		default:
