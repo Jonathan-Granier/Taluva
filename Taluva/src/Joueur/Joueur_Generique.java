@@ -218,6 +218,14 @@ public abstract class Joueur_Generique {
 		 return listeners.getListeners(BatimentCountListener.class);
 	}
 	
+	public void CleanListeners()
+	{
+		for(BatimentCountListener listener : getBatimentCountListeners()) 
+		{
+			listeners.remove(BatimentCountListener.class, listener);
+		}
+	}
+	
 	public void afficher_Joueur()
 	{
 		System.out.println("#####JOUEUR#####");
