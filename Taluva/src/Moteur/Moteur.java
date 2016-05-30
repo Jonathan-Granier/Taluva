@@ -690,8 +690,7 @@ public class Moteur extends Phase{
 		
 		piocher();
 		action_tour = j_courant.get_coup_tour(tuile_pioche);
-		System.out.println("Couleur du Joueur 2 " + j2.getCouleur());
-		System.out.println("Couleur du Joueur Courant " + j_courant.getCouleur());
+		
 		tuile_pioche.set_Orientation_Volcan(action_tour.getAction_tuile().getTuile().get_Orientation_Volcan());
 		if (placer_tuile(action_tour.getAction_tuile().getPosition())!=0)
 		{
@@ -703,10 +702,12 @@ public class Moteur extends Phase{
 		
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = action_tour.getAction_construction();
+		action_construction.afficher();
 		// SI c'est une extension
 		Point point_construction = action_construction.get_coord();
 		if(action_construction.get_type() == Action_Construction.Type.EXTENSION)
 		{
+
 			if((etendre_cite(point_construction,action_construction.get_type_extension()))!= 0)
 			{
 				System.out.println("[jouer_IA] Impossible d'etendre la cité");
@@ -715,13 +716,14 @@ public class Moteur extends Phase{
 		}
 		else
 		{
-			bat_choisi = Action_vers_Batiment(action_construction.get_type());
+						bat_choisi = Action_vers_Batiment(action_construction.get_type());
 			System.out.println("[JOUER IA] Bat choisi : "+ bat_choisi);
 			if(placer_batiment(point_construction) != 0)
 			{
 				System.out.println("[jouer_IA] Impossible de poser un batiment");
 				return 1;
 			}
+			
 			//Game.initDelay();
 		}
 		System.out.println("Couleur du Joueur 2 " + j2.getCouleur());
@@ -815,9 +817,15 @@ public class Moteur extends Phase{
 		m_copie.tuile_pioche = this.tuile_pioche;
 		m_copie.bat_choisi = this.bat_choisi;
 		m_copie.liste_coup_construction = this.liste_coup_construction.clone();
-		m_copie.j_courant = j_courant.clone(m_copie);
 		m_copie.add_j1(j1.clone(m_copie));
 		m_copie.add_j2(j2.clone(m_copie));
+		
+		if(this.Est_joueur_Courant(j1))
+		
+			m_copie.j_courant = j1;
+		else
+			m_copie.j_courant = j2;
+	
 		
 		while(m_copie.get_etat_jeu() != this.get_etat_jeu())m_copie.Incremente_Phase_Jeu();
 		return m_copie;
