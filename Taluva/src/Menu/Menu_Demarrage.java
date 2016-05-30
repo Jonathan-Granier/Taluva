@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -88,6 +89,7 @@ public class Menu_Demarrage extends JComponent {
 		regles.setBackground(Color.WHITE);
 		regles.setFont(new Font("Règles", Font.BOLD+Font.ITALIC,40));
 		regles.setOpaque(false);
+		regles.addActionListener(new Ecouteur_boutons_demarrage("Règles",this));
 		menu.add(regles);
 		
 		credits = new JButton("Crédits");
@@ -100,6 +102,7 @@ public class Menu_Demarrage extends JComponent {
 		quitter.setBackground(Color.WHITE);
 		quitter.setFont(new Font("Quitter", Font.BOLD+Font.ITALIC,40));
 		quitter.setOpaque(false);
+		quitter.addActionListener(new Ecouteur_boutons_demarrage("Quitter",this));
 		menu.add(quitter);
 		
 		menu.setBackground(Color.WHITE);
@@ -144,11 +147,31 @@ public class Menu_Demarrage extends JComponent {
 		}*/
 	}
 
-  public void paintComponent(Graphics g) {
-    super.paintComponent(g);	
-
-    // Draw the background image.
-    g.drawImage(backgroundImage, 0, 0, this.getWidth(),this.getHeight(),this);
-}
+	public void regles(){
+		this.setVisible(false);
+		fenetre.remove(this);
+		try {
+			fenetre.add(new Regles(fenetre));
+		} catch (IOException e) {
+			// Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void quitter(){
+		int result = JOptionPane.showConfirmDialog(fenetre, "Voulez-vous vraiment quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
+        if(result == JOptionPane.OK_OPTION){
+        	fenetre.setVisible(false);
+    		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            fenetre.dispose();
+        }
+	}
+	
+	public void paintComponent(Graphics g) {
+	    super.paintComponent(g);	
+	
+	    // Draw the background image.
+	    g.drawImage(backgroundImage, 0, 0, this.getWidth(),this.getHeight(),this);
+	}
 
 }
