@@ -45,7 +45,7 @@ import water.WaterShader;
 import water.WaterTile;
 import utils.MousePicker;
 
-public class Game implements Observer,KeyListener,MouseListener {
+public class Game implements Observer,KeyListener {
 	
 	private Moteur moteur;
 	private Grid grid;
@@ -261,10 +261,6 @@ public class Game implements Observer,KeyListener,MouseListener {
 	}
 
 	public void updateCamera(){
-		if(keyMiddle){
-			
-		}
-		
 		if(keys[0]){
 			camera.increaseZ((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
 			camera.increaseX((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
@@ -341,39 +337,7 @@ public class Game implements Observer,KeyListener,MouseListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON2){
-			keyMiddle = true;
-			dx = e.getX() - lastMouse.x;
-			dx = e.getY() - lastMouse.y;
-			lastMouse = new Vector2f(e.getX(),e.getY());
-		}
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON2){
-			keyMiddle = false;
-			dx = 0;
-			dy = 0;
-		}
-		
+	public void keyTyped(KeyEvent arg0) {
 	}
 	
 }
