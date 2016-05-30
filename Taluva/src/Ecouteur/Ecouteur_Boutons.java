@@ -176,4 +176,8 @@ public class Ecouteur_Boutons implements ActionListener {
 		return clicked;
 	}
 
+	public static void setPick(boolean p){
+		pick = p;
+	}
+	
 }

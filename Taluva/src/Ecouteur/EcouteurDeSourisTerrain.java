@@ -139,6 +139,11 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 					construction.setPosition(new Vector3f(point.x,construction.getHeight(),point.z));
 				}
 			
+				if(OSValidator.isWindows()){
+					if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT)){
+						Ecouteur_Boutons.setPick(false);
+					}
+				}
 				
 				//Snap
 				snap = grid.snap(construction.getObject3d(),construction.getPosition());
@@ -341,16 +346,21 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 				}
 				else
 				{
-					if(Ecouteur_Boutons.isPick()){
-						if (snap!=null && m.placer_batiment(snap.indices)== 0)
-						{
-							//constructions.add(new GraphicConstruction(construction));
-							//constructions.get(constructions.size()-1).getObject3d().setPosition(snap.worldPos);
-							m.Maj_liste_coup_construction();
+					if(e.getButton() == MouseEvent.BUTTON1){
+						if(Ecouteur_Boutons.isPick()){
+							if (snap!=null && m.placer_batiment(snap.indices)== 0)
+							{
+								//constructions.add(new GraphicConstruction(construction));
+								//constructions.get(constructions.size()-1).getObject3d().setPosition(snap.worldPos);
+								m.Maj_liste_coup_construction();
+							}
+							else{
+								System.out.println("Il est impossible de poser un batiment ici");
+							}
 						}
-						else{
-							System.out.println("Il est impossible de poser un batiment ici");
-						}
+					}
+					else if(e.getButton() == MouseEvent.BUTTON3){
+						Ecouteur_Boutons.setPick(false);
 					}
 				}
 				

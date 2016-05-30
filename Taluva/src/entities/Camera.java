@@ -14,6 +14,7 @@ import terrain.Terrain;
 import utils.FPS;
 import utils.Grid;
 import utils.InputHandler;
+import utils.OSValidator;
 import utils.InputHandler.inputType;
 
 public class Camera {
@@ -31,7 +32,7 @@ public class Camera {
 	private float roll;
 	private JFrame frame;
 	
-	public static final int MARGIN = 100;
+	public static final int MARGIN = 50;
 	
 	public Camera(JFrame frame){
 		this.frame = frame;
@@ -84,58 +85,59 @@ public class Camera {
 		float offsetX = (float) (horizontalDistance * Math.sin(Math.toRadians(angleAroundPivot)));
 		float offsetZ = (float) (horizontalDistance * Math.cos(Math.toRadians(angleAroundPivot)));
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_Z)){
-			lookAt.z += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-			lookAt.x += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-			Menu_circulaire_creation.setDraw(false);
-			
+		if(OSValidator.isWindows()){
+			if(Keyboard.isKeyDown(Keyboard.KEY_Z)){
+				lookAt.z += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+				lookAt.x += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+				Menu_circulaire_creation.setDraw(false);
+				
+			}
+			else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+				lookAt.z -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+				lookAt.x -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+				Menu_circulaire_creation.setDraw(false);
+			}
+			else if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+				lookAt.z -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+				lookAt.x += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+				Menu_circulaire_creation.setDraw(false);
+			}
+			else if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+				lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+				lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+				Menu_circulaire_creation.setDraw(false);
+			}
 		}
-		else if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			lookAt.z -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-			lookAt.x -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-			Menu_circulaire_creation.setDraw(false);
-		}
-		else if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
-			lookAt.z -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-			lookAt.x += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-			Menu_circulaire_creation.setDraw(false);
-		}
-		else if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-			lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-			lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-			Menu_circulaire_creation.setDraw(false);
-		}
-		
 		Point mouse = frame.getMousePosition();
 		
-	if(Mouse.isInsideWindow()){
-		if(Mouse.getX()<Display.getWidth() && Mouse.getX()>Display.getWidth()-MARGIN){
-			lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-			lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+		if(Mouse.isInsideWindow()){
+			if(Mouse.getX()<Display.getWidth() && Mouse.getX()>Display.getWidth()-MARGIN){
+				lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+				lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+			}
+			if(Mouse.getX()<MARGIN && Mouse.getX()>0){
+				lookAt.z -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+				lookAt.x += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+			}
+			if(Mouse.getY()<Display.getHeight() && Mouse.getY()>Display.getHeight()-MARGIN){
+				lookAt.z += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+				lookAt.x += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+			}
 		}
-		if(Mouse.getX()<MARGIN && Mouse.getX()>0){
-			lookAt.z -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-			lookAt.x += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+		if(mouse!=null){
+			if(mouse.x<frame.getWidth() && mouse.x>frame.getWidth()-MARGIN && mouse.y>MARGIN){
+				lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+				lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+			}
+			if(mouse.x<MARGIN && mouse.x>0 && mouse.y>MARGIN){
+				lookAt.z -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+				lookAt.x += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+			}
+			if( mouse.y<frame.getHeight() && mouse.y>frame.getHeight() - MARGIN){
+				lookAt.z -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+				lookAt.x -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+			}
 		}
-		if(Mouse.getY()<Display.getHeight() && Mouse.getY()>Display.getHeight()-MARGIN){
-			lookAt.z += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-			lookAt.x += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-		}
-	}
-	if(mouse!=null){
-		if(mouse.x<frame.getWidth() && mouse.x>frame.getWidth()-MARGIN){
-			lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-			lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-		}
-		if(mouse.x<MARGIN && mouse.x>0){
-			lookAt.z -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-			lookAt.x += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-		}
-		if( mouse.y<frame.getHeight() && mouse.y>frame.getHeight() - MARGIN){
-			lookAt.z -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-			lookAt.x -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-		}
-	}
 		
 	}
 	
