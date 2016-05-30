@@ -22,6 +22,9 @@ public class Ecouteur_boutons_regles implements ActionListener {
     			page.suivant();
     			page.repaint();
     			break;
+    		case "Accueil" :
+    			page.accueil();
+    			break;
     		default : System.out.println("[Ecouteurs_boutons_regles] Bouton non implémenté");
     			break;
 		}

@@ -2,6 +2,7 @@ package Menu;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -11,10 +12,12 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Regles extends JPanel {
+@SuppressWarnings("serial")
+public class Regles extends JComponent {
 	private Image backgroundImage;
 	private ArrayList<File> slides;
 	private JButton prec,suiv;
@@ -37,6 +40,7 @@ public class Regles extends JPanel {
 		
 		prec_suiv = new JPanel();
 		prec_suiv.setOpaque(false);
+		prec_suiv.setPreferredSize(new Dimension(fenetre.getWidth()/10,fenetre.getHeight()/10));
 		
 		acc_rep = new JPanel();
 		acc_rep.setLayout(new GridLayout(2,1));
@@ -45,26 +49,30 @@ public class Regles extends JPanel {
 		acc_rep2.setLayout(new BorderLayout());
 		acc_rep2.add(acc_rep,BorderLayout.SOUTH);
 		acc_rep2.setOpaque(false);
-		acc_rep.setPreferredSize(new Dimension(acc_rep2.getWidth()/10,acc_rep2.getHeight()/10));
+		acc_rep.setPreferredSize(new Dimension(fenetre.getWidth()/10,fenetre.getHeight()/10));
 		
 		prec = new JButton("Précedent");
 		prec.addActionListener(new Ecouteur_boutons_regles("Précedent",this));
+		prec.setPreferredSize(new Dimension(fenetre.getWidth()/10,fenetre.getHeight()/15));
+		prec.setFont(new Font("Précédent", Font.BOLD+Font.ITALIC,fenetre.getWidth()/120));
 		prec.setEnabled(false);
 		
 		suiv = new JButton("Suivant");
 		suiv.addActionListener(new Ecouteur_boutons_regles("Suivant",this));
-
+		suiv.setPreferredSize(new Dimension(fenetre.getWidth()/10,fenetre.getHeight()/15));
+		suiv.setFont(new Font("Suivant", Font.BOLD+Font.ITALIC,fenetre.getWidth()/120));
+		
+		
 		accueil = new JButton("Accueil");
-		accueil.addActionListener(new Ecouteur_boutons_regles("Suivant",this));
+		accueil.addActionListener(new Ecouteur_boutons_regles("Accueil",this));
+		accueil.setFont(new Font("Accueil", Font.BOLD+Font.ITALIC,fenetre.getWidth()/120));
 		
 		reprendre = new JButton("Reprendre");
-		reprendre.addActionListener(new Ecouteur_boutons_regles("Suivant",this));
-
+		reprendre.addActionListener(new Ecouteur_boutons_regles("Reprendre",this));
+		reprendre.setFont(new Font("Reprendre", Font.BOLD+Font.ITALIC,fenetre.getWidth()/120));
+		
 		prec_suiv.add(prec);
-		JButton vide = new JButton("");
-		prec_suiv.add(vide);
-		prec_suiv.add(suiv);
-
+		prec_suiv.add(suiv);		
 		acc_rep.add(accueil);
 		acc_rep.add(reprendre);
 		this.add(prec_suiv,BorderLayout.SOUTH);
@@ -79,7 +87,7 @@ public class Regles extends JPanel {
 			try {
 				backgroundImage = ImageIO.read(slides.get(page_courante-1));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				// Auto-generated catch block
 				e.printStackTrace();
 			}
 			if(page_courante==slides.size())
@@ -95,12 +103,28 @@ public class Regles extends JPanel {
 			try {
 				backgroundImage = ImageIO.read(slides.get(page_courante-1));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				// Auto-generated catch block
 				e.printStackTrace();
 			}
 			if(page_courante==1)
 				prec.setEnabled(false);
 		}
+	}
+
+	public void accueil(){
+		this.setVisible(false);
+		fenetre.remove(this);
+		try {
+			fenetre.add(new Menu_Demarrage(fenetre));
+		} catch (IOException e) {
+			// Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void reprendre(){
+		// TODO
+		// Faut rajouter des choses
 	}
 	
 	public void paintComponent(Graphics g) {
