@@ -132,28 +132,30 @@ public class IA_Alpha_Beta extends IA_Generique {
 			while( i < liste.size() && score_max < score)
 			{
 				// /!\ Simuler dans moteur virtuel
-				m.jouer_action(liste.get(i));
-				m.Maj_liste_coup_construction();
-				//liste_construction = m.get_liste_coup_construction().to_ArrayList();
-				m.get_liste_coup_construction().into_ArrayList(this.Action_Construction_Memoire.get(profondeur/2));
-				retour_REC = choisir_construction_bon(this.Action_Construction_Memoire.get(profondeur/2), score, profondeur -1);
-				score_courant = retour_REC.get_Heuristique();
-				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
-				if(score_courant == score_max && R.nextInt(100)<20)
+				if(m.jouer_action(liste.get(i)) == 0)
 				{
-					TH_retour.setActionTuile(liste.get(i));
-					coup_construction_retour = retour_REC.get_Action_Construction();
+					m.Maj_liste_coup_construction();
+					//liste_construction = m.get_liste_coup_construction().to_ArrayList();
+					m.get_liste_coup_construction().into_ArrayList(this.Action_Construction_Memoire.get(profondeur/2));
+					retour_REC = choisir_construction_bon(this.Action_Construction_Memoire.get(profondeur/2), score, profondeur -1);
+					score_courant = retour_REC.get_Heuristique();
+					// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
+					if(score_courant == score_max && R.nextInt(100)<20)
+					{
+						TH_retour.setActionTuile(liste.get(i));
+						coup_construction_retour = retour_REC.get_Action_Construction();
+					}
+					// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
+					else if (score_courant > score_max)
+					{
+						score_max = score_courant;
+						TH_retour.setActionTuile(liste.get(i));
+						TH_retour.setHeuristique(retour_REC.get_Heuristique());
+						coup_construction_retour = retour_REC.get_Action_Construction();
+					}
+					//annuler_coup();
+					m.annuler();
 				}
-				// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
-				else if (score_courant > score_max)
-				{
-					score_max = score_courant;
-					TH_retour.setActionTuile(liste.get(i));
-					TH_retour.setHeuristique(retour_REC.get_Heuristique());
-					coup_construction_retour = retour_REC.get_Action_Construction();
-				}
-				//annuler_coup();
-				m.annuler();
 				i++;
 			}
 		}
