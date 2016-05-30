@@ -28,9 +28,6 @@ public class Menu_Demarrage extends JPanel {
 	private JLabel taluva;
 	private JButton continuer,nouveau,charger,regles,credits,quitter;
 
-	// Some code to initialize the background image.
-	// Here, we use the constructor to load the image. This
-	// can vary depending on the use case of the panel.
 	public Menu_Demarrage() throws IOException {
 		backgroundImage = ImageIO.read(new File("../Images/Taluva_Demarrage.png"));
 		
@@ -88,13 +85,13 @@ public class Menu_Demarrage extends JPanel {
 		
 		menu.setBackground(Color.WHITE);
 		menu.setOpaque(true);
-		GridBagConstraints gbc_this = new GridBagConstraints();
+/*		GridBagConstraints gbc_this = new GridBagConstraints();
 		
-//		gbc_this.gridx = 0;
-//		gbc_this.gridy = 0;
-//		gbc_this.anchor = GridBagConstraints.LINE_END;
+		gbc_this.gridx = 0;
+		gbc_this.gridy = 0;
+		gbc_this.anchor = GridBagConstraints.LINE_END;
 		GridBagConstraints aff = new GridBagConstraints();
-		/*ArrayList<JButton> tmp = new ArrayList<JButton>();
+		ArrayList<JButton> tmp = new ArrayList<JButton>();
 		for(int i=0;i<9;i++){
 			tmp.add(new JButton());
 			tmp.get(i).setVisible(true);
@@ -113,13 +110,13 @@ public class Menu_Demarrage extends JPanel {
 				else 
 					this.add(tmp.get(i*3+j),aff);
 			}
-		}*/
-		aff.gridx=0;
-		aff.gridy=0;
-		aff.gridheight=1;
-		aff.gridwidth=1;
-		aff.fill=GridBagConstraints.BOTH;
-		this.add(menu,aff);
+		}
+		gbc_this.gridx=0;
+		gbc_this.gridy=0;
+		gbc_this.gridheight=1;
+		gbc_this.gridwidth=1;
+		gbc_this.fill=GridBagConstraints.BOTH;*/
+		this.add(menu);
 		
 	}
 
