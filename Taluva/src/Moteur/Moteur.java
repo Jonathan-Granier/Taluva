@@ -694,7 +694,7 @@ public class Moteur extends Phase{
 		tuile_pioche.set_Orientation_Volcan(action_tour.getAction_tuile().getTuile().get_Orientation_Volcan());
 		if (placer_tuile(action_tour.getAction_tuile().getPosition())!=0)
 		{
-			System.out.println("[jouer_IA] Impossible de poser la tuile");
+			System.out.println("[jouer_IA] Impossible de poser la tuile " + action_tour.getAction_tuile().getPosition());
 			return 1;
 		}
 
@@ -710,24 +710,22 @@ public class Moteur extends Phase{
 
 			if((etendre_cite(point_construction,action_construction.get_type_extension()))!= 0)
 			{
-				System.out.println("[jouer_IA] Impossible d'etendre la cité");
+				System.out.println("[jouer_IA] Impossible d'etendre la cité " + point_construction + " " + action_construction.get_type_extension());
 				return 1;
 			}
 		}
 		else
 		{
-						bat_choisi = Action_vers_Batiment(action_construction.get_type());
+			bat_choisi = Action_vers_Batiment(action_construction.get_type());
 			System.out.println("[JOUER IA] Bat choisi : "+ bat_choisi);
 			if(placer_batiment(point_construction) != 0)
 			{
-				System.out.println("[jouer_IA] Impossible de poser un batiment");
+				System.out.println("[jouer_IA] Impossible de poser un batiment " + point_construction);
 				return 1;
 			}
 			
 			//Game.initDelay();
 		}
-		System.out.println("Couleur du Joueur 2 " + j2.getCouleur());
-		System.out.println("Couleur du Joueur Courant " + j_courant.getCouleur());
 		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		fin_de_tour();
 		return 0;
@@ -819,12 +817,14 @@ public class Moteur extends Phase{
 		m_copie.liste_coup_construction = this.liste_coup_construction.clone();
 		m_copie.add_j1(j1.clone(m_copie));
 		m_copie.add_j2(j2.clone(m_copie));
+		m_copie.getJ1().CleanListeners();
+		m_copie.getJ2().CleanListeners();
 		
 		if(this.Est_joueur_Courant(j1))
 		
-			m_copie.j_courant = j1;
+			m_copie.j_courant = m_copie.j1;
 		else
-			m_copie.j_courant = j2;
+			m_copie.j_courant = m_copie.j2;
 	
 		
 		while(m_copie.get_etat_jeu() != this.get_etat_jeu())m_copie.Incremente_Phase_Jeu();
