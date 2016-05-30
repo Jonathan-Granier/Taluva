@@ -280,6 +280,10 @@ public class Game implements Observer,KeyListener  {
 		case KeyEvent.VK_D:
 			keys[3] = true;
 			break;
+		case KeyEvent.VK_A:
+			System.out.println("##### AFFICHAGE MANUEL #####");
+			moteur.getTerrain().afficher();
+			System.out.println("############################");
 		default:
 			break;
 		}
