@@ -57,6 +57,7 @@ public class Test_Taluva implements Runnable{
         game.init(frame,m,ihm.getCanvas());
         
         frame.addKeyListener(game);
+        frame.addMouseMotionListener(game);
         frame.setFocusable(true);
         frame.addWindowListener(new WindowAdapter() {
             @Override

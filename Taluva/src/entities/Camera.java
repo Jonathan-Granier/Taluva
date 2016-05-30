@@ -2,8 +2,11 @@ package entities;
 
 import java.awt.Point;
 
+import javax.swing.JFrame;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import IHM.Menu_circulaire_creation;
@@ -27,6 +30,7 @@ public class Camera {
 	private float yangle;
 	private float roll;
 	
+	public static final int MARGIN = 100;
 	
 	public Camera(){
 		float x = 3f/4f*Terrain.CENTRE.y*Grid.HEIGHT_OF_HEXA - Grid.HEIGHT_OF_HEXA/2f;
@@ -98,6 +102,25 @@ public class Camera {
 			lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
 			lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
 			Menu_circulaire_creation.setDraw(false);
+		}
+		
+		if(Mouse.isInsideWindow()){
+			if(Mouse.getX()<Display.getWidth() && Mouse.getX()>Display.getWidth()-MARGIN){
+				lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+				lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+			}
+			if(Mouse.getX()<MARGIN && Mouse.getX()>0){
+				lookAt.z -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+				lookAt.x += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+			}
+			if(Mouse.getY()<Display.getHeight() && Mouse.getY()>Display.getHeight()-MARGIN){
+				lookAt.z += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+				lookAt.x += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+			}
+			if(Mouse.getY()<0 + MARGIN && Mouse.getY()>0){
+				lookAt.z -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
+				lookAt.x -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
+			}
 		}
 		
 	}

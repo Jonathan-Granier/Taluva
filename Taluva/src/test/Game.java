@@ -3,12 +3,17 @@ package test;
 import java.awt.Canvas;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JFrame;
+
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import Ecouteur.EcouteurDeSourisTerrain;
@@ -38,7 +43,7 @@ import water.WaterShader;
 import water.WaterTile;
 import utils.MousePicker;
 
-public class Game implements Observer,KeyListener  {
+public class Game implements Observer,KeyListener,MouseMotionListener  {
 	
 	private Moteur moteur;
 	private Grid grid;
@@ -63,6 +68,7 @@ public class Game implements Observer,KeyListener  {
 	private WaterTile water;
 	private SkyboxRenderer skyboxRenderer;
 	private Canvas canvas;
+	private JFrame frame;
 	
 	private boolean[] keys = {false,false,false,false};
 	
@@ -147,6 +153,7 @@ public class Game implements Observer,KeyListener  {
 	
 	public void init(JFrame frame,Moteur m,Canvas canvas){
 		Window.createDislay();
+		this.frame = frame;
 		this.moteur = m;
 		this.canvas = canvas;
 		camera = new Camera();
@@ -311,6 +318,30 @@ public class Game implements Observer,KeyListener  {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		if(e.getX()<frame.getWidth() && e.getX()>frame.getWidth()-Camera.MARGIN){
+			camera.increaseZ((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
+			camera.decreaseX((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
+		}
+		if(e.getX()<Camera.MARGIN && e.getX()>0){
+			camera.decreaseZ((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
+			camera.increaseX((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
+		}
+		if(e.getY()<frame.getHeight() && e.getY()>frame.getHeight()-Camera.MARGIN){
+			camera.increaseZ((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
+			camera.increaseX((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
+		}
+		if(e.getY()<Camera.MARGIN && e.getY()>0){
+			camera.decreaseZ((float) Math.cos(Math.toRadians(camera.getAngleAroundPivot())));
+			camera.decreaseX((float) Math.sin(Math.toRadians(camera.getAngleAroundPivot())));
+		}
 	}
 	
 }
