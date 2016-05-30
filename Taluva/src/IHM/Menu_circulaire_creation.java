@@ -106,17 +106,17 @@ public class Menu_circulaire_creation {
 				draw = true;
 				ButtonConstruction.setPoint(new Point(i,j));
 				//etat bouton hutte
-				bouton_hute.setGrey(!(moteur.getTerrain().placement_batiment_autorise(Type_Batiment.HUTTE,moteur.get_Jcourant().getCouleur() , coord.indices)));
+				bouton_hute.setGrey(!(moteur.getTerrain().placement_batiment_autorise(Type_Batiment.HUTTE,moteur.get_Jcourant().getCouleur() , coord.indices) && moteur.get_Jcourant().getHutte()>0));
 				//gerer la position du bouton hutte
 				bouton_hute.setPosition(new Vector2f(Mouse.getX()-rayon/2,Display.getHeight()- Mouse.getY()-rayon/2-rayon));
 				
 				//etat bouton temple
-				bouton_temple.setGrey(!(moteur.getTerrain().placement_batiment_autorise(Type_Batiment.TEMPLE,moteur.get_Jcourant().getCouleur() , coord.indices)));
+				bouton_temple.setGrey(!(moteur.getTerrain().placement_batiment_autorise(Type_Batiment.TEMPLE,moteur.get_Jcourant().getCouleur() , coord.indices) && moteur.get_Jcourant().getTemple()>0));
 				//gerer la position du bouton temple
 				bouton_temple.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*2f/3f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*2f/3f)));
 				
 				//etat bouton tour
-				bouton_tour.setGrey(!(moteur.getTerrain().placement_batiment_autorise(Type_Batiment.TOUR,moteur.get_Jcourant().getCouleur() , coord.indices)));
+				bouton_tour.setGrey(!(moteur.getTerrain().placement_batiment_autorise(Type_Batiment.TOUR,moteur.get_Jcourant().getCouleur() , coord.indices) && moteur.get_Jcourant().getTour()>0));
 				//gerer la position du bouton tour
 				bouton_tour.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*4f/3f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*4f/3f)));
 	
@@ -129,26 +129,31 @@ public class Menu_circulaire_creation {
 					drawExtension = true;
 					//etat et position du bouton foret de l'extention
 					ArrayList<Point> liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.FORET);
-					bouton_foret.setGrey(liste.isEmpty());
+					int n = moteur.getTerrain().nb_huttes_extension(coord.indices, Case.Type.FORET);
+					bouton_foret.setGrey(liste.isEmpty() || n>moteur.get_Jcourant().getHutte());
 					bouton_foret.setPosition(new Vector2f(Mouse.getX()-rayon/2,Display.getHeight()- Mouse.getY()-rayon/2-rayon));
 					
 					//etat et position du bouton montagne de l'extention
-					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.MONTAGNE);	
-					bouton_montagne.setGrey(liste.isEmpty());
+					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.MONTAGNE);
+					n = moteur.getTerrain().nb_huttes_extension(coord.indices, Case.Type.MONTAGNE);
+					bouton_montagne.setGrey(liste.isEmpty() || n>moteur.get_Jcourant().getHutte());
 					bouton_montagne.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*2f/5f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*2f/5f)));
 					
 					//etat et position du bouton sable de l'extention
 					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.SABLE);	
-					bouton_plage.setGrey(liste.isEmpty());
+					n = moteur.getTerrain().nb_huttes_extension(coord.indices, Case.Type.SABLE);
+					bouton_plage.setGrey(liste.isEmpty() || n>moteur.get_Jcourant().getHutte());
 					bouton_plage.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*4f/5f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*4f/5f)));
 					
 					//etat et position du bouton plaine de l'extention
-					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.PLAINE);	
-					bouton_plaine.setGrey(liste.isEmpty());
+					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.PLAINE);
+					n = moteur.getTerrain().nb_huttes_extension(coord.indices, Case.Type.PLAINE);
+					bouton_plaine.setGrey(liste.isEmpty() || n>moteur.get_Jcourant().getHutte());
 					bouton_plaine.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*6f/5f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*6f/5f)));
 					
-					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.LAC);	
-					bouton_lac.setGrey(liste.isEmpty());
+					liste = moteur.getTerrain().getPts_extension_cite(cite, Case.Type.LAC);
+					n = moteur.getTerrain().nb_huttes_extension(coord.indices, Case.Type.LAC);
+					bouton_lac.setGrey(liste.isEmpty() || n>moteur.get_Jcourant().getHutte());
 					bouton_lac.setPosition(new Vector2f(Mouse.getX()-rayon/2-rayon*(float) Math.sin(Math.PI*8f/5f),Display.getHeight()- Mouse.getY()-rayon/2-rayon*(float) Math.cos(Math.PI*8f/5f)));
 				}
 			}
