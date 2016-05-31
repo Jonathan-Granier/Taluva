@@ -23,7 +23,9 @@ public class Action_Batiment {
 	}
 	
 	public Action_Batiment clone(){
-		return new Action_Batiment(bt,niveau,nb_batiments,new Point(P.x,P.y),c);
+		Action_Batiment tmp = new Action_Batiment(bt,niveau,nb_batiments,new Point(P.x,P.y),c);
+		tmp.isNew = false;
+		return tmp;
 	}
 	
 	public Case.Type_Batiment getTypeBatiment(){
