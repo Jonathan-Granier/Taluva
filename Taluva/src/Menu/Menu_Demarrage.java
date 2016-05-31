@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 
+@SuppressWarnings("serial")
 public class Menu_Demarrage extends JComponent {
 	
 	private Image backgroundImage;
@@ -32,11 +33,16 @@ public class Menu_Demarrage extends JComponent {
 	private Dimension dimension;
 	
 	
-	public Menu_Demarrage(JFrame frame) throws IOException {
+	public Menu_Demarrage(JFrame frame) {
 		this.setBounds(0, 0, width, height);
 
 		
-		backgroundImage = ImageIO.read(new File("../Images/Taluva_Demarrage.png"));
+		try {
+			backgroundImage = ImageIO.read(new File("../Images/Taluva_Demarrage.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -150,12 +156,7 @@ public class Menu_Demarrage extends JComponent {
 	public void regles(){
 		this.setVisible(false);
 		fenetre.remove(this);
-		try {
-			fenetre.add(new Regles(fenetre));
-		} catch (IOException e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}
+		fenetre.add(new Regles(fenetre));
 	}
 	
 	public void quitter(){

@@ -27,12 +27,19 @@ public class Regles extends JComponent {
 	private JPanel acc_rep;
 	private int page_courante;
 	
-	public Regles(JFrame frame) throws IOException{
+	public Regles(JFrame frame){
 		slides = new ArrayList<File>();
 		for(int i=0;i<8;i++){
 			slides.add(new File("../Images/Images-Regles/Regles_p"+(i+1)+".jpg"));
 		}
-		backgroundImage = ImageIO.read(slides.get(0));
+		
+		try {
+			backgroundImage = ImageIO.read(slides.get(0));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		page_courante = 1;		
 		
 		fenetre = frame;
@@ -114,12 +121,7 @@ public class Regles extends JComponent {
 	public void accueil(){
 		this.setVisible(false);
 		fenetre.remove(this);
-		try {
-			fenetre.add(new Menu_Demarrage(fenetre));
-		} catch (IOException e) {
-			// Auto-generated catch block
-			e.printStackTrace();
-		}
+		fenetre.add(new Menu_Demarrage(fenetre));
 	}
 	
 	public void reprendre(){
