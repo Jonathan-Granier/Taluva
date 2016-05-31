@@ -61,8 +61,7 @@ public class Moteur extends Phase{
 	private Etat etat;
 	*/
 	
-	//TODO Delete test
-	public String nom;
+	
 	
 	
 	
@@ -795,7 +794,6 @@ public class Moteur extends Phase{
 	public Moteur clone(){
 		
 		Moteur m_copie = new Moteur(T.clone(false));
-		m_copie.nom = "Moteur Copie";
 		// On instancie chaque joueur_copie en fonction du type de l'original
 		/*
 		j1_copie = copie_type_joueur(j1,j1_copie,m_copie);
