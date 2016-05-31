@@ -904,15 +904,15 @@ public class Moteur extends Phase{
 	// Revoie l'état de jeu actuel
 	private Etat_de_jeu get_EDJ_courant()
 	{
-		Etat_de_jeu edj = new Etat_de_jeu();
+		Etat_de_jeu edj;
 		if(nb_Joueur == 2)
 			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
 		else if(nb_Joueur == 3)
 			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j3, this.j_courant, get_etat_jeu());
-		else if(nb_Joueur == 4)
+		else
 			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j3, this.j4, this.j_courant, get_etat_jeu());
 		return edj;
-	}	
+	}
 	
 	/*
 	private void afficher_pile(Stack<Etat_de_jeu> Stack_edj)

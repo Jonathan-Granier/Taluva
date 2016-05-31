@@ -34,8 +34,6 @@ public class Menu_Demarrage extends JComponent {
 	
 	
 	public Menu_Demarrage(JFrame frame) {
-		this.setBounds(0, 0, width, height);
-
 		
 		try {
 			backgroundImage = ImageIO.read(new File("../Images/Taluva_Demarrage.png"));
@@ -44,24 +42,12 @@ public class Menu_Demarrage extends JComponent {
 			e.printStackTrace();
 		}
 		
-		
 		dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		height = (int)dimension.getHeight();
         width  = (int)dimension.getWidth();
 		
-		
 		fenetre = frame;
-		fenetre.setSize(width, height);
-		fenetre.setVisible(true);
 		this.setLayout(new BorderLayout());
-//		this.setLayout(new GridBagLayout());
-//		this.setSize(width, height);
-
-		JPanel vide = new JPanel();
-		JButton rien = new JButton();
-		rien.setVisible(false);
-		vide.add(rien);
-		vide.setOpaque(false);
 		
 		menu = new JPanel();
 		menu.setLayout(new GridLayout(7,1));
@@ -129,29 +115,13 @@ public class Menu_Demarrage extends JComponent {
 		east_panel.setOpaque(false);
 		
 		this.add(east_panel, BorderLayout.EAST);
-		/*
-		GridBagConstraints aff = new GridBagConstraints();
-		ArrayList<JButton> tmp = new ArrayList<JButton>();
 		
-		for(int i=0;i<81;i++){
-			tmp.add(new JButton());
-			tmp.get(i).setVisible(true);
-		}
-		for(int i=0;i<9;i++){
-			for(int j=0;j<9;j++){
-				aff.gridx=i;
-				aff.gridy=j;
-				aff.gridheight=1;
-				aff.gridwidth=1;
-				aff.fill=GridBagConstraints.BOTH;
-				if( (i==7) && (j==1) ){
-					aff.gridheight = 6;
-					this.add(menu,aff);
-				}
-				else 
-					this.add(tmp.get(i*3+j),aff);
-			}
-		}*/
+	}
+	
+	public void nouveau(){
+		this.setLayout(new BorderLayout());
+		this.setEnabled(false);
+		this.add(new Nouveau(fenetre),BorderLayout.CENTER);
 	}
 
 	public void regles(){

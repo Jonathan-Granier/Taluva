@@ -1,11 +1,10 @@
 package Moteur;
 import Joueur.Joueur_Generique;
-import Joueur.Joueur_Humain;
 import Moteur.Phase.Phase_Jeu;
 import terrain.Terrain;
-//TODO SURCHARGER LA CLASSE POUR 3 ET 4 JOUEURS
+
+
 public class Etat_de_jeu {
-	@SuppressWarnings("unused")
 	private Terrain terrain;
 	private Joueur_Generique j1,j2,j3,j4,j_courant;
 	private Phase_Jeu pdj;
@@ -27,7 +26,7 @@ public class Etat_de_jeu {
 		this.j3 = j3.clone();
 		this.j_courant = j_courant.clone();
 		this.pdj = phase_de_jeu;
-		this.nb_Joueur = 4;
+		this.nb_Joueur = 3;
 	}
 	
 	public Etat_de_jeu(Terrain t, Joueur_Generique j1, Joueur_Generique j2, Joueur_Generique j3,Joueur_Generique j4,Joueur_Generique j_courant, Phase_Jeu phase_de_jeu){
@@ -41,30 +40,26 @@ public class Etat_de_jeu {
 		this.nb_Joueur = 4;
 	}
 	
-	public Etat_de_jeu()
-	{
-		//Constructeur vide
-	}
 	public Terrain getTerrain()
 	{
 		return terrain;
 	}
 	public Joueur_Generique getj1()
 	{
-		return j1.clone();
+		return j1;
 	}
 	public Joueur_Generique getj2()
 	{
-		return j2.clone();
+		return j2;
 	}
 	public Joueur_Generique getj3()
 	{
-		return j3.clone();
+		return j3;
 	}
 	
 	public Joueur_Generique getj4()
 	{
-		return j4.clone();
+		return j4;
 	}
 	
 	public int get_nb_Joueur()
@@ -74,7 +69,7 @@ public class Etat_de_jeu {
 	
 	public Joueur_Generique getj_courant()
 	{
-		return j_courant.clone();
+		return j_courant;
 	}
 	public Phase_Jeu getPdj() {
 		return pdj;
