@@ -45,6 +45,8 @@ public class Regles extends JComponent {
 		fenetre = frame;
 		this.setLayout(new BorderLayout());
 		
+		// 2 Panels : 1 pour les boutons Précédent/Suivant
+		// l'autre pour les boutons Accueil / Reprendre
 		prec_suiv = new JPanel();
 		prec_suiv.setOpaque(false);
 		prec_suiv.setPreferredSize(new Dimension(fenetre.getWidth()/10,fenetre.getHeight()/10));
@@ -58,6 +60,7 @@ public class Regles extends JComponent {
 		acc_rep2.setOpaque(false);
 		acc_rep.setPreferredSize(new Dimension(fenetre.getWidth()/10,fenetre.getHeight()/10));
 		
+		//Boutons précédent, suivant, accueil, reprendre
 		prec = new JButton("Précedent");
 		prec.addActionListener(new Ecouteur_boutons_regles("Précedent",this));
 		prec.setPreferredSize(new Dimension(fenetre.getWidth()/10,fenetre.getHeight()/15));
@@ -86,6 +89,7 @@ public class Regles extends JComponent {
 		this.add(acc_rep2,BorderLayout.EAST);
 	}
 	
+	// Affiche le slide suivant (dépendemment du slide courant)
 	public void suivant(){
 		if(page_courante>=1)
 			prec.setEnabled(true);
@@ -102,6 +106,7 @@ public class Regles extends JComponent {
 		}
 	}
 	
+	// Affiche le slide précédent (dépendemment du slide courant)
 	public void precedent(){
 		if(page_courante<=slides.size())
 			suiv.setEnabled(true);
@@ -118,12 +123,14 @@ public class Regles extends JComponent {
 		}
 	}
 
+	// Retour sur l'écran de démarrage
 	public void accueil(){
 		this.setVisible(false);
 		fenetre.remove(this);
 		fenetre.add(new Menu_Demarrage(fenetre));
 	}
 	
+	// Retour sur une partie en cours si il y en a une
 	public void reprendre(){
 		// TODO
 		// Faut rajouter des choses
@@ -134,10 +141,6 @@ public class Regles extends JComponent {
 
 	    // Draw the background image.
 	    g.drawImage(backgroundImage, 0, 0, this.getWidth(),this.getHeight(),this);
-	}
-
-	public int getPage_courante() {
-		return page_courante;
 	}
 
 }
