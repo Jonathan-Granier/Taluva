@@ -15,7 +15,7 @@ import terrain.Tuile;
 public class IA_Alpha_Beta extends IA_Generique {
 	private int profondeur;
 	private Action_Construction coup_construction;
-	private Action_Tuile coup_tuile;
+	//private Action_Tuile coup_tuile;
 	private boolean set_CC;
 	private ArrayList<ArrayList<Action_Construction>> Action_Construction_Memoire;
 	private ArrayList<ArrayList<Action_Tuile>> Action_Tuile_Memoire; 
@@ -123,7 +123,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					TH_retour.setHeuristique(score_courant);
 				}
 				//annuler_coup();
-				m.annuler(false);
+				m.annuler();
 				i++;
 			}
 		}
@@ -154,7 +154,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 						coup_construction_retour = retour_REC.get_Action_Construction();
 					}
 					//annuler_coup();
-					m.annuler(false);
+					m.annuler();
 				}
 				i++;
 			}
@@ -189,7 +189,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_construction_retour.add(liste.get(i));
 				}
 				//annuler_coup();
-				m.annuler(false);
+				m.annuler();
 				i++;
 			}
 		}
@@ -217,7 +217,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_construction_retour.add(liste.get(i));
 				}
 				//annuler_coup();
-				m.annuler(false);
+				m.annuler();
 				i++;
 			}
 		}
@@ -250,7 +250,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					score_min = score_courant;
 				}
 				//annuler_coup();
-				m.annuler(false);
+				m.annuler();
 				i++;
 			}
 		}
@@ -268,7 +268,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					score_min = score_courant;
 				}
 				//annuler_coup();
-				m.annuler(false);
+				m.annuler();
 				i++;
 			}
 		}
@@ -294,7 +294,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					score_min = score_courant;
 				}
 				//annuler_coup();
-				m.annuler(false);
+				m.annuler();
 				i++;
 			}
 		}
@@ -316,7 +316,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					score_min = score_courant;
 				}
 				//annuler_coup();
-				m.annuler(false);
+				m.annuler();
 				i++;
 			}
 		}
