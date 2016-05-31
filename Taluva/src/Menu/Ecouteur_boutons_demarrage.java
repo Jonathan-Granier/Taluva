@@ -17,6 +17,9 @@ public class Ecouteur_boutons_demarrage  implements ActionListener {
     		case "Règles" : 
     			menu.regles();
     			break;
+    		case "Crédits" :
+    			menu.credits();
+    			break;
     		case "Quitter" :
     			menu.quitter();
     			break;

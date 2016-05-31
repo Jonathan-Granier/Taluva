@@ -102,6 +102,7 @@ public class Menu_Demarrage extends JComponent {
 		credits.setBackground(Color.WHITE);
 		credits.setFont(new Font("Crédits", Font.BOLD+Font.ITALIC,40));
 		credits.setOpaque(false);
+		credits.addActionListener(new Ecouteur_boutons_demarrage("Crédits",this));
 		menu.add(credits);
 		
 		quitter = new JButton("Quitter");
@@ -157,6 +158,12 @@ public class Menu_Demarrage extends JComponent {
 		this.setVisible(false);
 		fenetre.remove(this);
 		fenetre.add(new Regles(fenetre));
+	}
+	
+	public void credits(){
+		this.setVisible(false);
+		fenetre.remove(this);
+		fenetre.add(new Credits(fenetre));
 	}
 	
 	public void quitter(){
