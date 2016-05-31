@@ -14,6 +14,9 @@ public class Ecouteur_boutons_demarrage  implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		switch (action){
+			case "Nouveau" :
+				menu.nouveau();
+				break;
     		case "Règles" : 
     			menu.regles();
     			break;
