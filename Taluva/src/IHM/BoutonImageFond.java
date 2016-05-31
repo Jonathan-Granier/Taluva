@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class BoutonImageFond extends JButton implements MouseListener{
+	private static final long serialVersionUID = 1L;
 	private Image imageActiver;
 	private Image imageDesactiver;
 	private Image imageCliquer;
@@ -65,7 +66,9 @@ public class BoutonImageFond extends JButton implements MouseListener{
 		public void mouseClicked(MouseEvent arg0) {}
 
 		@Override
-		public void mouseEntered(MouseEvent arg0) {}
+		public void mouseEntered(MouseEvent arg0) {
+			//TODO
+		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {}
