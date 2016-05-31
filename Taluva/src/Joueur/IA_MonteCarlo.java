@@ -16,14 +16,18 @@ public class IA_MonteCarlo extends IA_Generique {
 
 	private int taille_echantillon;
 	private Moteur moteur;
+	private Random R;
 	
 	public IA_MonteCarlo(Couleur_Joueur c, Moteur m){
 		super(c, m);
+		this.taille_echantillon = 1;
+		this.R = new Random();
 	}
 	
 	public IA_MonteCarlo(int taille_echantillon, Couleur_Joueur c, Moteur m){
 		super(c, m);
 		this.taille_echantillon = taille_echantillon;
+		this.R = new Random();
 	}
 	
 	public Actions_Tour get_coup_tour(Tuile tuile){
@@ -62,7 +66,9 @@ public class IA_MonteCarlo extends IA_Generique {
 			int i=0;
 			while(moteur.get_etat_jeu() != Phase_Jeu.FIN_DE_PARTIE){
 				moteur.swap_joueur();
+				System.out.println("Je r�fl�chis...");
 				Actions_Tour AT = choisir_coup(moteur.piocher());
+				System.out.println("Ay� !");
 				if(moteur.jouer_action(AT.getAction_tuile()) != 0)
 					System.out.println("Wololo");
 				if(moteur.jouer_action(AT.getAction_construction()) != 0)
@@ -83,22 +89,26 @@ public class IA_MonteCarlo extends IA_Generique {
 	private Actions_Tour choisir_coup(Tuile tuile){
 		int i=0, score_max = Integer.MIN_VALUE;
 		int score_courant;
-		Random R = new Random();
 		ArrayList<Action_Tuile> liste = moteur.get_liste_coup_tuile(tuile);
-		int score = Integer.MAX_VALUE;
+		//moteur.jouer_action(liste.get(0));
+		//moteur.Maj_liste_coup_construction();
+		//ArrayList<Action_Construction> liste2 = moteur.get_liste_coup_construction().to_ArrayList();
+		//moteur.annuler();
+		//return new Actions_Tour(liste.get(0),liste2.get(0));
+		//int score = Integer.MAX_VALUE;
 		//Coup_Tuile_Heuristique TH_retour = new Coup_Tuile_Heuristique(0,null);
 		ArrayList<Action_Tuile> AT_retour = new ArrayList<Action_Tuile>();
 		Coup_Construction_Heuristique retour_REC;
 		Action_Construction coup_construction_retour = null;
-		while( i < liste.size() && score_max < score)
+		while(i < liste.size())// && score_max < score)
 		{
 			if(moteur.jouer_action(liste.get(i)) == 0)
 			{
 				moteur.Maj_liste_coup_construction();
 
-				retour_REC = choisir_construction_bon(moteur.get_liste_coup_construction().to_ArrayList(),score);
+				retour_REC = choisir_construction_bon(moteur.get_liste_coup_construction().to_ArrayList());//,score);
 				score_courant = retour_REC.getHeuristique();
-				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
+				// si le coup est aussi optimal que le plus optimal trouve, on l'ajoute.
 				if(score_courant == score_max)
 				{
 					//TH_retour.setActionTuile(liste.get(i));
@@ -122,34 +132,37 @@ public class IA_MonteCarlo extends IA_Generique {
 		return new Actions_Tour(AT_retour.get(R.nextInt(AT_retour.size())),coup_construction_retour);
 	}
 	
-	private Coup_Construction_Heuristique choisir_construction_bon(ArrayList <Action_Construction> liste, int score)
+	private Coup_Construction_Heuristique choisir_construction_bon(ArrayList <Action_Construction> liste)//, int score)
 	{
 		int i=0, score_max = Integer.MIN_VALUE;
 		int score_courant;
 		ArrayList<Action_Construction> liste_construction_retour = new ArrayList<Action_Construction>();
-		while( i < liste.size() && score_max < score)
+		while( i < liste.size())// && score_max < score)
 		{
-			moteur.jouer_action(liste.get(i));
-			score_courant = Heuristique();
-			if(score_courant == score_max)
-			{
-				liste_construction_retour.add(liste.get(i));
+			if(moteur.jouer_action(liste.get(i)) == 0){
+				score_courant = Heuristique();
+				if(score_courant == score_max)
+				{
+					liste_construction_retour.add(liste.get(i));
+				}
+				else if (score_courant > score_max)
+				{
+					score_max = score_courant;
+					liste_construction_retour.clear();
+					liste_construction_retour.add(liste.get(i));
+				}
+				moteur.annuler();
+				moteur.Maj_liste_coup_construction();
 			}
-			else if (score_courant > score_max)
-			{
-				score_max = score_courant;
-				liste_construction_retour.clear();
-				liste_construction_retour.add(liste.get(i));
-			}
-			moteur.annuler();
 			i++;
 		}
-		Random R = new Random();
 		return new Coup_Construction_Heuristique(score_max, liste_construction_retour.get(R.nextInt(liste_construction_retour.size())));
 	}
 	
 	private int Heuristique()
 	{
+		return 0;
+		/*
 		int bonPoints;
 		int mauvaisPoints;
 		if(moteur.EstLeMemeJoueur(this, moteur.getJ1()))
@@ -162,7 +175,7 @@ public class IA_MonteCarlo extends IA_Generique {
 			bonPoints = Calculer_points_heur(moteur.get_Jcourant());
 			mauvaisPoints = Calculer_points_heur(moteur.getJ1());
 		}
-		return bonPoints - mauvaisPoints;
+		return bonPoints - mauvaisPoints;*/
 	}
 	
 	private int Calculer_points_heur(Joueur_Generique c) {
@@ -171,7 +184,7 @@ public class IA_MonteCarlo extends IA_Generique {
 		score += (Moteur.nb_max_Temples - c.getTemple()) * score_temple;
 		score += (Moteur.nb_max_Tours - c.getTour()) * score_tour;
 		score += (Moteur.nb_max_Huttes - c.getHutte()) * score_hutte;		
-		// Si le joueur s'est débarassé de toutes ses pièces de 2 catégorie, il a gagné.
+		// Si le joueur s'est debarasse de toutes ses pieces de 2 categorie, il a gagne.
 		if((c.getHutte() == 0 && c.getTemple() == 0) || (c.getTemple() ==0 && c.getTour() ==0) || (c.getHutte()==0 && c.getTour()==0))
 		{
 			score += 1000000000;
@@ -187,18 +200,18 @@ public class IA_MonteCarlo extends IA_Generique {
 				score -= (moteur.get_nbTuiles()/ 2) * hut_deplete_cant_play_mult;
 			}
 		}
-		// Ajouter les points dus aux qualités des cités;
+		// Ajouter les points dus aux qualites des cites;
 		ArrayList<Cite> liste_cite = moteur.getTerrain().getCitesJoueur(c.getCouleur());
 		for(int i=0; i < liste_cite.size(); i++)
 			score += valeur_cite(liste_cite.get(i), c);
 		return score;
 	}
 	
-	// Calculer la valeur d'une cité.
+	// Calculer la valeur d'une cite.
 		private int valeur_cite( Cite c, Joueur_Generique j)
 		{
 			int score_cite = score_city + c.getTaille() * score_zone_city;
-			// Si la cité nous permettra de créer un temple, elle en vaux la moitié des points
+			// Si la cite nous permettra de creer un temple, elle en vaux la moitie des points
 			if(c.getTaille() >= 3 && c.getNbTemples() > 0 && moteur.get_nbTuiles()/2 > 1 && j.getTemple()>0)
 			{
 				// check destructible
