@@ -1,0 +1,25 @@
+Coups à considérer:
+	Deny temple
+	Temple
+	Tour
+	Extension multi etage -> Temple
+
+IA porto maltese:
+	Jouer les coups considérés, puis, faire X parties avec des IA decentes,
+	Récupérer les meilleurs win-rates, (Eventuellement les départager.)
+	Jouer le meilleur WinRate.
+
+
+IA Decente:
+	Jouer un des coups considéré, de préference les temples?
+	Ordre -> RNG?
+
+1 Deny temple
+1 Temple
+1/2? Tour sur cité -> City_size >= 3
+2 Tour
+2 Extension multi etage (sur cité sans temple)s
+3 Autre:
+	-Nouvelle cité
+	-Extension (cité sans temple)
+	-Depenser beaucoup de hutte?
