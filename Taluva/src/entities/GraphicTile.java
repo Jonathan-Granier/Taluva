@@ -18,6 +18,8 @@ public class GraphicTile {
 	private Vector3f postionVolcano;
 	private static Loader loader;
 	
+	private static int currentTex = 0;
+	
 	private static Object3D[] objects3d = new Object3D[25];
 	
 	private static String[] texture_name = {"VFF","VFL","VFM","VFP","VFS","VLF","VLL","VLM","VLP","VLS","VMF","VML","VMM","VMP","VMS","VPF","VPL",
@@ -357,8 +359,14 @@ public class GraphicTile {
 				i++;
 		}
 
-		if(i<25)
+		if(i<25){
 			object3d = new Object3D(objects3d[i]);
+			currentTex = i;
+		}
+	}
+	
+	public String getTexture(){
+		return texture_name[currentTex];
 	}
 	
 }
