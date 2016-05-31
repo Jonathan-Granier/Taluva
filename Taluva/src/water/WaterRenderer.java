@@ -1,6 +1,5 @@
 package water;
 
-import java.util.List;
 
 import models.Mesh;
 
@@ -11,7 +10,6 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
-import renderEngine.Window;
 import loaders.Loader;
 import utils.FPS;
 import utils.Matrix;

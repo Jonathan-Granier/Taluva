@@ -5,12 +5,10 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
 
 import loaders.Loader;
 import entities.Camera;
 import models.Mesh;
-import utils.FPS;
 import utils.Matrix;
 
 public class SkyboxRenderer {

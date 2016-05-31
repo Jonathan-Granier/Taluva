@@ -1,7 +1,5 @@
 package renderEngine;
 
-import java.util.List;
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -14,7 +12,6 @@ import entities.Camera;
 import entities.GraphicConstruction;
 import entities.Object3D;
 import materials.Material;
-import entities.Light;
 import models.Mesh;
 import models.Model;
 import shaders.Shader;

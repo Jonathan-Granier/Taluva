@@ -3,9 +3,6 @@ package entities;
 import org.lwjgl.util.vector.Vector3f;
 
 import loaders.Loader;
-import loaders.OBJLoader;
-import materials.Material;
-import terrain.Case;
 import terrain.Tuile;
 import terrain.Case.Orientation;
 

@@ -7,7 +7,6 @@ public class Texture {
 	
 	private int textureId;
 	private Vector2f position;
-	private Vector2f position2D;
 	private Vector2f scale;
 	private boolean hover;
 	private boolean clicked;
@@ -67,7 +66,6 @@ public class Texture {
 	}
 	
 	public void setPosition(Vector2f position) {
-		this.position2D = position;
 		float x = (2f * (position.x - 10 + dimension.x/2)) / Display.getWidth() - 1;
 		float y = (2f * (Display.getHeight() - position.y - dimension.y/2)) / Display.getHeight() -1;
 		this.position = new Vector2f(x,y);

@@ -70,13 +70,8 @@ public class Game implements Observer,KeyListener {
 	private WaterTile water;
 	private SkyboxRenderer skyboxRenderer;
 	private Canvas canvas;
-	private JFrame frame;
 	
 	private boolean[] keys = {false,false,false,false};
-	private boolean keyMiddle = false;
-	private float dx = 0;
-	private float dy = 0;
-	private Vector2f lastMouse = new Vector2f(0,0);
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
@@ -161,7 +156,6 @@ public class Game implements Observer,KeyListener {
 	
 	public void init(JFrame frame,Moteur m,Canvas canvas){
 		Window.createDislay();
-		this.frame = frame;
 		this.moteur = m;
 		this.canvas = canvas;
 		camera = new Camera(frame);

@@ -16,7 +16,6 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -43,21 +42,21 @@ public class Loader {
 	 */
 	
 	
-	public Mesh loadToVAO(float[] positions, float[] textureCoords,float[] normals,int[] indices,Vector3f min,Vector3f max){
+	public Mesh loadToVAO(float[] positions, float[] textureCoords,float[] normals,int[] indices){
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		storeDataInAttributeList(0,3,positions);
 		storeDataInAttributeList(1,3,textureCoords);
 		storeDataInAttributeList(2,3,normals);
 		unbindVAO();
-		return new Mesh(vaoID,indices.length,min,max);
+		return new Mesh(vaoID,indices.length);
 	}
 	
 	public Mesh loadToVAO(float[] positions,int dimensions){
 		int vaoID = createVAO();
 		storeDataInAttributeList(0,dimensions,positions);
 		unbindVAO();
-		return new Mesh(vaoID,positions.length/dimensions,new Vector3f(0,0,0),new Vector3f(0,0,0));
+		return new Mesh(vaoID,positions.length/dimensions);
 	}
 	
 	public int loadTexture(String fileName){
