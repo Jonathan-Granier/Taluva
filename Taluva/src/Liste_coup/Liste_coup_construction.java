@@ -47,7 +47,10 @@ public class Liste_coup_construction {
 	}
 	
 	public Liste_coup_construction() {
-		// constructeur vide.
+		huttes = new ArrayList<Point>();
+		tour = new ArrayList<Point>();
+		temple= new ArrayList<Point>();
+		extension = new ArrayList<Action_Construction>();
 	}
 
 	public boolean coup_possible (Action_Construction a)

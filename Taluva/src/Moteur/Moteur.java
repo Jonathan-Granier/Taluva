@@ -81,6 +81,7 @@ public class Moteur extends Phase{
 		histo_jeu = new ArrayList<Etat_de_jeu>();
 		//histo_jeu.add(new Etat_de_jeu(T,this.j1, this.j2, this.j_courant, this.clone_Phase()));
 		nb_Joueur = 2;
+		liste_coup_construction = new Liste_coup_construction();
 	}
 	
 	// Constructeur du moteur sans joueurs
@@ -95,6 +96,7 @@ public class Moteur extends Phase{
 		bat_choisi = Case.Type_Batiment.VIDE;
 		histo_jeu = new ArrayList<Etat_de_jeu>();
 		nb_Joueur = 0;
+		liste_coup_construction = new Liste_coup_construction();
 	}
 	
 	// Adders de joueurs
@@ -110,7 +112,7 @@ public class Moteur extends Phase{
 	public void add_j2(Joueur_Generique j2){
 		this.j2 = j2;
 		nb_Joueur = 2;
-		if (j1 instanceof IA_Generique)jouer_IA();
+		//if (j1 instanceof IA_Generique)jouer_IA();
 	}
 	
 	public void add_j3(Joueur_Generique j3){
