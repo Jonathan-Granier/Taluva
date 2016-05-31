@@ -12,7 +12,7 @@ public class Etat_de_jeu {
 	private int nb_Joueur;
 
 	public Etat_de_jeu(Terrain t, Joueur_Generique j1, Joueur_Generique j2, Joueur_Generique j_courant, Phase_Jeu phase_de_jeu){
-		this.terrain = t.clone();
+		this.terrain = t.clone(true);
 		this.j1 = j1.clone();
 		this.j2 = j2.clone();
 		this.j_courant = j_courant.clone();
@@ -21,7 +21,7 @@ public class Etat_de_jeu {
 	}
 	
 	public Etat_de_jeu(Terrain t, Joueur_Generique j1, Joueur_Generique j2,Joueur_Generique j3, Joueur_Generique j_courant, Phase_Jeu phase_de_jeu){
-		this.terrain = t.clone();
+		this.terrain = t.clone(true);
 		this.j1 = j1.clone();
 		this.j2 = j2.clone();
 		this.j3 = j3.clone();
@@ -31,7 +31,7 @@ public class Etat_de_jeu {
 	}
 	
 	public Etat_de_jeu(Terrain t, Joueur_Generique j1, Joueur_Generique j2, Joueur_Generique j3,Joueur_Generique j4,Joueur_Generique j_courant, Phase_Jeu phase_de_jeu){
-		this.terrain = t.clone();
+		this.terrain = t.clone(true);
 		this.j1 = j1.clone();
 		this.j2 = j2.clone();
 		this.j3 = j3.clone();
@@ -47,7 +47,7 @@ public class Etat_de_jeu {
 	}
 	public Terrain getTerrain()
 	{
-		return terrain.clone();
+		return terrain;
 	}
 	public Joueur_Generique getj1()
 	{
@@ -79,7 +79,7 @@ public class Etat_de_jeu {
 	public Phase_Jeu getPdj() {
 		return pdj;
 	}
-	public Etat_de_jeu clone()
+	/*public Etat_de_jeu clone()
 	{
 		Etat_de_jeu retour = new Etat_de_jeu();
 		retour.j1 = this.j1.clone();
@@ -94,7 +94,7 @@ public class Etat_de_jeu {
 		retour.pdj = this.pdj;
 		retour.nb_Joueur = this.nb_Joueur;
 		return retour;
-	}
+	}*/
 	
 	public void afficher()
 	{

@@ -46,18 +46,20 @@ public class Terrain {
 		cites = new ArrayList<Cite>();
 	}
 	
-	public Terrain clone(){
+	public Terrain clone(boolean copier_histos){
 		Terrain tmp = new Terrain();
 		tmp.index_cite.putAll(this.index_cite);
 		for(Point P : this.t.keySet())
 			tmp.t.put(P,this.t.get(P).clone());
 		tmp.limites  = this.limites.clone();
 		tmp.empty = this.empty;
-		for(int i = 0;i<this.histo_tuiles.size();i++){
-			tmp.histo_tuiles.add(this.histo_tuiles.get(i).clone());
-		}
-		for(int i = 0;i<this.histo_batiments.size();i++){
-			tmp.histo_batiments.add(this.histo_batiments.get(i).clone());
+		if(copier_histos){
+			for(int i = 0;i<this.histo_tuiles.size();i++){
+				tmp.histo_tuiles.add(this.histo_tuiles.get(i).clone());
+			}
+			for(int i = 0;i<this.histo_batiments.size();i++){
+				tmp.histo_batiments.add(this.histo_batiments.get(i).clone());
+			}
 		}
 		for(int i = 0;i<this.cites.size();i++){
 			tmp.cites.add(this.cites.get(i).clone());
@@ -175,7 +177,7 @@ public class Terrain {
 	
 	// Renvoie le Terrain apres placement de tuile au point P. Ne modifie pas la structure actuelle.
 	public Terrain consulter_coup_tuile(Tuile tuile, Point P){
-		Terrain T = this.clone();
+		Terrain T = this.clone(false);
 		T.placer_tuile(tuile, P);
 		return T;
 	}
@@ -347,26 +349,19 @@ public class Terrain {
 	private ArrayList<Point> getPtsConnectes(Point P){
 		ArrayList<Point> ptsCite = new ArrayList<Point>();
 		if(getCase(P).getCouleur() != Case.Couleur_Joueur.NEUTRE){
-			boolean [][] appartient_cite = new boolean[TAILLE][TAILLE];
-			for(int i=0;i<TAILLE;i++){
-				for(int j=0;j<TAILLE;j++){
-					appartient_cite[i][j] = false;
-				}
-			}
-			getPtsConnectes_rec(P,ptsCite,appartient_cite);
+			getPtsConnectes_rec(P,ptsCite);
 		}
 		return ptsCite;
 	}
 
 	// Recursion de la fonction ci-dessus
-	private void getPtsConnectes_rec(Point P, ArrayList<Point> res, boolean [][] appartient_cite){
+	private void getPtsConnectes_rec(Point P, ArrayList<Point> res){
 		Point [] voisins = getPtsVoisins(P);
 		res.add(P);
-		appartient_cite[P.x][P.y] = true;
 		Case.Couleur_Joueur c = getCase(P).getCouleur();
 		for(int i=0;i<6;i++){
-			if(getCase(voisins[i]).getCouleur() == c && !appartient_cite[voisins[i].x][voisins[i].y]){
-				getPtsConnectes_rec(voisins[i],res,appartient_cite);
+			if(getCase(voisins[i]).getCouleur() == c && !res.contains(voisins[i])){
+				getPtsConnectes_rec(voisins[i],res);
 			}
 		}
 	}
@@ -381,14 +376,6 @@ public class Terrain {
 			}
 		}
 		return res;
-	}
-	
-	// Renvoie vrai ssi la tuile est dans le terrain
-	private boolean dans_terrain(Tuile.Orientation o, Point P){
-		if(o == Tuile.Orientation.GAUCHE)
-			return P.x > 1 && P.y >= 1 && P.x < TAILLE-1 && P.y < TAILLE-2;
-		else
-			return P.x >= 1 && P.y >= 1 && P.x < TAILLE-2 && P.y < TAILLE-2;
 	}
 
 	// Renvoie les 3 cases de la tuile
@@ -460,99 +447,95 @@ public class Terrain {
 	public boolean placement_tuile_autorise(Tuile tuile, Point P)
 	{
 		if(empty) return true;
-		if(!dans_terrain(tuile.getOrientation(),P))
-			return false;
-		else{
-			// Teste si la tuile est posee sur d'autres tuiles
-			int x = P.x;
-			int y = P.y;
-			int n0,n1,n2;
-			Case [] cases_t = cases_tuile(tuile.getOrientation(),P);	// Les cases de la tuile
-			n0 = cases_t[0].getNiveau();
-			n1 = cases_t[1].getNiveau();		// On regarde les niveaux en-dessous de la tuile
-			n2 = cases_t[2].getNiveau();
-			if(n0>0 || n1>0 || n2>0){
-				// Si on tente de jouer sur au moins une tuile
-				if(n0==n1 && n1==n2){
-					// Si les 3 cases dessous sont au même niveau
-					// On joue alors sur des tuiles
-					// On verifie qu'on n'ecrase pas une cite entiere ni une tour ou un temple
-					if(!cases_t[0].est_Libre() || !cases_t[1].est_Libre() || !cases_t[2].est_Libre()){
-						// Si on ecrase au moins un batiment
-						if(cases_t[0].getBType() == Case.Type_Batiment.TEMPLE || cases_t[0].getBType() == Case.Type_Batiment.TOUR)
-							return false;
-						if(cases_t[1].getBType() == Case.Type_Batiment.TEMPLE || cases_t[1].getBType() == Case.Type_Batiment.TOUR)
-							return false;
-						if(cases_t[2].getBType() == Case.Type_Batiment.TEMPLE || cases_t[2].getBType() == Case.Type_Batiment.TOUR)
-							return false;
-						
-						// On n'ecrase que des huttes
-						Point [] pts_t = pts_tuile(tuile.getOrientation(),P);
-						if(!cases_t[0].est_Libre()){
-							ArrayList<Point> cite = getCite(pts_t[0]).getPts();
-							if(cite.size()==1) // Une seule case : interdit
-								return false;
-							else if(cite.size()==2){ // Deux cases : interdit si la deuxieme est aussi sous la tuile
-								if(cite.contains(pts_t[1]) || cite.contains(pts_t[2]))
-									return false;
-							}
-						}
-						if(!cases_t[1].est_Libre()){
-							ArrayList<Point> cite = getCite(pts_t[1]).getPts();
-							if(cite.size()==1) // Une seule case : interdit
-								return false;
-							else if(cite.size()==2){ // Deux cases : interdit si la deuxieme est aussi sous la tuile
-								if(cite.contains(pts_t[2]))
-									return false;
-							}
-						}
-						if(!cases_t[2].est_Libre()){
-							ArrayList<Point> cite = getCite(pts_t[2]).getPts();
-							if(cite.size()==1) // Une seule case : interdit
-								return false;
-						}
-					}
+		// Teste si la tuile est posee sur d'autres tuiles
+		int x = P.x;
+		int y = P.y;
+		int n0,n1,n2;
+		Case [] cases_t = cases_tuile(tuile.getOrientation(),P);	// Les cases de la tuile
+		n0 = cases_t[0].getNiveau();
+		n1 = cases_t[1].getNiveau();		// On regarde les niveaux en-dessous de la tuile
+		n2 = cases_t[2].getNiveau();
+		if(n0>0 || n1>0 || n2>0){
+			// Si on tente de jouer sur au moins une tuile
+			if(n0==n1 && n1==n2){
+				// Si les 3 cases dessous sont au même niveau
+				// On joue alors sur des tuiles
+				// On verifie qu'on n'ecrase pas une cite entiere ni une tour ou un temple
+				if(!cases_t[0].est_Libre() || !cases_t[1].est_Libre() || !cases_t[2].est_Libre()){
+					// Si on ecrase au moins un batiment
+					if(cases_t[0].getBType() == Case.Type_Batiment.TEMPLE || cases_t[0].getBType() == Case.Type_Batiment.TOUR)
+						return false;
+					if(cases_t[1].getBType() == Case.Type_Batiment.TEMPLE || cases_t[1].getBType() == Case.Type_Batiment.TOUR)
+						return false;
+					if(cases_t[2].getBType() == Case.Type_Batiment.TEMPLE || cases_t[2].getBType() == Case.Type_Batiment.TOUR)
+						return false;
 					
-					// On vérifie la disposition des volcans
-					if(tuile.get_type_case(Case.Orientation.N)==Case.Type.VOLCAN){
-						// Si le Volcan est au Nord
-						if(getCase(x,y).getType()==Case.Type.VOLCAN){
-							return getCase(x,y).getOrientation() != tuile.get_Orientation_Volcan();
+					// On n'ecrase que des huttes
+					Point [] pts_t = pts_tuile(tuile.getOrientation(),P);
+					if(!cases_t[0].est_Libre()){
+						ArrayList<Point> cite = getCite(pts_t[0]).getPts();
+						if(cite.size()==1) // Une seule case : interdit
+							return false;
+						else if(cite.size()==2){ // Deux cases : interdit si la deuxieme est aussi sous la tuile
+							if(cite.contains(pts_t[1]) || cite.contains(pts_t[2]))
+								return false;
 						}
-						else return false;
 					}
-					else if(tuile.get_type_case(Case.Orientation.S)==Case.Type.VOLCAN){
-						// Si le Volcan est au Sud
-						if(getCase(x,y+1).getType()==Case.Type.VOLCAN){
-							return getCase(x,y+1).getOrientation() != tuile.get_Orientation_Volcan();
+					if(!cases_t[1].est_Libre()){
+						ArrayList<Point> cite = getCite(pts_t[1]).getPts();
+						if(cite.size()==1) // Une seule case : interdit
+							return false;
+						else if(cite.size()==2){ // Deux cases : interdit si la deuxieme est aussi sous la tuile
+							if(cite.contains(pts_t[2]))
+								return false;
+						}
+					}
+					if(!cases_t[2].est_Libre()){
+						ArrayList<Point> cite = getCite(pts_t[2]).getPts();
+						if(cite.size()==1) // Une seule case : interdit
+							return false;
+					}
+				}
+				
+				// On vérifie la disposition des volcans
+				if(tuile.get_type_case(Case.Orientation.N)==Case.Type.VOLCAN){
+					// Si le Volcan est au Nord
+					if(getCase(x,y).getType()==Case.Type.VOLCAN){
+						return getCase(x,y).getOrientation() != tuile.get_Orientation_Volcan();
+					}
+					else return false;
+				}
+				else if(tuile.get_type_case(Case.Orientation.S)==Case.Type.VOLCAN){
+					// Si le Volcan est au Sud
+					if(getCase(x,y+1).getType()==Case.Type.VOLCAN){
+						return getCase(x,y+1).getOrientation() != tuile.get_Orientation_Volcan();
+					}
+					else return false;
+				}
+				else{
+					// Si le Volcan est sur le coté
+					if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
+						if(getCase(x-1,y).getType()==Case.Type.VOLCAN){
+							return getCase(x-1,y).getOrientation() != tuile.get_Orientation_Volcan();
 						}
 						else return false;
 					}
 					else{
-						// Si le Volcan est sur le coté
-						if(tuile.getOrientation()==Tuile.Orientation.GAUCHE){
-							if(getCase(x-1,y).getType()==Case.Type.VOLCAN){
-								return getCase(x-1,y).getOrientation() != tuile.get_Orientation_Volcan();
-							}
-							else return false;
+						if(getCase(x+1,y+1).getType()==Case.Type.VOLCAN){
+							return getCase(x+1,y+1).getOrientation() != tuile.get_Orientation_Volcan();
 						}
-						else{
-							if(getCase(x+1,y+1).getType()==Case.Type.VOLCAN){
-								return getCase(x+1,y+1).getOrientation() != tuile.get_Orientation_Volcan();
-							}
-							else return false;
-						}
+						else return false;
 					}
-				}
-				else{
-					// On essaye de jouer partiellement sur de tuiles ou de niveaux différents : interdit
-					return false;
 				}
 			}
 			else{
-				// On joue au niveau 1, il faut que ce soit en contact
-				return en_contact(tuile.getOrientation(),P);
+				// On essaye de jouer partiellement sur de tuiles ou de niveaux différents : interdit
+				return false;
 			}
+		}
+		else{
+			// On joue au niveau 1, il faut que ce soit en contact
+			return en_contact(tuile.getOrientation(),P);
 		}
 	}
 	
@@ -574,7 +557,7 @@ public class Terrain {
 	// Renvoie le Terrain apres extension d'une cite presente au point P sur les cases de Type type.
 	// Ne modifie pas la structure actuelle.
 	public Terrain consulter_extension_cite(Point P, Case.Type type){
-		Terrain T = this.clone();
+		Terrain T = this.clone(false);
 		T.etendre_cite(P,type);
 		return T;
 	}
@@ -631,19 +614,12 @@ public class Terrain {
 	public ArrayList<Point> getPts_extension_cite(Cite cite, Case.Type type){
 		ArrayList<Point> res = new ArrayList<Point>();
 		ArrayList<Point> ptsCite = cite.getPts();
-		boolean [][] appartient_res = new boolean[TAILLE][TAILLE];
-		for(int i=0;i<TAILLE;i++){
-			for(int j=0;j<TAILLE;j++){
-				appartient_res[i][j] = false;
-			}
-		}
 		if(type != Case.Type.VIDE){
 			for(int i=0;i<ptsCite.size();i++){
 				Point [] voisins = getPtsVoisins(ptsCite.get(i));
 				for(int j=0;j<6;j++){
-					if(getCase(voisins[j]).getType() == type && !appartient_res[voisins[j].x][voisins[j].y] && getCase(voisins[j]).est_Libre()){
+					if(getCase(voisins[j]).getType() == type && getCase(voisins[j]).est_Libre() && !res.contains(voisins[j])){
 						res.add(voisins[j]);
-						appartient_res[voisins[j].x][voisins[j].y] = true;
 					}
 				}
 			}
@@ -678,7 +654,7 @@ public class Terrain {
 	// Renvoie le Terrain apres placement direct d'un batiment b de couleur c au point P.
 	// Ne modifie pas la structure actuelle.
 	public Terrain consulter_coup_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
-		Terrain T = this.clone();
+		Terrain T = this.clone(false);
 		T.placer_batiment(b,c,P);
 		return T;
 	}

@@ -794,7 +794,7 @@ public class Moteur extends Phase{
 	// Clone le moteur actuel pour les tests de l'IA
 	public Moteur clone(){
 		
-		Moteur m_copie = new Moteur(T.clone());
+		Moteur m_copie = new Moteur(T.clone(false));
 		m_copie.nom = "Moteur Copie";
 		// On instancie chaque joueur_copie en fonction du type de l'original
 		/*
@@ -838,13 +838,13 @@ public class Moteur extends Phase{
 		bat_choisi = Action_vers_Batiment(action.get_type());
 		if(action.get_type() == Action_Construction.Type.EXTENSION){
 			if((etendre_cite(p,action.get_type_extension()))!= 0){
-				System.out.println("[jouer_Action] Impossible de construire [EXTENSION]");
+				//System.out.println("[jouer_Action] Impossible de construire [EXTENSION]");
 				return 1;
 			}
 		}
 		else {
 			if(placer_batiment(p) != 0){
-				System.out.println("[jouer_Action] Impossible de construire ["+action.get_type()+"]");
+				//System.out.println("[jouer_Action] Impossible de construire ["+action.get_type()+"]");
 				return 1;
 			}
 		}
@@ -857,7 +857,7 @@ public class Moteur extends Phase{
 		tuile_pioche = action.getTuile();
 		Point p = action.getPosition();
 		if(placer_tuile(p) != 0){
-			System.out.println("[jouer_Action] Impossible de poser la tuile");
+			//System.out.println("[jouer_Action] Impossible de poser la tuile");
 			return 1;
 		}
 		return 0;
@@ -903,7 +903,7 @@ public class Moteur extends Phase{
 			System.out.println("[MOTEUR/set_etat_de_jeu] Erreur de link entre j_courant et un joueur");
 		}
 		
-		this.T = edj.getTerrain().clone();
+		this.T = edj.getTerrain();
 	}
 	
 	// Revoie l'état de jeu actuel
