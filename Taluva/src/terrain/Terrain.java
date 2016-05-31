@@ -260,8 +260,8 @@ public class Terrain {
 				histo_batiments.set(index_bat_histo,histo_batiments.get(histo_batiments.size()-1).clone());
 				histo_batiments.remove(histo_batiments.size()-1);
 			}
-			else
-				System.out.println("Erreur poser_hexa : gestion de l'historique_batiments");
+			//else
+			//	System.out.println("Erreur poser_hexa : gestion de l'historique_batiments");
 			Cite cite = getCite(P);
 			ArrayList<Cite> citesSeparees = citesSeparation(P);
 			// On enleve la cite d'origine
