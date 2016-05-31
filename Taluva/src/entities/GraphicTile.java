@@ -365,7 +365,7 @@ public class GraphicTile {
 		}
 	}
 	
-	public String getTexture(){
+	public static String getTexture(){
 		return texture_name[currentTex];
 	}
 	
