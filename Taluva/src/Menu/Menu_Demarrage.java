@@ -69,6 +69,7 @@ public class Menu_Demarrage extends JComponent {
 		nouveau.setBackground(Color.WHITE);
 		nouveau.setFont(new Font("Nouveau", Font.BOLD+Font.ITALIC,40));
 		nouveau.setOpaque(false);
+		nouveau.addActionListener(new Ecouteur_boutons_demarrage("Nouveau",this));
 		menu.add(nouveau);
 		
 		charger = new JButton("Charger");
@@ -119,9 +120,8 @@ public class Menu_Demarrage extends JComponent {
 	}
 	
 	public void nouveau(){
-		this.setLayout(new BorderLayout());
-		this.setEnabled(false);
-		this.add(new Nouveau(fenetre),BorderLayout.CENTER);
+		fenetre.setEnabled(false);
+		fenetre.add(new Nouveau(fenetre));
 	}
 
 	public void regles(){
