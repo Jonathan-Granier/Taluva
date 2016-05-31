@@ -7,8 +7,6 @@ import Moteur.Moteur;
 import terrain.Case.Couleur_Joueur;
 import terrain.Tuile;
 
-//import main.Moteur;
-
 /*
  * Un joueur est défini par :
  *  Son nombre de pions (Tour, Temple , Hutte)
