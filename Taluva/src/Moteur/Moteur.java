@@ -450,6 +450,11 @@ public class Moteur extends Phase{
 		tuile_pioche.Tourner_horaire();
 	}
 	
+	// Tourne la tuile piochée dans le sens anti-horaire
+	public void tourner_tuile_Anti_Horaire(){
+		tuile_pioche.Tourner_anti_horaire();
+	}
+	
 	// Renvoie vrai ssi le placement de la tuile piochée est autorisé au point P.
 	public boolean placement_tuile_autorise(Point P){
 		return T.placement_tuile_autorise(tuile_pioche,P);
