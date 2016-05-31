@@ -299,6 +299,15 @@ public class Moteur extends Phase{
 		return j1.getCouleur();
 	 }
 	
+	//Renvoie la couleur de l'IA 
+	// Attention cette fonction n'est utilisable que par l'IA et avec seulement 2 joueurs
+	public Couleur_Joueur get_Couleur_IA()
+	{
+		if(j1 instanceof IA_Generique)
+			return j1.getCouleur();
+		return j2.getCouleur();
+	}
+	
 	// Renvoie vrai si j est le joueur courant
 	public boolean Est_joueur_Courant(Joueur_Generique j)
 	{
