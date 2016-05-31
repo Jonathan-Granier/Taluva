@@ -24,6 +24,8 @@ public class GraphicConstruction {
 	private boolean allow;
 	private Vector3f colour;
 	private float height;
+	private boolean bright;
+	private Vector3f brightColor;
 
 	public GraphicConstruction(GraphicType type, Vector3f colour) {
 		switch (type) {
@@ -43,6 +45,8 @@ public class GraphicConstruction {
 		this.colour = new Vector3f(colour);
 		this.allow = true;
 		this.position = new Vector3f(0,0,0);
+		this.bright = false;
+		this.brightColor = new Vector3f(0,0,0);
 	}
 
 	public static void setUp(Loader loader){
@@ -98,6 +102,8 @@ public class GraphicConstruction {
 		this.height = gc.height;
 		this.allow = true;
 		this.position = new Vector3f(gc.getPosition());
+		this.bright = gc.bright;
+		this.brightColor = gc.brightColor;
 	}
 
 	public void setType(GraphicType type) {
@@ -130,29 +136,43 @@ public class GraphicConstruction {
 	}
 
 	public void setColour(Couleur_Joueur colour) {
-		switch(colour){
-			case VERT:
-				this.colour = new Vector3f(0,0.6f,0);
-			break;
-			case JAUNE:
-				this.colour = new Vector3f(0.6f,0.6f,0);
-			break;
-			case BLANC:
-				this.colour = new Vector3f(0.9f,0.9f,0.9f);
-			break;
-			case BLEU:
-				this.colour = new Vector3f(0,0.3f,0.9f);
-			break;
-			case ROSE:
-				this.colour = new Vector3f(0.9f,0.5f,0.5f);
-			break;
-			case NEUTRE:
-				this.colour = new Vector3f(0,0,0);
-			break;
-			default :
-				System.out.println("Unknow Color");
+		if(!bright){
+			switch(colour){
+				case VERT:
+					this.colour = new Vector3f(0,0.6f,0);
+				break;
+				case JAUNE:
+					this.colour = new Vector3f(0.6f,0.6f,0);
+				break;
+				case BLANC:
+					this.colour = new Vector3f(0.9f,0.9f,0.9f);
+				break;
+				case BLEU:
+					this.colour = new Vector3f(0,0.3f,0.9f);
+				break;
+				case ROSE:
+					this.colour = new Vector3f(0.9f,0.5f,0.5f);
+				break;
+				case NEUTRE:
+					this.colour = new Vector3f(0,0,0);
+				break;
+				default :
+					System.out.println("Unknow Color");
+			}
+		}
+		else{
+			this.colour = brightColor;
 		}
 		this.object3d.setColor(this.colour);
+	}
+	
+	public void unsetBright(){
+		this.bright = false;
+	}
+	
+	public void setBright(Vector3f brightColor){
+		this.bright = true;
+		this.brightColor = brightColor;
 	}
 
 	public Vector3f getColour() {

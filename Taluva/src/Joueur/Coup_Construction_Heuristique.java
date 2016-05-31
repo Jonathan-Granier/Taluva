@@ -1,11 +1,16 @@
 package Joueur;
 
 import Action.Action_Construction;
-import Action.Action_Tuile;
 
 public class Coup_Construction_Heuristique {
 	private int heuristique;
 	private Action_Construction construction;
+
+	public Coup_Construction_Heuristique(int score, Action_Construction construction)
+	{
+		this.construction = construction;
+		this.heuristique = score;
+	}
 	
 	public int getHeuristique() {
 		return heuristique;
@@ -15,28 +20,12 @@ public class Coup_Construction_Heuristique {
 		this.heuristique = heuristique;
 	}
 
-	public Action_Construction getConstruction() {
+	public Action_Construction getActionConstruction() {
 		return construction;
 	}
 
-	public void setConstruction(Action_Construction construction) {
+	public void setActionConstruction(Action_Construction construction) {
 		this.construction = construction;
 	}
 
-	public Coup_Construction_Heuristique(int score, Action_Construction construction)
-	{
-		this.construction = construction;
-		this.heuristique = score;
-	}
-	
-	public int get_Heuristique()
-	{
-		return heuristique;
-	}
-	public Action_Construction get_Action_Construction()
-	{
-		return construction;
-	}
-	
-	
 }

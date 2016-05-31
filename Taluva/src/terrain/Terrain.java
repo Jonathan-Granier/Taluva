@@ -256,7 +256,7 @@ public class Terrain {
 			Point P = new Point(x,y);
 			int index_bat_histo = getIndexHistoBatiments(P);
 			if(index_bat_histo != -1){
-				// On met a jour l'historique (on supprime le dernier element et on le place a l'endroit à supprimer)
+				// On met a jour l'historique (echange avec la derniere place)
 				histo_batiments.set(index_bat_histo,histo_batiments.get(histo_batiments.size()-1).clone());
 				histo_batiments.remove(histo_batiments.size()-1);
 			}
@@ -571,6 +571,7 @@ public class Terrain {
 			int index_c = cites_indexOf(cite);
 			ArrayList<Point> pts_extension = getPts_extension_cite(cite,type);
 			if(pts_extension.size()>0){
+				for(Action_Batiment actBat : histo_batiments) actBat.setNew(false);
 				for(Point pt_extension : pts_extension){
 					// On traite chaque case a etendre
 					int n = getCase(pt_extension).getNiveau();
@@ -664,6 +665,7 @@ public class Terrain {
 	public int placer_batiment(Case.Type_Batiment b, Case.Couleur_Joueur c, Point P){
 		int n;
 		if((n = conditions_placement_batiment(b,c,P))>=0){
+			for(Action_Batiment actBat : histo_batiments) actBat.setNew(false);
 			histo_batiments.add(new Action_Batiment(b,getNiveauTheoriqueBatiment(P),1,P,c));
 			if(n == 0){
 				// C'est une nouvelle cite

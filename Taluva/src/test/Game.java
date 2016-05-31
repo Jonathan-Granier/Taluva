@@ -47,10 +47,12 @@ import utils.MousePicker;
 
 public class Game implements Observer,KeyListener {
 	
+	private static final boolean BRIGHT = true;
+	
 	private Moteur moteur;
 	private Grid grid;
-	private List<GraphicTile> Tiles;
-	private List<GraphicConstruction> constructions;
+	private ArrayList<GraphicTile> Tiles;
+	private ArrayList<GraphicConstruction> constructions;
 	private Loader loader;
 	private static float delay = 0;
 	private static final float TIME = 80;
@@ -61,7 +63,7 @@ public class Game implements Observer,KeyListener {
 	private GraphicTile Tile;
 	private GraphicConstruction Construction;
 	private Shader shader;
-	private List<Light> lights;
+	private ArrayList<Light> lights;
 	private Light sun;
 	private EcouteurDeSourisTerrain ecouteurSouris;
 	private Menu_circulaire_creation marking_menu;
@@ -75,7 +77,7 @@ public class Game implements Observer,KeyListener {
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
-		List<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
+		ArrayList<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
 		//Check listTile with listActionTile("IA mode useful")
 		
 		while(listTile.size()<Tiles.size()){
@@ -115,19 +117,21 @@ public class Game implements Observer,KeyListener {
 			constructions.remove(constructions.size()-1);
 		}
 
-		for(int i=constructions.size();i<listConstruction.size();i++){
-			constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0)));
-			//constructions.get(i).setColour(listConstruction.get(i).getCouleur());
-			//constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
-			//Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
-			//constructions.get(i).setPosition(worldPos);
+		// Des constructions ont été ajoutées : on les ajoute à la liste
+		if(constructions.size()<listConstruction.size()){
+			if(BRIGHT){
+				for(int i=0;i<constructions.size();i++){
+					constructions.get(i).unsetBright();
+				}
+			}
+			for(int i=constructions.size();i<listConstruction.size();i++){
+				constructions.add(new GraphicConstruction(GraphicType.HUT,new Vector3f(0,0,0)));
+			}
 		}
-		
-		//int loop = listConstruction.size();
-		//if(Game.checkDelay() || !runDelay)
-		//	loop = listConstruction.size();
-		
+
 		for(int i=0;i<listConstruction.size();i++){
+			if(BRIGHT && listConstruction.get(i).getCouleur()==moteur.get_Couleur_IA() && listConstruction.get(i).isNew())
+				constructions.get(i).setBright(new Vector3f(0.9f,0.9f,0.9f));
 			constructions.get(i).setColour(listConstruction.get(i).getCouleur());
 			constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
