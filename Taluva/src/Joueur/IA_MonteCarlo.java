@@ -63,8 +63,10 @@ public class IA_MonteCarlo extends IA_Generique {
 			while(moteur.get_etat_jeu() != Phase_Jeu.FIN_DE_PARTIE){
 				moteur.swap_joueur();
 				Actions_Tour AT = choisir_coup(moteur.piocher());
-				moteur.jouer_action(AT.getAction_tuile());
-				moteur.jouer_action(AT.getAction_construction());
+				if(moteur.jouer_action(AT.getAction_tuile()) != 0)
+					System.out.println("Wololo");
+				if(moteur.jouer_action(AT.getAction_construction()) != 0)
+					System.out.println("Wololo aussi");
 				System.out.println(i);
 				i++;
 			}
