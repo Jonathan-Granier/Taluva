@@ -51,9 +51,7 @@ public class IA_Random extends IA_Generique{
 		return liste_coup.get(index);
 	}
 
-
-	@Override
-	public Action_Construction get_coup_construction() {
+	private Action_Construction get_coup_construction() {
 		m.Maj_liste_coup_construction();
 		return m.get_liste_coup_construction().get_random_action();
 	}

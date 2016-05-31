@@ -2,8 +2,6 @@ package Joueur;
 
 import javax.swing.event.EventListenerList;
 
-import Action.Action_Construction;
-import Action.Action_Tuile;
 import Action.Actions_Tour;
 import Moteur.Moteur;
 import terrain.Case.Couleur_Joueur;
@@ -35,12 +33,6 @@ public abstract class Joueur_Generique {
 		this.c = c;
 		
 	}
-	// -------------- Fonction Get ---------------------
-	public abstract Actions_Tour get_coup_tour(Tuile tuile);
-
-	public abstract Action_Tuile get_coup_tuile(Tuile tuile);
-
-	public abstract Action_Construction get_coup_construction();
 	
 	public int getTemple()
 	{
@@ -234,7 +226,9 @@ public abstract class Joueur_Generique {
 		System.out.println("Tour :" + tour);
 		System.out.println("Temple : "+ temple);
 	}
-	
-	
+
+	public Actions_Tour get_coup_tour(Tuile tuile) {
+		return null;
+	}
 	
 }

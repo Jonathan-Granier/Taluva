@@ -16,7 +16,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private int profondeur;
 	private Action_Construction coup_construction;
 	//private Action_Tuile coup_tuile;
-	private boolean set_CC;
 	private ArrayList<ArrayList<Action_Construction>> Action_Construction_Memoire;
 	private ArrayList<ArrayList<Action_Tuile>> Action_Tuile_Memoire; 
 	
@@ -71,17 +70,8 @@ public class IA_Alpha_Beta extends IA_Generique {
 		return new Actions_Tour(AT_retour, this.coup_construction);
 	}
 	
-	@Override
-	public Action_Construction get_coup_construction() {
-		System.out.println("IA A&B: Get_coup_construction");
-		if(set_CC)
-			System.out.println("IA A&B: set_CC == true");
-		else
-			System.out.println("IA A&B: set_CC == false");
-		return this.coup_construction;
-	}
-	@Override
-	public Action_Tuile get_coup_tuile(Tuile tuile) {
+
+	private Action_Tuile get_coup_tuile(Tuile tuile) {
 		Moteur virtuel= m.clone();
 		Moteur reel = m;
 		this.m = virtuel;
@@ -138,20 +128,20 @@ public class IA_Alpha_Beta extends IA_Generique {
 					//liste_construction = m.get_liste_coup_construction().to_ArrayList();
 					m.get_liste_coup_construction().into_ArrayList(this.Action_Construction_Memoire.get(profondeur/2));
 					retour_REC = choisir_construction_bon(this.Action_Construction_Memoire.get(profondeur/2), score, profondeur -1);
-					score_courant = retour_REC.get_Heuristique();
+					score_courant = retour_REC.getHeuristique();
 					// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
 					if(score_courant == score_max && R.nextInt(100)<20)
 					{
 						TH_retour.setActionTuile(liste.get(i));
-						coup_construction_retour = retour_REC.get_Action_Construction();
+						coup_construction_retour = retour_REC.getActionConstruction();
 					}
 					// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
 					else if (score_courant > score_max)
 					{
 						score_max = score_courant;
 						TH_retour.setActionTuile(liste.get(i));
-						TH_retour.setHeuristique(retour_REC.get_Heuristique());
-						coup_construction_retour = retour_REC.get_Action_Construction();
+						TH_retour.setHeuristique(retour_REC.getHeuristique());
+						coup_construction_retour = retour_REC.getActionConstruction();
 					}
 					//annuler_coup();
 					m.annuler();
@@ -161,7 +151,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 		}
 		// on renvoie un coup random parmi les coups optimaux
 		this.coup_construction = coup_construction_retour;
-		this.set_CC = true;
 		return TH_retour;
 	}
 	
@@ -239,7 +228,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 			{
 				// /!\ regarder dans moteur virtuel
 				//Simulation du coup.
-				m.placer_tuile(liste_tuile.get(i).getPosition());
+				//m.placer_tuile(liste_tuile.get(i).getPosition());
 				if(	m.placer_tuile(liste_tuile.get(i).getPosition()) != 0)
 				{
 					System.out.println("IA A&B, probleme au placement de tuile,( retour != 0)");
