@@ -41,10 +41,36 @@ public class Etat_de_jeu {
 		this.nb_Joueur = 4;
 	}
 	
-	public Etat_de_jeu()
-	{
-		//Constructeur vide
+	public Etat_de_jeu(Terrain t, Joueur_Generique j1, Joueur_Generique j2, Joueur_Generique j_courant, Phase_Jeu phase_de_jeu, boolean copier_histos){
+		this.terrain = t.clone(copier_histos);
+		this.j1 = j1.clone();
+		this.j2 = j2.clone();
+		this.j_courant = j_courant.clone();
+		this.pdj = phase_de_jeu;
+		this.nb_Joueur = 2;
 	}
+	
+	public Etat_de_jeu(Terrain t, Joueur_Generique j1, Joueur_Generique j2,Joueur_Generique j3, Joueur_Generique j_courant, Phase_Jeu phase_de_jeu, boolean copier_histos){
+		this.terrain = t.clone(copier_histos);
+		this.j1 = j1.clone();
+		this.j2 = j2.clone();
+		this.j3 = j3.clone();
+		this.j_courant = j_courant.clone();
+		this.pdj = phase_de_jeu;
+		this.nb_Joueur = 4;
+	}
+	
+	public Etat_de_jeu(Terrain t, Joueur_Generique j1, Joueur_Generique j2, Joueur_Generique j3,Joueur_Generique j4,Joueur_Generique j_courant, Phase_Jeu phase_de_jeu, boolean copier_histos){
+		this.terrain = t.clone(copier_histos);
+		this.j1 = j1.clone();
+		this.j2 = j2.clone();
+		this.j3 = j3.clone();
+		this.j4 = j4.clone();
+		this.j_courant = j_courant.clone();
+		this.pdj = phase_de_jeu;
+		this.nb_Joueur = 4;
+	}
+	
 	public Terrain getTerrain()
 	{
 		return terrain;

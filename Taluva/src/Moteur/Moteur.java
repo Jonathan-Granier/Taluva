@@ -757,6 +757,18 @@ public class Moteur extends Phase{
 		return 0;
 	}
 	
+	public int annuler(boolean copie_histos_terrain){
+		if(annul.size()<1)
+			return 1;
+		Etat_de_jeu tmp = annul.pop();
+		redo.push(this.get_EDJ_courant(copie_histos_terrain));
+		this.set_etat_de_jeu(tmp);
+		this.Decremente_Phase_Jeu();
+		//histo_jeu.remove(histo_jeu.size()-1);
+		//Game.majHistoBatiments();
+		return 0;
+	}
+	
 	// Permet de reposer une tuile qui a été annulée
 	// Renvoie 0 si tout s'est bien passé, 1 sinon.
 	public int refaire(){
@@ -904,15 +916,26 @@ public class Moteur extends Phase{
 	// Revoie l'état de jeu actuel
 	private Etat_de_jeu get_EDJ_courant()
 	{
-		Etat_de_jeu edj = new Etat_de_jeu();
+		Etat_de_jeu edj;
 		if(nb_Joueur == 2)
 			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu());
 		else if(nb_Joueur == 3)
 			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j3, this.j_courant, get_etat_jeu());
-		else if(nb_Joueur == 4)
+		else
 			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j3, this.j4, this.j_courant, get_etat_jeu());
 		return edj;
-	}	
+	}
+	
+	private Etat_de_jeu get_EDJ_courant(boolean copier_histos_terrain){
+		Etat_de_jeu edj;
+		if(nb_Joueur == 2)
+			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j_courant, get_etat_jeu(), copier_histos_terrain);
+		else if(nb_Joueur == 3)
+			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j3, this.j_courant, get_etat_jeu(), copier_histos_terrain);
+		else
+			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j3, this.j4, this.j_courant, get_etat_jeu(), copier_histos_terrain);
+		return edj;
+	}
 	
 	/*
 	private void afficher_pile(Stack<Etat_de_jeu> Stack_edj)

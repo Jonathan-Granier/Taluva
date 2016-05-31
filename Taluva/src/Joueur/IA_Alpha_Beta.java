@@ -123,7 +123,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					TH_retour.setHeuristique(score_courant);
 				}
 				//annuler_coup();
-				m.annuler();
+				m.annuler(false);
 				i++;
 			}
 		}
@@ -154,7 +154,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 						coup_construction_retour = retour_REC.get_Action_Construction();
 					}
 					//annuler_coup();
-					m.annuler();
+					m.annuler(false);
 				}
 				i++;
 			}
@@ -189,7 +189,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_construction_retour.add(liste.get(i));
 				}
 				//annuler_coup();
-				m.annuler();
+				m.annuler(false);
 				i++;
 			}
 		}
@@ -217,7 +217,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					liste_construction_retour.add(liste.get(i));
 				}
 				//annuler_coup();
-				m.annuler();
+				m.annuler(false);
 				i++;
 			}
 		}
@@ -250,7 +250,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					score_min = score_courant;
 				}
 				//annuler_coup();
-				m.annuler();
+				m.annuler(false);
 				i++;
 			}
 		}
@@ -268,7 +268,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					score_min = score_courant;
 				}
 				//annuler_coup();
-				m.annuler();
+				m.annuler(false);
 				i++;
 			}
 		}
@@ -294,7 +294,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					score_min = score_courant;
 				}
 				//annuler_coup();
-				m.annuler();
+				m.annuler(false);
 				i++;
 			}
 		}
@@ -316,7 +316,7 @@ public class IA_Alpha_Beta extends IA_Generique {
 					score_min = score_courant;
 				}
 				//annuler_coup();
-				m.annuler();
+				m.annuler(false);
 				i++;
 			}
 		}
