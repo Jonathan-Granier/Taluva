@@ -3,7 +3,6 @@ package utils;
 import javax.swing.JFrame;
 
 import org.lwjgl.Sys;
-import org.lwjgl.opengl.Display;
 
 public class FPS {
 	

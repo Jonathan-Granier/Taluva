@@ -1,11 +1,8 @@
 package utils;
 
-import org.lwjgl.Sys;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import entities.GraphicTile;
-import gui.Button;
 
 public class InputHandler {
 
@@ -59,7 +56,6 @@ public class InputHandler {
 			if(noInput() && mouseEvent==event){
 				mouseEvent = -1;
 				isMouseReleased = true;
-				long temp = time+TIME ;
 				if(time+TIME>getTime()/1000 && time!=0 ){
 					time = 0;
 					type = inputType.INSTANT;

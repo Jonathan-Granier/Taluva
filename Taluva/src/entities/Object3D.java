@@ -1,13 +1,11 @@
 package entities;
 
-import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import loaders.Loader;
 import loaders.OBJLoader;
 import models.Model;
 import models.Models;
-import utils.Matrix;
 
 public class Object3D {
 	
@@ -103,14 +101,7 @@ public class Object3D {
 		this.Color = new Vector3f(0,0,0);
 		this.construction = construction;
 	}
-	
-	public boolean pick(Vector3f mouseRay){
-		Vector3f max = model.getRawModel().getMax();
-		Vector3f min = model.getRawModel().getMin();
-		Matrix4f transformationMatrix = Matrix.createTransformationMatrix(getPosition(), getRotX(), getRotY(), getRotZ(), getScale());
-		
-		return mouseRay.x>min.x && mouseRay.x<max.x && mouseRay.y>min.y && mouseRay.y<max.y && mouseRay.z>min.z && mouseRay.z<max.z;
-	}
+
 	
 	public void setPositionY(float y){
 		this.position.y = y;

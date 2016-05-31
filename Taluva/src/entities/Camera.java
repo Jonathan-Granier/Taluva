@@ -108,6 +108,9 @@ public class Camera {
 				lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
 				Menu_circulaire_creation.setDraw(false);
 			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+				reset();
+			}
 		}
 		Point mouse = frame.getMousePosition();
 		

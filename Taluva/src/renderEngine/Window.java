@@ -10,8 +10,6 @@ import org.lwjgl.opengl.GL11;
 
 public class Window {
 	
-	private static final int WIDTH = 800;
-	private static final int HEIGHT = 600;
 	private static final int FPS_CAP = 120;
 	
 	public static void createDislay(){

@@ -37,9 +37,6 @@ public class OBJLoader {
 		List<Vector3f> textureArray = new ArrayList<Vector3f>();
 		int[] indicesArray = null;
 		
-		Vector3f min = new Vector3f();
-		Vector3f max = new Vector3f();
-		
 		System.out.println("loadObjModel: Loading "+fileName+".obj ...");
 		
 		try{
@@ -112,30 +109,10 @@ public class OBJLoader {
 		float[] textureFinal = new float[textureArray.size()*3];
 		float[] normalsFinal = new float[normalsArray.size()*3];
 
-		min.x = verticesArray.get(0).x;
-		min.y = verticesArray.get(0).y;
-		min.z = verticesArray.get(0).z;
-		
-		max.x = verticesArray.get(0).x;
-		max.y = verticesArray.get(0).y;
-		max.z = verticesArray.get(0).z;
 		
 		//Copy data
 		int currentVert = 0;
 		for(Vector3f vertex:verticesArray){
-			if(vertex.x>max.x)
-				max.x=vertex.x;
-			else if(vertex.x<min.x)
-				min.x=vertex.x;
-			if(vertex.y>max.y)
-				max.y=vertex.y;
-			else if(vertex.y<min.y)
-				min.y=vertex.y;
-			if(vertex.z>max.z)
-				max.z=vertex.z;
-			else if(vertex.z<min.z)
-				min.z=vertex.z;
-				
 			verticesFinal[currentVert++] = vertex.x;
 			verticesFinal[currentVert++] = vertex.y;
 			verticesFinal[currentVert++] = vertex.z;
@@ -158,7 +135,7 @@ public class OBJLoader {
 		
 		
 		Material texture = loadMaterial(fileMaterial,loader);
-		return new Model(loader.loadToVAO(verticesFinal, textureFinal,normalsFinal, indicesArray,min,max),texture);
+		return new Model(loader.loadToVAO(verticesFinal, textureFinal,normalsFinal, indicesArray),texture);
 		
 	}
 
@@ -309,10 +286,6 @@ public class OBJLoader {
 		List<Vector3f> normals = new ArrayList<Vector3f>();
 		List<Integer> indices = new ArrayList<Integer>();
 		
-
-		
-		Vector3f min = new Vector3f();
-		Vector3f max = new Vector3f();
 		
 		System.out.println("loadObjModels: Loading "+fileName+".obj ...");
 		int last = 0;
@@ -418,7 +391,7 @@ public class OBJLoader {
 
 				Material texture = loadMaterial(fileMaterial,loader,Material);
 				
-				models.add(new Model(loader.loadToVAO(verticesFinal, textureFinal,normalsFinal, indicesArray,min,max),texture));
+				models.add(new Model(loader.loadToVAO(verticesFinal, textureFinal,normalsFinal, indicesArray),texture));
 			}
 			reader.close();
 		}catch(Exception e){

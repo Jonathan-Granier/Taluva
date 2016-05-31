@@ -8,7 +8,6 @@ import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import entities.Camera;
-import entities.Object3D;
 
 public class MousePicker {
 
