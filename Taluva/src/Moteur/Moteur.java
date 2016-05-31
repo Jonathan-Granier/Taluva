@@ -14,9 +14,7 @@ import java.util.Stack;
 import Action.Action_Construction;
 import Action.Action_Tuile;
 import Action.Actions_Tour;
-import Joueur.IA_Alpha_Beta;
 import Joueur.IA_Generique;
-import Joueur.IA_Random;
 import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
 import Liste_coup.Liste_coup_construction;
@@ -24,7 +22,6 @@ import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import terrain.Terrain;
 import terrain.Tuile;
-import test.Game;
 
 public class Moteur extends Phase{
 	private Terrain T;
