@@ -1,8 +1,11 @@
 package test;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -65,6 +68,7 @@ public class Game implements Observer,KeyListener {
 	private WaterTile water;
 	private SkyboxRenderer skyboxRenderer;
 	private Canvas canvas;
+	private JFrame frame;
 	
 	private boolean[] keys = {false,false,false,false};
 	
@@ -152,6 +156,7 @@ public class Game implements Observer,KeyListener {
 	}
 	
 	public void init(JFrame frame,Moteur m,Canvas canvas){
+		this.frame = frame;
 		Window.createDislay();
 		this.moteur = m;
 		this.canvas = canvas;
@@ -298,6 +303,9 @@ public class Game implements Observer,KeyListener {
 		case KeyEvent.VK_SPACE:
 			camera.reset();
 			break;
+		case KeyEvent.VK_ESCAPE:
+			echape();
+			break;
 		default:
 			break;
 		}
@@ -331,4 +339,7 @@ public class Game implements Observer,KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 	}
 	
+	private void echape(){
+		//TODO
+	}
 }

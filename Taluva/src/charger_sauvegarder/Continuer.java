@@ -27,9 +27,9 @@ public class Continuer {
 				moreRecentFile = subfile;
 			}
 		}
-
-		Charger load=new Charger(save,moreRecentFile.getAbsolutePath());
-		save.Restore(game, moteur);
+		
+		Charger load=new Charger(moreRecentFile.getAbsolutePath());
+		load.getSave().Restore(game, moteur);
 	}
 
 	public Game getGame() {

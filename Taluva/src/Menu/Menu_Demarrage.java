@@ -23,6 +23,9 @@ import javax.swing.SwingConstants;
 import IHM.Avancement;
 import IHM.IHM;
 import Moteur.Moteur;
+import charger_sauvegarder.Charger;
+import charger_sauvegarder.Continuer;
+import charger_sauvegarder.Sauvegarde;
 import terrain.Terrain;
 import test.Game;
 
@@ -79,6 +82,11 @@ public class Menu_Demarrage extends JComponent {
 		continuer.setBackground(Color.WHITE);
 		continuer.setFont(new Font("Continuer", Font.BOLD+Font.ITALIC,40));
 		continuer.setOpaque(false);
+		File directory = new File("./Save");
+		if(directory.listFiles().length==0){
+			continuer.setEnabled(false);
+		}
+		
 		menu.add(continuer);
 		
 		nouveau = new JButton("Nouveau");
@@ -92,6 +100,7 @@ public class Menu_Demarrage extends JComponent {
 		charger.setBackground(Color.WHITE);
 		charger.setFont(new Font("Charger", Font.BOLD+Font.ITALIC,40));
 		charger.setOpaque(false);
+		charger.addActionListener(new Ecouteur_boutons_demarrage("Charger",this));
 		menu.add(charger);
 		
 		regles = new JButton("Règles");
@@ -151,12 +160,28 @@ public class Menu_Demarrage extends JComponent {
 	
 	// LES BOUTONS
 	
+	public void continuer(){
+		Continuer continuer = new Continuer("./Save");
+		continuer.findFiles();
+		game = continuer.getGame();
+		moteur = continuer.getMoteur();
+	}
 	
 	public void nouveau(){
 		fenetre.setEnabled(false);
 		fenetre.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
 	}
+	
+	public void charger(){
+		Load_save_screen screen = new Load_save_screen();
+		screen.run();
+		Charger load = new Charger(screen.getPath());
+		// TODO
+		if(load.getSave()==null)System.out.println("Save pour charger null");
+		else load.getSave().Restore(game, moteur);
+	}
 
+	
 	public void regles(){
 		this.setVisible(false);
 		fenetre.remove(this);

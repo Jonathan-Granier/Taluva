@@ -9,14 +9,12 @@ import java.io.ObjectOutputStream;
 import Menu.Load_save_screen;
 
 public class Charger {
-	
-	public Charger(Sauvegarde save,String path){
-		save = null;
+	private Sauvegarde save;
+	public Charger(String path){
+		save= null;
+
 		try
 		{
-			Load_save_screen screen = new Load_save_screen();
-	        screen.run();
-	        Sauvegarder Save = new Sauvegarder(save,screen.getPath());
 			FileInputStream fileIn = new FileInputStream(path);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			save = (Sauvegarde) in.readObject();
@@ -35,5 +33,8 @@ public class Charger {
 		}
 		System.out.println("normalement ça c'est bien passer");
 
+	}
+	public Sauvegarde getSave() {
+		return save;
 	}
 }
