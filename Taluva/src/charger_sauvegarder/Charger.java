@@ -15,6 +15,7 @@ public class Charger {
 			FileInputStream fileIn = new FileInputStream(path);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			save = (Sauvegarde) in.readObject();
+			
 			in.close();
 			fileIn.close();
 		}catch(IOException i)
