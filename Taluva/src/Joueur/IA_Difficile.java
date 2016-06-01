@@ -14,11 +14,11 @@ import terrain.Cite;
 import terrain.Terrain;
 import terrain.Tuile;
 
-public class IA_Heuristique extends IA_Generique {
-	
+public class IA_Difficile extends IA_Generique {
+
 	private Random R;
-	
-	public IA_Heuristique(Couleur_Joueur c, Moteur m){
+
+	public IA_Difficile(Couleur_Joueur c, Moteur m) {
 		super(c, m);
 		this.R = new Random();
 	}
