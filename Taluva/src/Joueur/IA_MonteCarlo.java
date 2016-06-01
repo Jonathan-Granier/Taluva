@@ -1,47 +1,53 @@
 package Joueur;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import Action.Action_Construction;
-import Action.Action_Tuile;
 import Action.Actions_Tour;
 import Moteur.Moteur;
-import Moteur.Phase.Phase_Jeu;
 import terrain.Case.Couleur_Joueur;
-import terrain.Cite;
 import terrain.Tuile;
 
-public class IA_MonteCarlo extends IA_Generique {
-
+public class IA_MonteCarlo extends IA_Generique{
+	//private static final int NB_COUPS_ENVISAGES = 5;
+	
 	private int taille_echantillon;
-	private Moteur moteur;
-	private Random R;
+	//private Moteur moteur;
+	//private Random R;
 	
 	public IA_MonteCarlo(Couleur_Joueur c, Moteur m){
 		super(c, m);
-		this.taille_echantillon = 1;
-		this.R = new Random();
+		this.taille_echantillon = 5;
 	}
 	
 	public IA_MonteCarlo(int taille_echantillon, Couleur_Joueur c, Moteur m){
 		super(c, m);
 		this.taille_echantillon = taille_echantillon;
-		this.R = new Random();
+	}
+
+	@Override
+	public Actions_Tour get_coup_tour(Tuile tuile) {
+		return null;
+	}
+
+	public int getTailleEchantillon() {
+		return taille_echantillon;
 	}
 	
+	/*
 	public Actions_Tour get_coup_tour(Tuile tuile){
 		moteur = m.clone();
 		ArrayList<Actions_Tour> res = new ArrayList<Actions_Tour>();
 		int valeur_res = Integer.MIN_VALUE;
 		int valeur_courante;
 		ArrayList<Action_Tuile> coups_tuile_possibles = moteur.get_liste_coup_tuile(tuile);
+		
 		for(Action_Tuile actTuile : coups_tuile_possibles){
-			moteur.jouer_action(actTuile);
+			Moteur saved_moteur = moteur.clone();
+			if(moteur.jouer_action(actTuile) != 0) System.out.println("IA MC Erreur tuile");
 			moteur.Maj_liste_coup_construction();
 			ArrayList<Action_Construction> coups_construction_possibles = moteur.get_liste_coup_construction().to_ArrayList();
+			
 			for(Action_Construction actConstruction : coups_construction_possibles){
-				moteur.jouer_action(actConstruction);
+				Moteur saved_moteur_2 = moteur.clone();
+				if(moteur.jouer_action(actConstruction) != 0) System.out.println("IA MC Erreur construction");
 				valeur_courante = evaluation_configuration();
 				if(valeur_courante > valeur_res){
 					res.clear();
@@ -51,24 +57,26 @@ public class IA_MonteCarlo extends IA_Generique {
 				else if(valeur_courante == valeur_res){
 					res.add(new Actions_Tour(actTuile,actConstruction));
 				}
-				moteur.annuler();
+				moteur = saved_moteur_2;
 			}
-			moteur.annuler();
+			moteur = saved_moteur;
 		}
 		Random r = new Random();
 		return res.get(r.nextInt(res.size()));
 	}
 	
 	private int evaluation_configuration(){
-		Moteur saved_moteur = moteur.clone();
 		int balance = 0;
 		for(int num_partie = 0; num_partie<taille_echantillon; num_partie ++){
+			Moteur saved_moteur = moteur.clone();
 			int i=0;
 			while(moteur.get_etat_jeu() != Phase_Jeu.FIN_DE_PARTIE){
 				moteur.swap_joueur();
-				System.out.println("Je réfléchis...");
+				System.out.println("Je reflechis...");
+				Moteur saved_moteur_2 = moteur.clone();	
 				Actions_Tour AT = choisir_coup(moteur.piocher());
-				System.out.println("Ayé !");
+				moteur = saved_moteur_2;
+				System.out.println("Aye !");
 				if(moteur.jouer_action(AT.getAction_tuile()) != 0)
 					System.out.println("Wololo");
 				if(moteur.jouer_action(AT.getAction_construction()) != 0)
@@ -89,80 +97,80 @@ public class IA_MonteCarlo extends IA_Generique {
 	private Actions_Tour choisir_coup(Tuile tuile){
 		int i=0, score_max = Integer.MIN_VALUE;
 		int score_courant;
-		ArrayList<Action_Tuile> liste = moteur.get_liste_coup_tuile(tuile);
-		//moteur.jouer_action(liste.get(0));
-		//moteur.Maj_liste_coup_construction();
-		//ArrayList<Action_Construction> liste2 = moteur.get_liste_coup_construction().to_ArrayList();
-		//moteur.annuler();
-		//return new Actions_Tour(liste.get(0),liste2.get(0));
-		//int score = Integer.MAX_VALUE;
-		//Coup_Tuile_Heuristique TH_retour = new Coup_Tuile_Heuristique(0,null);
+		ArrayList<Action_Tuile> liste_coups_tuile = moteur.get_liste_coup_tuile(tuile);
+		//System.out.println("0%");
 		ArrayList<Action_Tuile> AT_retour = new ArrayList<Action_Tuile>();
 		Coup_Construction_Heuristique retour_REC;
 		Action_Construction coup_construction_retour = null;
-		while(i < liste.size())// && score_max < score)
+		while(i < liste_coups_tuile.size() && i<NB_COUPS_ENVISAGES)
 		{
-			if(moteur.jouer_action(liste.get(i)) == 0)
+			//System.out.println(i+"% :D");
+			int num = R.nextInt(liste_coups_tuile.size());
+			if(moteur.jouer_action(liste_coups_tuile.get(num)) == 0)
 			{
 				moteur.Maj_liste_coup_construction();
-
-				retour_REC = choisir_construction_bon(moteur.get_liste_coup_construction().to_ArrayList());//,score);
-				score_courant = retour_REC.getHeuristique();
-				// si le coup est aussi optimal que le plus optimal trouve, on l'ajoute.
-				if(score_courant == score_max)
-				{
-					//TH_retour.setActionTuile(liste.get(i));
-					AT_retour.add(liste.get(i));
-					coup_construction_retour = retour_REC.getActionConstruction();
-				}
-				// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
-				else if (score_courant > score_max)
-				{
-					score_max = score_courant;
-					//TH_retour.setActionTuile(liste.get(i));
-					//TH_retour.setHeuristique(retour_REC.getHeuristique());
-					AT_retour.clear();
-					AT_retour.add(liste.get(i));
-					coup_construction_retour = retour_REC.getActionConstruction();
+				//System.out.println("10%");
+				retour_REC = choisir_construction_bon(moteur.get_liste_coup_construction());
+				//System.out.println("20%");
+				if(retour_REC != null){
+					score_courant = retour_REC.getHeuristique();
+					// si le coup est aussi optimal que le plus optimal trouve, on l'ajoute.
+					if(score_courant == score_max)
+					{
+						AT_retour.add(liste_coups_tuile.get(num));
+						coup_construction_retour = retour_REC.getActionConstruction();
+					}
+					// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
+					else if (score_courant > score_max)
+					{
+						score_max = score_courant;
+						AT_retour.clear();
+						AT_retour.add(liste_coups_tuile.get(num));
+						coup_construction_retour = retour_REC.getActionConstruction();
+					}
 				}
 				moteur.annuler();
 			}
 			i++;
 		}
-		return new Actions_Tour(AT_retour.get(R.nextInt(AT_retour.size())),coup_construction_retour);
+		if(!AT_retour.isEmpty())
+			return new Actions_Tour(AT_retour.get(R.nextInt(AT_retour.size())),coup_construction_retour);
+		else return null;
 	}
 	
-	private Coup_Construction_Heuristique choisir_construction_bon(ArrayList <Action_Construction> liste)//, int score)
+	private Coup_Construction_Heuristique choisir_construction_bon(Liste_coup_construction liste_coups_construction)
 	{
 		int i=0, score_max = Integer.MIN_VALUE;
 		int score_courant;
 		ArrayList<Action_Construction> liste_construction_retour = new ArrayList<Action_Construction>();
-		while( i < liste.size())// && score_max < score)
+		while( i < liste_coups_construction.size() && i<NB_COUPS_ENVISAGES)
 		{
-			if(moteur.jouer_action(liste.get(i)) == 0){
+			Action_Construction AC = liste_coups_construction.get_random_action();
+			if(moteur.jouer_action(AC) == 0){
 				score_courant = Heuristique();
 				if(score_courant == score_max)
 				{
-					liste_construction_retour.add(liste.get(i));
+					liste_construction_retour.add(AC);
 				}
 				else if (score_courant > score_max)
 				{
 					score_max = score_courant;
 					liste_construction_retour.clear();
-					liste_construction_retour.add(liste.get(i));
+					liste_construction_retour.add(AC);
 				}
 				moteur.annuler();
-				moteur.Maj_liste_coup_construction();
 			}
 			i++;
 		}
-		return new Coup_Construction_Heuristique(score_max, liste_construction_retour.get(R.nextInt(liste_construction_retour.size())));
+		if(!liste_construction_retour.isEmpty())
+			return new Coup_Construction_Heuristique(score_max, liste_construction_retour.get(R.nextInt(liste_construction_retour.size())));
+		else return null;
 	}
 	
 	private int Heuristique()
 	{
 		return 0;
-		/*
+		
 		int bonPoints;
 		int mauvaisPoints;
 		if(moteur.EstLeMemeJoueur(this, moteur.getJ1()))
@@ -175,7 +183,7 @@ public class IA_MonteCarlo extends IA_Generique {
 			bonPoints = Calculer_points_heur(moteur.get_Jcourant());
 			mauvaisPoints = Calculer_points_heur(moteur.getJ1());
 		}
-		return bonPoints - mauvaisPoints;*/
+		return bonPoints - mauvaisPoints;
 	}
 	
 	private int Calculer_points_heur(Joueur_Generique c) {
@@ -208,23 +216,24 @@ public class IA_MonteCarlo extends IA_Generique {
 	}
 	
 	// Calculer la valeur d'une cite.
-		private int valeur_cite( Cite c, Joueur_Generique j)
+	private int valeur_cite( Cite c, Joueur_Generique j)
+	{
+		int score_cite = score_city + c.getTaille() * score_zone_city;
+		// Si la cite nous permettra de creer un temple, elle en vaux la moitie des points
+		if(c.getTaille() >= 3 && c.getNbTemples() > 0 && moteur.get_nbTuiles()/2 > 1 && j.getTemple()>0)
 		{
-			int score_cite = score_city + c.getTaille() * score_zone_city;
-			// Si la cite nous permettra de creer un temple, elle en vaux la moitie des points
-			if(c.getTaille() >= 3 && c.getNbTemples() > 0 && moteur.get_nbTuiles()/2 > 1 && j.getTemple()>0)
-			{
-				// check destructible
-				score_cite += score_temple;
-			}
-			if(c.getNbTemples() > 0)
-			{
-				score_cite = score_cite/ score_div_city_temple;
-			}
-			if( c.getNbTemples()>0 && c.getNbTours()>0)
-			{
-				score_cite = score_cite / score_div_city_temple_tower;
-			}
-			return score_cite;
+			// check destructible
+			score_cite += score_temple;
 		}
+		if(c.getNbTemples() > 0)
+		{
+			score_cite = score_cite/ score_div_city_temple;
+		}
+		if( c.getNbTemples()>0 && c.getNbTours()>0)
+		{
+			score_cite = score_cite / score_div_city_temple_tower;
+		}
+		return score_cite;
+	}
+	*/
 }

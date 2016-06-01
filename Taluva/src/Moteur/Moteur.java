@@ -474,6 +474,9 @@ public class Moteur extends Phase{
 			if(joueur_elimine()){
 				System.out.println("[MOTEUR / Placer_tuile] joueur elimine (marche?)");
 				finir_partie();
+				swap_joueur();
+				j_gagnant = j_courant.clone();
+				swap_joueur();
 			}
 			return 0;
 		}
@@ -825,7 +828,7 @@ public class Moteur extends Phase{
 		m_copie.next = this.next;
 		m_copie.tuile_pioche = this.tuile_pioche;
 		m_copie.bat_choisi = this.bat_choisi;
-		m_copie.liste_coup_construction = this.liste_coup_construction.clone();
+		//m_copie.liste_coup_construction = this.liste_coup_construction.clone();
 		m_copie.add_j1(j1.clone(m_copie));
 		m_copie.add_j2(j2.clone(m_copie));
 		m_copie.getJ1().CleanListeners();
@@ -944,4 +947,8 @@ public class Moteur extends Phase{
 	}
 	*/
 	
+	public Tuile getRandomTuile(){
+		Random R = new Random();
+		return pioche.get(R.nextInt(pioche.size()));
+	}
 }

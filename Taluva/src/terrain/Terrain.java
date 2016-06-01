@@ -25,7 +25,7 @@ public class Terrain {
 	
 	public final static int TAILLE = 200;
 	public final static Point CENTRE = new Point(TAILLE/2,TAILLE/2);
-	private final static int TAILLE_HASH = 250;
+	private final static int TAILLE_HASH = 42;
 	
 	private Hashtable<Point,Case> t;
 	private boolean empty;
