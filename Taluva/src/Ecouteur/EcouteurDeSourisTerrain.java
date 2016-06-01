@@ -155,6 +155,9 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 					construction.setPositionY(construction.getHeight());
 					construction.setAllow(m.placement_batiment_autorise(snap.indices));
 				}
+				else{
+					construction.setAllow(false);
+				}
 				
 				return snap;
 			case FIN_DE_TOUR:
