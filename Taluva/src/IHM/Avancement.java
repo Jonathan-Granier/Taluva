@@ -76,10 +76,10 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getTour().Activer(false);
 				ihm.getHutte().Activer(false);
 				
-				ihm.getPiocher().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getPoser().setBackground(Color.WHITE);
-				ihm.getConstruire().setBackground(Color.WHITE);
-				ihm.getFinir().setBackground(Color.WHITE);
+				ihm.getPiocher().setEnabled(true);
+				ihm.getPoser().setEnabled(false);
+				ihm.getConstruire().setEnabled(false);
+				ihm.getFinir().setEnabled(false);
 				break;
 			
 			case POSER_TUILE:
@@ -93,7 +93,7 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getToute_la_Pioche().setVisible(true);
 				ihm.getBouton_Pioche().setVisible(false);
 				activerPioche(true);
-				
+				ihm.getTaille_Pioche().setText("X"+Integer.toString(ihm.getM().get_nbTuiles()));
 				
 				ihm.getFDT().Activer(false);
 				
@@ -101,11 +101,10 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getTour().Activer(false);
 				ihm.getHutte().Activer(false);
 				
-				
-				ihm.getPiocher().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getConstruire().setBackground(Color.WHITE);
-				ihm.getFinir().setBackground(Color.WHITE);
+				ihm.getPiocher().setEnabled(true);
+				ihm.getPoser().setEnabled(true);
+				ihm.getConstruire().setEnabled(false);
+				ihm.getFinir().setEnabled(false);
 				break;
 				
 			case CONSTRUIRE_BATIMENT:
@@ -131,11 +130,10 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 					ihm.getTour().Activer(!(ihm.getM().getJ2().getTour() <= 0));
 					ihm.getHutte().Activer(!(ihm.getM().getJ2().getHutte() <= 0));
 				}
-				
-				ihm.getPiocher().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getConstruire().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getFinir().setBackground(Color.WHITE);
+				ihm.getPiocher().setEnabled(true);
+				ihm.getPoser().setEnabled(true);
+				ihm.getConstruire().setEnabled(true);
+				ihm.getFinir().setEnabled(false);
 				
 				break;
 				
@@ -152,11 +150,10 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getTour().Activer(false);
 				ihm.getHutte().Activer(false);
 				
-				ihm.getPiocher().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getPoser().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getConstruire().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				ihm.getFinir().setBackground(ihm.getM().get_Jcourant().getCouleur().getcolor());
-				
+				ihm.getPiocher().setEnabled(true);
+				ihm.getPoser().setEnabled(true);
+				ihm.getConstruire().setEnabled(true);
+				ihm.getFinir().setEnabled(true);
 				break;
 			default:
 				

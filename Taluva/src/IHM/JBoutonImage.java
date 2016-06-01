@@ -45,6 +45,7 @@ public class JBoutonImage extends JButton implements MouseListener{
 		    }	
 	    	this.setDisabledIcon(new ImageIcon(imageNomCliquer));
 	    	this.addMouseListener(this);
+	    	this.setOpaque(false);
 	    }
 	     
 	    //On doit redéfinir la méthode paintComponent() pour les composant swing !!! et paint() pour awt
@@ -113,7 +114,7 @@ public class JBoutonImage extends JButton implements MouseListener{
 			// TODO Auto-generated method stub
 			if(activer)
 			{
-				ImageEnCours = 1;
+				ImageEnCours = 3;
 				this.repaint();
 			}
 		}

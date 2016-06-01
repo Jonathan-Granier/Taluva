@@ -32,7 +32,7 @@ public class IHM {
 	private Moteur m;
 	private int width,height;
 	private JPanel ecran, boutons_Construction, frise, bas, joueurs, action, annuler_refaire;
-	private JLabel  Piocher, Poser, Construire, Finir;
+	private JPanelImage  Piocher, Poser, Construire, Finir;
 	private JButton Pioche;
 	private JBoutonImage Annuler,Refaire,FDT,temple,tour,hutte;;
 	
@@ -50,6 +50,7 @@ public class IHM {
 	private JPanel Pioche_Droite,Pioche_Gauche;
 	private JPanelPioche Pioche_Tuile;
 	private JPanelImage Toute_la_Pioche; 
+	private JLabel Taille_Pioche;
 	
 	//TODO
 	/*
@@ -57,6 +58,8 @@ public class IHM {
 	 */
 	
 	
+
+
 
 
 	private static final String Fichier_Temple = "Assets/Texture/Button_Temple.png";
@@ -136,6 +139,18 @@ public class IHM {
 	private static final String Fichier_Refaire_Cliquer = "Assets/IHM/undo-redo/Redo-clicked.png";
 	private static final String Fichier_Refaire_Passage = "Assets/IHM/undo-redo/Redo-highlight.png";
 		
+	//Frise
+	private static final String Fichier_Frise_Piocher_Activer = "Assets/IHM/Time_line/Part0_on.png";
+	private static final String Fichier_Frise_Piocher_Desactiver = "Assets/IHM/Time_line/Part0_off.png";
+	
+	private static final String Fichier_Frise_Poser_Activer = "Assets/IHM/Time_line/Part1_on.png";
+	private static final String Fichier_Frise_Poser_Desactiver = "Assets/IHM/Time_line/Part1_off.png";
+	
+	private static final String Fichier_Frise_Construire_Activer = "Assets/IHM/Time_line/Part2_on.png";
+	private static final String Fichier_Frise_Construire_Desactiver = "Assets/IHM/Time_line/Part2_off.png";
+	
+	private static final String Fichier_Frise_Finir_Activer = "Assets/IHM/Time_line/Part3_on.png";
+	private static final String Fichier_Frise_Finir_Desactiver = "Assets/IHM/Time_line/Part3_off.png";
 	
 	
 	
@@ -205,6 +220,7 @@ public class IHM {
         AjoutBoutonAction();
         AjoutAnnulerRefaire();
         AjoutInterface();
+        ReglerOpacite(false);
         Interface.setEnabled(true);  
         frame.add(ecran);
         
@@ -267,29 +283,31 @@ public class IHM {
 		for(int i=0;i<3; i++)
 		{
 			PanelFrise[i] = new JPanel();
+			PanelFrise[i].setOpaque(false);
 			PanelFrise[i].setLayout(new GridLayout(1,1));
 		}
 		
 		PanelFrise[0].setLayout(new GridLayout(1,2));
 		
 		
+		
 		frise.setLayout(new GridBagLayout());
-		Piocher = initFriseElement("Piocher");
-		Poser =  initFriseElement("Poser");
-        Construire =  initFriseElement("Construire");
-        Finir =  initFriseElement("Finir");
+		Piocher = new JPanelImage(Fichier_Frise_Piocher_Activer,Fichier_Frise_Piocher_Desactiver);
+		Poser =  new JPanelImage(Fichier_Frise_Poser_Activer,Fichier_Frise_Poser_Desactiver);
+        Construire =  new JPanelImage(Fichier_Frise_Construire_Activer,Fichier_Frise_Construire_Desactiver);
+        Finir =  new JPanelImage(Fichier_Frise_Finir_Activer,Fichier_Frise_Finir_Desactiver);
         
-        PanelFrise[0].add(Piocher,BorderLayout.CENTER);
-        PanelFrise[0].add(Poser,BorderLayout.CENTER);
-        PanelFrise[1].add(Construire,BorderLayout.CENTER);
-        PanelFrise[2].add(Finir,BorderLayout.CENTER);
+        PanelFrise[0].add(Piocher);
+        PanelFrise[0].add(Poser);
+        PanelFrise[1].add(Construire);
+        PanelFrise[2].add(Finir);
         
         
         
         //création de la frise
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 0.25;
+        gbc.weightx = 0.45;
         gbc.weighty = 1.0;
         gbc.gridwidth = taille_pioche;
         gbc.gridheight = 1;
@@ -299,22 +317,16 @@ public class IHM {
         frise.add(PanelFrise[0], gbc);
         gbc.gridwidth = taille_construction;
         gbc.gridx = taille_pioche;
-        gbc.weightx = 0.135;
+        gbc.weightx = 0.22;
         frise.add( PanelFrise[1], gbc);
         gbc.gridwidth = taille_fin_de_tour;
         gbc.gridx = taille_pioche + taille_construction;
-        gbc.weightx = 0.265;
+        gbc.weightx = 0.23;
         frise.add(PanelFrise[2] ,gbc);
         
-        
-    /*    
-        frise.add(Poser,BorderLayout.CENTER);
-        frise.add(Construire,BorderLayout.CENTER);
-        frise.add(Finir,BorderLayout.CENTER);
-  */      
+             
         
         gbc.fill = GridBagConstraints.BOTH;
-     //   gbc.gridwidth = taille_frise;
         gbc.weightx = 1.0;
         gbc.weighty = 0.1;
         
@@ -335,7 +347,6 @@ public class IHM {
 		int i;
 		Pioche_Tuile = new JPanelPioche(Fichier_Pioche_Fond_Bouton_Activer,Fichier_Pioche_Fond_Bouton_Desactiver);
 		Pioche_Tuile.setOpaque(false);
-		Pioche_Tuile.setBackground(Color.RED);
 		Bouton_Pioche = FaireJButtonPioche("Piocher",Fichier_Pioche_Bouton_Activer,Fichier_Pioche_Bouton_Desactiver,
 				Fichier_Pioche_Bouton_Cliquer,Fichier_Pioche_Bouton_Passage);
 		Rotation_Horaire = FaireJButtonPioche("Rotation_Horaire",Fichier_Pioche_Turn_Horaire_Activer,Fichier_Pioche_Turn_Horaire_Desactiver,
@@ -344,32 +355,122 @@ public class IHM {
 				Fichier_Pioche_Turn_Anti_Horaire_Cliquer,Fichier_Pioche_Turn_Anti_Horaire_Passage);
 		Pioche_Droite = new JPanel();
 		Pioche_Gauche = new JPanel();
-		
+		Taille_Pioche = initTaille_Pioche("X"+Integer.toString(m.get_nbTuiles()));
+		JLabel LabelVide = initTaille_Pioche("      ");
 	   
 	    Toute_la_Pioche = new JPanelImage(Fichier_Pioche_Fond_Activer,Fichier_Pioche_Fond_Desactiver); 
 	    Toute_la_Pioche.setLayout(new GridBagLayout());
 	   
 	   
-	    JPanel[] Vide = new JPanel[6];
-	    for(i=0;i<6;i++)
+	    JPanel[] Vide = new JPanel[5];
+	    for(i=0;i<5;i++)
 	    {
 	    	Vide[i] = new JPanel();
 	    	Vide[i].setOpaque(false);
 	    }
-	    Pioche_Droite.setLayout(new GridLayout(4,1));
+	    /*Pioche_Droite.setLayout(new GridLayout(4,1));
 	   	Pioche_Droite.add(Rotation_Anti_Horaire);
-	   	for(i=0;i<3;i++)
+	   	for(i=0;i<2;i++)
 	    	 Pioche_Droite.add(Vide[i]);
+	   	
+	   	Pioche_Droite.add(Taille_Pioche);
 	   	
 	   	Pioche_Gauche.setLayout(new GridLayout(4,1));
 	    Pioche_Gauche.add(Rotation_Horaire);
-	   	for(i=3;i<6;i++)
+	   	for(i=2;i<5;i++)
 	   		Pioche_Gauche.add(Vide[i]);
+	    
+	   	Pioche_Droite.add(Taille_Pioche);
+	   	*/
+	    
+	    GridBagConstraints gbc = new GridBagConstraints();
+	    Pioche_Droite.setLayout(new GridBagLayout());
+	    Pioche_Gauche.setLayout(new GridBagLayout());
+	    
+	    //Pioche Gauche
+	    gbc.weightx = 1.0;
+        gbc.weighty = 0.1;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+	    Pioche_Gauche.add(Vide[3],gbc);
+	    
+	    
+	    
+	    gbc.weightx = 1.0;
+        gbc.weighty = 0.40;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+	    Pioche_Gauche.add(Rotation_Horaire,gbc);
+	    
+	    gbc.weightx = 1.0;
+        gbc.weighty = 0.3;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 2;
+	    Pioche_Gauche.add(Vide[0],gbc);
+	    
+	    gbc.weightx = 0.2;
+        gbc.weighty = 0.1;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+	    Pioche_Gauche.add(LabelVide,gbc);
+	    
+	    
+	    //Pioche Droite
+	    
+	    gbc.weightx = 1.0;
+        gbc.weighty = 0.1;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+	    Pioche_Droite.add(Vide[2],gbc);
+	    
+	    
+	    gbc.weightx = 1.0;
+        gbc.weighty = 0.40;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+	    Pioche_Droite.add(Rotation_Anti_Horaire,gbc);
+	    
+	    gbc.weightx = 1.0;
+        gbc.weighty = 0.3;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 2;
+	    Pioche_Droite.add(Vide[1],gbc);
+	    
+	    gbc.weightx = 0.2;
+        gbc.weighty = 0.1;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+	    Pioche_Droite.add(Taille_Pioche,gbc);
+	    
 	    
 	    Pioche_Droite.setOpaque(false);
 	    Pioche_Gauche.setOpaque(false);
 	    
-        GridBagConstraints gbc = new GridBagConstraints();
+        
 	    
 	    //Pioche_Gauche
 	    gbc.weightx = 0.2;
@@ -446,6 +547,7 @@ public class IHM {
 				Fichier_Temple_Bouton_Cliquer,Fichier_Temple_Bouton_Passage);
         
         boutons_Construction.setLayout(new GridLayout(3,1));
+        
         boutons_Construction.add(hutte);
         boutons_Construction.add(tour);
         boutons_Construction.add(temple);
@@ -488,7 +590,7 @@ public class IHM {
         action.add(FDT,gbc);
         
         
-        
+        action.setOpaque(false);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = taille_frise;
         gbc.gridheight = hauteur_total - hauteur_caneva - 1;
@@ -652,6 +754,7 @@ public class IHM {
 		if(m.get_NbJoueur() == 4)
 			joueurs.add(panelJ4);
 	
+		
 		//Ajout des joueurs à l'ecran
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
@@ -667,15 +770,24 @@ public class IHM {
 	
 	
 
-
+	private void ReglerOpacite(boolean bool)
+	{
+		joueurs.setOpaque(bool);
+		annuler_refaire.setOpaque(bool);
+		boutons_Construction.setOpaque(bool);
+		Toute_la_Pioche.setOpaque(bool);
+		frise.setOpaque(bool);
+	}
 
 	// Initialise un element de la frise
-	private JLabel initFriseElement(String nom)
+	private JLabel initTaille_Pioche(String nom)
 	{
 		 JLabel label = new JLabel(nom);
 		 label.setFont(new Font("Sherif", Font.PLAIN,32));
-	     label.setHorizontalAlignment(SwingConstants.CENTER);
-	     label.setOpaque(false);
+		 
+	    // label.setHorizontalAlignment(SwingConstants.CENTER);
+			label.setBorder(null);
+			label.setOpaque(false);
 		 return label;
 	}
 	
@@ -810,22 +922,22 @@ public class IHM {
 	}
 
 
-	public JLabel getPiocher() {
+	public JPanelImage getPiocher() {
 		return Piocher;
 	}
 
 
-	public JLabel getPoser() {
+	public JPanelImage getPoser() {
 		return Poser;
 	}
 
 
-	public JLabel getConstruire() {
+	public JPanelImage getConstruire() {
 		return Construire;
 	}
 
 
-	public JLabel getFinir() {
+	public JPanelImage getFinir() {
 		return Finir;
 	}
 
@@ -977,6 +1089,11 @@ public class IHM {
 
 	public JPanelImage getToute_la_Pioche() {
 		return Toute_la_Pioche;
+	}
+	
+
+	public JLabel getTaille_Pioche() {
+		return Taille_Pioche;
 	}
 
 	public static int getLargeur_total() {

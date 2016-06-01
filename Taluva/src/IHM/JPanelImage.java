@@ -37,11 +37,17 @@ public class JPanelImage extends JPanel{
         switch (ImageEnCours)
         {
         case 1:
-        	if (imageActiver == null) return;
+        	if (imageActiver == null) 
+        		{
+        			return;
+        		}
  	        	g.drawImage(imageActiver, 0, 0, getWidth(), getHeight(), this);
         	break;
         case 2:
-        	if (imageDesactiver == null) return;
+        	if (imageDesactiver == null) 
+        		{
+        			return;
+        		}
  	        	g.drawImage(imageDesactiver, 0, 0, getWidth(), getHeight(), this);
         	break;
         default:
@@ -55,6 +61,7 @@ public class JPanelImage extends JPanel{
 			ImageEnCours = 1;
 		else
 			ImageEnCours = 2;
+		this.repaint();
 			
 	}
 }
