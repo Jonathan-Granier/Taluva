@@ -11,6 +11,7 @@ import Moteur.Moteur;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import terrain.Cite;
+import terrain.Terrain;
 import terrain.Tuile;
 
 public class IA_Heuristique extends IA_Generique {
@@ -120,7 +121,7 @@ public class IA_Heuristique extends IA_Generique {
 		int score =0;
 		score += (Moteur.nb_max_Temples - c.getTemple()) * score_temple;
 		score += (Moteur.nb_max_Tours - c.getTour()) * score_tour;
-		score += (Moteur.nb_max_Huttes - c.getHutte()) * score_hutte;
+		//score += (Moteur.nb_max_Huttes - c.getHutte()) * score_hutte;
 		// Si le joueur s'est débarassé de toutes ses pièces de 2 catégorie, il a gagné.
 		if((c.getHutte() == 0 && c.getTemple() == 0) || (c.getTemple() ==0 && c.getTour() ==0) || (c.getHutte()==0 && c.getTour()==0))
 		{
@@ -155,6 +156,13 @@ public class IA_Heuristique extends IA_Generique {
 			// check destructible
 			score_cite += score_temple/2;
 		}
+		if(c.getNbTemples() == 0){
+			score_cite += c.getTaille() * score_taille_cite_sans_temple;
+			if(cite_non_reductible_sous_3(c)){
+				score_cite += score_cite_indestructible_sans_temple;
+			}
+				
+		}
 		// Si la cité permet de construire une tour
 		if(c.getNbTours() == 0 && m.get_nbTuiles() > 2 && j.getTour()>0){
 			for(Case.Type t : Case.Type.values()){
@@ -175,5 +183,24 @@ public class IA_Heuristique extends IA_Generique {
 			score_cite = score_cite / score_div_city_temple_tower;
 		}
 		return score_cite;
+	}
+	
+	private boolean cite_non_reductible_sous_3(Cite c){
+		if(c.getTaille()<3) return false;
+		Terrain T = m.getTerrain();
+		boolean non_reductible ;
+		for(Action_Tuile actTuile : T.liste_coups_tuile_possibles(new Tuile(Case.Type.FORET,Case.Type.FORET))){
+			non_reductible = false;
+			Terrain T_after = T.consulter_coup_tuile(actTuile.getTuile(), actTuile.getPosition());
+			for(Point P : c.getPts()){
+				Cite cite;
+				cite = T_after.getCite(P);
+				if(cite.getCouleur() != Couleur_Joueur.NEUTRE && cite.getTaille() >= 3)
+					non_reductible = true;
+			}
+			if(!non_reductible)
+				return false;
+		}
+		return true;
 	}
 }
