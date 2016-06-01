@@ -20,7 +20,7 @@ public abstract class IA_Generique extends Joueur_Generique{
 	protected static int score_zone_city = 15;
 	protected static int score_div_city_temple = 2;
 	protected static int score_div_city_temple_tower = Integer.MAX_VALUE;
-	protected static int score_cite_petite = 5;
+	protected static int score_cite_petite_avec_temple = 5;
 	protected static int score_taille_cite_sans_temple = 2;
 	protected static int score_cite_indestructible_sans_temple = 100;
 	

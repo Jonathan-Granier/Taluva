@@ -25,7 +25,7 @@ public class IA_Difficile extends IA_Generique {
 
 	public Actions_Tour get_coup_tour(Tuile tuile)
 	{
-		System.out.println("IA Heuristique : On me demande un coup");
+		System.out.println("IA Difficile : On me demande un coup");
 		Moteur virtuel= m.clone();
 		Moteur reel = m;
 		this.m = virtuel;
@@ -159,14 +159,9 @@ public class IA_Difficile extends IA_Generique {
 	// Calculer la valeur d'une cité.
 	private int valeur_cite(Cite c, Joueur_Generique j)
 	{
-		int score_cite = 0;//score_city + c.getTaille() * score_zone_city;
-		// Si la cité nous permettra de créer un temple, elle en vaux la moitié des points
-		if(c.getTaille() >= 3 && c.getNbTemples() == 0 && m.get_nbTuiles() > 2 && j.getTemple()>0)
-		{
-			// check destructible
-			score_cite += score_temple/2;
-		}
-		if(c.getNbTemples() == 0){
+		int score_cite = score_city + c.getTaille() * score_zone_city;
+
+		if(c.getNbTemples() == 0 && j.getTemple()>0){
 			score_cite += c.getTaille() * score_taille_cite_sans_temple;
 			if(cite_non_reductible_sous_3(c)){
 				score_cite += score_cite_indestructible_sans_temple;
@@ -174,19 +169,19 @@ public class IA_Difficile extends IA_Generique {
 				
 		}
 		// Si la cité permet de construire une tour
-		if(c.getNbTours() == 0 && m.get_nbTuiles() > 2 && j.getTour()>0){
+		if(c.getNbTours() == 0 && j.getTour()>0){
 			for(Case.Type t : Case.Type.values()){
 				ArrayList<Point> ptsVoisins = m.getTerrain().getPts_extension_cite(c, t);
 				for(Point p : ptsVoisins){
-					if(m.getTerrain().getCase(p).getNiveau()>=3 && m.getTerrain().getCase(p).est_Libre()){
-						score_cite+=score_tour/2;
+					if(m.getTerrain().getCase(p).getNiveau()>=3 && m.getTerrain().getCase(p).est_Libre() && m.getTerrain().getCase(p).getType() != Case.Type.VOLCAN){
+						score_cite+=score_tour/3;
 					}
 				}
 			}
 		}
 		if(c.getNbTemples() > 0)
 		{
-			score_cite -= c.getTaille() * score_cite_petite;
+			score_cite -= c.getTaille() * score_cite_petite_avec_temple;
 		}
 		if( c.getNbTemples()>0 && c.getNbTours()>0)
 		{
