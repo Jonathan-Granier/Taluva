@@ -6,12 +6,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import Menu.Load_save_screen;
+
 public class Charger {
 	
 	public Charger(Sauvegarde save,String path){
 		save = null;
 		try
 		{
+			Load_save_screen screen = new Load_save_screen();
+	        screen.run();
+	        Sauvegarder Save = new Sauvegarder(save,screen.getPath());
 			FileInputStream fileIn = new FileInputStream(path);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			save = (Sauvegarde) in.readObject();

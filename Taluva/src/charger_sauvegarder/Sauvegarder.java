@@ -5,9 +5,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import Menu.Load_save_screen;
+
 public class Sauvegarder {
 	
 	public Sauvegarder(Sauvegarde save,String path){
+		Load_save_screen screen = new Load_save_screen();
+		screen.run();
+        Charger load = new Charger(save,screen.getPath());
+        
 		try
 	      {
 			System.out.println(path);
