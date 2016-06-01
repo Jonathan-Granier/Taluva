@@ -30,6 +30,8 @@ public abstract class IA_Generique extends Joueur_Generique{
 	protected static int score_cite_petite_avec_temple = 5;
 	protected static int score_taille_cite_sans_temple = 2;
 	protected static int score_cite_indestructible_sans_temple = 100;
+	protected static int score_case_3_adj = 300;
+	protected static int score_case_2_adj = 5;
 	
 	public IA_Generique(Couleur_Joueur c, Moteur m) {
 		super(c);
@@ -78,15 +80,19 @@ public abstract class IA_Generique extends Joueur_Generique{
 			if(cite_non_reductible_sous_3(c,m.getTerrain())){
 				score_cite += score_cite_indestructible_sans_temple;
 			}
-				
 		}
 		// Si la cité permet de construire une tour
 		if(c.getNbTours() == 0 && j.getTour()>0){
 			for(Case.Type t : Case.Type.values()){
 				ArrayList<Point> ptsVoisins = m.getTerrain().getPts_extension_cite(c, t);
 				for(Point p : ptsVoisins){
-					if(m.getTerrain().getCase(p).getNiveau()>=3 && m.getTerrain().getCase(p).est_Libre() && m.getTerrain().getCase(p).getType() != Case.Type.VOLCAN){
-						score_cite+=score_tour/3;
+					if(m.getTerrain().getCase(p).est_Libre() && m.getTerrain().getCase(p).getType() != Case.Type.VOLCAN){
+						if(m.getTerrain().getCase(p).getNiveau()>=3){
+							score_cite+=score_case_3_adj;
+						}
+						else if(m.getTerrain().getCase(p).getNiveau()==2){
+							score_cite+=score_case_2_adj;
+						}
 					}
 				}
 			}
