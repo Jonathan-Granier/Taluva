@@ -144,11 +144,11 @@ public class Camera {
 		}
 		
 		if(Mouse.isButtonDown(2)){
-			float offsetDX = Mouse.getDX() * 0.3f;
+			float offsetDX = -Mouse.getDX() * 0.1f;
 			lookAt.z += offsetDX * Math.sin(Math.toRadians(angleAroundPivot));
 			lookAt.x -= offsetDX * Math.cos(Math.toRadians(angleAroundPivot));
 			
-			float offsetDY = Mouse.getDY() * 0.3f;
+			float offsetDY = -Mouse.getDY() * 0.1f;
 			lookAt.z += offsetDY * Math.cos(Math.toRadians(angleAroundPivot));
 			lookAt.x += offsetDY * Math.sin(Math.toRadians(angleAroundPivot));
 		}

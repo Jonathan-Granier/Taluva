@@ -19,19 +19,6 @@ public class IA_Alpha_Beta extends IA_Generique {
 	private ArrayList<ArrayList<Action_Construction>> Action_Construction_Memoire;
 	private ArrayList<ArrayList<Action_Tuile>> Action_Tuile_Memoire; 
 	
-	private static int score_temple = 5000;
-	private static int score_tour = 1000;
-	private static int score_hutte = 1;
-	private static int score_deplete_mult = 20;
-	private static int tower_deplete_mult = 4;
-	private static int temple_deplete_mult = 4;
-	private static int hut_deplete_mult = 1;
-	private static int hut_deplete_cant_play_mult = 5;
-	private static int score_city = 5;
-	private static int score_zone_city = 15;
-	private static int score_div_city_temple = 2;
-	private static int score_div_city_temple_tower = Integer.MAX_VALUE;
-	
 	// Constructeur sans profondeur donné, joue seulement son tour.
 	public IA_Alpha_Beta (Couleur_Joueur c, Moteur m)
 	{
