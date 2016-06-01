@@ -313,6 +313,7 @@ public class Nouveau extends JComponent {
 	}
 	
 	private void lancer_jeu(Joueur_Generique j1,Joueur_Generique j2){
+		gameF = new JFrame();
 		moteur.add_j1(j1);
         moteur.add_j2(j2);
         ihm = new IHM(moteur, gameF);
@@ -336,7 +337,7 @@ public class Nouveau extends JComponent {
         gameF.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we){
-                int result = JOptionPane.showConfirmDialog(gameF, "Voulez-vous vraiment quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
+                int result = JOptionPane.showConfirmDialog(gameF, "Êtes-vous sûr de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
                 if(result == JOptionPane.OK_OPTION){
                 	game.cleanUp();
                 	gameF.setVisible(false);

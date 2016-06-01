@@ -82,10 +82,10 @@ public class Menu_Demarrage extends JComponent {
 		continuer.setBackground(Color.WHITE);
 		continuer.setFont(new Font("Continuer", Font.BOLD+Font.ITALIC,40));
 		continuer.setOpaque(false);
-		File directory = new File("./Save");
-		if(directory.listFiles().length==0){
-			continuer.setEnabled(false);
-		}
+		//File directory = new File("./Save");
+		//if(directory.listFiles().length==0){
+		//	continuer.setEnabled(false);
+		//}
 		
 		menu.add(continuer);
 		
@@ -170,6 +170,7 @@ public class Menu_Demarrage extends JComponent {
 	public void nouveau(){
 		fenetre.setEnabled(false);
 		fenetre.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
+		//fenetre.add(new Echap(fenetre,gameF));
 	}
 	
 	public void charger(){
@@ -177,6 +178,7 @@ public class Menu_Demarrage extends JComponent {
 		screen.run();
 		Charger load = new Charger(screen.getPath());
 		// TODO
+		//Tester si ça marche
 		if(load.getSave()==null)System.out.println("Save pour charger null");
 		else load.getSave().Restore(game, moteur);
 	}
@@ -195,7 +197,7 @@ public class Menu_Demarrage extends JComponent {
 	}
 	
 	public void quitter(){
-		int result = JOptionPane.showConfirmDialog(fenetre, "Voulez-vous vraiment quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
+		int result = JOptionPane.showConfirmDialog(fenetre, "Êtes-vous sûr de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
         if(result == JOptionPane.OK_OPTION){
         	fenetre.setVisible(false);
     		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

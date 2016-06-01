@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Echap extends JComponent {
@@ -124,18 +125,58 @@ public class Echap extends JComponent {
 		principal.setEnabled(true);
 	}
 	public void nouveau(){
-		
+		int result = JOptionPane.showConfirmDialog(m_fenetre, "Êtes-vous sûrs de vouloir quitter la partie en cours ?", "Confirmation", JOptionPane.CANCEL_OPTION);
+        if(result == JOptionPane.OK_OPTION){
+        	principal.remove(m_fenetre);
+    		m_fenetre.dispose();
+    		principal.setVisible(false);
+    		principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    		principal.dispose();
+    		menu.setVisible(true);
+    		if(menu.getComponent(0) instanceof Menu_Demarrage){
+    			((Menu_Demarrage) menu.getComponent(0)).nouveau();
+    		}
+    		else{
+    			//TODO : Trouver un moyen de simuler un clic sur Nouveau
+    			//Ou alors
+    			//principal.setEnabled(false);
+    			//principal.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
+    			
+    		}
+        }
 	}
 	public void regles(){
-		
+		principal.remove(m_fenetre);
+		m_fenetre.dispose();
+		principal.setVisible(false);
+		menu.setVisible(true);
+		menu.add(new Regles(menu));
 	}
 	public void sauvegarder(){
-		
+		//Voir avec Noha
 	}
 	public void charger(){
-		
+		//Voir avec Noha
 	}
+	
+	//Ca dépend si on veut quitter le jeu ou revenir au menu demarrage
+	//Je suppose qu'on pas tout quitter
+	//TODO
 	public void quitter(){
-		
+		int result = JOptionPane.showConfirmDialog(m_fenetre, "Êtes-vous sûrs de vouloir quitter la partie en cours?", "Confirmation", JOptionPane.CANCEL_OPTION);
+        if(result == JOptionPane.OK_OPTION){
+        	principal.remove(m_fenetre);
+    		m_fenetre.dispose();
+    		principal.setVisible(false);
+    		principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    		principal.dispose();
+    		menu.setVisible(true);
+    		
+    		/* Au cas ou on veut tout quitter
+    		menu.setVisible(false);
+    		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    		menu.dispose();
+    		*/
+        }
 	}
 }
