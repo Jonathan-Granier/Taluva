@@ -27,6 +27,7 @@ import loaders.Loader;
 import terrain.Case;
 import Action.Action_Batiment;
 import Action.Action_Tuile;
+import Menu.Echap;
 import Moteur.Phase.Phase_Jeu;
 import Moteur.Moteur;
 import terrain.Terrain;
@@ -305,7 +306,8 @@ public class Game implements Observer,KeyListener {
 			camera.reset();
 			break;
 		case KeyEvent.VK_ESCAPE:
-			echape();
+			frame.setEnabled(false);
+			frame.add(new Echap(frame));
 			break;
 		default:
 			break;
@@ -340,7 +342,4 @@ public class Game implements Observer,KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 	}
 	
-	private void echape(){
-		//TODO
-	}
 }
