@@ -329,7 +329,7 @@ public class Nouveau extends JComponent {
         gameF.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
         game = new Game();
-        game.init(gameF,moteur,ihm.getCanvas(),ihm.getPioche_Tuile());
+        game.init(principal,gameF,moteur,ihm.getCanvas(),ihm.getPioche_Tuile());
         
         gameF.addKeyListener(game);
         gameF.setFocusable(true);

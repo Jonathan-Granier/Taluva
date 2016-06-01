@@ -21,6 +21,7 @@ public class Echap extends JComponent {
 
 	private JFrame m_fenetre;
 	private JFrame principal;
+	private JFrame menu;
 	
 	private JButton reprendre;
 	private JButton nouveau;
@@ -30,8 +31,8 @@ public class Echap extends JComponent {
 	private JButton quitter;
 	private JPanel pause;
 	
-	public Echap(JFrame frame){
-		init_frame(frame);
+	public Echap(JFrame frame, JFrame menu){
+		init_frame(frame,menu);
 		
 		int width = m_fenetre.getWidth();
 		int height = m_fenetre.getHeight();
@@ -101,8 +102,9 @@ public class Echap extends JComponent {
 		m_fenetre.add(pause);
 	}
 	
-	private void init_frame(JFrame frame){
+	private void init_frame(JFrame frame,JFrame menu){
 		principal = frame;
+		this.menu = menu;
 		m_fenetre = new JFrame("Pause");
 		m_fenetre.setVisible(true);
 		m_fenetre.setSize(frame.getWidth()/4,frame.getHeight()/2);
@@ -117,7 +119,9 @@ public class Echap extends JComponent {
 	}
 
 	public void reprendre(){
-		
+		principal.remove(m_fenetre);
+		m_fenetre.dispose();
+		principal.setEnabled(true);
 	}
 	public void nouveau(){
 		

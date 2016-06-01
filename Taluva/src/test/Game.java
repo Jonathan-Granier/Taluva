@@ -71,6 +71,7 @@ public class Game implements Observer,KeyListener {
 	private SkyboxRenderer skyboxRenderer;
 	private Canvas canvas;
 	private JFrame frame;
+	private JFrame menu;
 	
 	private boolean[] keys = {false,false,false,false};
 	
@@ -157,7 +158,8 @@ public class Game implements Observer,KeyListener {
 			delay++;
 	}
 	
-	public void init(JFrame frame,Moteur m,Canvas canvas,JPanelPioche Tuile_Pioche){
+	public void init(JFrame menu,JFrame frame,Moteur m,Canvas canvas,JPanelPioche Tuile_Pioche){
+		this.menu = menu;
 		this.frame = frame;
 		Window.createDislay();
 		this.moteur = m;
@@ -307,7 +309,7 @@ public class Game implements Observer,KeyListener {
 			break;
 		case KeyEvent.VK_ESCAPE:
 			frame.setEnabled(false);
-			frame.add(new Echap(frame));
+			frame.add(new Echap(frame,menu));
 			break;
 		default:
 			break;
