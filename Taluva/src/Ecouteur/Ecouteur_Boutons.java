@@ -7,6 +7,7 @@ import loaders.Loader;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import IHM.JPanelPioche;
 import terrain.Case;
 import terrain.Tuile;
 import entities.GraphicConstruction;
@@ -19,6 +20,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	
 	String action;
 	Moteur moteur;
+	private JPanelPioche panelpioche;
 	private static boolean pick;
 	private static boolean undo;
 	private static boolean clicked = false;
@@ -28,6 +30,13 @@ public class Ecouteur_Boutons implements ActionListener {
 	public Ecouteur_Boutons(String action,Moteur moteur){
 		this.action = action;
 		this.moteur = moteur;
+	}
+	
+	public Ecouteur_Boutons(String action,Moteur moteur,JPanelPioche panelpioche)
+	{
+		this.action = action;
+		this.moteur = moteur;
+		this.panelpioche = panelpioche;
 	}
 	
 	public static void setTile(Loader loader,GraphicTile T){
@@ -58,75 +67,13 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		Case.Type sud = moteur.get_tuile_pioche().get_type_case(Case.Orientation.S);
 				Tile.setTile(new Tuile(nord,sud));
 				Tile.getObject3D().setRotY(90);
+				panelpioche.setTuile();
 	    		break;
 	    	
 	    	case "Fin_de_tour" :
 	    		// TODO
 	    		if(moteur.get_etat_jeu() != Phase_Jeu.CONSTRUIRE_BATIMENT)moteur.fin_de_tour();
 	    		break;
-	    	/*	
-	    	case "Hutte j1" :
-	    		if(moteur.Est_joueur_Courant(moteur.getJ1())){
-	    			System.out.println("hutte selectionnée");
-	    			moteur.select_hutte();
-	    			pick = true;
-	    			Construction.setType(GraphicType.HUT);
-	    			Construction.setObject3d();
-	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
-	    		}
-	    		break;	
-	    	
-	    	case "Temple j1" :
-	    		if(moteur.Est_joueur_Courant(moteur.getJ1())){
-	    			moteur.select_temple();
-	    			pick = true;
-	    			Construction.setType(GraphicType.TEMPLE);
-	    			Construction.setObject3d();
-	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
-	    		}
-	    		break;	
-	    	
-	    	case "Tour j1" :
-	    		if(moteur.Est_joueur_Courant(moteur.getJ1())){
-	    			moteur.select_tour();
-	    			pick = true;
-	    			Construction.setType(GraphicType.TOWER);
-	    			Construction.setObject3d();
-	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
-	    		}
-	    		break;
-	    		
-	    	case "Hutte j2" :
-	    		if(moteur.Est_joueur_Courant(moteur.getJ2())){
-	    			moteur.select_hutte();
-	    			pick = true;
-	    			Construction.setType(GraphicType.HUT);
-	    			Construction.setObject3d();
-	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
-	    		}
-	    		
-	    		break;	
-	    	
-	    	case "Temple j2" :
-	    		if(moteur.Est_joueur_Courant(moteur.getJ2())){
-	    			moteur.select_temple();
-	    			pick = true;
-	    			Construction.setType(GraphicType.TEMPLE);
-	    			Construction.setObject3d();
-	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
-	    		}
-	    		break;	
-	    	
-	    	case "Tour j2" :
-	    		if(moteur.Est_joueur_Courant(moteur.getJ2())){
-	    			moteur.select_tour();
-	    			pick = true;
-	    			Construction.setType(GraphicType.TOWER);
-	    			Construction.setObject3d();
-	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
-	    		}
-	    		break;	
-	    	*/	
 	    	case "Hutte" :
     			System.out.println("hutte selectionnée");
     			moteur.select_hutte();
@@ -153,7 +100,16 @@ public class Ecouteur_Boutons implements ActionListener {
     			Construction.setObject3d();
     			Construction.setColour(moteur.get_Jcourant().getCouleur());
 	    		break;
-	    	
+	    	case "Rotation_Horaire":
+	    		moteur.tourner_tuile();
+	    		panelpioche.RotationHoraire();
+	    		Tile.setAngle(moteur.get_tuile_pioche().get_Orientation_Volcan());
+	    		break;
+	    	case "Rotation_Anti_Horaire":
+	    		moteur.tourner_tuile_Anti_Horaire();
+	    		panelpioche.RotationAntiHoraire();
+	    		Tile.setAngle(moteur.get_tuile_pioche().get_Orientation_Volcan());
+	    		break;
 	    	default :
 	    		System.out.println("Bouton non défini");
 	    		break;

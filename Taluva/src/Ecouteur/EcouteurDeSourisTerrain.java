@@ -26,6 +26,7 @@ import loaders.Loader;
 import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import Action.Action_Tuile;
+import IHM.JPanelPioche;
 import IHM.Menu_circulaire_creation;
 import Moteur.Phase;
 import Moteur.Phase.Phase_Jeu;
@@ -68,8 +69,11 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 	private Vector3f point;
 	private float timer = 0;
 	private static final long TIME = 20;
+	private JPanelPioche Tuile_Pioche;
 	
-	public EcouteurDeSourisTerrain(Moteur m,MousePicker picker,Grid grid,GraphicTile Tile,List<GraphicTile> Tiles,GraphicConstruction construction, List<GraphicConstruction> constructions,Menu_circulaire_creation marking_menu)
+	public EcouteurDeSourisTerrain(Moteur m,MousePicker picker,Grid grid,
+			GraphicTile Tile,List<GraphicTile> Tiles,GraphicConstruction construction, 
+			List<GraphicConstruction> constructions,Menu_circulaire_creation marking_menu,JPanelPioche Tuile_Pioche)
 	{
 		this.m = m;
 		this.picker = picker;
@@ -79,6 +83,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 		this.construction = construction;
 		this.constructions = constructions;
 		this.marking_menu = marking_menu;
+		this.Tuile_Pioche = Tuile_Pioche;
 	}
 	
 	public void run()
@@ -318,6 +323,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 				}
 				else if(e.getButton() == MouseEvent.BUTTON3){
 						Tile.rotate();
+						Tuile_Pioche.RotationHoraire();
 						m.tourner_tuile();
 				}
 				

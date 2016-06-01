@@ -16,6 +16,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import Ecouteur.EcouteurDeSourisTerrain;
 import Ecouteur.Ecouteur_Boutons;
+import IHM.JPanelPioche;
 import IHM.Menu_circulaire_creation;
 import entities.Camera;
 import entities.GraphicConstruction;
@@ -155,7 +156,7 @@ public class Game implements Observer,KeyListener {
 			delay++;
 	}
 	
-	public void init(JFrame frame,Moteur m,Canvas canvas){
+	public void init(JFrame frame,Moteur m,Canvas canvas,JPanelPioche Tuile_Pioche){
 		this.frame = frame;
 		Window.createDislay();
 		this.moteur = m;
@@ -198,7 +199,7 @@ public class Game implements Observer,KeyListener {
 		marking_menu = new Menu_circulaire_creation(moteur,loader,Construction,grid,camera);
 
 		//Create listener
-		ecouteurSouris = new EcouteurDeSourisTerrain(moteur,picker,grid,Tile, Tiles, Construction, constructions,marking_menu);
+		ecouteurSouris = new EcouteurDeSourisTerrain(moteur,picker,grid,Tile, Tiles, Construction, constructions,marking_menu,Tuile_Pioche);
 		
 		TimerOpenGL timer = new TimerOpenGL();
 		timer.addObserver(this);

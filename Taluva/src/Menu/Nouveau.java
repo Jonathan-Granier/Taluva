@@ -75,6 +75,7 @@ public class Nouveau extends JComponent {
 		this.avancement = avancement;
 		
 		
+		
 		// Initialisation de l'écran de sélection pour une nouvelle partie
 		
 		init_m_fenetre(frame);
@@ -328,7 +329,7 @@ public class Nouveau extends JComponent {
         gameF.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
         game = new Game();
-        game.init(gameF,moteur,ihm.getCanvas());
+        game.init(gameF,moteur,ihm.getCanvas(),ihm.getPioche_Tuile());
         
         gameF.addKeyListener(game);
         gameF.setFocusable(true);
