@@ -717,6 +717,10 @@ public class Moteur extends Phase{
 		
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = action_tour.getAction_construction();
+		if(action_construction == null){
+			fin_de_tour();
+			return 1;
+		}
 		action_construction.afficher();
 		// SI c'est une extension
 		Point point_construction = action_construction.get_coord();

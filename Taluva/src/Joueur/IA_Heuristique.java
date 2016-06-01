@@ -48,18 +48,20 @@ public class IA_Heuristique extends IA_Generique {
 			{
 				m.Maj_liste_coup_construction();
 				retour_REC = choisir_construction_bon(m.get_liste_coup_construction().to_ArrayList());
-				score_courant = retour_REC.getHeuristique();
-				// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
-				if(score_courant == score_max)
-				{
-					AT_retour.add(new Actions_Tour(liste.get(i),retour_REC.getActionConstruction()));
-				}
-				// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
-				else if (score_courant > score_max)
-				{
-					score_max = score_courant;
-					AT_retour.clear();
-					AT_retour.add(new Actions_Tour(liste.get(i),retour_REC.getActionConstruction()));
+				if(retour_REC != null){
+					score_courant = retour_REC.getHeuristique();
+					// si le coup est aussi optimal que le plus optimal trouvé, on l'ajoute.
+					if(score_courant == score_max)
+					{
+						AT_retour.add(new Actions_Tour(liste.get(i),retour_REC.getActionConstruction()));
+					}
+					// si le coup est plus optimal, on vide la liste et on en commence une nouvelle.
+					else if (score_courant > score_max)
+					{
+						score_max = score_courant;
+						AT_retour.clear();
+						AT_retour.add(new Actions_Tour(liste.get(i),retour_REC.getActionConstruction()));
+					}
 				}
 				m.annuler();
 			}
@@ -67,7 +69,12 @@ public class IA_Heuristique extends IA_Generique {
 			i++;
 		}
 		// on renvoie un coup random parmi les coups optimaux
-		return AT_retour.get(R.nextInt(AT_retour.size()));
+		if(AT_retour.isEmpty()){
+			System.out.println("IA Heuristique : Impossible de construire");
+			return new Actions_Tour(liste.get(0), null);
+		}
+		else
+			return AT_retour.get(R.nextInt(AT_retour.size()));
 	}
 	
 	private Coup_Construction_Heuristique choisir_construction_bon( ArrayList <Action_Construction> liste)
@@ -96,7 +103,10 @@ public class IA_Heuristique extends IA_Generique {
 			i++;
 		}
 		// on renvoie un coup parmi les coups optimaux.
-		return new Coup_Construction_Heuristique(score_max, liste_construction_retour.get(R.nextInt(liste_construction_retour.size())));
+		if(liste_construction_retour.isEmpty())
+			return null;
+		else
+			return new Coup_Construction_Heuristique(score_max, liste_construction_retour.get(R.nextInt(liste_construction_retour.size())));
 	}
 	
 	private int Heuristique()
@@ -190,9 +200,11 @@ public class IA_Heuristique extends IA_Generique {
 		Terrain T = m.getTerrain();
 		boolean non_reductible ;
 		for(Action_Tuile actTuile : T.liste_coups_tuile_possibles(new Tuile(Case.Type.FORET,Case.Type.FORET))){
+			// On simule tous les coups tuile
 			non_reductible = false;
 			Terrain T_after = T.consulter_coup_tuile(actTuile.getTuile(), actTuile.getPosition());
 			for(Point P : c.getPts()){
+				// Pour chaque point de l'ancienne cite, on verifie qu'il reste au moins une taille 3 parmi eux
 				Cite cite;
 				cite = T_after.getCite(P);
 				if(cite.getCouleur() != Couleur_Joueur.NEUTRE && cite.getTaille() >= 3)
