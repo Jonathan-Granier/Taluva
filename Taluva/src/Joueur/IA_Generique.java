@@ -1,8 +1,15 @@
 package Joueur;
 
+import java.awt.Point;
+import java.util.ArrayList;
+
+import Action.Action_Tuile;
 import Action.Actions_Tour;
 import Moteur.Moteur;
 import terrain.Case.Couleur_Joueur;
+import terrain.Case;
+import terrain.Cite;
+import terrain.Terrain;
 import terrain.Tuile;
 
 public abstract class IA_Generique extends Joueur_Generique{
@@ -30,29 +37,13 @@ public abstract class IA_Generique extends Joueur_Generique{
 	}
 	
 	public abstract Actions_Tour get_coup_tour(Tuile tuile);
-	/*
-	protected int Heuristique()
-	{
-		int bonPoints;
-		int mauvaisPoints;
-		if(m.EstLeMemeJoueur(this, m.getJ1()))
-		{
-			bonPoints = Calculer_points_heur(m.get_Jcourant());
-			mauvaisPoints = Calculer_points_heur(m.getJ2());
-		}
-		else
-		{
-			bonPoints = Calculer_points_heur(m.get_Jcourant());
-			mauvaisPoints = Calculer_points_heur(m.getJ1());
-		}
-		return bonPoints - mauvaisPoints;
-	}
-	private int Calculer_points_heur(Joueur_Generique c) {
+	
+	protected static int Calculer_points_heur(Joueur_Generique c, Moteur m) {
 		// on compte le score d'un joueur dans le terrain.
 		int score =0;
 		score += (Moteur.nb_max_Temples - c.getTemple()) * score_temple;
 		score += (Moteur.nb_max_Tours - c.getTour()) * score_tour;
-		score += (Moteur.nb_max_Huttes - c.getHutte()) * score_hutte;
+		//score += (Moteur.nb_max_Huttes - c.getHutte()) * score_hutte;
 		// Si le joueur s'est débarassé de toutes ses pièces de 2 catégorie, il a gagné.
 		if((c.getHutte() == 0 && c.getTemple() == 0) || (c.getTemple() ==0 && c.getTour() ==0) || (c.getHutte()==0 && c.getTour()==0))
 		{
@@ -73,39 +64,61 @@ public abstract class IA_Generique extends Joueur_Generique{
 		// Ajouter les points dus aux qualités des cités;
 		ArrayList<Cite> liste_cite = m.getTerrain().getCitesJoueur(c.getCouleur());
 		for(int i=0; i < liste_cite.size(); i++)
-			score += valeur_cite(liste_cite.get(i), c);
+			score += valeur_cite(liste_cite.get(i), c, m);
 		return score;
 	}
 	
 	// Calculer la valeur d'une cité.
-	private int valeur_cite(Cite c, Joueur_Generique j)
+	private static int valeur_cite(Cite c, Joueur_Generique j, Moteur m)
 	{
-		int score_cite = 0;//score_city + c.getTaille() * score_zone_city;
-		// Si la cité nous permettra de créer un temple, elle en vaux la moitié des points
-		if(c.getTaille() >= 3 && c.getNbTemples() == 0 && m.get_nbTuiles() > 2 && j.getTemple()>0)
-		{
-			// check destructible
-			score_cite += score_temple/2;
+		int score_cite = score_city + c.getTaille() * score_zone_city;
+
+		if(c.getNbTemples() == 0 && j.getTemple()>0){
+			score_cite += c.getTaille() * score_taille_cite_sans_temple;
+			if(cite_non_reductible_sous_3(c,m.getTerrain())){
+				score_cite += score_cite_indestructible_sans_temple;
+			}
+				
 		}
 		// Si la cité permet de construire une tour
-		if(c.getNbTours() == 0 && m.get_nbTuiles() > 2 && j.getTour()>0){
+		if(c.getNbTours() == 0 && j.getTour()>0){
 			for(Case.Type t : Case.Type.values()){
 				ArrayList<Point> ptsVoisins = m.getTerrain().getPts_extension_cite(c, t);
 				for(Point p : ptsVoisins){
-					if(m.getTerrain().getCase(p).getNiveau()>=3 && m.getTerrain().getCase(p).est_Libre()){
-						score_cite+=score_tour/2;
+					if(m.getTerrain().getCase(p).getNiveau()>=3 && m.getTerrain().getCase(p).est_Libre() && m.getTerrain().getCase(p).getType() != Case.Type.VOLCAN){
+						score_cite+=score_tour/3;
 					}
 				}
 			}
 		}
 		if(c.getNbTemples() > 0)
 		{
-			score_cite = score_cite / score_div_city_temple;
+			score_cite -= c.getTaille() * score_cite_petite_avec_temple;
 		}
 		if( c.getNbTemples()>0 && c.getNbTours()>0)
 		{
 			score_cite = score_cite / score_div_city_temple_tower;
 		}
 		return score_cite;
-	}*/
+	}
+	
+	private static boolean cite_non_reductible_sous_3(Cite c, Terrain T){
+		if(c.getTaille()<3) return false;
+		boolean non_reductible ;
+		for(Action_Tuile actTuile : T.liste_coups_tuile_possibles(new Tuile(Case.Type.FORET,Case.Type.FORET))){
+			// On simule tous les coups tuile
+			non_reductible = false;
+			Terrain T_after = T.consulter_coup_tuile(actTuile.getTuile(), actTuile.getPosition());
+			for(Point P : c.getPts()){
+				// Pour chaque point de l'ancienne cite, on verifie qu'il reste au moins une taille 3 parmi eux
+				Cite cite;
+				cite = T_after.getCite(P);
+				if(cite.getCouleur() != Couleur_Joueur.NEUTRE && cite.getTaille() >= 3)
+					non_reductible = true;
+			}
+			if(!non_reductible)
+				return false;
+		}
+		return true;
+	}
 }
