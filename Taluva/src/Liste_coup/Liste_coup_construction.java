@@ -29,21 +29,27 @@ public class Liste_coup_construction {
 			for(int j = limites.ymin; j <= limites.ymax; j++)
 			{
 				p = new Point(i,j);
-				if(t.placement_batiment_autorise(Case.Type_Batiment.HUTTE, joueur.getCouleur(), p))
+				if(t.placement_batiment_autorise(Case.Type_Batiment.HUTTE, joueur.getCouleur(), p) && joueur.getHutte() >0)
 				{
 					huttes.add(new Point(p));
 				}
-				if(t.placement_batiment_autorise(Case.Type_Batiment.TEMPLE, joueur.getCouleur(), p))
+				if(t.placement_batiment_autorise(Case.Type_Batiment.TEMPLE, joueur.getCouleur(), p) && joueur.getTemple() >0)
 				{
 					temple.add(new Point(p));
 				}
-				if(t.placement_batiment_autorise(Case.Type_Batiment.TOUR, joueur.getCouleur(), p))
+				if(t.placement_batiment_autorise(Case.Type_Batiment.TOUR, joueur.getCouleur(), p) && joueur.getTour() >0 )
 				{
 					tour.add(new Point(p));
 				}
 			}
 		}
-		extension = t.liste_extensions_possibles(joueur.getCouleur());
+		// On récupère les extension et on enlève celle pour lesquelles on a pas assez de huttes.
+		ArrayList <Action_Construction> extension_tmp = t.liste_extensions_possibles(joueur.getCouleur());
+		for(int i=0; i< extension_tmp.size(); i++)
+		{
+			if( joueur.getHutte() >= extension_tmp.get(i).get_nb_batiments())
+				this.extension.add(extension_tmp.get(i));
+		}
 	}
 	
 	public Liste_coup_construction() {
