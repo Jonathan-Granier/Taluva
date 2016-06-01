@@ -20,6 +20,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import IHM.Avancement;
+import IHM.IHM;
+import Moteur.Moteur;
+import terrain.Terrain;
+import test.Game;
+
 
 @SuppressWarnings("serial")
 public class Menu_Demarrage extends JComponent {
@@ -32,8 +38,18 @@ public class Menu_Demarrage extends JComponent {
 	private int height,width;
 	private Dimension dimension;
 	
+	//Pour nouveau
+	private JFrame gameF;
+	private Game game;
+	private Moteur moteur;
+	private Terrain terrain;
+	private IHM ihm;
+	private Avancement avancement;
 	
-	public Menu_Demarrage(JFrame frame) {
+	
+	// L'INSTANCIATION
+	
+	public void init_all(JFrame frame) {
 		
 		try {
 			backgroundImage = ImageIO.read(new File("../Images/Taluva_Demarrage.png"));
@@ -118,10 +134,27 @@ public class Menu_Demarrage extends JComponent {
 		this.add(east_panel, BorderLayout.EAST);
 		
 	}
+	public Menu_Demarrage(JFrame frame){
+		init_all(frame);
+	}
+	
+	public Menu_Demarrage(JFrame frame,JFrame gameF,Game game,Moteur moteur,Terrain terrain,IHM ihm,Avancement avancement) {
+		init_all(frame);
+		this.gameF = gameF;
+		this.game = game;
+		this.moteur = moteur;
+		this.terrain = terrain;
+		this.ihm = ihm;
+		this.avancement = avancement;
+	}
+	
+	
+	// LES BOUTONS
+	
 	
 	public void nouveau(){
 		fenetre.setEnabled(false);
-		fenetre.add(new Nouveau(fenetre));
+		fenetre.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
 	}
 
 	public void regles(){
