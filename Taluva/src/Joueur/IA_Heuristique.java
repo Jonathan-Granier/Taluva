@@ -24,6 +24,7 @@ public class IA_Heuristique extends IA_Generique {
 
 	public Actions_Tour get_coup_tour(Tuile tuile)
 	{
+		System.out.println("IA Heuristique : On me demande un coup");
 		Moteur virtuel= m.clone();
 		Moteur reel = m;
 		this.m = virtuel;
@@ -61,7 +62,7 @@ public class IA_Heuristique extends IA_Generique {
 				}
 				m.annuler();
 			}
-			else System.out.println("Erreur IA MC Tuile");
+			else System.out.println("Erreur IA H Tuile");
 			i++;
 		}
 		// on renvoie un coup random parmi les coups optimaux
@@ -90,7 +91,7 @@ public class IA_Heuristique extends IA_Generique {
 				}
 				m.annuler();
 			}
-			else System.out.println("Erreur IA MC Construction");
+			else System.out.println("Erreur IA H Construction");
 			i++;
 		}
 		// on renvoie un coup parmi les coups optimaux.
@@ -167,7 +168,7 @@ public class IA_Heuristique extends IA_Generique {
 		}
 		if(c.getNbTemples() > 0)
 		{
-			score_cite = score_cite / score_div_city_temple;
+			score_cite -= c.getTaille() * score_cite_petite;
 		}
 		if( c.getNbTemples()>0 && c.getNbTours()>0)
 		{
