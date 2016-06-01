@@ -951,4 +951,16 @@ public class Moteur extends Phase{
 		Random R = new Random();
 		return pioche.get(R.nextInt(pioche.size()));
 	}
+	
+	public Moteur_light to_Moteur_Light()
+	{
+		Moteur_light retour = new Moteur_light(this.T.clone(false));
+		retour.add_j1(j1.clone());
+		retour.add_j2(j2.clone());
+		if(this.nb_Joueur == 3)
+			retour.add_j3(j3.clone());
+		if( this.nb_Joueur == 4)
+			retour.add_j4(j4.clone());
+		return retour;
+	}
 }
