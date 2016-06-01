@@ -24,7 +24,7 @@ import terrain.Terrain;
 import terrain.Tuile;
 
 public class Moteur extends Phase{
-	private Terrain T;
+	protected Terrain T;
 	private Stack<Etat_de_jeu> annul, redo;
 	//private ArrayList<Joueur_Humain> prev, next;
 	private ArrayList<Etat_de_jeu> histo_jeu;
@@ -35,14 +35,14 @@ public class Moteur extends Phase{
 	private Case.Type_Batiment bat_choisi;
 	private Liste_coup_construction liste_coup_construction;
 	
-	private Joueur_Generique j_courant;
-	private Joueur_Generique j1;
-	private Joueur_Generique j2;
-	private Joueur_Generique j3;
-	private Joueur_Generique j4;
+	protected Joueur_Generique j_courant;
+	protected Joueur_Generique j1;
+	protected Joueur_Generique j2;
+	protected Joueur_Generique j3;
+	protected Joueur_Generique j4;
 	private Joueur_Generique j_gagnant;
 	
-	private int nb_Joueur;
+	protected int nb_Joueur;
 	
 	public static final int nb_max_Huttes = 20;
 	public static final int nb_max_Tours = 2;
