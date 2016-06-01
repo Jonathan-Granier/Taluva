@@ -885,18 +885,19 @@ public class Moteur extends Phase{
 	
 	private void set_etat_de_jeu(Etat_de_jeu edj)
 	{
-		this.j1 = edj.getj1().clone();
-		this.j2 = edj.getj2().clone();
+		
+		this.j1 = edj.getj1().clone(this);
+		this.j2 = edj.getj2().clone(this);
 		j1.MajListeners();
 		j2.MajListeners();
 		if(edj.get_nb_Joueur() >= 3 )
 		{
-			this.j3 = edj.getj3().clone();
+			this.j3 = edj.getj3().clone(this);
 			j3.MajListeners();
 		}
 		if(edj.get_nb_Joueur() == 4 )
 		{
-			this.j4 = edj.getj4().clone();
+			this.j4 = edj.getj4().clone(this);
 			j4.MajListeners();
 		}
 		//On recreer la référance de j_courant vers j1 ou j2
