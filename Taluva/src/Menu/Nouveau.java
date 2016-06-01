@@ -28,7 +28,7 @@ public class Nouveau extends JComponent {
 	
 	private JFrame m_fenetre;
 	private JFrame principal;
-	private Moteur moteur;
+	//private Moteur moteur;
 	
 	private JLabel joueur_1;
 	private JComboBox<String> humain_j1;
@@ -57,27 +57,45 @@ public class Nouveau extends JComponent {
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		c.insets = new Insets(height_b*3,width_b,0,0);
-		joueur_1 = new JLabel("Joueur 1");
-		joueur_1.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
+		
+		c.insets = new Insets(0,0,0,0);
+		JLabel type = new JLabel("Type de joueur");
+		type.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		c.gridheight=1;
 		c.gridwidth=1;
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 0;
 		c.ipadx = 0;
 		c.ipady = 0;
+		panel.add(type,c);
+		c.insets = new Insets(0,0,0,0);
+		
+		c.insets = new Insets(height_b*3,width_b,0,0);
+		JLabel faction = new JLabel("Factions");
+		faction.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
+		c.gridx = 0;
+		c.gridy = 1;
+		panel.add(faction,c);
+		c.insets = new Insets(0,0,0,0);
+		
+		c.insets = new Insets(height_b*3,width_b,0,0);
+		joueur_1 = new JLabel("Joueur 1");
+		joueur_1.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
+		c.gridx = 0;
+		c.gridy = 1;
 		panel.add(joueur_1,c);
 		c.insets = new Insets(0,0,0,0);
 		
-		c.insets = new Insets(height_b*3,-width_b,0,0);
-		c.gridx = 1;
-		c.gridy = 0;
 		
 		String[] type_joueur = {" Humain", " IA_Facile", " IA_Moyenne", " IA_Difficile"};
-		String[] factions = {" Faction"," Orientaux", " Babyloniens", " A définir", " A définir"};
+		String[] factions = {" Orientaux", " Babyloniens", " A définir", " A définir"};
 		
+		
+		c.insets = new Insets(height_b*3,-width_b,0,0);
+		c.gridx = 1;
+		c.gridy = 1;
 		humain_j1 = new JComboBox<String>(type_joueur);
 		humain_j1.setSelectedIndex(0);
 		humain_j1.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -87,7 +105,7 @@ public class Nouveau extends JComponent {
 		
 		c.insets = new Insets(height_b*3,-width_b*2,0,0);
 		c.gridx = 2;
-		c.gridy = 0;
+		c.gridy = 1;
 		faction_j1 = new JComboBox<String>(factions);
 		faction_j1.setSelectedIndex(0);
 		faction_j1.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -98,7 +116,7 @@ public class Nouveau extends JComponent {
 		//JOUEUR 2
 		c.insets = new Insets(0,width_b,0,0);
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		joueur_2 = new JLabel("Joueur 2");
 		joueur_2.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		panel.add(joueur_2,c);
@@ -106,7 +124,7 @@ public class Nouveau extends JComponent {
 		
 		c.insets = new Insets(0,-width_b,0,0);
 		c.gridx = 1;
-		c.gridy = 2;
+		c.gridy = 3;
 		humain_j2 = new JComboBox<String>(type_joueur);
 		humain_j2.setSelectedIndex(0);
 		humain_j2.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -116,7 +134,7 @@ public class Nouveau extends JComponent {
 		
 		c.insets = new Insets(0,-width_b*2,0,0);
 		c.gridx = 2;
-		c.gridy = 2;
+		c.gridy = 3;
 		faction_j2 = new JComboBox<String>(factions);
 		faction_j2.setSelectedIndex(1);
 		faction_j2.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -126,7 +144,7 @@ public class Nouveau extends JComponent {
 		
 		c.insets = new Insets(0,width_b,0,0);
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy = 4;
 		avance = new JButton("Parametres Avancés");
 		avance.addActionListener(new Ecouteur_boutons_nouveau("Paramètres avancés",this));
 		avance.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -136,7 +154,7 @@ public class Nouveau extends JComponent {
 		
 		c.insets = new Insets(-height_b,width_b*2,0,0);
 		c.gridx = 1;
-		c.gridy = 4;
+		c.gridy = 5;
 		accueil = new JButton("Accueil");
 		accueil.addActionListener(new Ecouteur_boutons_nouveau("Accueil",this));
 		accueil.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -146,7 +164,7 @@ public class Nouveau extends JComponent {
 		
 		c.insets = new Insets(-height_b,0,0,0);
 		c.gridx = 2;
-		c.gridy = 4;
+		c.gridy = 5;
 		lancer = new JButton("Lancer partie");
 		lancer.addActionListener(new Ecouteur_boutons_nouveau("Lancer",this));
 		lancer.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
