@@ -152,6 +152,7 @@ public class Moteur extends Phase{
 	private void init(Stack<Tuile> pioche){
 		ArrayList<Tuile> pioche_fichier = new ArrayList<Tuile>();
 		int nbElement = 0;
+		System.out.println("Taille Pioche :" + taille_Pioche_initiale);
 		try {
 			
 			
@@ -160,10 +161,9 @@ public class Moteur extends Phase{
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 			String line = null;
 			try {
-				while ((line = br.readLine()) != null && nbElement < taille_Pioche_initiale) {
+				while ((line = br.readLine()) != null) {
 					//System.out.println(line);
 					rajoute_tuile(line,pioche_fichier);
-					nbElement ++;
 				}
 				br.close();
 			}
@@ -174,6 +174,7 @@ public class Moteur extends Phase{
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Taille Pioche nb Element :" + nbElement);
 		
 		if(PIOCHE_ALEATOIRE)
 		{
@@ -183,7 +184,7 @@ public class Moteur extends Phase{
 		{
 			transfert(pioche,pioche_fichier);
 		}
-		
+		pioche_fichier.clear();
 		
 	}
 	
@@ -191,17 +192,21 @@ public class Moteur extends Phase{
 	// Melange l'ArrayList pioche_fichier pour le mettre dans la pioche
 	private void melange(Stack<Tuile> pioche, ArrayList<Tuile> pioche_fichier) {
 		Random r = new Random();
-		while(!pioche_fichier.isEmpty())
+		int nbElement = 0;
+		while(!pioche_fichier.isEmpty() && nbElement < taille_Pioche_initiale)
 		{
 			pioche.push(pioche_fichier.remove(r.nextInt(pioche_fichier.size())));
+			nbElement++;
 		}
 		
 	}
 	// Transfert l'Arraylist dans la pioche
 	private void transfert(Stack<Tuile> pioche, ArrayList<Tuile> pioche_fichier) {
-		while(!pioche_fichier.isEmpty())
+		int nbElement = 0;
+		while(!pioche_fichier.isEmpty() && nbElement < taille_Pioche_initiale)
 		{
 			pioche.push(pioche_fichier.remove(pioche_fichier.size()-1));
+			nbElement++;
 		}
 		
 	}
