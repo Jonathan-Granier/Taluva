@@ -410,9 +410,12 @@ public class Moteur extends Phase{
 			// Test si j_courant peut construire avec ses batiments
 			for(Action_Construction action : liste_construction){
 				switch (action.get_type()){
-				case HUTTE : return !(j_courant.getHutte()>0);
-				case TOUR : return !(j_courant.getTour()>0);
-				case TEMPLE : return !(j_courant.getTemple()>0);
+				case HUTTE : if (j_courant.getHutte()>0)
+					return false;
+				case TOUR : if (j_courant.getTour()>0)
+					return false;
+				case TEMPLE : if (j_courant.getTemple()>0)
+					return false;
 				default :
 					System.out.println("[joueur_elimine] Type non défini d'action construction");
 					return false;
