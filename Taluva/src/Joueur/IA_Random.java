@@ -24,6 +24,11 @@ public class IA_Random extends IA_Generique{
 		super(c,m);
 	}
 	
+	public IA_Random(Couleur_Joueur c, Moteur m,String faction)
+	{
+		super(c,m,faction);
+	}
+	
 	public Actions_Tour get_coup_tour(Tuile tuile){
 		// on génère la liste des coup TUILE possible, et on en choisit un.
 		ArrayList<Action_Tuile> liste_coup = m.getTerrain().liste_coups_tuile_possibles(tuile);
