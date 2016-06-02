@@ -12,6 +12,7 @@ import java.util.Observer;
 
 import javax.swing.JFrame;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import Ecouteur.EcouteurDeSourisTerrain;
@@ -75,6 +76,7 @@ public class Game implements Observer,KeyListener {
 	private TimerOpenGL timer;
 	
 	private boolean[] keys = {false,false,false,false};
+	private Vector2f[] pos;
 	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
@@ -137,7 +139,14 @@ public class Game implements Observer,KeyListener {
 			constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 			constructions.get(i).setPosition(worldPos);
-			renderer.draw(constructions.get(i),shader);
+			if(listConstruction.get(i).getNiveau()>1){
+				for(int j=0;j<listConstruction.get(i).getNiveau();j++){
+					constructions.get(i).setPosition(new Vector3f(worldPos.x+pos[j].x,worldPos.y,worldPos.z+pos[j].y));
+					renderer.draw(constructions.get(i),shader);
+				}
+			}
+			else
+				renderer.draw(constructions.get(i),shader);
 		}
 	}
 	
@@ -208,6 +217,15 @@ public class Game implements Observer,KeyListener {
 
 		//Create listener
 		ecouteurSouris = new EcouteurDeSourisTerrain(moteur,picker,grid,Tile, Tiles, Construction, constructions,marking_menu,Tuile_Pioche);
+		
+		//Init pos
+		pos = new Vector2f[6];
+		pos[0] = new Vector2f(-Grid.WIDTH_OF_HEXA/2+Grid.WIDTH_OF_HEXA/4,0);
+		pos[1] = new Vector2f(Grid.WIDTH_OF_HEXA/2-Grid.WIDTH_OF_HEXA/4,0);
+		pos[2] = new Vector2f(0,-Grid.HEIGHT_OF_HEXA/2+Grid.HEIGHT_OF_HEXA/4);
+		pos[3] = new Vector2f(0,Grid.HEIGHT_OF_HEXA/2-Grid.HEIGHT_OF_HEXA/4);
+		pos[4] = new Vector2f(-Grid.WIDTH_OF_HEXA/2+Grid.WIDTH_OF_HEXA/4,-Grid.WIDTH_OF_HEXA/2+Grid.WIDTH_OF_HEXA/4);
+		pos[5] = new Vector2f(Grid.WIDTH_OF_HEXA/2-Grid.WIDTH_OF_HEXA/4,Grid.WIDTH_OF_HEXA/2-Grid.WIDTH_OF_HEXA/4);
 		
 		timer = new TimerOpenGL();
 		timer.addObserver(this);
