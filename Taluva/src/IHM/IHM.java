@@ -142,19 +142,19 @@ public class IHM {
 	//Frise
 	private static final String Fichier_Frise_Piocher_Activer = "Assets/IHM/Time_line/P0_on_normal.png";
 	private static final String Fichier_Frise_Piocher_Desactiver = "Assets/IHM/Time_line/P0_off_normal.png";
-	private static final String Fichier_Frise_Piocher_En_Cours = "Assets/IHM/Time_line/P0_on_highlight.png";
+	private static final String Fichier_Frise_Piocher_En_Cours = "Assets/IHM/Time_line/P0_off_highlight.png";
 	
 	private static final String Fichier_Frise_Poser_Activer = "Assets/IHM/Time_line/P1_on_normal.png";
 	private static final String Fichier_Frise_Poser_Desactiver = "Assets/IHM/Time_line/P1_off_normal.png";
-	private static final String Fichier_Frise_Poser_En_Cours = "Assets/IHM/Time_line/P1_on_highlight.png";
+	private static final String Fichier_Frise_Poser_En_Cours = "Assets/IHM/Time_line/P1_off_highlight.png";
 	
 	private static final String Fichier_Frise_Construire_Activer = "Assets/IHM/Time_line/P2_on_normal.png";
 	private static final String Fichier_Frise_Construire_Desactiver = "Assets/IHM/Time_line/P2_off_normal.png";
-	private static final String Fichier_Frise_Construire_En_Cours = "Assets/IHM/Time_line/P2_on_highlight.png";
+	private static final String Fichier_Frise_Construire_En_Cours = "Assets/IHM/Time_line/P2_off_highlight.png";
 	
 	private static final String Fichier_Frise_Finir_Activer = "Assets/IHM/Time_line/P3_on_normal.png";
 	private static final String Fichier_Frise_Finir_Desactiver = "Assets/IHM/Time_line/P3_off_normal.png";
-	private static final String Fichier_Frise_Finir_En_Cours = "Assets/IHM/Time_line/P3_on_highlight.png";
+	private static final String Fichier_Frise_Finir_En_Cours = "Assets/IHM/Time_line/P3_off_highlight.png";
 	
 	
 	
@@ -511,8 +511,8 @@ public class IHM {
         
      
         //Ajout à Action
-        gbc.weightx = 0.4;
-        gbc.weighty = 0.5;
+        gbc.weightx = 0.286;
+        gbc.weighty = 0.50;
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
