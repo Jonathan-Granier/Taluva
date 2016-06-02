@@ -653,9 +653,9 @@ public class IHM {
         Image_Stat_J3 = new JPanel[3];
         Image_Stat_J4 = new JPanel[3];
         
-        Joueur1 = InitNomJoueur("Joueur 1");
-        Joueur2 = InitNomJoueur("Joueur 2");
-        Joueur3 = InitNomJoueur("Joueur 3");
+        Joueur1 = InitNomJoueur(m.getJ1().getnomFaction());
+        Joueur2 = InitNomJoueur(m.getJ2().getnomFaction());
+        
         Joueur4 = InitNomJoueur("Joueur 4");
         
 
@@ -663,6 +663,7 @@ public class IHM {
         panelJ2 = new JPanelImage(Fichier_Couleur_Joueur(m.getJ2().getCouleur()),Fichier_Joueur_Fond_Desactiver);
         if(m.get_NbJoueur() >= 3)
         {
+        	Joueur3 = InitNomJoueur(m.getJ3().getnomFaction());
         	panelJ3 = new JPanelImage(Fichier_Couleur_Joueur(m.getJ3().getCouleur()),Fichier_Joueur_Fond_Desactiver);
         }
         else
@@ -672,6 +673,7 @@ public class IHM {
         }
         if(m.get_NbJoueur() == 4)
         {
+        	Joueur4 = InitNomJoueur(m.getJ4().getnomFaction());
         	panelJ4 = new JPanelImage(Fichier_Couleur_Joueur(m.getJ4().getCouleur()),Fichier_Joueur_Fond_Desactiver);
         }
         else
