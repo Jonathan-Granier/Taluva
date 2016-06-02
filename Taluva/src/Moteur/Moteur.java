@@ -34,6 +34,8 @@ public class Moteur extends Phase{
 	private Tuile tuile_pioche;
 	private Case.Type_Batiment bat_choisi;
 	private Liste_coup_construction liste_coup_construction;
+	private int taille_Pioche_initiale;
+	
 	
 	protected Joueur_Generique j_courant;
 	protected Joueur_Generique j1;
@@ -49,29 +51,22 @@ public class Moteur extends Phase{
 	public static final int nb_max_Temples = 3;
 	public static final boolean PIOCHE_ALEATOIRE = true;
 	
-	/*public enum Etat{
-		DEBUT_DE_TOUR,
-		POSER_TUILE,
-		CONSTRUIRE_BATIMENT,
-		FIN_DE_TOUR;
-	}
-	private Etat etat;
-	*/
-	
 	
 	
 	
 	
 	// Constructeur du moteur
-	public Moteur(Terrain T,Joueur_Generique j1,Joueur_Generique j2){
+	public Moteur(Terrain T,Joueur_Generique j1,Joueur_Generique j2,int taille_Pioche_initiale){
 		this.T = T;
 		annul = new Stack<Etat_de_jeu>();
 		redo = new Stack<Etat_de_jeu>();
 		pioche = new Stack<Tuile>();
+		this.taille_Pioche_initiale = taille_Pioche_initiale;
 		init(pioche);
 		this.j1 = j1;
 		j_courant = j1;
 		this.j2 = j2;
+		
 		//prev = new ArrayList<Joueur_Humain>();
 		//prev.add(((Joueur_Humain) j_courant).clone());
 		//next = new ArrayList<Joueur_Humain>();
@@ -85,11 +80,12 @@ public class Moteur extends Phase{
 	}
 	
 	// Constructeur du moteur sans joueurs
-	public Moteur(Terrain T){
+	public Moteur(Terrain T, int taille_Pioche_initiale){
 		this.T = T;
 		annul = new Stack<Etat_de_jeu>();
 		redo = new Stack<Etat_de_jeu>();
 		pioche = new Stack<Tuile>();
+		this.taille_Pioche_initiale = taille_Pioche_initiale;
 		init(pioche);
 		//etat = Etat.DEBUT_DE_TOUR;
 		init_phase_jeu();
@@ -155,6 +151,7 @@ public class Moteur extends Phase{
 	// Creer la pioche dans une pile selon le fichier PIECES , Aléatoirement ou non selon PIOCHE_ALEATOIRE est vrai ou non
 	private void init(Stack<Tuile> pioche){
 		ArrayList<Tuile> pioche_fichier = new ArrayList<Tuile>();
+		int nbElement = 0;
 		try {
 			
 			
@@ -163,9 +160,10 @@ public class Moteur extends Phase{
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 			String line = null;
 			try {
-				while ((line = br.readLine()) != null) {
+				while ((line = br.readLine()) != null && nbElement < taille_Pioche_initiale) {
 					//System.out.println(line);
 					rajoute_tuile(line,pioche_fichier);
+					nbElement ++;
 				}
 				br.close();
 			}
@@ -823,7 +821,7 @@ public class Moteur extends Phase{
 	// Clone le moteur actuel pour les tests de l'IA
 	public Moteur clone(){
 		
-		Moteur m_copie = new Moteur(T.clone(false));
+		Moteur m_copie = new Moteur(T.clone(false),taille_Pioche_initiale);
 		// On instancie chaque joueur_copie en fonction du type de l'original
 		/*
 		j1_copie = copie_type_joueur(j1,j1_copie,m_copie);
