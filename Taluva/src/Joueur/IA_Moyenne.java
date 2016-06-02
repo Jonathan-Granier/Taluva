@@ -1,6 +1,5 @@
 package Joueur;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,24 +7,27 @@ import Action.Action_Construction;
 import Action.Action_Tuile;
 import Action.Actions_Tour;
 import Moteur.Moteur;
-import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import terrain.Cite;
-import terrain.Terrain;
 import terrain.Tuile;
 
-public class IA_Difficile extends IA_Generique {
-
+public class IA_Moyenne extends IA_Generique {
+	
 	private Random R;
-
-	public IA_Difficile(Couleur_Joueur c, Moteur m) {
+	
+	public IA_Moyenne(Couleur_Joueur c, Moteur m){
 		super(c, m);
+		this.R = new Random();
+	}
+	
+	public IA_Moyenne(Couleur_Joueur c, Moteur m, String faction){
+		super(c,m,faction);
 		this.R = new Random();
 	}
 
 	public Actions_Tour get_coup_tour(Tuile tuile)
 	{
-		System.out.println("IA Difficile : On me demande un coup");
+		//System.out.println("IA Heuristique : On me demande un coup");
 		Moteur virtuel= m.clone();
 		Moteur reel = m;
 		this.m = virtuel;
@@ -108,21 +110,72 @@ public class IA_Difficile extends IA_Generique {
 		else
 			return new Coup_Construction_Heuristique(score_max, liste_construction_retour.get(R.nextInt(liste_construction_retour.size())));
 	}
-	
 	private int Heuristique()
 	{
 		int bonPoints;
 		int mauvaisPoints;
 		if(m.EstLeMemeJoueur(this, m.getJ1()))
 		{
-			bonPoints = Calculer_points_heur(m.get_Jcourant(),m);
-			mauvaisPoints = Calculer_points_heur(m.getJ2(),m);
+			bonPoints = Calculer_points_heur(m.get_Jcourant());
+			mauvaisPoints = Calculer_points_heur(m.getJ2());
 		}
 		else
 		{
-			bonPoints = Calculer_points_heur(m.get_Jcourant(),m);
-			mauvaisPoints = Calculer_points_heur(m.getJ1(),m);
+			bonPoints = Calculer_points_heur(m.get_Jcourant());
+			mauvaisPoints = Calculer_points_heur(m.getJ1());
 		}
 		return bonPoints - mauvaisPoints;
 	}
+	
+	private int Calculer_points_heur(Joueur_Generique c) {
+		// on compte le score d'un joueur dans le terrain.
+		int score =0;
+		score += (Moteur.nb_max_Temples - c.getTemple()) * score_temple;
+		score += (Moteur.nb_max_Tours - c.getTour()) * score_tour;
+		score += (Moteur.nb_max_Huttes - c.getHutte()) * score_hutte;
+		// Si le joueur s'est débarassé de toutes ses pièces de 2 catégorie, il a gagné.
+		if((c.getHutte() == 0 && c.getTemple() == 0) || (c.getTemple() ==0 && c.getTour() ==0) || (c.getHutte()==0 && c.getTour()==0))
+		{
+			score += 1000000000;
+		}
+		// Sinon, s'il s'en raproche:
+		else if(c.getHutte() == 0 || c.getTour()==0 || c.getTemple()==0)
+		{
+			score += (m.get_nbTuiles()/ 2) * score_deplete_mult 
+					/Math.max( c.getHutte()*hut_deplete_mult , Math.max(c.getTemple()* temple_deplete_mult, c.getTour()* tower_deplete_mult) );
+			// Attention, c'est dangereux de ne plus avoir de huttes.
+			if(c.getHutte() == 0)
+			{
+				score -= (m.get_nbTuiles()/ 2) * hut_deplete_cant_play_mult;
+			}
+		}
+		// Ajouter les points dus aux qualités des cités;
+		ArrayList<Cite> liste_cite = m.getTerrain().getCitesJoueur(c.getCouleur());
+		for(int i=0; i < liste_cite.size(); i++)
+			score += valeur_cite(liste_cite.get(i), c);
+		return score;
+	}
+	
+	// Calculer la valeur d'une cité.
+	private int valeur_cite( Cite c, Joueur_Generique j)
+	{
+		int score_cite = score_city + c.getTaille() * score_zone_city;
+		// Si la cité nous permettra de créer un temple, elle en vaux la moitié des points
+		if(c.getTaille() >= 3 && c.getNbTemples() > 0 && m.get_nbTuiles()/2 > 1 && j.getTemple()>0)
+		{
+			// check destructible
+			score_cite += score_temple;
+		}
+		if(c.getNbTemples() > 0)
+		{
+			score_cite = score_cite/ score_div_city_temple;
+		}
+		if( c.getNbTemples()>0 && c.getNbTours()>0)
+		{
+			score_cite = score_cite / score_div_city_temple_tower;
+		}
+		return score_cite;
+	}
+	
 }
+
