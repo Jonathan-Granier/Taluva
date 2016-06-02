@@ -199,7 +199,7 @@ public class IA_Heuristique extends IA_Generique {
 				}
 			}
 		}
-		if(c.getNbTemples() > 0)
+		if(c.getNbTemples() > 0 && (j.getTemple()>0 || j.getTour()>0))
 		{
 			score_cite -= c.getTaille() * score_cite_petite_avec_temple;
 		}
