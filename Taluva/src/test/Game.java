@@ -131,7 +131,7 @@ public class Game implements Observer,KeyListener {
 
 		for(int i=0;i<listConstruction.size();i++){
 			if(BRIGHT && listConstruction.get(i).getCouleur()==moteur.get_Couleur_IA() && listConstruction.get(i).isNew())
-				constructions.get(i).setBright(new Vector3f(0.9f,0.9f,0.9f));
+				constructions.get(i).setBright(new Vector3f(0.9f,0.0f,0.0f));
 			constructions.get(i).setColour(listConstruction.get(i).getCouleur());
 			constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
