@@ -169,8 +169,7 @@ public class Menu_Demarrage extends JComponent {
 	
 	public void nouveau(){
 		fenetre.setEnabled(false);
-		//fenetre.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
-		fenetre.add(new Echap(fenetre,null,null));
+		fenetre.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
 	}
 	
 	public void charger(){
