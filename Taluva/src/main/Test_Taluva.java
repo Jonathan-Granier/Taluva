@@ -20,7 +20,7 @@ public class Test_Taluva implements Runnable{
 
 	public void run() {
 		final JFrame frame = new JFrame();
-		final JFrame gameF = new JFrame();
+		final JFrame gameF = null;
 		final Game game = null;
 		final Moteur moteur = null;
 		final Terrain terrain = null;
