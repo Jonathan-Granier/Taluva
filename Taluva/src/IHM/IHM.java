@@ -80,6 +80,29 @@ public class IHM {
 	private static final String Fichier_Joueur_Fond_Activer = "Assets/IHM/Joueurs/Cadre_highlight.png";
 	private static final String Fichier_Joueur_Fond_Desactiver = "Assets/IHM/Joueurs/Cadre_deactivated.png";
 	
+	//Icon Batiment
+	//Babylon
+	private static final String Fichier_Babylon_Hutte = "Assets/IHM/Icons/Babylon/Hut.png";
+	private static final String Fichier_Babylon_Tour = "Assets/IHM/Icons/Babylon/Tower.png";
+	private static final String Fichier_Babylon_Temple = "Assets/IHM/Icons/Babylon/Temple.png";
+	
+	//Chinese
+	private static final String Fichier_Chinese_Hutte = "Assets/IHM/Icons/Chinese/Hut.png";
+	private static final String Fichier_Chinese_Tour = "Assets/IHM/Icons/Chinese/Tower.png";
+	private static final String Fichier_Chinese_Temple = "Assets/IHM/Icons/Chinese/Temple.png";
+	
+	//Europe
+	private static final String Fichier_Europe_Hutte = "Assets/IHM/Icons/Europe/Hut.png";
+	private static final String Fichier_Europe_Tour = "Assets/IHM/Icons/Europe/Tower.png";
+	private static final String Fichier_Europe_Temple = "Assets/IHM/Icons/Europe/Temple.png";
+	
+	
+	//Viking
+	private static final String Fichier_Viking_Hutte = "Assets/IHM/Icons/Viking/Hut.png";
+	private static final String Fichier_Viking_Tour = "Assets/IHM/Icons/Viking/Tower.png";
+	private static final String Fichier_Viking_Temple = "Assets/IHM/Icons/Viking/Temple.png";
+	
+	
 	//Pioche Turn Horaire
 	private static final String Fichier_Pioche_Turn_Horaire_Activer = "Assets/IHM/Image-pioche/pioche-turnH.png";
 	private static final String Fichier_Pioche_Turn_Horaire_Desactiver = "Assets/IHM/Image-pioche/pioche-turnH.png";
@@ -706,6 +729,14 @@ public class IHM {
         Joueur4.setOpaque(false);
         
         // Info du joueur 1 avec l'image des constructions et leur nombres en stock
+        setInfoJoueur(InfoJ1,m.getJ1().getnomFaction());
+        setInfoJoueur(InfoJ2,m.getJ2().getnomFaction());
+        if(m.get_NbJoueur() >= 3)
+        	setInfoJoueur(InfoJ3,m.getJ3().getnomFaction());
+        if(m.get_NbJoueur() == 4)
+        	setInfoJoueur(InfoJ4,m.getJ4().getnomFaction());
+        
+        /*
         InfoJ1[0] = InitImage(Fichier_Hutte);
 		InfoJ1[1] = InitStatConstruction(Integer.toString(m.nb_max_Huttes));
         InfoJ1[2] = InitImage(Fichier_Tour); 
@@ -736,7 +767,7 @@ public class IHM {
 		InfoJ4[4] = InitImage(Fichier_Temple);
 		InfoJ4[5] = InitStatConstruction(Integer.toString(m.nb_max_Temples));
     
-		
+		*/
 		// Fusion Image et nombre en 1 JPanel chacun 
 		
 		for(i=0;i<3;i++)
@@ -809,6 +840,44 @@ public class IHM {
 		}
 	}
 	
+	public void setInfoJoueur(JLabel[] InfoJ,String Faction)
+	{
+		
+		InfoJ[1] = InitStatConstruction(Integer.toString(m.nb_max_Huttes));
+       	InfoJ[3] = InitStatConstruction(Integer.toString(m.nb_max_Tours));
+		InfoJ[5] = InitStatConstruction(Integer.toString(m.nb_max_Temples));
+		
+		switch(Faction)
+		{
+			case "Occidentaux" :
+				InfoJ[0] = InitImage(Fichier_Europe_Hutte);
+				InfoJ[2] = InitImage(Fichier_Europe_Tour);
+				InfoJ[4] = InitImage(Fichier_Europe_Temple);
+				break;
+			case "Orientaux" :
+				InfoJ[0] = InitImage(Fichier_Chinese_Hutte);
+				InfoJ[2] = InitImage(Fichier_Chinese_Tour);
+				InfoJ[4] = InitImage(Fichier_Chinese_Temple);
+				break;
+			case "Bayloniens" :
+				InfoJ[0] = InitImage(Fichier_Babylon_Hutte);
+				InfoJ[2] = InitImage(Fichier_Babylon_Tour);
+				InfoJ[4] = InitImage(Fichier_Babylon_Temple);
+				break;
+			case "Vikings":
+				InfoJ[0] = InitImage(Fichier_Viking_Hutte);
+				InfoJ[2] = InitImage(Fichier_Viking_Tour);
+				InfoJ[4] = InitImage(Fichier_Viking_Temple);
+				break;
+			default:
+				InfoJ[0] = InitImage(Fichier_Hutte);
+				InfoJ[2] = InitImage(Fichier_Tour); 
+				InfoJ[4] = InitImage(Fichier_Temple);
+				break;
+		}
+		
+
+	}
 	
 	
 
