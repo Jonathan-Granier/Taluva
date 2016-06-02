@@ -343,7 +343,7 @@ public class Nouveau extends JComponent {
 	        lancer_jeu(j1,j2);
 		}
 		else 
-			JOptionPane.showMessageDialog(m_fenetre, "Les 2 joueurs doivent appartenir à différentes factions!");
+			JOptionPane.showMessageDialog(m_fenetre, "Les 2 joueurs doivent appartenir à différentes factions !");
 		
 	}
 	
