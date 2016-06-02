@@ -77,10 +77,10 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getTour().Activer(false);
 				ihm.getHutte().Activer(false);
 				
-				ihm.getPiocher().setEnabled(true);
-				ihm.getPoser().setEnabled(false);
-				ihm.getConstruire().setEnabled(false);
-				ihm.getFinir().setEnabled(false);
+				ihm.getPiocher().setEtat(3);
+				ihm.getPoser().setEtat(2);
+				ihm.getConstruire().setEtat(2);
+				ihm.getFinir().setEtat(2);
 				break;
 			
 			case POSER_TUILE:
@@ -102,10 +102,10 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getTour().Activer(false);
 				ihm.getHutte().Activer(false);
 				
-				ihm.getPiocher().setEnabled(true);
-				ihm.getPoser().setEnabled(true);
-				ihm.getConstruire().setEnabled(false);
-				ihm.getFinir().setEnabled(false);
+				ihm.getPiocher().setEtat(1);
+				ihm.getPoser().setEtat(3);
+				ihm.getConstruire().setEtat(2);
+				ihm.getFinir().setEtat(2);
 				break;
 				
 			case CONSTRUIRE_BATIMENT:
@@ -144,10 +144,10 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 					ihm.getHutte().Activer(!(ihm.getM().getJ4().getHutte() <= 0));
 					
 				}
-				ihm.getPiocher().setEnabled(true);
-				ihm.getPoser().setEnabled(true);
-				ihm.getConstruire().setEnabled(true);
-				ihm.getFinir().setEnabled(false);
+				ihm.getPiocher().setEtat(1);
+				ihm.getPoser().setEtat(1);
+				ihm.getConstruire().setEtat(3);
+				ihm.getFinir().setEtat(2);
 				
 				break;
 				
@@ -163,10 +163,10 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getTour().Activer(false);
 				ihm.getHutte().Activer(false);
 				
-				ihm.getPiocher().setEnabled(true);
-				ihm.getPoser().setEnabled(true);
-				ihm.getConstruire().setEnabled(true);
-				ihm.getFinir().setEnabled(true);
+				ihm.getPiocher().setEtat(1);
+				ihm.getPoser().setEtat(1);
+				ihm.getConstruire().setEtat(1);
+				ihm.getFinir().setEtat(3);
 				colorStat();
 				break;
 			case FIN_DE_PARTIE:
@@ -180,10 +180,10 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getTour().Activer(false);
 				ihm.getHutte().Activer(false);
 				
-				ihm.getPiocher().setEnabled(false);
-				ihm.getPoser().setEnabled(false);
-				ihm.getConstruire().setEnabled(false);
-				ihm.getFinir().setEnabled(false);
+				ihm.getPiocher().setEtat(2);
+				ihm.getPoser().setEtat(2);
+				ihm.getConstruire().setEtat(2);
+				ihm.getFinir().setEtat(2);
 				
 				//TODO 
 				//Lancer la fream avec la fin de partie
@@ -243,27 +243,27 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 	private void colorStat()
 	{
 		if(ihm.getM().get_num_Jcourant()==1){
-			colorElement(!(ihm.getM().getJ1().getTemple() <= 0),ihm.getJoueur1());
-			colorElement(!(ihm.getM().getJ1().getTour() <= 0),ihm.getJoueur1());
-			colorElement(!(ihm.getM().getJ1().getHutte() <= 0),ihm.getJoueur1());
+			colorElement(!(ihm.getM().getJ1().getTemple() <= 0),ihm.getInfoJ1()[1]);
+			colorElement(!(ihm.getM().getJ1().getTour() <= 0),ihm.getInfoJ1()[3]);
+			colorElement(!(ihm.getM().getJ1().getHutte() <= 0),ihm.getInfoJ1()[5]);
 
 		}
 		else if (ihm.getM().get_num_Jcourant()==2){
-			colorElement(!(ihm.getM().getJ2().getTemple() <= 0),ihm.getJoueur2());
-			colorElement(!(ihm.getM().getJ2().getTour() <= 0),ihm.getJoueur2());
-			colorElement(!(ihm.getM().getJ2().getHutte() <= 0),ihm.getJoueur2());
+			colorElement(!(ihm.getM().getJ2().getTemple() <= 0),ihm.getInfoJ2()[1]);
+			colorElement(!(ihm.getM().getJ2().getTour() <= 0),ihm.getInfoJ2()[3]);
+			colorElement(!(ihm.getM().getJ2().getHutte() <= 0),ihm.getInfoJ2()[5]);
 		}
 		else if(ihm.getM().get_num_Jcourant()==3)
 		{
-			colorElement(!(ihm.getM().getJ3().getTemple() <= 0),ihm.getJoueur3());
-			colorElement(!(ihm.getM().getJ3().getTour() <= 0),ihm.getJoueur3());
-			colorElement(!(ihm.getM().getJ3().getHutte() <= 0),ihm.getJoueur3());
+			colorElement(!(ihm.getM().getJ3().getTemple() <= 0),ihm.getInfoJ3()[1]);
+			colorElement(!(ihm.getM().getJ3().getTour() <= 0),ihm.getInfoJ3()[3]);
+			colorElement(!(ihm.getM().getJ3().getHutte() <= 0),ihm.getInfoJ3()[5]);
 			
 		}else if (ihm.getM().get_num_Jcourant()==4)
 		{
-			colorElement(!(ihm.getM().getJ4().getTemple() <= 0),ihm.getJoueur4());
-			colorElement(!(ihm.getM().getJ4().getTour() <= 0),ihm.getJoueur4());
-			colorElement(!(ihm.getM().getJ4().getHutte() <= 0),ihm.getJoueur4());
+			colorElement(!(ihm.getM().getJ4().getTemple() <= 0),ihm.getInfoJ4()[1]);
+			colorElement(!(ihm.getM().getJ4().getTour() <= 0),ihm.getInfoJ4()[3]);
+			colorElement(!(ihm.getM().getJ4().getHutte() <= 0),ihm.getInfoJ4()[5]);
 			
 		}
 		

@@ -32,7 +32,7 @@ public class IHM {
 	private Moteur m;
 	private int width,height;
 	private JPanel ecran, boutons_Construction, frise, bas, joueurs, action, annuler_refaire;
-	private JPanelImage  Piocher, Poser, Construire, Finir;
+	private JPanelFrise  Piocher, Poser, Construire, Finir;
 	private JButton Pioche;
 	private JBoutonImage Annuler,Refaire,FDT,temple,tour,hutte;;
 	
@@ -140,17 +140,21 @@ public class IHM {
 	private static final String Fichier_Refaire_Passage = "Assets/IHM/undo-redo/Redo-highlight.png";
 		
 	//Frise
-	private static final String Fichier_Frise_Piocher_Activer = "Assets/IHM/Time_line/Part0_on.png";
-	private static final String Fichier_Frise_Piocher_Desactiver = "Assets/IHM/Time_line/Part0_off.png";
+	private static final String Fichier_Frise_Piocher_Activer = "Assets/IHM/Time_line/P0_on_normal.png";
+	private static final String Fichier_Frise_Piocher_Desactiver = "Assets/IHM/Time_line/P0_off_normal.png";
+	private static final String Fichier_Frise_Piocher_En_Cours = "Assets/IHM/Time_line/P0_on_highlight.png";
 	
-	private static final String Fichier_Frise_Poser_Activer = "Assets/IHM/Time_line/Part1_on.png";
-	private static final String Fichier_Frise_Poser_Desactiver = "Assets/IHM/Time_line/Part1_off.png";
+	private static final String Fichier_Frise_Poser_Activer = "Assets/IHM/Time_line/P1_on_normal.png";
+	private static final String Fichier_Frise_Poser_Desactiver = "Assets/IHM/Time_line/P1_off_normal.png";
+	private static final String Fichier_Frise_Poser_En_Cours = "Assets/IHM/Time_line/P1_on_highlight.png";
 	
-	private static final String Fichier_Frise_Construire_Activer = "Assets/IHM/Time_line/Part2_on.png";
-	private static final String Fichier_Frise_Construire_Desactiver = "Assets/IHM/Time_line/Part2_off.png";
+	private static final String Fichier_Frise_Construire_Activer = "Assets/IHM/Time_line/P2_on_normal.png";
+	private static final String Fichier_Frise_Construire_Desactiver = "Assets/IHM/Time_line/P2_off_normal.png";
+	private static final String Fichier_Frise_Construire_En_Cours = "Assets/IHM/Time_line/P2_on_highlight.png";
 	
-	private static final String Fichier_Frise_Finir_Activer = "Assets/IHM/Time_line/Part3_on.png";
-	private static final String Fichier_Frise_Finir_Desactiver = "Assets/IHM/Time_line/Part3_off.png";
+	private static final String Fichier_Frise_Finir_Activer = "Assets/IHM/Time_line/P3_on_normal.png";
+	private static final String Fichier_Frise_Finir_Desactiver = "Assets/IHM/Time_line/P3_off_normal.png";
+	private static final String Fichier_Frise_Finir_En_Cours = "Assets/IHM/Time_line/P3_on_highlight.png";
 	
 	
 	
@@ -295,10 +299,10 @@ public class IHM {
 		
 		
 		frise.setLayout(new GridBagLayout());
-		Piocher = new JPanelImage(Fichier_Frise_Piocher_Activer,Fichier_Frise_Piocher_Desactiver);
-		Poser =  new JPanelImage(Fichier_Frise_Poser_Activer,Fichier_Frise_Poser_Desactiver);
-        Construire =  new JPanelImage(Fichier_Frise_Construire_Activer,Fichier_Frise_Construire_Desactiver);
-        Finir =  new JPanelImage(Fichier_Frise_Finir_Activer,Fichier_Frise_Finir_Desactiver);
+		Piocher = new JPanelFrise(Fichier_Frise_Piocher_Activer,Fichier_Frise_Piocher_Desactiver,Fichier_Frise_Piocher_En_Cours);
+		Poser =  new JPanelFrise(Fichier_Frise_Poser_Activer,Fichier_Frise_Poser_Desactiver,Fichier_Frise_Poser_En_Cours);
+        Construire =  new JPanelFrise(Fichier_Frise_Construire_Activer,Fichier_Frise_Construire_Desactiver,Fichier_Frise_Construire_En_Cours);
+        Finir =  new JPanelFrise(Fichier_Frise_Finir_Activer,Fichier_Frise_Finir_Desactiver,Fichier_Frise_Finir_En_Cours);
         
         PanelFrise[0].add(Piocher);
         PanelFrise[0].add(Poser);
@@ -922,22 +926,22 @@ public class IHM {
 	}
 
 
-	public JPanelImage getPiocher() {
+	public JPanelFrise getPiocher() {
 		return Piocher;
 	}
 
 
-	public JPanelImage getPoser() {
+	public JPanelFrise getPoser() {
 		return Poser;
 	}
 
 
-	public JPanelImage getConstruire() {
+	public JPanelFrise getConstruire() {
 		return Construire;
 	}
 
 
-	public JPanelImage getFinir() {
+	public JPanelFrise getFinir() {
 		return Finir;
 	}
 
