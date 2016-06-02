@@ -113,7 +113,7 @@ public class Moteur extends Phase{
 	public void add_j2(Joueur_Generique j2){
 		this.j2 = j2;
 		nb_Joueur = 2;
-		//if (j1 instanceof IA_Generique)jouer_IA();
+		
 	}
 	
 	public void add_j3(Joueur_Generique j3){
@@ -557,6 +557,15 @@ public class Moteur extends Phase{
 	private int score(Joueur_Generique j){
 		return ((nb_max_Temples - j.getTemple())*1000 + (nb_max_Tours - j.getTour())*100 + (nb_max_Huttes - j.getHutte()));
 	}
+	
+	//Lance le jeu au cas ou le j_courant est une IA
+	
+	public void lancer_partie()
+	{
+		if (j_courant instanceof IA_Generique)
+			jouer_IA();
+	}
+	
 	
 	// Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
 	// Actualise aussi les données et change de joueur
