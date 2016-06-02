@@ -291,7 +291,7 @@ public class Nouveau extends JComponent {
 			return Couleur_Joueur.BLANC;
 		case 3 :
 			System.out.println("[Nouveau/Init_joueurs] Vikings");
-			return Couleur_Joueur.VERT;
+			return Couleur_Joueur.ROSE;
 		default :
 			System.out.println("[Nouveau/Init_Faction] switch case default");
 			return null;
