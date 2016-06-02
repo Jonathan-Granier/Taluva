@@ -14,8 +14,8 @@ public class Moteur_light extends Moteur
 	private Stack <Terrain> undo_terrain;
 	private Stack <Joueur_Generique> undo_j1, undo_j2, undo_j3, undo_j4;
 	
-	public Moteur_light(Terrain T) {
-		super(T);
+	public Moteur_light(Terrain T,int taille_Pioche_initiale) {
+		super(T, taille_Pioche_initiale);
 		undo_terrain = new Stack<Terrain>();
 		undo_j1 = new Stack<Joueur_Generique>();
 		undo_j2 = new Stack<Joueur_Generique>();
@@ -24,9 +24,9 @@ public class Moteur_light extends Moteur
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Moteur_light(Terrain T, Joueur_Generique j1, Joueur_Generique j2)
+	public Moteur_light(Terrain T, Joueur_Generique j1, Joueur_Generique j2,int taille_Pioche_initiale)
 	{
-		super(T,j1,j2);
+		super(T,j1,j2,taille_Pioche_initiale);
 		undo_terrain = new Stack<Terrain>();
 		undo_j1 = new Stack<Joueur_Generique>();
 		undo_j2 = new Stack<Joueur_Generique>();

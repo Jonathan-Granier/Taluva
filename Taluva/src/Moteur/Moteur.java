@@ -967,7 +967,7 @@ public class Moteur extends Phase{
 	
 	public Moteur_light to_Moteur_Light()
 	{
-		Moteur_light retour = new Moteur_light(this.T.clone(false));
+		Moteur_light retour = new Moteur_light(this.T.clone(false),taille_Pioche_initiale);
 		retour.add_j1(j1.clone());
 		retour.add_j2(j2.clone());
 		if(this.nb_Joueur == 3)
