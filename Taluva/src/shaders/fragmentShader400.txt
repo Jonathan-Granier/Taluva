@@ -62,7 +62,10 @@ void main(void){
 	}
 	if(notAllow)
 		out_Color.r += 0.5;
-	if((playerColour.r!=0.0 || playerColour.g!=0.0 || playerColour.b!=0.0) && !notAllow)
-		out_Color += mix(out_Color,vec4(playerColour,1.0),0.3);
-
+	if((playerColour.r!=0.0 || playerColour.g!=0.0 || playerColour.b!=0.0) && !notAllow){
+		if(playerColour.r==0.6 && playerColour.g==0.6 && playerColour.b==0.0)
+			out_Color += mix(out_Color,vec4(playerColour,1.0),0.5);
+		else
+			out_Color += mix(out_Color,vec4(playerColour,1.0),0.3);
+	}
 }
