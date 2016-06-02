@@ -13,5 +13,10 @@ public class Joueur_Humain extends Joueur_Generique {
 	{
 		super(c);
 	}
+	public Joueur_Humain(Couleur_Joueur c,String faction)
+	{
+		super(c);
+		this.setNomFaction(faction);
+	}
 
 }
