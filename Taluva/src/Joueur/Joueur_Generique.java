@@ -20,6 +20,7 @@ import terrain.Tuile;
 public abstract class Joueur_Generique {
 	private int temple, tour, hutte,hutteDetruite;
 	private Couleur_Joueur c;
+	private String nomFaction;
 	private final EventListenerList listeners = new EventListenerList();
 	
 	public Joueur_Generique(Couleur_Joueur c)
@@ -55,6 +56,11 @@ public abstract class Joueur_Generique {
 	public Couleur_Joueur getCouleur()
 	{
 		return c;
+	}
+	
+	public String getnomFaction()
+	{
+		return nomFaction;
 	}
 	
 	// -------------- Fonction Set ---------------------

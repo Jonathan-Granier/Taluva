@@ -91,6 +91,8 @@ public class Phase {
 			case FIN_DE_TOUR:
 				phase_jeu = Phase_Jeu.DEBUT_DE_TOUR;
 				break;
+			case FIN_DE_PARTIE:
+				break;
 			default:
 				return 1;
 		}
@@ -118,6 +120,8 @@ public class Phase {
 				break;
 			case FIN_DE_TOUR:
 				phase_jeu = Phase_Jeu.CONSTRUIRE_BATIMENT;
+				break;
+			case FIN_DE_PARTIE:
 				break;
 			default:
 				return 1;

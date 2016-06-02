@@ -154,16 +154,18 @@ public class IHM {
 	
 	
 	
-	private static int largeur_total = 30;
-    private static int hauteur_caneva = 9;
-    private static int hauteur_total = 12;
-    private static int taille_joueur = 1;
-    private static int taille_annuler_refaire = 1;
-    private static int taille_pioche = 4;
-    private static int taille_construction = 4;
-    private static int taille_fin_de_tour = 3;
-    private static int taille_frise = largeur_total - taille_joueur - taille_annuler_refaire;
-	private Canvas canvas;
+	private static final int largeur_total = 30;
+    private static final int hauteur_caneva = 9;
+    private static final int hauteur_total = 12;
+    private static final int taille_joueur = 1;
+    private static final int taille_annuler_refaire = 1;
+    private static final int taille_pioche = 4;
+    private static final int taille_construction = 4;
+    private static final int taille_fin_de_tour = 3;
+    private static final int taille_frise = largeur_total - taille_joueur - taille_annuler_refaire;
+	
+    private static final Color CouleurText = Color.green;
+    private Canvas canvas;
 	 
 	
 	public IHM(Moteur moteur, JFrame fenetre){
@@ -195,10 +197,11 @@ public class IHM {
         Image_Stat_J3 = new JPanel[3];
         Image_Stat_J4 = new JPanel[3];
         
-        Joueur1 = new JLabel("Joueur 1");
-        Joueur2 = new JLabel("Joueur 2");
-        Joueur3 = new JLabel("Joueur 3");
-        Joueur4 = new JLabel("Joueur 4");
+        Joueur1 = InitNomJoueur("Joueur 1");
+        Joueur2 = InitNomJoueur("Joueur 2");
+        Joueur3 = InitNomJoueur("Joueur 3");
+        Joueur4 = InitNomJoueur("Joueur 4");
+        
         panelJ1 = new JPanelImage(Fichier_Joueur_Fond_Activer,Fichier_Joueur_Fond_Desactiver);
         panelJ2 = new JPanelImage(Fichier_Joueur_Fond_Activer,Fichier_Joueur_Fond_Desactiver);
         panelJ3 = new JPanelImage(Fichier_Joueur_Fond_Activer,Fichier_Joueur_Fond_Desactiver);
@@ -784,7 +787,7 @@ public class IHM {
 	{
 		 JLabel label = new JLabel(nom);
 		 label.setFont(new Font("Sherif", Font.PLAIN,32));
-		 
+		 label.setForeground(CouleurText);
 	    // label.setHorizontalAlignment(SwingConstants.CENTER);
 			label.setBorder(null);
 			label.setOpaque(false);
@@ -803,22 +806,8 @@ public class IHM {
 	}
 	
 	
-	// Creer un bouton a partir de son nom et son image
-	private JButton FaireBouton(String nom_bouton, String nom_image)
-	{ 
-		
-		ImageIcon image = new ImageIcon(nom_image);
-		JButton bouton = new JButton(image);
-		//bouton.setMargin(new Insets(0, 0, 0, 0));
-		//bouton.setBorder(null);
-		bouton.setFocusable(false);
-		Ecouteur_Boutons ecouteur_bouton = new Ecouteur_Boutons(nom_bouton,m);
-        
-        bouton.addActionListener(ecouteur_bouton);
-       // bouton.setIcon(image);
-        return bouton;  
-	}
 	
+	// Creer un bouton pioche a partir de son nom et ses images
 	private JBoutonImage FaireJButtonPioche(String nom_bouton, String nom_image_activer, 
 			String nom_image_desactiver, String nom_image_cliquer, String nom_image_passage)
 	{
@@ -832,7 +821,7 @@ public class IHM {
 		bouton.addActionListener(ecouteur_bouton);
         return bouton;  
 	}
-	
+	// Creer un bouton a partir de son nom et ses images
 	private JBoutonImage FaireJButtonImage(String nom_bouton, String nom_image_activer, 
 			String nom_image_desactiver, String nom_image_cliquer, String nom_image_passage)
 	{
@@ -860,10 +849,21 @@ public class IHM {
 	private JLabel InitStatConstruction(String nom)
 	{
 		 JLabel label = new JLabel(nom +" / "+ nom);
+		 label.setForeground(CouleurText);
 		 label.setFont(new Font("Sherif", Font.PLAIN,20));
 	     label.setHorizontalAlignment(SwingConstants.CENTER);
 	     label.setOpaque(false);
 	     return label;
+	}
+	
+	private JLabel InitNomJoueur(String nom)
+	{
+		JLabel label = new JLabel(nom);
+		label.setForeground(CouleurText);
+		label.setFont(new Font("Sherif", Font.PLAIN,20));
+	    label.setHorizontalAlignment(SwingConstants.CENTER);
+	    label.setOpaque(false);
+	    return label;
 	}
 
 

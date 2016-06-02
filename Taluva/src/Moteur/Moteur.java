@@ -103,6 +103,7 @@ public class Moteur extends Phase{
 	public void add_j1(Joueur_Generique j1){
 		this.j1 = j1;
 		j_courant = j1;
+		nb_Joueur = 1;
 		/*prev = new Joueur_Humain(j_courant.getCouleur());
 		prev = ((Joueur_Humain) j_courant).clone();
 		next = new Joueur_Humain(j_courant.getCouleur());*/
@@ -369,7 +370,7 @@ public class Moteur extends Phase{
 				else
 					j_courant = j1;
 			}
-			
+			System.out.println("[SWAP] le joueur courant est :"+this.get_num_Jcourant());
 			
 		}
 	
