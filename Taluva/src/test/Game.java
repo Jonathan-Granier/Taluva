@@ -72,6 +72,7 @@ public class Game implements Observer,KeyListener {
 	private Canvas canvas;
 	private JFrame frame;
 	private JFrame menu;
+	private TimerOpenGL timer;
 	
 	private boolean[] keys = {false,false,false,false};
 	
@@ -158,6 +159,10 @@ public class Game implements Observer,KeyListener {
 			delay++;
 	}
 	
+	public void timerStop(){
+		timer.stop();
+	}
+	
 	public void init(JFrame menu,JFrame frame,Moteur m,Canvas canvas,JPanelPioche Tuile_Pioche){
 		this.menu = menu;
 		this.frame = frame;
@@ -204,7 +209,7 @@ public class Game implements Observer,KeyListener {
 		//Create listener
 		ecouteurSouris = new EcouteurDeSourisTerrain(moteur,picker,grid,Tile, Tiles, Construction, constructions,marking_menu,Tuile_Pioche);
 		
-		TimerOpenGL timer = new TimerOpenGL();
+		timer = new TimerOpenGL();
 		timer.addObserver(this);
 		this.canvas.addMouseListener(ecouteurSouris);
 	}

@@ -21,6 +21,9 @@ public class TimerOpenGL extends Observable implements ActionListener {
 		notifyObservers();
 	}
 
+	public void stop(){
+		timer.stop();
+	}
 	
 	
 }
