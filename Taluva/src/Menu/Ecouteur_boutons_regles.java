@@ -25,7 +25,8 @@ public class Ecouteur_boutons_regles implements ActionListener {
     		case "Retour" :
     			page.retour();
     			break;
-    		default : System.out.println("[Ecouteurs_boutons_regles] Bouton non implémenté");
+    		default : 
+    			System.out.println("[Ecouteurs_boutons_regles] Bouton non implemente");
     			break;
 		}
 	}
