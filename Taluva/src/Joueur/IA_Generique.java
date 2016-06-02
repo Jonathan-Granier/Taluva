@@ -33,7 +33,7 @@ public abstract class IA_Generique extends Joueur_Generique{
 	protected static int score_case_3_adj = 300;
 	protected static int score_case_2_adj = 5;
 	protected static int score_reduction_volcan_adj = 3;
-	protected static int score_hutte_sans_temple_ni_tour = 6;
+	protected static int score_hutte_sans_temple_ni_tour = 50;
 	
 	public IA_Generique(Couleur_Joueur c, Moteur m) {
 		super(c);
