@@ -51,6 +51,7 @@ public class Moteur extends Phase{
 	public static final int nb_max_Tours = 2;
 	public static final int nb_max_Temples = 3;
 	public static final boolean PIOCHE_ALEATOIRE = true;
+	public static final boolean PIOCHE_AUTRE_GROUPE = false;
 	
 	
 	
@@ -148,6 +149,15 @@ public class Moteur extends Phase{
 		}
 	}
 	
+	//Ajout à l'ensemble de tuiles avec le system de fichier de l'autre groupe
+	private void rajoute_tuile_Autre_Groupe(String line,ArrayList<Tuile> pioche_fichier){
+		int nb;
+		nb = 1;
+		for(int i=1; i<=nb;i++){
+			pioche_fichier.add(new Tuile(char_to_case(line.charAt(0)),char_to_case(line.charAt(2))));
+		}
+	}
+	
 	
 	// Creer la pioche dans une pile selon le fichier PIECES , Aléatoirement ou non selon PIOCHE_ALEATOIRE est vrai ou non
 	private void init(Stack<Tuile> pioche){
@@ -155,16 +165,22 @@ public class Moteur extends Phase{
 		int nbElement = 0;
 		System.out.println("Taille Pioche :" + taille_Pioche_initiale);
 		try {
+			File file;
+			if (PIOCHE_AUTRE_GROUPE)
+				file = new File("../stack");
+			else
+				file = new File("../PIECES");
 			
-			
-			File file = new File("../PIECES");
 			FileInputStream fis = new FileInputStream(file);
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 			String line = null;
 			try {
 				while ((line = br.readLine()) != null) {
 					//System.out.println(line);
-					rajoute_tuile(line,pioche_fichier);
+					if (PIOCHE_AUTRE_GROUPE)
+						 rajoute_tuile_Autre_Groupe(line,pioche_fichier);
+					else
+						rajoute_tuile(line,pioche_fichier);
 				}
 				br.close();
 			}
