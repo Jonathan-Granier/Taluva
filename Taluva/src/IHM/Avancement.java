@@ -94,7 +94,7 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getToute_la_Pioche().setVisible(true);
 				ihm.getBouton_Pioche().setVisible(false);
 				activerPioche(true);
-				ihm.getTaille_Pioche().setText("X"+Integer.toString(ihm.getM().get_nbTuiles()));
+				ihm.getTaille_Pioche().setText("X"+Integer.toString(ihm.getM().get_nbTuiles()+1));
 				
 				ihm.getFDT().Activer(false);
 				
@@ -116,7 +116,7 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getRefaire().Activer(!ihm.getM().PileRefaireVide());
 				ihm.getPioche().setEnabled(false);
 				activerPioche(false);
-				
+				ihm.getTaille_Pioche().setText("X"+Integer.toString(ihm.getM().get_nbTuiles()));
 				
 				
 				ihm.getFDT().Activer(false);
@@ -157,6 +157,8 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getRefaire().Activer(false);
 				ihm.getPioche().setEnabled(false);
 				activerPioche(false);
+				ihm.getTaille_Pioche().setText("X"+Integer.toString(ihm.getM().get_nbTuiles()));
+				
 				ihm.getFDT().Activer(true);
 				
 				ihm.getTemple().Activer(false);
