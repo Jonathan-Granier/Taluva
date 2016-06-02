@@ -199,8 +199,8 @@ public class IA_Heuristique extends IA_Generique {
 				}
 			}
 		}
-		if(c.getNbTemples() > 0 && (j.getTemple()>0 || j.getTour()>0))
-		{
+		if(c.getNbTemples() > 0 && j.getTemple()>0 && j.getTour()>0)
+		{	// S'il nous reste tous les batiments, mieux vaut eviter de developper les cites avec temple
 			score_cite -= c.getTaille() * score_cite_petite_avec_temple;
 		}
 		if( c.getNbTemples()>0 && c.getNbTours()>0)
