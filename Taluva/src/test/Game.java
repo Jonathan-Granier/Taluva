@@ -26,6 +26,7 @@ import entities.GraphicTile;
 import entities.Light;
 import loaders.Loader;
 import terrain.Case;
+import terrain.Case.Type_Batiment;
 import Action.Action_Batiment;
 import Action.Action_Tuile;
 import Menu.Echap;
@@ -139,7 +140,7 @@ public class Game implements Observer,KeyListener {
 			constructions.get(i).setType(listConstruction.get(i).getTypeBatiment());
 			Vector3f worldPos = new Vector3f(grid.toWorldPos(listConstruction.get(i).getPosition(),listConstruction.get(i).getNiveau()-1));
 			constructions.get(i).setPosition(worldPos);
-			if(listConstruction.get(i).getNiveau()>1){
+			if(listConstruction.get(i).getNiveau()>1 && constructions.get(i).getType_Batiment() == Type_Batiment.HUTTE){
 				for(int j=0;j<listConstruction.get(i).getNiveau();j++){
 					constructions.get(i).setPosition(new Vector3f(worldPos.x+pos[j].x,worldPos.y,worldPos.z+pos[j].y));
 					renderer.draw(constructions.get(i),shader);
@@ -219,13 +220,16 @@ public class Game implements Observer,KeyListener {
 		ecouteurSouris = new EcouteurDeSourisTerrain(moteur,picker,grid,Tile, Tiles, Construction, constructions,marking_menu,Tuile_Pioche);
 		
 		//Init pos
-		pos = new Vector2f[6];
+		pos = new Vector2f[9];
 		pos[0] = new Vector2f(-Grid.WIDTH_OF_HEXA/2+Grid.WIDTH_OF_HEXA/4,0);
 		pos[1] = new Vector2f(Grid.WIDTH_OF_HEXA/2-Grid.WIDTH_OF_HEXA/4,0);
 		pos[2] = new Vector2f(0,-Grid.HEIGHT_OF_HEXA/2+Grid.HEIGHT_OF_HEXA/4);
 		pos[3] = new Vector2f(0,Grid.HEIGHT_OF_HEXA/2-Grid.HEIGHT_OF_HEXA/4);
 		pos[4] = new Vector2f(-Grid.WIDTH_OF_HEXA/2+Grid.WIDTH_OF_HEXA/4,-Grid.WIDTH_OF_HEXA/2+Grid.WIDTH_OF_HEXA/4);
 		pos[5] = new Vector2f(Grid.WIDTH_OF_HEXA/2-Grid.WIDTH_OF_HEXA/4,Grid.WIDTH_OF_HEXA/2-Grid.WIDTH_OF_HEXA/4);
+		pos[6] = new Vector2f(0,0);
+		pos[7] = new Vector2f(0,0);
+		pos[8] = new Vector2f(0,0);
 		
 		timer = new TimerOpenGL();
 		timer.addObserver(this);
