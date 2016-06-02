@@ -67,6 +67,7 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		Case.Type sud = moteur.get_tuile_pioche().get_type_case(Case.Orientation.S);
 				Tile.setTile(new Tuile(nord,sud));
 				Tile.getObject3D().setRotY(90);
+				panelpioche.cleanAngle();
 				panelpioche.setTuile();
 	    		break;
 	    	
