@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -33,7 +35,7 @@ import test.Game;
 @SuppressWarnings("serial")
 public class Nouveau extends JComponent {
 
-	//private Image backgroundImage;
+	private Image backgroundImage;
 	
 	private JFrame m_fenetre;
 	private JFrame principal;
@@ -251,11 +253,6 @@ public class Nouveau extends JComponent {
 	
 	// Vérifie si tout s'est bien passé dans la sélection des paramètres
 	// Affiche un message d'erreur détaillé en cas de problème rencontré (même faction des 2 joueurs par exemple)
-	// TODO
-	//Jaune : Orientaux
-	//Bleux : Occidentaux
-	//Babyloniens : gris
-	//Viking : Vert
 	
 	// Renvoie le nom correspondant à la faction choisie
 	private String init_faction(JComboBox<String> faction){
@@ -378,20 +375,19 @@ public class Nouveau extends JComponent {
         ihm.getCanvas().setFocusable(false);
         
         
+        
         game.init(principal,gameF,moteur,ihm.getCanvas(),ihm.getPioche_Tuile());
         moteur.lancer_partie();
         
 	}
 	
 	
-	// TODO
 	// Pour rajouter une image en fond
-	/*
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);	
 	
 	    // Draw the background image.
-	    g.drawImage(backgroundImage, 0, 0, this.getWidth(),this.getHeight(),this);
+	    //g.drawImage(backgroundImage, 0, 0, this.getWidth(),this.getHeight(),this);
 	}
-	*/
+
 }

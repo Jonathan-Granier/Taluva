@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -18,8 +20,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import renderEngine.Window;
+import test.Game;
+
 public class Echap extends JComponent {
 
+	private Image backgroundImage;
+	
 	private JFrame m_fenetre;
 	private JFrame principal;
 	private JFrame menu;
@@ -33,8 +40,11 @@ public class Echap extends JComponent {
 	private JButton quitter;
 	private JPanel pause;
 	
-	public Echap(JFrame frame, JFrame menu){
+	private Game game;
+	
+	public Echap(JFrame frame, JFrame menu, Game game){
 		init_frame(frame,menu);
+		this.game = game;
 		
 		int width = m_fenetre.getWidth();
 		int height = m_fenetre.getHeight();
@@ -79,6 +89,7 @@ public class Echap extends JComponent {
 		regles = new JButton("Règles");
 		regles.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		regles.setPreferredSize(new Dimension(width_b,height_b));
+		regles.addActionListener(new Ecouteur_boutons_echap("Règles",this));
 		pause.add(regles,c);
 		
 		c.gridy = 3;
@@ -147,19 +158,29 @@ public class Echap extends JComponent {
         	principal.remove(m_fenetre);
     		m_fenetre.dispose();
     		principal.setVisible(false);
-    		principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    		game.cleanUp();
+    		game.timerStop();
     		principal.dispose();
     		menu.setVisible(true);
     		menu.add(new Nouveau(menu));
         }
 	}
 	public void regles(){
+		sauvegarder();
 		principal.remove(m_fenetre);
 		m_fenetre.dispose();
+		game.cleanUp();
+		game.timerStop();
 		principal.setVisible(false);
+		principal.dispose();
 		menu.setVisible(true);
+		menu.getContentPane().removeAll();
 		menu.add(new Regles(menu));
+		menu.revalidate();
+		menu.repaint();
 	}
+	
+	//TODO
 	public void sauvegarder(){
 		//Voir avec Noha
 	}
@@ -176,14 +197,16 @@ public class Echap extends JComponent {
         	principal.remove(m_fenetre);
     		m_fenetre.dispose();
     		principal.setVisible(false);
+    		game.cleanUp();
+    		game.timerStop();
+    		principal.dispose();
     		
     		menu.setVisible(true);
     	}
     }
 	
 	//Ca dépend si on veut quitter le jeu ou revenir au menu demarrage
-	//Je suppose qu'on pas tout quitter
-	//TODO
+
 	public void quitter(){
 		int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder avant de quitter ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
         if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
@@ -201,4 +224,12 @@ public class Echap extends JComponent {
 	    }
     }
 	
+	// Pour rajouter une image en fond
+	public void paintComponent(Graphics g) {
+	    super.paintComponent(g);	
+	
+	    // Draw the background image.
+	    //g.drawImage(backgroundImage, 0, 0, this.getWidth(),this.getHeight(),this);
+	}
+
 }
