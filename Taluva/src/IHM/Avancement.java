@@ -243,27 +243,27 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 	private void colorStat()
 	{
 		if(ihm.getM().get_num_Jcourant()==1){
-			colorElement(!(ihm.getM().getJ1().getTemple() <= 0),ihm.getInfoJ1()[1]);
+			colorElement(!(ihm.getM().getJ1().getTemple() <= 0),ihm.getInfoJ1()[5]);
 			colorElement(!(ihm.getM().getJ1().getTour() <= 0),ihm.getInfoJ1()[3]);
-			colorElement(!(ihm.getM().getJ1().getHutte() <= 0),ihm.getInfoJ1()[5]);
+			colorElement(!(ihm.getM().getJ1().getHutte() <= 0),ihm.getInfoJ1()[1]);
 
 		}
 		else if (ihm.getM().get_num_Jcourant()==2){
-			colorElement(!(ihm.getM().getJ2().getTemple() <= 0),ihm.getInfoJ2()[1]);
+			colorElement(!(ihm.getM().getJ2().getTemple() <= 0),ihm.getInfoJ2()[5]);
 			colorElement(!(ihm.getM().getJ2().getTour() <= 0),ihm.getInfoJ2()[3]);
-			colorElement(!(ihm.getM().getJ2().getHutte() <= 0),ihm.getInfoJ2()[5]);
+			colorElement(!(ihm.getM().getJ2().getHutte() <= 0),ihm.getInfoJ2()[1]);
 		}
 		else if(ihm.getM().get_num_Jcourant()==3)
 		{
-			colorElement(!(ihm.getM().getJ3().getTemple() <= 0),ihm.getInfoJ3()[1]);
+			colorElement(!(ihm.getM().getJ3().getTemple() <= 0),ihm.getInfoJ3()[5]);
 			colorElement(!(ihm.getM().getJ3().getTour() <= 0),ihm.getInfoJ3()[3]);
-			colorElement(!(ihm.getM().getJ3().getHutte() <= 0),ihm.getInfoJ3()[5]);
+			colorElement(!(ihm.getM().getJ3().getHutte() <= 0),ihm.getInfoJ3()[1]);
 			
 		}else if (ihm.getM().get_num_Jcourant()==4)
 		{
-			colorElement(!(ihm.getM().getJ4().getTemple() <= 0),ihm.getInfoJ4()[1]);
+			colorElement(!(ihm.getM().getJ4().getTemple() <= 0),ihm.getInfoJ4()[5]);
 			colorElement(!(ihm.getM().getJ4().getTour() <= 0),ihm.getInfoJ4()[3]);
-			colorElement(!(ihm.getM().getJ4().getHutte() <= 0),ihm.getInfoJ4()[5]);
+			colorElement(!(ihm.getM().getJ4().getHutte() <= 0),ihm.getInfoJ4()[1]);
 			
 		}
 		
