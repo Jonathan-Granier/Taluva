@@ -22,6 +22,7 @@ import terrain.Case;
 import terrain.Case.Couleur_Joueur;
 import terrain.Terrain;
 import terrain.Tuile;
+import test.Game;
 
 public class Moteur extends Phase{
 	protected Terrain T;
@@ -411,7 +412,7 @@ public class Moteur extends Phase{
 			for(Action_Construction action : liste_construction){
 				switch (action.get_type()){
 				case HUTTE : if (j_courant.getHutte()>0)
-					return false;
+								return false;
 				case TOUR : if (j_courant.getTour()>0)
 					return false;
 				case TEMPLE : if (j_courant.getTemple()>0)
@@ -606,6 +607,7 @@ public class Moteur extends Phase{
 	public boolean Victoire()
 	{
 		if(victoire_aux_batiments()){
+			System.out.println("ICI");
 			if(Est_joueur_Courant(j1))
 				System.out.println("Le joueur 1 a gagné!!!");
 			else if(Est_joueur_Courant(j2))
@@ -718,7 +720,7 @@ public class Moteur extends Phase{
 	public int jouer_IA()
 	{
 		Actions_Tour action_tour;
-		
+		Game.BRIGHT = true;
 		piocher();
 		action_tour = j_courant.get_coup_tour(tuile_pioche);
 		
