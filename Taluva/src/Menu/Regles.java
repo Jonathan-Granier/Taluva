@@ -80,6 +80,10 @@ public class Regles extends JComponent {
 		reprendre = new JButton("Reprendre");
 		reprendre.addActionListener(new Ecouteur_boutons_regles("Reprendre",this));
 		reprendre.setFont(new Font("Reprendre", Font.BOLD+Font.ITALIC,fenetre.getWidth()/120));
+		File directory = new File("./Save");
+		if(directory.listFiles().length==0){
+			reprendre.setEnabled(false);
+		}
 		
 		prec_suiv.add(prec);
 		prec_suiv.add(suiv);		

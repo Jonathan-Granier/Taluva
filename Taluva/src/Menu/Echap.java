@@ -29,6 +29,7 @@ public class Echap extends JComponent {
 	private JButton regles;
 	private JButton sauvegarder;
 	private JButton charger;
+	private JButton menu_principal;
 	private JButton quitter;
 	private JPanel pause;
 	
@@ -38,7 +39,7 @@ public class Echap extends JComponent {
 		int width = m_fenetre.getWidth();
 		int height = m_fenetre.getHeight();
 		int width_b = width/2;
-		int height_b = height/12;
+		int height_b = height/14;
 		
 		pause = new JPanel();
 		pause.setBackground(Color.WHITE);
@@ -47,7 +48,7 @@ public class Echap extends JComponent {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		
-		c.insets = new Insets(height_b,0,0,0);
+		c.insets = new Insets(height_b*3/5,0,0,0);
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		c.gridheight=1;
@@ -60,6 +61,7 @@ public class Echap extends JComponent {
 		reprendre = new JButton("Reprendre");
 		reprendre.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		reprendre.setPreferredSize(new Dimension(width_b,height_b));
+		reprendre.addActionListener(new Ecouteur_boutons_echap("Reprendre",this));
 		pause.add(reprendre,c);
 		c.insets = new Insets(0,0,0,0);
 		
@@ -69,11 +71,12 @@ public class Echap extends JComponent {
 		nouveau = new JButton("Nouveau");
 		nouveau.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		nouveau.setPreferredSize(new Dimension(width_b,height_b));
+		nouveau.addActionListener(new Ecouteur_boutons_echap("Nouveau",this));
 		pause.add(nouveau,c);
 		
 		c.gridy = 2;
 		
-		regles = new JButton("Règles");
+		regles = new JButton("RÃ¨gles");
 		regles.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		regles.setPreferredSize(new Dimension(width_b,height_b));
 		pause.add(regles,c);
@@ -84,7 +87,7 @@ public class Echap extends JComponent {
 		sauvegarder.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		sauvegarder.setPreferredSize(new Dimension(width_b,height_b));
 		pause.add(sauvegarder,c);
-		
+
 		c.gridy = 4;
 		
 		charger = new JButton("Charger");
@@ -92,12 +95,24 @@ public class Echap extends JComponent {
 		charger.setPreferredSize(new Dimension(width_b,height_b));
 		pause.add(charger,c);
 		c.insets = new Insets(0,0,0,0);
-		
+
+		c.insets = new Insets(height_b*3/5,0,0,0);
 		c.gridy = 6;
+		
+		menu_principal = new JButton("Menu Principal");
+		menu_principal.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
+		menu_principal.setPreferredSize(new Dimension(width_b,height_b));
+		menu_principal.addActionListener(new Ecouteur_boutons_echap("Menu Principal",this));
+		pause.add(menu_principal,c);
+		c.insets = new Insets(0,0,0,0);
+
+		c.insets = new Insets(-height_b*3/5,0,height_b*3/5,0);
+		c.gridy = 7;
 		
 		quitter = new JButton("Quitter");
 		quitter.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		quitter.setPreferredSize(new Dimension(width_b,height_b));
+		quitter.addActionListener(new Ecouteur_boutons_echap("Quitter",this));
 		pause.add(quitter,c);
 		
 		m_fenetre.add(pause);
@@ -125,24 +140,17 @@ public class Echap extends JComponent {
 		principal.setEnabled(true);
 	}
 	public void nouveau(){
-		int result = JOptionPane.showConfirmDialog(m_fenetre, "Êtes-vous sûrs de vouloir quitter la partie en cours ?", "Confirmation", JOptionPane.CANCEL_OPTION);
-        if(result == JOptionPane.OK_OPTION){
+		int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder la partie en cours ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+		if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
+        	if(result== JOptionPane.YES_OPTION)
+        		sauvegarder();
         	principal.remove(m_fenetre);
     		m_fenetre.dispose();
     		principal.setVisible(false);
     		principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     		principal.dispose();
     		menu.setVisible(true);
-    		if(menu.getComponent(0) instanceof Menu_Demarrage){
-    			((Menu_Demarrage) menu.getComponent(0)).nouveau();
-    		}
-    		else{
-    			//TODO : Trouver un moyen de simuler un clic sur Nouveau
-    			//Ou alors
-    			//principal.setEnabled(false);
-    			//principal.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
-    			
-    		}
+    		menu.add(new Nouveau(menu));
         }
 	}
 	public void regles(){
@@ -159,24 +167,38 @@ public class Echap extends JComponent {
 		//Voir avec Noha
 	}
 	
-	//Ca dépend si on veut quitter le jeu ou revenir au menu demarrage
+	public void menu_principal(){
+		
+		int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder avant de retourner au menu principal ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+        if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
+        	if(result== JOptionPane.YES_OPTION)
+        		sauvegarder();
+        	principal.remove(m_fenetre);
+    		m_fenetre.dispose();
+    		principal.setVisible(false);
+    		
+    		menu.setVisible(true);
+    	}
+    }
+	
+	//Ca dÃ©pend si on veut quitter le jeu ou revenir au menu demarrage
 	//Je suppose qu'on pas tout quitter
 	//TODO
 	public void quitter(){
-		int result = JOptionPane.showConfirmDialog(m_fenetre, "Êtes-vous sûrs de vouloir quitter la partie en cours?", "Confirmation", JOptionPane.CANCEL_OPTION);
-        if(result == JOptionPane.OK_OPTION){
+		int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder avant de quitter ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+        if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
+        	if(result== JOptionPane.YES_OPTION)
+        		sauvegarder();
         	principal.remove(m_fenetre);
     		m_fenetre.dispose();
     		principal.setVisible(false);
     		principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     		principal.dispose();
-    		menu.setVisible(true);
     		
-    		/* Au cas ou on veut tout quitter
     		menu.setVisible(false);
     		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     		menu.dispose();
-    		*/
-        }
-	}
+	    }
+    }
+	
 }

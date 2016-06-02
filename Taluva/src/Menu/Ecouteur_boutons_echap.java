@@ -20,7 +20,7 @@ public class Ecouteur_boutons_echap implements ActionListener{
 			case "Nouveau" :
 				echap.nouveau();
 				break;
-			case "Règles" :
+			case "RÃ¨gles" :
 				echap.regles();
 				break;
 			case "Sauvegarder" :
@@ -28,6 +28,9 @@ public class Ecouteur_boutons_echap implements ActionListener{
 				break;
 			case "Charger" :
 				echap.charger();
+				break;
+			case "Menu Principal" :
+				echap.menu_principal();
 				break;
 			case "Quitter" :
 				echap.quitter();

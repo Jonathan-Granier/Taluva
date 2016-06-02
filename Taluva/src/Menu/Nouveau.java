@@ -4,10 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -22,14 +20,14 @@ import javax.swing.JPanel;
 
 import IHM.Avancement;
 import IHM.IHM;
-import Joueur.IA_Alpha_Beta;
 import Joueur.IA_Heuristique;
+import Joueur.IA_Moyenne;
 import Joueur.IA_Random;
 import Joueur.Joueur_Generique;
 import Joueur.Joueur_Humain;
 import Moteur.Moteur;
-import terrain.Terrain;
 import terrain.Case.Couleur_Joueur;
+import terrain.Terrain;
 import test.Game;
 
 @SuppressWarnings("serial")
@@ -63,18 +61,8 @@ public class Nouveau extends JComponent {
 	private Joueur_Generique j1,j2;
 	
 	// L'INSTANCIATION
-	
-	public Nouveau(JFrame frame,JFrame gameF,Game game,Moteur moteur,Terrain terrain,IHM ihm,Avancement avancement){//, Moteur moteur){
-		
-		// Initialisation des paramètres necessaires pour le lancement d'une partie
-		this.gameF = gameF;
-		this.game = game;
-		this.moteur = moteur;
-		this.terrain = terrain;
-		this.ihm = ihm;
-		this.avancement = avancement;
-		
-		
+	private void init_panels(JFrame frame){
+
 		
 		// Initialisation de l'écran de sélection pour une nouvelle partie
 		
@@ -123,7 +111,7 @@ public class Nouveau extends JComponent {
 		
 		
 		String[] type_joueur = {" Humain", " IA_Facile", " IA_Moyenne", " IA_Difficile"};
-		String[] factions = {" Orientaux", " Babyloniens", " A définir", " A définir"};
+		String[] factions = {" Occidentaux", " Orientaux", " Babyloniens", " Vikings"};
 		
 		
 		c.insets = new Insets(0,-width_b,0,0);
@@ -206,7 +194,25 @@ public class Nouveau extends JComponent {
 		c.insets = new Insets(0,0,0,0);
 		
 		m_fenetre.add(panel);
+
+	}
 	
+	//Constructeur uniquement pour le menu Echap
+	public Nouveau(JFrame frame){
+		init_panels(frame);
+	}
+	
+	public Nouveau(JFrame frame,JFrame gameF,Game game,Moteur moteur,Terrain terrain,IHM ihm,Avancement avancement){
+		
+		// Initialisation des paramètres necessaires pour le lancement d'une partie
+		this.gameF = gameF;
+		this.game = game;
+		this.moteur = moteur;
+		this.terrain = terrain;
+		this.ihm = ihm;
+		this.avancement = avancement;
+		init_panels(frame);
+		
 	}
 	
 	private void init_m_fenetre(JFrame frame){
@@ -242,25 +248,45 @@ public class Nouveau extends JComponent {
 	// Affiche un message d'erreur détaillé en cas de problème rencontré (même faction des 2 joueurs par exemple)
 	// TODO
 	//Jaune : Orientaux
-	//Bleux : Francais
+	//Bleux : Occidentaux
 	//Babyloniens : gris
-	//Last : Vert
+	//Viking : Vert
 	
+	// Renvoie le nom correspondant à la faction choisie
+	private String init_faction(JComboBox<String> faction){
+		switch (faction.getSelectedIndex()){
+		case 0 : 
+			System.out.println("[Nouveau/Init_joueurs] Orientaux");
+			return "Orientaux";
+		case 1 :
+			System.out.println("[Nouveau/Init_joueurs] Bayloniens");
+			return "Babyloniens";
+		case 2 :
+			System.out.println("[Nouveau/Init_joueurs] Occidentaux");
+			return "Occidentaux";
+		case 3 :
+			System.out.println("[Nouveau/Init_joueurs] Vikings");
+			return "Vikings";
+		default :
+			System.out.println("[Nouveau/Init_Faction] switch case default");
+			return null;
+		}
+	}
 	// Renvoie la couleur correspondant à la faction choisie
-	private Couleur_Joueur init_faction(JComboBox<String> faction){
+	private Couleur_Joueur init_faction_couleur(JComboBox<String> faction){
 		switch (faction.getSelectedIndex()){
 		case 0 : 
 			System.out.println("[Nouveau/Init_joueurs] Orientaux");
 			return Couleur_Joueur.JAUNE;
 		case 1 :
 			System.out.println("[Nouveau/Init_joueurs] Bayloniens");
-			return Couleur_Joueur.BLEU;
-		case 2 :
-			System.out.println("[Nouveau/Init_joueurs] Français");
 			return Couleur_Joueur.BLANC;
+		case 2 :
+			System.out.println("[Nouveau/Init_joueurs] Occidentaux");
+			return Couleur_Joueur.BLEU;
 		case 3 :
-			System.out.println("[Nouveau/Init_joueurs] Autres");
-			return Couleur_Joueur.ROSE;
+			System.out.println("[Nouveau/Init_joueurs] Vikings");
+			return Couleur_Joueur.VERT;
 		default :
 			System.out.println("[Nouveau/Init_Faction] switch case default");
 			return null;
@@ -268,20 +294,20 @@ public class Nouveau extends JComponent {
 	}
 	
 	// Initialise le joueur générique en fonction du type choisi et de la faction choisie
-	private Joueur_Generique init_joueurs(Couleur_Joueur couleur,Moteur moteur,JComboBox<String> humain){
+	private Joueur_Generique init_joueurs(Couleur_Joueur couleur,String faction,Moteur moteur,JComboBox<String> humain){
 		switch (humain.getSelectedIndex()){
 			case 0 :
 				System.out.println("[Nouveau/Init_joueurs] HUMAIN");
-				return new Joueur_Humain(couleur);
+				return new Joueur_Humain(couleur,faction);
 			case 1 :
 				System.out.println("[Nouveau/Init_joueurs] IA_Random");
-				return new IA_Random(couleur,moteur);
+				return new IA_Random(couleur,moteur,faction);
 			case 2 :
 				System.out.println("[Nouveau/Init_joueurs] IA_Heuristique");
-				return new IA_Heuristique(couleur,moteur);
+				return new IA_Moyenne(couleur,moteur,faction);
 			case 3 :
-				// TODO
-				return null;
+				System.out.println("[Nouveau/Init_joueurs] IA_Heuristique");
+				return new IA_Heuristique(couleur,moteur,faction);
 			default :
 				System.out.println("[Nouveau/Init_joueurs] switch case default");
 				return null;
@@ -294,11 +320,9 @@ public class Nouveau extends JComponent {
 			moteur = new Moteur(terrain);
 	        j1=null;
 	        j2=null;
-	        j1 = init_joueurs(init_faction(faction_j1),moteur,humain_j1);
-	        j2 = init_joueurs(init_faction(faction_j2),moteur,humain_j2);
-	        if(j1==null)System.out.println("[Nouveau/Init_joueurs] J1 Toujours null");
-	        if(j2==null)System.out.println("[Nouveau/Init_joueurs] J2 Toujours null");
-			
+	        j1 = init_joueurs(init_faction_couleur(faction_j1),init_faction(faction_j1),moteur,humain_j1);
+	        j2 = init_joueurs(init_faction_couleur(faction_j2),init_faction(faction_j2),moteur,humain_j2);
+	        
 	        //On ferme l'ecran de selection
 	        principal.remove(m_fenetre);
 			m_fenetre.dispose();
@@ -337,7 +361,7 @@ public class Nouveau extends JComponent {
         gameF.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we){
-                int result = JOptionPane.showConfirmDialog(gameF, "�tes-vous s�r de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
+                int result = JOptionPane.showConfirmDialog(gameF, "Êtes-vous sûr de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
                 if(result == JOptionPane.OK_OPTION){
                 	game.cleanUp();
                 	gameF.setVisible(false);
@@ -346,6 +370,7 @@ public class Nouveau extends JComponent {
                 }
             }
         });}
+        moteur.lancer_partie();
 	}
 	
 	
