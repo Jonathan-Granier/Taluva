@@ -136,7 +136,7 @@ public class IA_Moyenne extends IA_Generique {
 		// Si le joueur s'est débarassé de toutes ses pièces de 2 catégorie, il a gagné.
 		if((c.getHutte() == 0 && c.getTemple() == 0) || (c.getTemple() ==0 && c.getTour() ==0) || (c.getHutte()==0 && c.getTour()==0))
 		{
-			score += 1000000000;
+			score += Integer.MAX_VALUE;
 		}
 		// Sinon, s'il s'en raproche:
 		else if(c.getHutte() == 0 || c.getTour()==0 || c.getTemple()==0)
