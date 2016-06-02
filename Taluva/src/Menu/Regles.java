@@ -16,6 +16,7 @@ public class Regles extends JComponent {
 	
 	public Regles(JFrame frame){
 		init_m_fenetre(frame);
+		panel = new Regle_panel(m_fenetre,principal);
 		m_fenetre.add(new Regle_panel(m_fenetre,principal));
 	}
 	public Regles(JFrame frame, JFrame gameF){
