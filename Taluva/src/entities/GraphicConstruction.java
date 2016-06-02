@@ -18,11 +18,21 @@ public class GraphicConstruction {
 
 	private Vector3f position;
 	private Object3D object3d;
-	private static Object3D hut;
-	private static Object3D temple;
-	private static Object3D tower;
+	private static Object3D hutC;
+	private static Object3D templeC;
+	private static Object3D towerC;
+	private static Object3D hutE;
+	private static Object3D templeE;
+	private static Object3D towerE;
+	private static Object3D hutV;
+	private static Object3D templeV;
+	private static Object3D towerV;
+	private static Object3D hutB;
+	private static Object3D templeB;
+	private static Object3D towerB;
 	private boolean allow;
 	private Vector3f colour;
+	private Couleur_Joueur color;
 	private float height;
 	private boolean bright;
 	private Vector3f brightColor;
@@ -30,13 +40,13 @@ public class GraphicConstruction {
 	public GraphicConstruction(GraphicType type, Vector3f colour) {
 		switch (type) {
 		case HUT:
-			this.object3d = new Object3D(hut);
+			this.object3d = new Object3D(hutC);
 			break;
 		case TOWER:
-			this.object3d = new Object3D(tower);
+			this.object3d = new Object3D(towerC);
 			break;
 		case TEMPLE:
-			this.object3d = new Object3D(temple);
+			this.object3d = new Object3D(templeC);
 			break;
 		default:
 			System.out.println("Unknow construction type");
@@ -50,13 +60,25 @@ public class GraphicConstruction {
 	}
 
 	public static void setUp(Loader loader){
-		hut =  new Object3D("Hut", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
-		temple = new Object3D("Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
-		tower = new Object3D("Tower", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		hutC =  new Object3D("Chinese/Hut", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		templeC = new Object3D("Chinese/Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		towerC = new Object3D("Chinese/Tower", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		
+		hutE =  new Object3D("Europe/Hut", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		templeE = new Object3D("Europe/Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		towerE = new Object3D("Europe/Tower", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		
+		hutV =  new Object3D("Viking/Hut", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		templeV = new Object3D("Viking/Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		towerV = new Object3D("Viking/Tower", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		
+		hutB =  new Object3D("Babylon/Hut", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		templeB = new Object3D("Babylon/Temple", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
+		towerB = new Object3D("Babylon/Tower", loader,true, new Vector3f(0, 0, 0), 0, 0, 0, 0.12f,true);
 	}
 	
 	public void init(){
-		this.object3d = hut;
+		this.object3d = hutC;
 	}
 	
 	public Case.Type_Batiment getType_Batiment() {
@@ -117,13 +139,67 @@ public class GraphicConstruction {
 	public void setObject3d() {
 		switch (type) {
 		case HUT:
-			this.object3d = hut;
+				switch(color){
+				case VERT:
+					this.object3d = hutV;
+				break;
+				case JAUNE:
+					this.object3d = hutC;
+				break;
+				case BLANC:
+					this.object3d = hutB;
+				break;
+				case BLEU:
+					this.object3d = hutE;
+				break;
+				case NEUTRE:
+					this.colour = new Vector3f(0,0,0);
+				break;
+				default :
+					System.out.println("Unknow Color");
+				}
 			break;
 		case TOWER:
-			this.object3d = tower;
+			switch(color){
+			case VERT:
+				this.object3d = towerV;
+			break;
+			case JAUNE:
+				this.object3d = towerC;
+			break;
+			case BLANC:
+				this.object3d = towerB;
+			break;
+			case BLEU:
+				this.object3d = towerE;
+			break;
+			case NEUTRE:
+				this.colour = new Vector3f(0,0,0);
+			break;
+			default :
+				System.out.println("Unknow Color");
+			}
 			break;
 		case TEMPLE:
-			this.object3d = temple;
+			switch(color){
+			case VERT:
+				this.object3d = templeV;
+			break;
+			case JAUNE:
+				this.object3d = templeC;
+			break;
+			case BLANC:
+				this.object3d = templeB;
+			break;
+			case BLEU:
+				this.object3d = templeE;
+			break;
+			case NEUTRE:
+				this.colour = new Vector3f(0,0,0);
+			break;
+			default :
+				System.out.println("Unknow Color");
+			}
 			break;
 		default:
 			System.out.println("Unknow construction type");
@@ -136,6 +212,7 @@ public class GraphicConstruction {
 	}
 
 	public void setColour(Couleur_Joueur colour) {
+		color = colour;
 		if(!bright){
 			switch(colour){
 				case VERT:

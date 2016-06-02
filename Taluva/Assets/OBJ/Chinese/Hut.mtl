@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 28.05.2016 23:36:33
+# File Created: 29.05.2016 01:44:49
 
 newmtl supportRoof
 	Ns 10.0000
@@ -12,7 +12,7 @@ newmtl supportRoof
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Hut.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\Hut.png
 	map_Kd Hut.png
 
 newmtl roof

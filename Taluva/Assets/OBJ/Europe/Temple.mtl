@@ -95,7 +95,7 @@ newmtl 03___Default
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\vitraux.png
-	map_Kd vitraux.png
+	map_Kd C:\Users\Dimitri\workspace\Engine\Assets\Texture\vitraux.png
 
 newmtl 04___Default
 	Ns 10.0000

@@ -24,7 +24,7 @@ newmtl roof
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka roof.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\roof.png
 	map_Kd roof.png
 
 newmtl 02___Default
