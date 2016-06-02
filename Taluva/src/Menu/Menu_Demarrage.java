@@ -83,7 +83,7 @@ public class Menu_Demarrage extends JComponent {
 		continuer.setOpaque(false);
 		
 		File directory = new File("./Save");
-		if(directory.listFiles().length==0){
+		if(directory.listFiles().length<=1){
 			continuer.setEnabled(false);
 		}
 		

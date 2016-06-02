@@ -46,7 +46,8 @@ public class Nouveau extends JComponent {
 	private JComboBox<String> humain_j2;
 	private JComboBox<String> faction_j2;
 	
-	private JButton avance;
+	private JLabel pioche;
+	private JComboBox<String> taille_pioche;
 	
 	private JButton accueil;
 	private JButton lancer;
@@ -112,7 +113,7 @@ public class Nouveau extends JComponent {
 		
 		String[] type_joueur = {" Humain", " IA_Facile", " IA_Moyenne", " IA_Difficile"};
 		String[] factions = {" Occidentaux", " Orientaux", " Babyloniens", " Vikings"};
-		
+		String[] tailles = {" 24 Tuiles" , " 48 Tuiles"};
 		
 		c.insets = new Insets(0,-width_b,0,0);
 		c.gridx = 1;
@@ -166,11 +167,20 @@ public class Nouveau extends JComponent {
 		c.insets = new Insets(0,width_b,0,0);
 		c.gridx = 0;
 		c.gridy = 4;
-		avance = new JButton("Parametres Avancés");
-		avance.addActionListener(new Ecouteur_boutons_nouveau("Paramètres avancés",this));
-		avance.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
-		avance.setPreferredSize( new Dimension(width_b*2, height_b) );
-		panel.add(avance,c);
+		pioche = new JLabel("Taille de la pioche");
+		pioche.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
+		pioche.setPreferredSize( new Dimension(width_b*2, height_b) );
+		panel.add(pioche,c);
+		c.insets = new Insets(0,0,0,0);
+		
+		c.insets = new Insets(0,-width_b,0,0);
+		c.gridx = 1;
+		c.gridy = 4;
+		taille_pioche = new JComboBox<String>(tailles);
+		taille_pioche.setSelectedIndex(0);
+		taille_pioche.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
+		taille_pioche.setPreferredSize( new Dimension(width_b*2, height_b) );
+		panel.add(taille_pioche,c);
 		c.insets = new Insets(0,0,0,0);
 		
 		c.insets = new Insets(-height_b,width_b*2,0,0);
@@ -238,11 +248,6 @@ public class Nouveau extends JComponent {
 		principal.setEnabled(true);
 	}
 	
-	// Paremetres Avancés
-	// TODO
-	public void avance(){
-		System.out.println("[Nouveau/Avance] Bouton non défini");
-	}
 	
 	// Vérifie si tout s'est bien passé dans la sélection des paramètres
 	// Affiche un message d'erreur détaillé en cas de problème rencontré (même faction des 2 joueurs par exemple)
@@ -314,10 +319,16 @@ public class Nouveau extends JComponent {
 		}
 	}
 	
+	//Taille de la pioche
+	private int taille_pioche(){
+		if(taille_pioche.getSelectedIndex()==0)return 24;
+		return 48;
+	}
+	
 	public void lancer(){
 		if(faction_j1.getSelectedIndex() != faction_j2.getSelectedIndex()){
 			terrain = new Terrain();
-			moteur = new Moteur(terrain);
+			moteur = new Moteur(terrain,taille_pioche());
 	        j1=null;
 	        j2=null;
 	        j1 = init_joueurs(init_faction_couleur(faction_j1),init_faction(faction_j1),moteur,humain_j1);

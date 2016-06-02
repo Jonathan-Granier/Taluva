@@ -17,9 +17,6 @@ public class Ecouteur_boutons_nouveau  implements ActionListener {
 			case "Accueil" :
 				nouveau.accueil();
 				break;
-			case "Paramètres avancés" :
-				nouveau.avance();
-				break;
 			case "Lancer" :
 				nouveau.lancer();
     		default : 
