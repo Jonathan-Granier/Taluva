@@ -21,7 +21,7 @@ public class MousePicker {
 	
 	private float height;
 	
-	private Vector3f currentObjectPoint;
+	private Vector3f Point;
 	
 	public MousePicker(Camera camera, Matrix4f projection){
 		this.camera = camera;
@@ -29,8 +29,8 @@ public class MousePicker {
 		this.viewMatrix = Matrix.createViewMatrix(camera);
 	}
 	
-	public Vector3f getCurrentObjectPoint(){
-		return currentObjectPoint;
+	public Vector3f getPoint(){
+		return Point;
 	}
 	
 	public Vector3f getCurrentRay(){
@@ -40,15 +40,15 @@ public class MousePicker {
 	public void update(float height){
 		this.height = height;
 		viewMatrix = Matrix.createViewMatrix(camera);
-		currentRay = calculateMouseRay();
+		currentRay = getMouseRay();
 		if (intersectionInRange(0, RAY_RANGE, currentRay)) {
-			currentObjectPoint = binarySearch(0, 0, RAY_RANGE, currentRay);
+			Point = binarySearch(0, 0, RAY_RANGE, currentRay);
 		} else {
-			currentObjectPoint = null;
+			Point = null;
 		}
 	}
 	
-	private Vector3f calculateMouseRay(){
+	private Vector3f getMouseRay(){
 		float mouseX = Mouse.getX();
 		float mouseY = Mouse.getY();
 		Vector2f normalizedCoords = getNormalizedDeviceCoords(mouseX,mouseY);

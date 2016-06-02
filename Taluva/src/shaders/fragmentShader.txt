@@ -48,8 +48,6 @@ void main(void){
 	// Brighter	
 	totalDiffuse = max(totalDiffuse, 0.3);
 	
-/* J'ai dans ma tête un copain qui me plaît */
-	
 	//Check of texture is enable
 	if(textured){
 		vec4 textureColour = texture(diffuseMap,pass_textureCoords);

@@ -89,7 +89,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 	public void run()
 	{
 		picker.update(Tile.getHeight());
-		point = picker.getCurrentObjectPoint();
+		point = picker.getPoint();
 		snap = mouseMoved();
 		if(timer>0)
 			timer++;
