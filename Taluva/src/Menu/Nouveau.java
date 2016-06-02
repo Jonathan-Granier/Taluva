@@ -261,14 +261,14 @@ public class Nouveau extends JComponent {
 	private String init_faction(JComboBox<String> faction){
 		switch (faction.getSelectedIndex()){
 		case 0 : 
-			System.out.println("[Nouveau/Init_joueurs] Orientaux");
-			return "Orientaux";
-		case 1 :
-			System.out.println("[Nouveau/Init_joueurs] Bayloniens");
-			return "Babyloniens";
-		case 2 :
 			System.out.println("[Nouveau/Init_joueurs] Occidentaux");
 			return "Occidentaux";
+		case 1 :
+			System.out.println("[Nouveau/Init_joueurs] Orientaux");
+			return "Orientaux";
+		case 2 :
+			System.out.println("[Nouveau/Init_joueurs] Bayloniens");
+			return "Bayloniens";
 		case 3 :
 			System.out.println("[Nouveau/Init_joueurs] Vikings");
 			return "Vikings";
@@ -281,14 +281,14 @@ public class Nouveau extends JComponent {
 	private Couleur_Joueur init_faction_couleur(JComboBox<String> faction){
 		switch (faction.getSelectedIndex()){
 		case 0 : 
-			System.out.println("[Nouveau/Init_joueurs] Orientaux");
-			return Couleur_Joueur.JAUNE;
-		case 1 :
-			System.out.println("[Nouveau/Init_joueurs] Bayloniens");
-			return Couleur_Joueur.BLANC;
-		case 2 :
 			System.out.println("[Nouveau/Init_joueurs] Occidentaux");
 			return Couleur_Joueur.BLEU;
+		case 1 :
+			System.out.println("[Nouveau/Init_joueurs] Orientaux");
+			return Couleur_Joueur.JAUNE;
+		case 2 :
+			System.out.println("[Nouveau/Init_joueurs] Bayloniens");
+			return Couleur_Joueur.BLANC;
 		case 3 :
 			System.out.println("[Nouveau/Init_joueurs] Vikings");
 			return Couleur_Joueur.VERT;
@@ -349,26 +349,10 @@ public class Nouveau extends JComponent {
 	
 	private void lancer_jeu(Joueur_Generique j1,Joueur_Generique j2){
 		gameF = new JFrame();
-		moteur.add_j1(j1);
-        moteur.add_j2(j2);
-        ihm = new IHM(moteur, gameF);
-        ihm.run();
-        avancement = new Avancement(ihm);
-        moteur.addPhaseListener(avancement);
-        if(moteur.getJ1()==null)System.out.println("NOOOOPE");
-        else{
-        moteur.getJ1().addBatimentCountListener(avancement);
-        moteur.getJ2().addBatimentCountListener(avancement);
-        moteur.MajListeners();
-        ihm.getCanvas().setFocusable(false);
-        
-        gameF.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        
-        game = new Game();
-        game.init(principal,gameF,moteur,ihm.getCanvas(),ihm.getPioche_Tuile());
-        
-        gameF.addKeyListener(game);
+		game = new Game();
+		gameF.addKeyListener(game);
         gameF.setFocusable(true);
+        gameF.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         gameF.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we){
@@ -380,8 +364,23 @@ public class Nouveau extends JComponent {
             		gameF.dispose();
                 }
             }
-        });}
+        });
+        
+        moteur.add_j1(j1);
+        moteur.add_j2(j2);
+        ihm = new IHM(moteur, gameF);
+        ihm.run();
+        avancement = new Avancement(ihm);
+        moteur.addPhaseListener(avancement);
+        moteur.getJ1().addBatimentCountListener(avancement);
+        moteur.getJ2().addBatimentCountListener(avancement);
+        moteur.MajListeners();
+        ihm.getCanvas().setFocusable(false);
+        
+        
+        game.init(principal,gameF,moteur,ihm.getCanvas(),ihm.getPioche_Tuile());
         moteur.lancer_partie();
+        
 	}
 	
 	
