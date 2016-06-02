@@ -332,7 +332,7 @@ public class Game implements Observer,KeyListener {
 			break;
 		case KeyEvent.VK_ESCAPE:
 			frame.setEnabled(false);
-			frame.add(new Echap(frame,menu));
+			frame.add(new Echap(frame,menu,this));
 			break;
 		default:
 			break;
