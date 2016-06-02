@@ -140,7 +140,7 @@ public class GraphicConstruction {
 		switch (type) {
 		case HUT:
 				switch(color){
-				case VERT:
+				case ROSE:
 					this.object3d = hutV;
 				break;
 				case JAUNE:
@@ -161,7 +161,7 @@ public class GraphicConstruction {
 			break;
 		case TOWER:
 			switch(color){
-			case VERT:
+			case ROSE:
 				this.object3d = towerV;
 			break;
 			case JAUNE:
@@ -182,7 +182,7 @@ public class GraphicConstruction {
 			break;
 		case TEMPLE:
 			switch(color){
-			case VERT:
+			case ROSE:
 				this.object3d = templeV;
 			break;
 			case JAUNE:
@@ -215,9 +215,9 @@ public class GraphicConstruction {
 		color = colour;
 		if(!bright){
 			switch(colour){
-				case VERT:
-					this.colour = new Vector3f(0,0.6f,0);
-				break;
+				//case VERT:
+				//	this.colour = new Vector3f(0,0.6f,0);
+				//break;
 				case JAUNE:
 					this.colour = new Vector3f(0.6f,0.6f,0);
 				break;

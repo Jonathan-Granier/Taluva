@@ -291,7 +291,7 @@ public class Nouveau extends JComponent {
 			return Couleur_Joueur.BLANC;
 		case 3 :
 			System.out.println("[Nouveau/Init_joueurs] Vikings");
-			return Couleur_Joueur.VERT;
+			return Couleur_Joueur.ROSE;
 		default :
 			System.out.println("[Nouveau/Init_Faction] switch case default");
 			return null;
@@ -343,7 +343,7 @@ public class Nouveau extends JComponent {
 	        lancer_jeu(j1,j2);
 		}
 		else 
-			JOptionPane.showMessageDialog(m_fenetre, "Les 2 joueurs doivent appartenir à différentes factions!");
+			JOptionPane.showMessageDialog(m_fenetre, "Les 2 joueurs doivent appartenir à différentes factions !");
 		
 	}
 	

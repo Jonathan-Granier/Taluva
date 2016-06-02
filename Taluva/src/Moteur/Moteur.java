@@ -306,6 +306,7 @@ public class Moteur extends Phase{
 		return 4;
 	}
 	
+	
 	public int get_num_Joueur(Joueur_Generique j){
 		
 		if(EstLeMemeJoueur(j,j1))
