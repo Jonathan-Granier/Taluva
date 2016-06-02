@@ -67,6 +67,7 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				
 				ihm.getPioche().setEnabled(true);
 				//Pioche
+				ihm.getPioche_Tuile().cleanAngle();
 				ihm.getToute_la_Pioche().setVisible(false);
 				ihm.getBouton_Pioche().setVisible(true);
 				ihm.getBouton_Pioche().Activer(true);
@@ -186,6 +187,7 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getPoser().setEtat(2);
 				ihm.getConstruire().setEtat(2);
 				ihm.getFinir().setEtat(2);
+				
 				
 				//TODO 
 				//Lancer la fream avec la fin de partie

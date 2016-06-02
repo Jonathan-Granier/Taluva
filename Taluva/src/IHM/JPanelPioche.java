@@ -34,15 +34,15 @@ public class JPanelPioche extends JPanel{
 	private Graphics graphics;
 	private BufferedImage imageTuile;
 	private BufferedImage bufferedImage;
-	private int width,height;
 	private double angle;
+	private boolean NouvelleTuile;
 	
 	public JPanelPioche(String imageNomActiver, String imageNomDesactiver)
 	{
 		this.setOpaque(false);
+		//N'est pas utile
 		imageActiver = new ImageIcon(imageNomActiver).getImage();
     	imageDesactiver = new ImageIcon(imageNomDesactiver).getImage();
-		angle = 0;
 	}
 	
 	
@@ -50,35 +50,35 @@ public class JPanelPioche extends JPanel{
         super.paintComponent(g);
         //TODO
         Graphics2D g2d = (Graphics2D) g.create();
-       // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.40f )); 
-       
-       width = getWidth();
-       height = getHeight();
-       // g2d.drawImage(imageActiver, 0, 0, getWidth(), getHeight(), this);
-       // g2d.drawImage(imageActiver,100, 100, getWidth(), getHeight(), this);
-//        graphics
-//        g2d.drawImage(graphics, 0, 0, getWidth(), getHeight(), this);
         
         int ratio_Width = getWidth()/6;
         int ratio_Height = getHeight()/6;
 
         g2d.drawImage(Tuile,ratio_Width /2  , ratio_Height/2, getWidth()-ratio_Width, getHeight()-ratio_Height, this);
-       // Angle(g2d);
-        
-        //setTuile(g2d);
 	}
 	
 	public void setTuile()
 	{
-		String nomTuileFile = "Assets/Texture/Tile/"+GraphicTile.getTexture()+".png";
-		try{
-			File TuileFile = new File(nomTuileFile);
-			imageTuile = ImageIO.read(TuileFile);
-		}catch (IOException e) {
-			// Auto-generated catch block
-			e.printStackTrace();			
+		if(NouvelleTuile)
+		{
+			String nomTuileFile = "Assets/Texture/Tile/"+GraphicTile.getTexture()+".png";
+			try{
+				File TuileFile = new File(nomTuileFile);
+				imageTuile = ImageIO.read(TuileFile);
+			}catch (IOException e) {
+				// Auto-generated catch block
+				e.printStackTrace();			
+			}
+			Tuile = new RotatingImage(imageTuile,false,6);
+			Tuile.setAngle(0);
+			NouvelleTuile = false;
 		}
-		boolean hasAlpha = imageTuile.getColorModel().hasAlpha();
+		else
+			Tuile.setAngle(angle);
+			
+		
+		
+	/*	boolean hasAlpha = imageTuile.getColorModel().hasAlpha();
 		int transparency = hasAlpha ? Transparency.BITMASK : Transparency.OPAQUE;
 		
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -93,10 +93,9 @@ public class JPanelPioche extends JPanel{
 			// Si ça rate , on met un model par defautl
 			int type = hasAlpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;
 			bufferedImage = new BufferedImage(imageTuile.getWidth(null), imageTuile.getHeight(null), type);
-		}
-		Tuile = new RotatingImage(imageTuile,false,6);
-		Tuile.setAngle(0);
-		this.repaint();
+		}*/
+		
+		//this.repaint();
 	}
 	
 	
@@ -104,14 +103,14 @@ public class JPanelPioche extends JPanel{
 	public void RotationHoraire() 
 	{
 		Tuile.setAngle(Tuile.getAngle()+ Math.PI/3);
-		//angle += PI2 * 30/360;
+		angle = Tuile.getAngle();
 		this.repaint();
 	}
 	
 	public void RotationAntiHoraire()
 	{
 		Tuile.setAngle(Tuile.getAngle()-Math.PI/3);
-		//angle  -= PI2 * 30/360;
+		angle = Tuile.getAngle();
 		this.repaint();
 	}
 	
@@ -119,7 +118,14 @@ public class JPanelPioche extends JPanel{
 	public void setAngle(double angle)
 	{
 		Tuile.setAngle(angle);
+		angle = Tuile.getAngle();
 		this.repaint();
+	}
+	
+	public void cleanAngle()
+	{
+		NouvelleTuile = true;
+		angle = 0;
 	}
 
 }
