@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 26.05.2016 00:13:17
+# File Created: 29.05.2016 01:43:55
 
 newmtl Base
 	Ns 10.0000
@@ -12,7 +12,7 @@ newmtl Base
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka brick.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\brick.png
 	map_Kd brick.png
 
 newmtl 07___Default
@@ -26,7 +26,7 @@ newmtl 07___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka pillar_min.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\pillar_min.png
 	map_Kd pillar_min.png
 
 newmtl 04___Default
@@ -40,7 +40,7 @@ newmtl 04___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka KAMEN.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\KAMEN.png
 	map_Kd KAMEN.png
 
 newmtl 09___Default
@@ -54,7 +54,7 @@ newmtl 09___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka wall.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\wall.png
 	map_Kd wall.png
 
 newmtl 05___Default
@@ -68,7 +68,7 @@ newmtl 05___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Pillar_texture.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\Pillar_texture.png
 	map_Kd Pillar_texture.png
 
 newmtl 08___Default
@@ -82,7 +82,7 @@ newmtl 08___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka tower.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\tower.png
 	map_Kd tower.png
 
 newmtl Roof
@@ -96,7 +96,7 @@ newmtl Roof
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka roof2.png
+	map_Ka C:\Users\Dimitri\workspace\Engine\Assets\Texture\roof2.png
 	map_Kd roof2.png
 
 newmtl Pique

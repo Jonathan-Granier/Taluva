@@ -79,8 +79,9 @@ public class Ecouteur_Boutons implements ActionListener {
     			moteur.select_hutte();
     			pick = true;
     			Construction.setType(GraphicType.HUT);
-    			Construction.setObject3d();
+    			
     			Construction.setColour(moteur.get_Jcourant().getCouleur());
+    			Construction.setObject3d();
 	    		break;	
 	    	
 	    	case "Temple" :
@@ -88,17 +89,18 @@ public class Ecouteur_Boutons implements ActionListener {
     			moteur.select_temple();
     			pick = true;
     			Construction.setType(GraphicType.TEMPLE);
-    			Construction.setObject3d();
+    			
     			Construction.setColour(moteur.get_Jcourant().getCouleur());
-    		
+    			Construction.setObject3d();
 	    		break;	
 	    	
 	    	case "Tour" :
     			moteur.select_tour();
     			pick = true;
     			Construction.setType(GraphicType.TOWER);
-    			Construction.setObject3d();
+    			
     			Construction.setColour(moteur.get_Jcourant().getCouleur());
+    			Construction.setObject3d();
 	    		break;
 	    	case "Rotation_Horaire":
 	    		moteur.tourner_tuile();
