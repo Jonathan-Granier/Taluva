@@ -24,6 +24,7 @@ import org.lwjgl.util.Dimension;
 import Ecouteur.Ecouteur_Boutons;
 import Ecouteur.KeyboardListener;
 import Moteur.Moteur;
+import terrain.Case.Couleur_Joueur;
 
 
 public class IHM {
@@ -71,6 +72,11 @@ public class IHM {
 	private static final String Fichier_Back_Ground = "Assets/IHM/Back_ground.png";
 	
 	//Joueur
+	private static final String Fichier_Joueur_Fond_Activer_Bleu = "Assets/IHM/Joueurs/Bleu.png";
+	private static final String Fichier_Joueur_Fond_Activer_Gris = "Assets/IHM/Joueurs/Gris.png";
+	private static final String Fichier_Joueur_Fond_Activer_Jaune = "Assets/IHM/Joueurs/Jaune.png";
+	private static final String Fichier_Joueur_Fond_Activer_Rose = "Assets/IHM/Joueurs/Rose.png";
+	private static final String Fichier_Joueur_Fond_Activer_Vert = "Assets/IHM/Joueurs/Vert.png";
 	private static final String Fichier_Joueur_Fond_Activer = "Assets/IHM/Joueurs/Cadre_highlight.png";
 	private static final String Fichier_Joueur_Fond_Desactiver = "Assets/IHM/Joueurs/Cadre_deactivated.png";
 	
@@ -190,27 +196,7 @@ public class IHM {
         
         Interface = new JPanelImage(Fichier_Back_Ground,Fichier_Back_Ground);
         
-        //Joueurs
-        InfoJ1 = new JLabel[6];
-        InfoJ2 = new JLabel[6];
-        InfoJ3 = new JLabel[6];
-        InfoJ4 = new JLabel[6];
        
-        Image_Stat_J1 = new JPanel[3];
-        Image_Stat_J2 = new JPanel[3];
-        Image_Stat_J3 = new JPanel[3];
-        Image_Stat_J4 = new JPanel[3];
-        
-        Joueur1 = InitNomJoueur("Joueur 1");
-        Joueur2 = InitNomJoueur("Joueur 2");
-        Joueur3 = InitNomJoueur("Joueur 3");
-        Joueur4 = InitNomJoueur("Joueur 4");
-        
-        panelJ1 = new JPanelImage(Fichier_Joueur_Fond_Activer,Fichier_Joueur_Fond_Desactiver);
-        panelJ2 = new JPanelImage(Fichier_Joueur_Fond_Activer,Fichier_Joueur_Fond_Desactiver);
-        panelJ3 = new JPanelImage(Fichier_Joueur_Fond_Activer,Fichier_Joueur_Fond_Desactiver);
-        panelJ4 = new JPanelImage(Fichier_Joueur_Fond_Activer,Fichier_Joueur_Fond_Desactiver);
-        
 	}
 	
 	
@@ -375,20 +361,7 @@ public class IHM {
 	    	Vide[i] = new JPanel();
 	    	Vide[i].setOpaque(false);
 	    }
-	    /*Pioche_Droite.setLayout(new GridLayout(4,1));
-	   	Pioche_Droite.add(Rotation_Anti_Horaire);
-	   	for(i=0;i<2;i++)
-	    	 Pioche_Droite.add(Vide[i]);
-	   	
-	   	Pioche_Droite.add(Taille_Pioche);
-	   	
-	   	Pioche_Gauche.setLayout(new GridLayout(4,1));
-	    Pioche_Gauche.add(Rotation_Horaire);
-	   	for(i=2;i<5;i++)
-	   		Pioche_Gauche.add(Vide[i]);
-	    
-	   	Pioche_Droite.add(Taille_Pioche);
-	   	*/
+	   
 	    
 	    GridBagConstraints gbc = new GridBagConstraints();
 	    Pioche_Droite.setLayout(new GridBagLayout());
@@ -646,6 +619,45 @@ public class IHM {
 	private void AjoutJoueurs()
 	{
 		int i;
+		 //Joueurs
+        InfoJ1 = new JLabel[6];
+        InfoJ2 = new JLabel[6];
+        InfoJ3 = new JLabel[6];
+        InfoJ4 = new JLabel[6];
+       
+        Image_Stat_J1 = new JPanel[3];
+        Image_Stat_J2 = new JPanel[3];
+        Image_Stat_J3 = new JPanel[3];
+        Image_Stat_J4 = new JPanel[3];
+        
+        Joueur1 = InitNomJoueur("Joueur 1");
+        Joueur2 = InitNomJoueur("Joueur 2");
+        Joueur3 = InitNomJoueur("Joueur 3");
+        Joueur4 = InitNomJoueur("Joueur 4");
+        
+
+        panelJ1 = new JPanelImage(Fichier_Couleur_Joueur(m.getJ1().getCouleur()),Fichier_Joueur_Fond_Desactiver);
+        panelJ2 = new JPanelImage(Fichier_Couleur_Joueur(m.getJ2().getCouleur()),Fichier_Joueur_Fond_Desactiver);
+        if(m.get_NbJoueur() >= 3)
+        {
+        	panelJ3 = new JPanelImage(Fichier_Couleur_Joueur(m.getJ3().getCouleur()),Fichier_Joueur_Fond_Desactiver);
+        }
+        else
+        {
+        	Joueur3 = InitNomJoueur("Joueur 3");
+        	panelJ3= new JPanelImage(Fichier_Joueur_Fond_Activer,Fichier_Joueur_Fond_Desactiver);
+        }
+        if(m.get_NbJoueur() == 4)
+        {
+        	panelJ4 = new JPanelImage(Fichier_Couleur_Joueur(m.getJ4().getCouleur()),Fichier_Joueur_Fond_Desactiver);
+        }
+        else
+        {
+        	Joueur3 = InitNomJoueur("Joueur 3");
+        	panelJ4= new JPanelImage(Fichier_Joueur_Fond_Activer,Fichier_Joueur_Fond_Desactiver);
+        }
+
+		
 		joueurs.setLayout(new GridLayout(m.get_NbJoueur(),1));
 	    panelJ1.setLayout(new GridLayout(1,4));
 	    panelJ2.setLayout(new GridLayout(1,4));
@@ -772,6 +784,29 @@ public class IHM {
         gbc.weighty = 1.0;
         gbc.gridy = 0;
         Interface.add(joueurs, gbc);
+	}
+	
+	private String Fichier_Couleur_Joueur(Couleur_Joueur c)
+	{
+		switch (c){
+		case VERT:
+			return Fichier_Joueur_Fond_Activer_Vert;
+			
+		case JAUNE:
+			return Fichier_Joueur_Fond_Activer_Jaune;
+			
+		case BLANC:
+			return Fichier_Joueur_Fond_Activer_Gris;
+			
+		case BLEU:
+			return Fichier_Joueur_Fond_Activer_Bleu;
+			
+		case ROSE:
+			return Fichier_Joueur_Fond_Activer_Rose;
+			
+		default:
+			return null;
+		}
 	}
 	
 	
