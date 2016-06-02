@@ -149,21 +149,13 @@ public abstract class Joueur_Generique {
 		{
 			clone = new IA_Random(this.getCouleur(),m);
 		}
-		else if(this instanceof IA_Alpha_Beta)
-		{
-			clone = new IA_Alpha_Beta(((IA_Alpha_Beta) this).getProfondeur(),this.getCouleur(),m);
-		}
-		else if(this instanceof IA_MonteCarlo)
-		{
-			clone = new IA_MonteCarlo(((IA_MonteCarlo) this).getTailleEchantillon(),this.getCouleur(),m);
-		}
 		else if(this instanceof IA_Heuristique)
 		{
 			clone = new IA_Heuristique(this.getCouleur(),m);
 		}
-		else if(this instanceof IA_Difficile)
+		else if(this instanceof IA_Moyenne)
 		{
-			clone = new IA_Difficile(this.getCouleur(),m);
+			clone = new IA_Moyenne(this.getCouleur(),m);
 		}
 		
 		clone.setHutte(getHutte());
@@ -191,23 +183,14 @@ public abstract class Joueur_Generique {
 		{
 			clone = new IA_Random(this.getCouleur(),((IA_Generique) this).m);
 		}
-		else if(this instanceof IA_Alpha_Beta)
-		{
-			clone = new IA_Alpha_Beta(((IA_Alpha_Beta) this).getProfondeur(),this.getCouleur(),((IA_Generique) this).m);
-		}
-		else if(this instanceof IA_MonteCarlo)
-		{
-			clone = new IA_MonteCarlo(((IA_MonteCarlo) this).getTailleEchantillon(),this.getCouleur(),((IA_Generique) this).m);
-		}
 		else if(this instanceof IA_Heuristique)
 		{
 			clone = new IA_Heuristique(this.getCouleur(),((IA_Generique) this).m);
 		}
-		else if(this instanceof IA_Difficile)
+		else if(this instanceof IA_Moyenne)
 		{
-			clone = new IA_Difficile(this.getCouleur(),((IA_Generique) this).m);
+			clone = new IA_Moyenne(this.getCouleur(),((IA_Generique) this).m);
 		}
-		
 		clone.setHutte(getHutte());
 		clone.setTemple(getTemple());
 		clone.setTour(getTour());

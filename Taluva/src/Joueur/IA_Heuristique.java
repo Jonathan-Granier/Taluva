@@ -18,6 +18,11 @@ public class IA_Heuristique extends IA_Generique {
 		super(c, m);
 		this.R = new Random();
 	}
+	
+	public IA_Heuristique(Couleur_Joueur c, Moteur m, String faction){
+		super(c,m,faction);
+		this.R = new Random();
+	}
 
 	public Actions_Tour get_coup_tour(Tuile tuile)
 	{

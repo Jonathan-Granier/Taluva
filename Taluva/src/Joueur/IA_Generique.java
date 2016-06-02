@@ -39,6 +39,11 @@ public abstract class IA_Generique extends Joueur_Generique{
 		this.m = m;
 	}
 	
+	public IA_Generique(Couleur_Joueur c, Moteur m, String faction){
+		super(c,faction);
+		this.m = m;
+	}
+	
 	public abstract Actions_Tour get_coup_tour(Tuile tuile);
 	
 	protected static int Calculer_points_heur(Joueur_Generique c, Moteur m) {
