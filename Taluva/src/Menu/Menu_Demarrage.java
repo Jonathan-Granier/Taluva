@@ -56,7 +56,7 @@ public class Menu_Demarrage extends JComponent {
 		try {
 			backgroundImage = ImageIO.read(new File("../Images/Taluva_Demarrage.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
 		

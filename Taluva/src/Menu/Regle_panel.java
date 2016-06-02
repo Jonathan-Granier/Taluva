@@ -31,7 +31,7 @@ public class Regle_panel extends JComponent {
 	
 	public Regle_panel(JFrame frame,JFrame principal){
 		slides = new ArrayList<File>();
-		for(int i=0;i<8;i++){
+		for(int i=0;i<14;i++){
 			slides.add(new File("../Images/Images-Regles/Regles_p"+(i+1)+".jpg"));
 		}
 		
