@@ -45,7 +45,7 @@ import utils.MousePicker;
 
 public class Game implements Observer,KeyListener {
 	
-	private static boolean BRIGHT = false;
+	public static boolean BRIGHT = false;
 	
 	private Moteur moteur;
 	private Grid grid;
