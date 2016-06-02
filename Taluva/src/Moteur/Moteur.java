@@ -306,6 +306,18 @@ public class Moteur extends Phase{
 		return 4;
 	}
 	
+	public int get_num_Joueur(Joueur_Generique j){
+		
+		if(EstLeMemeJoueur(j,j1))
+			return 1;
+		else if(EstLeMemeJoueur(j,j2))
+			return 2;
+		else if(EstLeMemeJoueur(j,j3))
+			return 3;
+		return 4;
+	}
+	
+	
 	//Renvoi vrai si a et b sont le même joueur
 	public boolean EstLeMemeJoueur(Joueur_Generique a, Joueur_Generique b)
 	{
