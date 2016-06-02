@@ -127,4 +127,71 @@ public abstract class IA_Generique extends Joueur_Generique{
 		}
 		return true;
 	}
+	
+	protected static int Calculer_points_heur_joueur_adverse(Joueur_Generique c, Moteur m) {
+		// on compte le score d'un joueur dans le terrain.
+		int score =0;
+		score += (Moteur.nb_max_Temples - c.getTemple()) * score_temple;
+		score += (Moteur.nb_max_Tours - c.getTour()) * score_tour;
+		//score += (Moteur.nb_max_Huttes - c.getHutte()) * score_hutte;
+		// Si le joueur s'est débarassé de toutes ses pièces de 2 catégorie, il a gagné.
+		if((c.getHutte() == 0 && c.getTemple() == 0) || (c.getTemple() ==0 && c.getTour() ==0) || (c.getHutte()==0 && c.getTour()==0))
+		{
+			return Integer.MAX_VALUE;
+		}
+		// Sinon, s'il s'en raproche:
+		else if(c.getTour()==0 || c.getTemple()==0)
+		{
+			score += (m.get_nbTuiles()/ 2) * score_deplete_mult 
+					/Math.max( c.getHutte()*hut_deplete_mult , Math.max(c.getTemple()* temple_deplete_mult, c.getTour()* tower_deplete_mult) );
+		}
+		// Attention, c'est dangereux de ne plus avoir de huttes.
+		if(c.getHutte() == 0)
+		{
+			return 0;
+		}
+		
+		// Ajouter les points dus aux qualités des cités;
+		ArrayList<Cite> liste_cite = m.getTerrain().getCitesJoueur(c.getCouleur());
+		for(int i=0; i < liste_cite.size(); i++)
+			score += valeur_cite_adverse(liste_cite.get(i), c, m);
+		return score;
+	}
+	
+	private static int valeur_cite_adverse(Cite c, Joueur_Generique j, Moteur m)
+	{
+		int score_cite = score_city + c.getTaille() * score_zone_city;
+
+		if(c.getNbTemples() == 0 && j.getTemple()>0){
+			score_cite += c.getTaille() * score_taille_cite_sans_temple;
+			if(c.getTaille()>=3){
+				score_cite += score_cite_indestructible_sans_temple;
+			}
+		}
+		// Si la cité permet de construire une tour
+		if(c.getNbTours() == 0 && j.getTour()>0){
+			for(Case.Type t : Case.Type.values()){
+				ArrayList<Point> ptsVoisins = m.getTerrain().getPts_extension_cite(c, t);
+				for(Point p : ptsVoisins){
+					if(m.getTerrain().getCase(p).est_Libre() && m.getTerrain().getCase(p).getType() != Case.Type.VOLCAN){
+						if(m.getTerrain().getCase(p).getNiveau()>=3){
+							score_cite+=score_case_3_adj;
+						}
+						else if(m.getTerrain().getCase(p).getNiveau()==2){
+							score_cite+=score_case_2_adj;
+						}
+					}
+				}
+			}
+		}
+		if(c.getNbTemples() > 0)
+		{
+			score_cite -= c.getTaille() * score_cite_petite_avec_temple;
+		}
+		if( c.getNbTemples()>0 && c.getNbTours()>0)
+		{
+			score_cite = score_cite / score_div_city_temple_tower;
+		}
+		return score_cite;
+	}
 }

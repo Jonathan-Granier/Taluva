@@ -1,6 +1,5 @@
 package Joueur;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,10 +7,7 @@ import Action.Action_Construction;
 import Action.Action_Tuile;
 import Action.Actions_Tour;
 import Moteur.Moteur;
-import terrain.Case;
 import terrain.Case.Couleur_Joueur;
-import terrain.Cite;
-import terrain.Terrain;
 import terrain.Tuile;
 
 public class IA_Heuristique extends IA_Generique {
@@ -25,7 +21,7 @@ public class IA_Heuristique extends IA_Generique {
 
 	public Actions_Tour get_coup_tour(Tuile tuile)
 	{
-		System.out.println("IA Heuristique : On me demande un coup");
+		//System.out.println("IA Heuristique : On me demande un coup");
 		Moteur virtuel= m.clone();
 		Moteur reel = m;
 		this.m = virtuel;
@@ -116,13 +112,15 @@ public class IA_Heuristique extends IA_Generique {
 		if(m.EstLeMemeJoueur(this, m.getJ1()))
 		{
 			bonPoints = Calculer_points_heur(m.get_Jcourant(),m);
-			mauvaisPoints = Calculer_points_heur(m.getJ2(),m);
+			mauvaisPoints = Calculer_points_heur_joueur_adverse(m.getJ2(),m);
 		}
 		else
 		{
 			bonPoints = Calculer_points_heur(m.get_Jcourant(),m);
-			mauvaisPoints = Calculer_points_heur(m.getJ1(),m);
+			mauvaisPoints = Calculer_points_heur_joueur_adverse(m.getJ1(),m);
 		}
 		return bonPoints - mauvaisPoints;
 	}
+	
+	
 }
