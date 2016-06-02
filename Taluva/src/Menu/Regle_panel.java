@@ -53,7 +53,7 @@ public class Regle_panel extends JComponent {
 		int height = fenetre.getHeight()/10 ;
 		int font = fenetre.getWidth()/100 ;
 		
-		// 2 Panels : 1 pour les boutons Précédent/Suivant
+		// 2 Panels : 1 pour les boutons Precedent/Suivant
 		// l'autre pour les boutons Accueil / Reprendre
 		prec_suiv = new JPanel();
 		prec_suiv.setOpaque(false);
@@ -63,16 +63,16 @@ public class Regle_panel extends JComponent {
 		all.setOpaque(false);
 		all.setLayout(new BorderLayout());
 		
-		//Boutons précédent, suivant, accueil, reprendre
-		prec = new JButton("Précedent");
-		prec.addActionListener(new Ecouteur_boutons_regles("Précedent",this));
-		prec.setPreferredSize(new Dimension(fenetre.getWidth()/10,fenetre.getHeight()/15));
-		prec.setFont(new Font("Précédent", Font.BOLD+Font.ITALIC,font));
+		//Boutons precedent, suivant, accueil, reprendre
+		prec = new JButton("Precedent");
+		prec.addActionListener(new Ecouteur_boutons_regles("Precedent",this));
+		prec.setPreferredSize(new Dimension(width,fenetre.getHeight()/15));
+		prec.setFont(new Font("Precedent", Font.BOLD+Font.ITALIC,font));
 		prec.setEnabled(false);
 		
 		suiv = new JButton("Suivant");
 		suiv.addActionListener(new Ecouteur_boutons_regles("Suivant",this));
-		suiv.setPreferredSize(new Dimension(fenetre.getWidth()/10,fenetre.getHeight()/15));
+		suiv.setPreferredSize(new Dimension(width,fenetre.getHeight()/15));
 		suiv.setFont(new Font("Suivant", Font.BOLD+Font.ITALIC,font));
 		
 		JPanel ret = new JPanel();
@@ -126,17 +126,11 @@ public class Regle_panel extends JComponent {
 		}
 	}
 
-	// Retour sur l'écran de démarrage
+	// Retour sur l'Ecran de demarrage
 	public void retour(){
 		principal.remove(fenetre);
 		fenetre.dispose();
 		principal.setEnabled(true);
-	}
-	
-	// Retour sur une partie en cours si il y en a une
-	public void reprendre(){
-		// TODO
-		// Faut rajouter des choses
 	}
 	
 	public void paintComponent(Graphics g) {

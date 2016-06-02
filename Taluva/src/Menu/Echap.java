@@ -33,7 +33,7 @@ public class Echap extends JComponent {
 	
 	private JButton reprendre;
 	private JButton nouveau;
-	private JButton regles;
+	private JButton comment_jouer;
 	private JButton sauvegarder;
 	private JButton charger;
 	private JButton menu_principal;
@@ -86,11 +86,11 @@ public class Echap extends JComponent {
 		
 		c.gridy = 2;
 		
-		regles = new JButton("Règles");
-		regles.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
-		regles.setPreferredSize(new Dimension(width_b,height_b));
-		regles.addActionListener(new Ecouteur_boutons_echap("Règles",this));
-		pause.add(regles,c);
+		comment_jouer = new JButton("Comment jouer");
+		comment_jouer.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
+		comment_jouer.setPreferredSize(new Dimension(width_b,height_b));
+		comment_jouer.addActionListener(new Ecouteur_boutons_echap("Comment jouer",this));
+		pause.add(comment_jouer,c);
 		
 		c.gridy = 3;
 		
@@ -165,19 +165,9 @@ public class Echap extends JComponent {
     		menu.add(new Nouveau(menu));
         }
 	}
-	public void regles(){
-		sauvegarder();
-		principal.remove(m_fenetre);
-		m_fenetre.dispose();
-		game.cleanUp();
-		game.timerStop();
-		principal.setVisible(false);
-		principal.dispose();
-		menu.setVisible(true);
-		menu.getContentPane().removeAll();
-		menu.add(new Regles(menu,false));
-		menu.revalidate();
-		menu.repaint();
+	public void comment_jouer(){
+		m_fenetre.setEnabled(false);
+		m_fenetre.add(new Regles(m_fenetre,principal));
 	}
 	
 	//TODO
@@ -215,6 +205,8 @@ public class Echap extends JComponent {
         	principal.remove(m_fenetre);
     		m_fenetre.dispose();
     		principal.setVisible(false);
+    		game.cleanUp();
+    		game.timerStop();
     		principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     		principal.dispose();
     		

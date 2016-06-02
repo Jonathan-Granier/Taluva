@@ -40,7 +40,7 @@ public class Test_Taluva implements Runnable{
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we){
-            	int result = JOptionPane.showConfirmDialog(frame, "Êtes-vous sûr de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
+            	int result = JOptionPane.showConfirmDialog(frame, "Etes-vous sur de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
             	if(result == JOptionPane.OK_OPTION){
 	            	frame.setVisible(false);
 	            	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

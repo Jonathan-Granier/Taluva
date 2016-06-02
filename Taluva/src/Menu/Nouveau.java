@@ -67,7 +67,7 @@ public class Nouveau extends JComponent {
 	private void init_panels(JFrame frame){
 
 		
-		// Initialisation de l'écran de sélection pour une nouvelle partie
+		// Initialisation de l'Ecran de selection pour une nouvelle partie
 		
 		init_m_fenetre(frame);
 		
@@ -216,7 +216,7 @@ public class Nouveau extends JComponent {
 	
 	public Nouveau(JFrame frame,JFrame gameF,Game game,Moteur moteur,Terrain terrain,IHM ihm,Avancement avancement){
 		
-		// Initialisation des paramètres necessaires pour le lancement d'une partie
+		// Initialisation des parametres necessaires pour le lancement d'une partie
 		this.gameF = gameF;
 		this.game = game;
 		this.moteur = moteur;
@@ -251,10 +251,10 @@ public class Nouveau extends JComponent {
 	}
 	
 	
-	// Vérifie si tout s'est bien passé dans la sélection des paramètres
-	// Affiche un message d'erreur détaillé en cas de problème rencontré (même faction des 2 joueurs par exemple)
+	// Vérifie si tout s'est bien passe dans la selection des parametres
+	// Affiche un message d'erreur detaille en cas de problème rencontre (meme faction des 2 joueurs par exemple)
 	
-	// Renvoie le nom correspondant à la faction choisie
+	// Renvoie le nom correspondant a la faction choisie
 	private String init_faction(JComboBox<String> faction){
 		switch (faction.getSelectedIndex()){
 		case 0 : 
@@ -340,7 +340,7 @@ public class Nouveau extends JComponent {
 	        lancer_jeu(j1,j2);
 		}
 		else 
-			JOptionPane.showMessageDialog(m_fenetre, "Les 2 joueurs doivent appartenir à différentes factions !");
+			JOptionPane.showMessageDialog(m_fenetre, "Les 2 joueurs doivent appartenir a� differentes factions !");
 		
 	}
 	
@@ -353,7 +353,7 @@ public class Nouveau extends JComponent {
         gameF.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we){
-                int result = JOptionPane.showConfirmDialog(gameF, "Êtes-vous sûr de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
+                int result = JOptionPane.showConfirmDialog(gameF, "Etes-vous sur de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
                 if(result == JOptionPane.OK_OPTION){
                 	game.cleanUp();
                 	gameF.setVisible(false);

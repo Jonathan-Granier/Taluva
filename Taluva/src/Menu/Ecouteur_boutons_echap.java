@@ -20,8 +20,8 @@ public class Ecouteur_boutons_echap implements ActionListener{
 			case "Nouveau" :
 				echap.nouveau();
 				break;
-			case "Règles" :
-				echap.regles();
+			case "Comment jouer" :
+				echap.comment_jouer();
 				break;
 			case "Sauvegarder" :
 				echap.sauvegarder();

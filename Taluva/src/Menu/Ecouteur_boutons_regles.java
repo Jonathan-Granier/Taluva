@@ -14,7 +14,7 @@ public class Ecouteur_boutons_regles implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		switch (action){
-    		case "Précedent" : 
+    		case "Precedent" : 
     			page.precedent();
     			page.repaint();
     			break;

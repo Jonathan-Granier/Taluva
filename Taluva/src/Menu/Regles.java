@@ -13,14 +13,15 @@ public class Regles extends JComponent {
 	private JFrame m_fenetre;
 	private JFrame principal;
 	
-	public Regles(JFrame frame, boolean menu){
+	public Regles(JFrame frame){
 		init_m_fenetre(frame);
-		if(menu)
-			m_fenetre.add(new Regle_panel(m_fenetre,principal));
-		else
-			m_fenetre.add(new Regle_panel(m_fenetre,principal));
+		m_fenetre.add(new Regle_panel(m_fenetre,principal));
 	}
-	
+	public Regles(JFrame frame, JFrame gameF){
+		init_m_fenetre(gameF);
+		principal = frame;
+		m_fenetre.add(new Regle_panel(m_fenetre,principal));
+	}
 
 	private void init_m_fenetre(JFrame frame){
 		principal = frame;

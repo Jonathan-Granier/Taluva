@@ -23,10 +23,10 @@ public class Ecouteur_boutons_demarrage  implements ActionListener {
 			case "Charger" :
 				menu.charger();
 				break;
-    		case "Règles" : 
-    			menu.regles();
+    		case "Comment jouer" : 
+    			menu.comment_jouer();
     			break;
-    		case "Crédits" :
+    		case "Credits" :
     			menu.credits();
     			break;
     		case "Quitter" :

@@ -35,7 +35,7 @@ public class Menu_Demarrage extends JComponent {
 	private Image backgroundImage;
 	private JPanel menu;
 	private JLabel taluva;
-	private JButton continuer,nouveau,charger,regles,credits,quitter;
+	private JButton continuer,nouveau,charger,comment_jouer,credits,quitter;
 	private JFrame fenetre;
 	private int height,width;
 	private Dimension dimension;
@@ -103,18 +103,18 @@ public class Menu_Demarrage extends JComponent {
 		charger.addActionListener(new Ecouteur_boutons_demarrage("Charger",this));
 		menu.add(charger);
 		
-		regles = new JButton("Règles");
-		regles.setBackground(Color.WHITE);
-		regles.setFont(new Font("Règles", Font.BOLD+Font.ITALIC,40));
-		regles.setOpaque(false);
-		regles.addActionListener(new Ecouteur_boutons_demarrage("Règles",this));
-		menu.add(regles);
+		comment_jouer = new JButton("Comment jouer");
+		comment_jouer.setBackground(Color.WHITE);
+		comment_jouer.setFont(new Font("", Font.BOLD+Font.ITALIC,40));
+		comment_jouer.setOpaque(false);
+		comment_jouer.addActionListener(new Ecouteur_boutons_demarrage("Comment jouer",this));
+		menu.add(comment_jouer);
 		
-		credits = new JButton("Crédits");
+		credits = new JButton("Credits");
 		credits.setBackground(Color.WHITE);
-		credits.setFont(new Font("Crédits", Font.BOLD+Font.ITALIC,40));
+		credits.setFont(new Font("Credits", Font.BOLD+Font.ITALIC,40));
 		credits.setOpaque(false);
-		credits.addActionListener(new Ecouteur_boutons_demarrage("Crédits",this));
+		credits.addActionListener(new Ecouteur_boutons_demarrage("Credits",this));
 		menu.add(credits);
 		
 		quitter = new JButton("Quitter");
@@ -169,7 +169,8 @@ public class Menu_Demarrage extends JComponent {
 	
 	public void nouveau(){
 		fenetre.setEnabled(false);
-		fenetre.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
+		//fenetre.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
+		fenetre.add(new Echap(fenetre,null,null));
 	}
 	
 	public void charger(){
@@ -177,19 +178,19 @@ public class Menu_Demarrage extends JComponent {
 		screen.run();
 		Charger load = new Charger(screen.getPath());
 		// TODO
-		//Tester si ça marche
+		//Tester si �a marche
 		if(load.getSave()==null)System.out.println("Save pour charger null");
 		else load.getSave().Restore(game, moteur);
 	}
 
 	
-	public void regles(){
+	public void comment_jouer(){
 		//this.setVisible(false);
 		//fenetre.remove(this);
 	//	fenetre.add(new Regles(fenetre));
 		
 		fenetre.setEnabled(false);
-		fenetre.add(new Regles(fenetre,true));
+		fenetre.add(new Regles(fenetre));
 	
 	}
 	
@@ -200,7 +201,7 @@ public class Menu_Demarrage extends JComponent {
 	}
 	
 	public void quitter(){
-		int result = JOptionPane.showConfirmDialog(fenetre, "Êtes-vous sûr de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
+		int result = JOptionPane.showConfirmDialog(fenetre, "Etes-vous sur de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
         if(result == JOptionPane.OK_OPTION){
         	fenetre.setVisible(false);
     		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
