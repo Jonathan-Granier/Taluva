@@ -222,7 +222,7 @@ public class GraphicConstruction {
 					this.colour = new Vector3f(0.6f,0.6f,0);
 				break;
 				case BLANC:
-					this.colour = new Vector3f(0.9f,0.9f,0.9f);
+					this.colour = new Vector3f(0.8f,0.8f,0.8f);
 				break;
 				case BLEU:
 					this.colour = new Vector3f(0,0.3f,0.9f);
