@@ -33,6 +33,17 @@ public abstract class Joueur_Generique {
 		
 	}
 	
+	public Joueur_Generique(Couleur_Joueur c,String nomFaction)
+	{
+		temple = Moteur.nb_max_Temples;
+		tour = Moteur.nb_max_Tours;
+		hutte = Moteur.nb_max_Huttes;
+		hutteDetruite = 0;
+		this.nomFaction = nomFaction;
+		this.c = c;
+		
+	}
+	
 	public int getTemple()
 	{
 		return temple;
@@ -61,6 +72,11 @@ public abstract class Joueur_Generique {
 	public String getnomFaction()
 	{
 		return nomFaction;
+	}
+	
+	public void setNomFaction(String nom)
+	{
+		nomFaction = nom;
 	}
 	
 	// -------------- Fonction Set ---------------------
