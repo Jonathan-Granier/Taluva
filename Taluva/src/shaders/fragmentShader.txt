@@ -46,7 +46,7 @@ void main(void){
 	}
 
 	// Brighter	
-	totalDiffuse = max(totalDiffuse, 0.2);
+	totalDiffuse = max(totalDiffuse, 0.3);
 	
 
 	
@@ -64,7 +64,7 @@ void main(void){
 
 	if(notAllow)
 		out_Color.r += 0.5;
-	/*if((playerColour.r!=0.0 || playerColour.g!=0.0 || playerColour.b!=0.0) && !notAllow)
-		out_Color += mix(out_Color,vec4(playerColour,1.0),0.8);*/
-
+	if((playerColour.r==0.9 && playerColour.g==0.9 && playerColour.b==0.9) && !notAllow)
+		out_Color += mix(out_Color,vec4(playerColour,1.0),0.8);
+		
 }
