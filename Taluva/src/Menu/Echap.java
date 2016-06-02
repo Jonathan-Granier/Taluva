@@ -1,31 +1,32 @@
 package Menu;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import renderEngine.Window;
+import IHM.Avancement;
+import IHM.IHM;
+import Moteur.Moteur;
 import test.Game;
+import charger_sauvegarder.Charger;
+import charger_sauvegarder.Sauvegarde;
 
+@SuppressWarnings("serial")
 public class Echap extends JComponent {
 
-	private Image backgroundImage;
+	//private Image backgroundImage;
 	
 	private JFrame m_fenetre;
 	private JFrame principal;
@@ -97,6 +98,7 @@ public class Echap extends JComponent {
 		sauvegarder = new JButton("Sauvegarder");
 		sauvegarder.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		sauvegarder.setPreferredSize(new Dimension(width_b,height_b));
+		sauvegarder.addActionListener(new Ecouteur_boutons_echap("Sauvegarder",this));
 		pause.add(sauvegarder,c);
 
 		c.gridy = 4;
@@ -104,6 +106,7 @@ public class Echap extends JComponent {
 		charger = new JButton("Charger");
 		charger.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		charger.setPreferredSize(new Dimension(width_b,height_b));
+		charger.addActionListener(new Ecouteur_boutons_echap("Charger",this));
 		pause.add(charger,c);
 		c.insets = new Insets(0,0,0,0);
 
@@ -171,11 +174,67 @@ public class Echap extends JComponent {
 	}
 	
 	//TODO
+	//On pourrait crÈer un getter de moteur dans game
+	//Ca implique de modifier la structure Sauvegarde
 	public void sauvegarder(){
-		//Voir avec Noha
+		/*Sauvegarde save = new Sauvegarde(game,null);
+		save.sauvegarder(save,"./Save");
+		JOptionPane.showMessageDialog(m_fenetre, "Partie sauvegardee !");*/
 	}
+	/*private void restore(final Game game,Moteur moteur){
+		gameF = new JFrame();
+		gameF.addKeyListener(game);
+        gameF.setFocusable(true);
+        gameF.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        gameF.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we){
+                int result = JOptionPane.showConfirmDialog(gameF, "Etes-vous sur de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
+                if(result == JOptionPane.OK_OPTION){
+                	game.cleanUp();
+                	gameF.setVisible(false);
+                	gameF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            		gameF.dispose();
+                }
+            }
+        });
+        fenetre.setVisible(false);
+        ihm = new IHM(moteur, gameF);
+        ihm.run();
+        avancement = new Avancement(ihm);
+        moteur.addPhaseListener(avancement);
+        moteur.getJ1().addBatimentCountListener(avancement);
+        moteur.getJ2().addBatimentCountListener(avancement);
+        moteur.MajListeners();
+        ihm.getCanvas().setFocusable(false);
+	}*/
+	
 	public void charger(){
-		//Voir avec Noha
+		/*int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder avant de retourner au menu principal ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+        if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
+        	if(result== JOptionPane.YES_OPTION)
+        		sauvegarder();
+        	
+			File directory = new File("./Save");
+			if(directory.listFiles().length>1){
+				Load_save_screen screen = new Load_save_screen();
+				if(screen.getPath()!=null){
+					Charger load = new Charger(screen.getPath());
+					load.getSave().restore(game, null);
+					
+					principal.remove(m_fenetre);
+					m_fenetre.dispose();
+					principal.setEnabled(true);
+					
+					principal.setVisible(false);
+		    		game.cleanUp();
+		    		game.timerStop();
+		    		principal.dispose();
+		    		
+					//restore(game,null);
+				}
+			}
+        }*/
 	}
 	
 	public void menu_principal(){
@@ -195,8 +254,6 @@ public class Echap extends JComponent {
     	}
     }
 	
-	//Ca d√©pend si on veut quitter le jeu ou revenir au menu demarrage
-
 	public void quitter(){
 		int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder avant de quitter ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
         if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
@@ -216,6 +273,7 @@ public class Echap extends JComponent {
 	    }
     }
 	
+	/*
 	// Pour rajouter une image en fond
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);	
@@ -223,5 +281,5 @@ public class Echap extends JComponent {
 	    // Draw the background image.
 	    //g.drawImage(backgroundImage, 0, 0, this.getWidth(),this.getHeight(),this);
 	}
-
+	*/
 }

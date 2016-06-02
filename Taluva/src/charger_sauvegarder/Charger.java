@@ -1,15 +1,12 @@
 package charger_sauvegarder;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-import Menu.Load_save_screen;
 
 public class Charger {
 	private Sauvegarde save;
+	
 	public Charger(String path){
 		save= null;
 
@@ -31,7 +28,7 @@ public class Charger {
 			c.printStackTrace();
 			return;
 		}
-		System.out.println("normalement ça c'est bien passer");
+		System.out.println("normalement ca c'est bien passer");
 
 	}
 	public Sauvegarde getSave() {

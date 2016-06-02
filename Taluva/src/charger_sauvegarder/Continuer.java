@@ -2,42 +2,29 @@ package charger_sauvegarder;
 
 import java.io.File;
 
-import test.Game;
-
-import Moteur.Moteur;
-
 public class Continuer {
-	private String path;
-	private File moreRecentFile = null;
 	private Sauvegarde save;
-	private Game game;
-	private Moteur moteur;
 	
 	public Continuer(String path){
-		this.path=path;
+		findFiles(path);
 	}
 	
-	public void findFiles() {
+	private void findFiles(String path) {
 		File directory = new File(path);
-		File moreRecentFile = null;
 		File[] subfiles = directory.listFiles();
+		File mostRecentFile = subfiles[0];
 		for (int i = 0; i < subfiles.length; i++) {
 			File subfile = subfiles[i];
-			if (moreRecentFile != null && subfile.lastModified()>moreRecentFile.lastModified()) {
-				moreRecentFile = subfile;
+			if (mostRecentFile != null && subfile.lastModified()>mostRecentFile.lastModified()) {
+				mostRecentFile = subfile;
 			}
 		}
-		
-		Charger load=new Charger(moreRecentFile.getAbsolutePath());
-		load.getSave().Restore(game, moteur);
+		Charger load=new Charger(mostRecentFile.getAbsolutePath());
+		save = load.getSave();
 	}
 
-	public Game getGame() {
-		return game;
-	}
-
-	public Moteur getMoteur() {
-		return moteur;
+	public Sauvegarde getSave(){
+		return save;
 	}
 	
 }

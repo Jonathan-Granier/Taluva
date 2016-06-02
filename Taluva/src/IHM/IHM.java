@@ -1,6 +1,5 @@
 package IHM;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
@@ -8,7 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.Panel;
 import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
@@ -19,12 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.Dimension;
 
-import Ecouteur.Ecouteur_Boutons;
-import Ecouteur.KeyboardListener;
-import Moteur.Moteur;
 import terrain.Case.Couleur_Joueur;
+import Ecouteur.Ecouteur_Boutons;
+import Moteur.Moteur;
 
 
 public class IHM {

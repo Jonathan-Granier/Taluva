@@ -1,49 +1,47 @@
 package test;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JFrame;
 
+import loaders.Loader;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import renderEngine.Renderer;
+import renderEngine.Window;
+import shaders.Shader;
+import skybox.SkyboxRenderer;
+import terrain.Case;
+import terrain.Case.Type_Batiment;
+import terrain.Terrain;
+import terrain.Tuile;
+import utils.FPS;
+import utils.Grid;
+import utils.MousePicker;
+import water.WaterRenderer;
+import water.WaterShader;
+import water.WaterTile;
+import Action.Action_Batiment;
+import Action.Action_Tuile;
 import Ecouteur.EcouteurDeSourisTerrain;
 import Ecouteur.Ecouteur_Boutons;
 import IHM.JPanelPioche;
 import IHM.Menu_circulaire_creation;
+import Menu.Echap;
+import Moteur.Moteur;
+import Moteur.Phase.Phase_Jeu;
 import entities.Camera;
 import entities.GraphicConstruction;
 import entities.GraphicConstruction.GraphicType;
 import entities.GraphicTile;
 import entities.Light;
-import loaders.Loader;
-import terrain.Case;
-import terrain.Case.Type_Batiment;
-import Action.Action_Batiment;
-import Action.Action_Tuile;
-import Menu.Echap;
-import Moteur.Phase.Phase_Jeu;
-import Moteur.Moteur;
-import terrain.Terrain;
-import terrain.Tuile;
-import renderEngine.Renderer;
-import renderEngine.Window;
-import shaders.Shader;
-import skybox.SkyboxRenderer;
-import utils.FPS;
-import utils.Grid;
-import water.WaterRenderer;
-import water.WaterShader;
-import water.WaterTile;
-import utils.MousePicker;
 
 public class Game implements Observer,KeyListener {
 	

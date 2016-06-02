@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,13 +22,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import terrain.Terrain;
+import test.Game;
 import IHM.Avancement;
 import IHM.IHM;
 import Moteur.Moteur;
 import charger_sauvegarder.Charger;
 import charger_sauvegarder.Continuer;
-import terrain.Terrain;
-import test.Game;
 
 
 @SuppressWarnings("serial")
@@ -86,7 +88,7 @@ public class Menu_Demarrage extends JComponent {
 		if(directory.listFiles().length<=1){
 			continuer.setEnabled(false);
 		}
-		
+		continuer.addActionListener(new Ecouteur_boutons_demarrage("Continuer",this));
 		menu.add(continuer);
 		
 		nouveau = new JButton("Nouveau");
@@ -101,6 +103,8 @@ public class Menu_Demarrage extends JComponent {
 		charger.setFont(new Font("Charger", Font.BOLD+Font.ITALIC,40));
 		charger.setOpaque(false);
 		charger.addActionListener(new Ecouteur_boutons_demarrage("Charger",this));
+		if(!continuer.isEnabled())
+			charger.setEnabled(false);
 		menu.add(charger);
 		
 		comment_jouer = new JButton("Comment jouer");
@@ -159,12 +163,61 @@ public class Menu_Demarrage extends JComponent {
 	
 	
 	// LES BOUTONS
+	/*
+	// Pour restaurer une partie à partir d'un game, d'une JFrame et d'un moteur
+	private void restore(JFrame gameF,Game game,Moteur moteur){
+		fenetre.setVisible(false);
+		gameF.setVisible(true);
+		//Ceci devrais marche en théorie
+		//Dans le cas échéant, on essaye de créer un nouvel IHM/Avancement,etc...
+		
+		//ihm = new IHM(moteur, gameF);
+        //ihm.run();
+        //avancement = new Avancement(ihm);
+        //moteur.addPhaseListener(avancement);
+        //moteur.getJ1().addBatimentCountListener(avancement);
+        //moteur.getJ2().addBatimentCountListener(avancement);
+        //moteur.MajListeners();
+        //ihm.getCanvas().setFocusable(false);
+		
+	}*/
+	private void restore(final Game game,Moteur moteur){
+		gameF = new JFrame();
+		gameF.addKeyListener(game);
+        gameF.setFocusable(true);
+        gameF.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        gameF.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we){
+                int result = JOptionPane.showConfirmDialog(gameF, "Etes-vous sur de vouloir quitter ?", "Confirmation", JOptionPane.CANCEL_OPTION);
+                if(result == JOptionPane.OK_OPTION){
+                	game.cleanUp();
+                	gameF.setVisible(false);
+                	gameF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            		gameF.dispose();
+                }
+            }
+        });
+        
+        fenetre.setVisible(false);
+        ihm = new IHM(moteur, gameF);
+        ihm.run();
+        avancement = new Avancement(ihm);
+        moteur.addPhaseListener(avancement);
+        moteur.getJ1().addBatimentCountListener(avancement);
+        moteur.getJ2().addBatimentCountListener(avancement);
+        moteur.MajListeners();
+        ihm.getCanvas().setFocusable(false);
+        
+	}
+	
 	
 	public void continuer(){
-		Continuer continuer = new Continuer("./Save");
-		continuer.findFiles();
-		game = continuer.getGame();
-		moteur = continuer.getMoteur();
+		if(this.continuer.isEnabled()){
+			Continuer cont = new Continuer("./Save");
+			cont.getSave().restore(game,moteur);
+			restore(game,moteur);
+		}
 	}
 	
 	public void nouveau(){
@@ -172,25 +225,23 @@ public class Menu_Demarrage extends JComponent {
 		fenetre.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
 	}
 	
+	// TODO
+	//Tester si ça marche
 	public void charger(){
-		Load_save_screen screen = new Load_save_screen();
-		screen.run();
-		Charger load = new Charger(screen.getPath());
-		// TODO
-		//Tester si ça marche
-		if(load.getSave()==null)System.out.println("Save pour charger null");
-		else load.getSave().Restore(game, moteur);
+		if(continuer.isEnabled()){
+			Load_save_screen screen = new Load_save_screen();
+			if(screen.getPath()!=null){
+				Charger load = new Charger(screen.getPath());
+				load.getSave().restore(game, moteur);
+				restore(game,moteur);
+			}
+		}
 	}
 
 	
 	public void comment_jouer(){
-		//this.setVisible(false);
-		//fenetre.remove(this);
-	//	fenetre.add(new Regles(fenetre));
-		
 		fenetre.setEnabled(false);
 		fenetre.add(new Regles(fenetre));
-	
 	}
 	
 	public void credits(){
