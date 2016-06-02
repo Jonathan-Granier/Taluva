@@ -175,7 +175,7 @@ public class Echap extends JComponent {
 		principal.dispose();
 		menu.setVisible(true);
 		menu.getContentPane().removeAll();
-		menu.add(new Regles(menu));
+		menu.add(new Regles(menu,false));
 		menu.revalidate();
 		menu.repaint();
 	}

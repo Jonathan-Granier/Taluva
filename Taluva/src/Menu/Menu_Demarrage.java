@@ -170,7 +170,6 @@ public class Menu_Demarrage extends JComponent {
 	public void nouveau(){
 		fenetre.setEnabled(false);
 		fenetre.add(new Nouveau(fenetre,gameF,game,moteur,terrain,ihm,avancement));
-		//fenetre.add(new Echap(fenetre,gameF));
 	}
 	
 	public void charger(){
@@ -185,9 +184,13 @@ public class Menu_Demarrage extends JComponent {
 
 	
 	public void regles(){
-		this.setVisible(false);
-		fenetre.remove(this);
-		fenetre.add(new Regles(fenetre));
+		//this.setVisible(false);
+		//fenetre.remove(this);
+	//	fenetre.add(new Regles(fenetre));
+		
+		fenetre.setEnabled(false);
+		fenetre.add(new Regles(fenetre,true));
+	
 	}
 	
 	public void credits(){

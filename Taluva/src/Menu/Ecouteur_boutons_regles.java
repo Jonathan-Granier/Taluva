@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 
 public class Ecouteur_boutons_regles implements ActionListener {
 	String action;
-	Regles page;
+	Regle_panel page;
 	
-	Ecouteur_boutons_regles(String action,Regles page){
+	Ecouteur_boutons_regles(String action,Regle_panel page){
 		this.action = action;
 		this.page = page;
 	}
@@ -22,8 +22,8 @@ public class Ecouteur_boutons_regles implements ActionListener {
     			page.suivant();
     			page.repaint();
     			break;
-    		case "Accueil" :
-    			page.accueil();
+    		case "Retour" :
+    			page.retour();
     			break;
     		default : System.out.println("[Ecouteurs_boutons_regles] Bouton non implémenté");
     			break;
