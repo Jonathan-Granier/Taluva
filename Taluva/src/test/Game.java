@@ -308,7 +308,6 @@ public class Game implements Observer,KeyListener {
 			camera.reset();
 			break;
 		case KeyEvent.VK_ESCAPE:
-			System.out.println("ECHAP pressed");
 			frame.setEnabled(false);
 			frame.add(new Echap(frame,menu));
 			break;
