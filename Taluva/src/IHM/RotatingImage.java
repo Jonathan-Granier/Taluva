@@ -1,5 +1,7 @@
 package IHM;
+import java.awt.AlphaComposite;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -167,6 +169,7 @@ public class RotatingImage extends BufferedImage {
 					y = xyCoord.y;
 					if (x >= 0 && x < sourceWidth && y >= 0 && y < sourceHeight) {
 						int rgbColor = sourceImage.getRGB(x, y);
+						
 						try {
 							rotatedImage.setRGB(xRot, yRot, rgbColor);
 						} catch (Exception e) {
@@ -178,7 +181,9 @@ public class RotatingImage extends BufferedImage {
 			images.put(new Integer(sector), rotatedImage);
 		}
 		Graphics g = getGraphics();
-		g.clearRect(0, 0, rotatedWidth, rotatedHeight);
+		((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+		g.fillRect(0, 0, rotatedWidth, rotatedHeight);
+		//g.clearRect(0, 0, rotatedWidth, rotatedHeight);
 		g.drawImage(rotatedImage, 0, 0, null);
 	}
 	/**
