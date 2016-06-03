@@ -1,20 +1,16 @@
 package Ecouteur;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
-import loaders.Loader;
-
-import org.lwjgl.util.vector.Vector3f;
 
 import IHM.JPanelPioche;
-import terrain.Case;
-import terrain.Tuile;
-import entities.GraphicConstruction;
-import entities.GraphicTile;
-import entities.GraphicConstruction.GraphicType;
 import Moteur.Moteur;
 import Moteur.Phase.Phase_Jeu;
+import entities.GraphicConstruction;
+import entities.GraphicConstruction.GraphicType;
+import entities.GraphicTile;
+import loaders.Loader;
+import terrain.Case;
+import terrain.Tuile;
 
 public class Ecouteur_Boutons implements ActionListener {
 	
