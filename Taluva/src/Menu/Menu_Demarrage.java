@@ -163,26 +163,12 @@ public class Menu_Demarrage extends JComponent {
 	
 	
 	// LES BOUTONS
-	/*
-	// Pour restaurer une partie à partir d'un game, d'une JFrame et d'un moteur
-	private void restore(JFrame gameF,Game game,Moteur moteur){
-		fenetre.setVisible(false);
-		gameF.setVisible(true);
-		//Ceci devrais marche en théorie
-		//Dans le cas échéant, on essaye de créer un nouvel IHM/Avancement,etc...
-		
-		//ihm = new IHM(moteur, gameF);
-        //ihm.run();
-        //avancement = new Avancement(ihm);
-        //moteur.addPhaseListener(avancement);
-        //moteur.getJ1().addBatimentCountListener(avancement);
-        //moteur.getJ2().addBatimentCountListener(avancement);
-        //moteur.MajListeners();
-        //ihm.getCanvas().setFocusable(false);
-		
-	}*/
-	private void restore(final Game game,Moteur moteur){
+	
+	// Pour restaurer une partie a partir d'un game, d'une JFrame et d'un moteur
+	
+	private void restore(Moteur moteur){
 		gameF = new JFrame();
+		game = new Game();
 		gameF.addKeyListener(game);
         gameF.setFocusable(true);
         gameF.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -215,8 +201,8 @@ public class Menu_Demarrage extends JComponent {
 	public void continuer(){
 		if(this.continuer.isEnabled()){
 			Continuer cont = new Continuer("./Save");
-			cont.getSave().restore(game,moteur);
-			restore(game,moteur);
+			cont.getSave().restore(moteur);
+			restore(moteur);
 		}
 	}
 	
@@ -226,14 +212,14 @@ public class Menu_Demarrage extends JComponent {
 	}
 	
 	// TODO
-	//Tester si ça marche
+	//Tester si ca marche
 	public void charger(){
 		if(continuer.isEnabled()){
 			Load_save_screen screen = new Load_save_screen();
 			if(screen.getPath()!=null){
 				Charger load = new Charger(screen.getPath());
-				load.getSave().restore(game, moteur);
-				restore(game,moteur);
+				load.getSave().restore(moteur);
+				restore(moteur);
 			}
 		}
 	}
