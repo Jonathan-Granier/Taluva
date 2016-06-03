@@ -71,6 +71,7 @@ public class Menu_Demarrage extends JComponent {
 		
 		menu = new JPanel();
 		menu.setLayout(new GridLayout(7,1));
+		menu.setOpaque(false);
 		
 		taluva = new JLabel("Taluva");
 		taluva.setFont(new Font("Courier", Font.BOLD+Font.ITALIC,84));
@@ -81,6 +82,8 @@ public class Menu_Demarrage extends JComponent {
 		
 		continuer = new JButton("Continuer");
 		continuer.setBackground(Color.WHITE);
+		continuer.setForeground(Color.YELLOW);
+		continuer.setBorder(null);
 		continuer.setFont(new Font("Continuer", Font.BOLD+Font.ITALIC,40));
 		continuer.setOpaque(false);
 		
@@ -94,6 +97,8 @@ public class Menu_Demarrage extends JComponent {
 		nouveau = new JButton("Nouveau");
 		nouveau.setBackground(Color.WHITE);
 		nouveau.setFont(new Font("Nouveau", Font.BOLD+Font.ITALIC,40));
+		nouveau.setForeground(Color.YELLOW);
+		nouveau.setBorder(null);
 		nouveau.setOpaque(false);
 		nouveau.addActionListener(new Ecouteur_boutons_demarrage("Nouveau",this));
 		menu.add(nouveau);
@@ -101,6 +106,8 @@ public class Menu_Demarrage extends JComponent {
 		charger = new JButton("Charger");
 		charger.setBackground(Color.WHITE);
 		charger.setFont(new Font("Charger", Font.BOLD+Font.ITALIC,40));
+		charger.setForeground(Color.YELLOW);
+		charger.setBorder(null);
 		charger.setOpaque(false);
 		charger.addActionListener(new Ecouteur_boutons_demarrage("Charger",this));
 		if(!continuer.isEnabled())
@@ -110,6 +117,8 @@ public class Menu_Demarrage extends JComponent {
 		comment_jouer = new JButton("Comment jouer");
 		comment_jouer.setBackground(Color.WHITE);
 		comment_jouer.setFont(new Font("", Font.BOLD+Font.ITALIC,40));
+		comment_jouer.setForeground(Color.YELLOW);
+		comment_jouer.setBorder(null);
 		comment_jouer.setOpaque(false);
 		comment_jouer.addActionListener(new Ecouteur_boutons_demarrage("Comment jouer",this));
 		menu.add(comment_jouer);
@@ -117,6 +126,8 @@ public class Menu_Demarrage extends JComponent {
 		credits = new JButton("Credits");
 		credits.setBackground(Color.WHITE);
 		credits.setFont(new Font("Credits", Font.BOLD+Font.ITALIC,40));
+		credits.setForeground(Color.YELLOW);
+		credits.setBorder(null);
 		credits.setOpaque(false);
 		credits.addActionListener(new Ecouteur_boutons_demarrage("Credits",this));
 		menu.add(credits);
@@ -124,12 +135,14 @@ public class Menu_Demarrage extends JComponent {
 		quitter = new JButton("Quitter");
 		quitter.setBackground(Color.WHITE);
 		quitter.setFont(new Font("Quitter", Font.BOLD+Font.ITALIC,40));
+		quitter.setForeground(Color.YELLOW);
+		quitter.setBorder(null);
 		quitter.setOpaque(false);
 		quitter.addActionListener(new Ecouteur_boutons_demarrage("Quitter",this));
 		menu.add(quitter);
 		
 		menu.setBackground(Color.WHITE);
-		menu.setOpaque(true);
+		menu.setOpaque(false);
 
 		JPanel east_panel = new JPanel();
 		east_panel.setLayout(new BorderLayout());
