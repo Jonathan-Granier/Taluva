@@ -42,7 +42,7 @@ public class Moteur_light extends Moteur
 			save_state();
 			this.T = T.consulter_coup_tuile(AT.getTuile(), AT.getPosition());
 		}
-		System.out.println("[Moteur_Light] Jouer_Action_tuile: Pose de la tuile non autorisée.");
+		//System.out.println("[Moteur_Light] Jouer_Action_tuile: Pose de la tuile non autorisée.");
 		return 1;
 	}
 	

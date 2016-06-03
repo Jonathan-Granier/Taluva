@@ -93,7 +93,7 @@ public class Etat_de_jeu {
 	
 	public void afficher()
 	{
-		System.out.println(this.pdj);
+		//System.out.println(this.pdj);
 		//this.terrain.afficher();
 	}
 }

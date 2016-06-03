@@ -68,7 +68,6 @@ public class RotatingImage extends BufferedImage {
 		}
 		long end = System.currentTimeMillis();
 		long duration = end - begin;
-		//System.out.println("Duration [" + images.keySet().size() + "]:" + duration);
 	}
  
 	public RotatingImage(BufferedImage sourceImage) {
@@ -79,73 +78,8 @@ public class RotatingImage extends BufferedImage {
 	 * Rotate the source image
 	 * 
 	 */
-	/*
-	public void rotate() {
-		double hypotenuseLength = Math.sqrt(sourceWidth * sourceWidth + sourceHeight * sourceHeight);
-		int rotatedWidth = (int) hypotenuseLength + 1;
-		int rotatedHeight = (int) hypotenuseLength + 1;
- 
-		BufferedImage rotatedImage = new BufferedImage(rotatedWidth, rotatedHeight, BufferedImage.TYPE_INT_ARGB);
-		
-		
-		BufferedImage bufferedImage;
-		
-		
-		int x = -1;
-		int y = -1;
-		int sector = (int) (Math.round(angle / ((2 * Math.PI) / (double) numberOfImages)));
-		if (images.get(new Integer(sector)) != null) {
-			rotatedImage = (BufferedImage) images.get(new Integer(sector));
-			boolean hasAlpha = rotatedImage.getColorModel().hasAlpha();
-			int transparency = hasAlpha ? Transparency.BITMASK : Transparency.OPAQUE;
-
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		
-			GraphicsDevice gs = ge.getDefaultScreenDevice();
-		
-			GraphicsConfiguration gc = gs.getDefaultConfiguration();
-			
-			bufferedImage = gc.createCompatibleImage(rotatedImage.getWidth(null),rotatedImage.getHeight(null), transparency);
-			
-			images.put(new Integer(sector), rotatedImage);
-		} else {
-			for (int xRot = 0; xRot < rotatedWidth; xRot++) {
-				for (int yRot = 0; yRot < rotatedHeight; yRot++) {
-					Point xyCoord = getSourceXY(xRot - (rotatedWidth / 2), yRot - (rotatedHeight / 2));
-					x = xyCoord.x;
-					y = xyCoord.y;
-					if (x >= 0 && x < sourceWidth && y >= 0 && y < sourceHeight) {
-						int rgbColor = sourceImage.getRGB(x, y);
-						try {
-							rotatedImage.setRGB(xRot, yRot, rgbColor);
-						} catch (Exception e) {
-							System.out.print(" => Error");
-						}
-					}
-				}
-			}
-			boolean hasAlpha = rotatedImage.getColorModel().hasAlpha();
-			int transparency = hasAlpha ? Transparency.BITMASK : Transparency.OPAQUE;
-
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		
-			GraphicsDevice gs = ge.getDefaultScreenDevice();
-		
-			GraphicsConfiguration gc = gs.getDefaultConfiguration();
-			
-			bufferedImage = gc.createCompatibleImage(rotatedImage.getWidth(null),rotatedImage.getHeight(null), transparency);
-			
-			images.put(new Integer(sector), rotatedImage);
-		}
-		Graphics g = getGraphics();
-		//IL FAUT LIER LES 2 GRAPHICS
-		//Graphics g = bufferedImage.createGraphics();
-		g.clearRect(0, 0, rotatedWidth, rotatedHeight);
-		g.drawImage(rotatedImage, 0, 0, null);
-		
-	}
 	
-*/
+
 	public void rotate() {
 		double hypotenuseLength = Math.sqrt(sourceWidth * sourceWidth + sourceHeight * sourceHeight);
 		int rotatedWidth = (int) hypotenuseLength + 1;

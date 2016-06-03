@@ -174,7 +174,6 @@ public class Moteur extends Phase{
 	private void init(Stack<Tuile> pioche){
 		ArrayList<Tuile> pioche_fichier = new ArrayList<Tuile>();
 		int nbElement = 0;
-		System.out.println("Taille Pioche :" + taille_Pioche_initiale);
 		try {
 			File file;
 			if (PIOCHE_AUTRE_GROUPE)
@@ -187,7 +186,6 @@ public class Moteur extends Phase{
 			String line = null;
 			try {
 				while ((line = br.readLine()) != null) {
-					//System.out.println(line);
 					if (PIOCHE_AUTRE_GROUPE)
 						 rajoute_tuile_Autre_Groupe(line,pioche_fichier);
 					else
@@ -202,7 +200,6 @@ public class Moteur extends Phase{
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Taille Pioche nb Element :" + nbElement);
 		
 		if(PIOCHE_ALEATOIRE)
 		{
@@ -419,7 +416,6 @@ public class Moteur extends Phase{
 				else
 					j_courant = j1;
 			}
-			System.out.println("[SWAP] le joueur courant est :"+this.get_num_Jcourant());
 			//Si le joueurs selectioné est eliminer et qu'il reste au moins 2 joueurs
 			if(joueurs_elimines.contains(j_courant)&& nb_Joueur - joueurs_elimines.size()>=2)
 				swap_joueur();
@@ -486,7 +482,6 @@ public class Moteur extends Phase{
 	public Tuile piocher(){
 		if (pioche_vide())
 		{
-			System.out.println("Pioche vide");
 			return null;
 		}
 			//annul.add(new Etat_de_jeu(this.T,j1,j2,j_courant, this.get_etat_jeu()));
@@ -527,7 +522,6 @@ public class Moteur extends Phase{
 			//etat = Etat.CONSTRUIRE_BATIMENT;
 			Incremente_Phase_Jeu();
 			if(joueur_elimine()){
-				System.out.println("[MOTEUR / Placer_tuile] joueur elimine (marche?)");
 				joueurs_elimines.add(j_courant);
 				fin_de_tour();
 			/*	finir_partie();
@@ -797,7 +791,7 @@ public class Moteur extends Phase{
 			
 			*/
 			joueurs_gagnant.add(j_courant);
-			afficher_score();
+			//afficher_score();
 		//	j_gagnant = j_courant;
 			finir_partie();
 			return true;
@@ -832,7 +826,7 @@ public class Moteur extends Phase{
 				joueurs_gagnant.add(j3);
 			if(nb_Joueur == 4 && ScoreMax(j4))
 				joueurs_gagnant.add(j4);
-			afficher_score();
+		//	afficher_score();
 			finir_partie();
 			return true;
 		}
@@ -913,7 +907,6 @@ public class Moteur extends Phase{
 		else
 		{
 			bat_choisi = Action_vers_Batiment(action_construction.get_type());
-			System.out.println("[JOUER IA] Bat choisi : "+ bat_choisi);
 			if(placer_batiment(point_construction) != 0)
 			{
 				System.out.println("[jouer_IA] Impossible de poser un batiment " + point_construction);
