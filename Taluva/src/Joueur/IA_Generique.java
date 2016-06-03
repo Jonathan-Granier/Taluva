@@ -1,15 +1,8 @@
 package Joueur;
 
-import java.awt.Point;
-import java.util.ArrayList;
-
-import Action.Action_Tuile;
 import Action.Actions_Tour;
 import Moteur.Moteur;
 import terrain.Case.Couleur_Joueur;
-import terrain.Case;
-import terrain.Cite;
-import terrain.Terrain;
 import terrain.Tuile;
 
 public abstract class IA_Generique extends Joueur_Generique{
@@ -29,7 +22,7 @@ public abstract class IA_Generique extends Joueur_Generique{
 	protected static int score_div_city_temple_tower = Integer.MAX_VALUE;
 	protected static int score_cite_petite_avec_temple = 5;
 	protected static int score_taille_cite_sans_temple = 2;
-	protected static int score_cite_indestructible_sans_temple = 100;
+	protected static int score_cite_indestructible_sans_temple = 1000;
 	protected static int score_case_3_adj = 300;
 	protected static int score_case_2_adj = 5;
 	protected static int score_reduction_volcan_adj = 3;

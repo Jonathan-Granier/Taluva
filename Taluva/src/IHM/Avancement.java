@@ -2,15 +2,13 @@ package IHM;
 
 import java.awt.Color;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import Joueur.BatimentCountListener;
 import Joueur.Joueur_Generique;
+import Moteur.Moteur;
 import Moteur.Phase.Phase_Jeu;
 import Moteur.PhaseListener;
-import Moteur.Phase;
-import Moteur.Moteur;
 
 public class Avancement implements PhaseListener, BatimentCountListener {
 	IHM ihm;
@@ -188,8 +186,6 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getConstruire().setEtat(2);
 				ihm.getFinir().setEtat(2);
 				
-				
-				//TODO 
 				//Lancer la fream avec la fin de partie
 				break;
 			default:
@@ -207,32 +203,43 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 
 	@Override
 	public void MajBatimentCount(Joueur_Generique j, int hutte, int tour, int temple) {
-		// TODO Auto-generated method stub
 		if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ1()))
 		{
 
-			ihm.getInfoJ1()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
-			ihm.getInfoJ1()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
-			ihm.getInfoJ1()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
+			ihm.getM();
+			ihm.getInfoJ1()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(Moteur.nb_max_Huttes));
+			ihm.getM();
+			ihm.getInfoJ1()[3].setText(Integer.toString(tour)+" / "+Integer.toString(Moteur.nb_max_Tours));
+			ihm.getM();
+			ihm.getInfoJ1()[5].setText(Integer.toString(temple)+" / "+Integer.toString(Moteur.nb_max_Temples));
 			
 		}
 		else if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ2()))
 		{
-			ihm.getInfoJ2()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
-			ihm.getInfoJ2()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
-			ihm.getInfoJ2()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
+			ihm.getM();
+			ihm.getInfoJ2()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(Moteur.nb_max_Huttes));
+			ihm.getM();
+			ihm.getInfoJ2()[3].setText(Integer.toString(tour)+" / "+Integer.toString(Moteur.nb_max_Tours));
+			ihm.getM();
+			ihm.getInfoJ2()[5].setText(Integer.toString(temple)+" / "+Integer.toString(Moteur.nb_max_Temples));
 			
 		}else if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ3()))
 		{
-			ihm.getInfoJ3()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
-			ihm.getInfoJ3()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
-			ihm.getInfoJ3()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
+			ihm.getM();
+			ihm.getInfoJ3()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(Moteur.nb_max_Huttes));
+			ihm.getM();
+			ihm.getInfoJ3()[3].setText(Integer.toString(tour)+" / "+Integer.toString(Moteur.nb_max_Tours));
+			ihm.getM();
+			ihm.getInfoJ3()[5].setText(Integer.toString(temple)+" / "+Integer.toString(Moteur.nb_max_Temples));
 			
 		}else if(ihm.getM().EstLeMemeJoueur(j,ihm.getM().getJ4()))
 		{
-			ihm.getInfoJ4()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(ihm.getM().nb_max_Huttes));
-			ihm.getInfoJ4()[3].setText(Integer.toString(tour)+" / "+Integer.toString(ihm.getM().nb_max_Tours));
-			ihm.getInfoJ4()[5].setText(Integer.toString(temple)+" / "+Integer.toString(ihm.getM().nb_max_Temples));
+			ihm.getM();
+			ihm.getInfoJ4()[1].setText(Integer.toString(hutte)+" / "+Integer.toString(Moteur.nb_max_Huttes));
+			ihm.getM();
+			ihm.getInfoJ4()[3].setText(Integer.toString(tour)+" / "+Integer.toString(Moteur.nb_max_Tours));
+			ihm.getM();
+			ihm.getInfoJ4()[5].setText(Integer.toString(temple)+" / "+Integer.toString(Moteur.nb_max_Temples));
 		}
 	}
 	
