@@ -1,24 +1,28 @@
 package entities;
 
-import java.awt.Point;
-
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import IHM.Menu_circulaire_creation;
 import terrain.Terrain;
-import utils.FPS;
 import utils.Grid;
-import utils.InputHandler;
 import utils.OSValidator;
-import utils.InputHandler.inputType;
 
 public class Camera {
+	
+	private class Vue{
+		public Vector3f lookAt;
+		public float pitch;
+		public float angleAroundPivot;
+		public float distanceFromPivot;
+		public Vue(Vector3f lookAt, float pitch, float angleAroundPivot, float distanceFromPivot) {
+			this.lookAt = lookAt;
+			this.pitch = pitch;
+			this.angleAroundPivot = angleAroundPivot;
+			this.distanceFromPivot = distanceFromPivot;
+		}
+	}
 	
 	private static final float ZOOM_OUT_MAX = 200;
 	
@@ -31,17 +35,21 @@ public class Camera {
 	private float distanceFromPivot=100;
 	private float yangle;
 	private float roll;
-	private JFrame frame;
 	
-	public static final int MARGIN = 50;
+	public static final int nb_vues = 4;
+	private Vue[] vues;
 	
-	public Camera(JFrame frame){
-		this.frame = frame;
+	public Camera(){
 		float x = 3f/4f*Terrain.CENTRE.y*Grid.HEIGHT_OF_HEXA - Grid.HEIGHT_OF_HEXA/2f;
 		float y = Terrain.TAILLE*Grid.WIDTH_OF_HEXA/2f + Grid.WIDTH_OF_HEXA*2f + Terrain.CENTRE.x * Grid.WIDTH_OF_HEXA/2f;
 		lookAt = new Vector3f(x,0,y);
-		position.x = Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f+100;
-		position.z = Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f;
+		//position.x = Terrain.TAILLE/2*Grid.HEIGHT_OF_HEXA*2f/3f+100;
+		//position.z = Terrain.TAILLE*Grid.WIDTH_OF_HEXA*3f/4f;
+		vues = new Vue[nb_vues];
+		vues[0] = new Vue(lookAt,40,270,100);
+		vues[1] = new Vue(lookAt,40,0,100);
+		vues[2] = new Vue(lookAt,40,90,100);
+		vues[3] = new Vue(lookAt,40,180,100);
 	}
 
 	public boolean between(float start,float end){
@@ -81,11 +89,10 @@ public class Camera {
 		calculateCameraPosition(horizontalDistance,verticalDistance);
 		
 		yangle = 180 - angleAroundPivot;
-		
-		
-		float offsetX = (float) (horizontalDistance * Math.sin(Math.toRadians(angleAroundPivot)));
-		float offsetZ = (float) (horizontalDistance * Math.cos(Math.toRadians(angleAroundPivot)));
-		
+
+		//float offsetX = (float) (horizontalDistance * Math.sin(Math.toRadians(angleAroundPivot)));
+		//float offsetZ = (float) (horizontalDistance * Math.cos(Math.toRadians(angleAroundPivot)));
+
 		if(OSValidator.isWindows()){
 			if(Keyboard.isKeyDown(Keyboard.KEY_Z)){
 				if(lookAt.z + SPEED * Math.cos(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.z + SPEED * Math.cos(Math.toRadians(angleAroundPivot))>0)
@@ -118,54 +125,6 @@ public class Camera {
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 				reset();
-				Menu_circulaire_creation.setDraw(false);
-			}
-		}
-		Point mouse = frame.getMousePosition();
-		
-		if(Mouse.isInsideWindow()){
-			if(Mouse.getX()<Display.getWidth() && Mouse.getX()>Display.getWidth()-MARGIN){
-				if(lookAt.z + SPEED * Math.sin(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.z + SPEED * Math.sin(Math.toRadians(angleAroundPivot))>0)
-					lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-				if(lookAt.x - SPEED * Math.cos(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.x - SPEED * Math.cos(Math.toRadians(angleAroundPivot))>0)
-					lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-				Menu_circulaire_creation.setDraw(false);
-			}
-			if(Mouse.getX()<MARGIN && Mouse.getX()>0){
-				if(lookAt.z - SPEED * Math.sin(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.z - SPEED * Math.sin(Math.toRadians(angleAroundPivot))>0)
-					lookAt.z -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-				if(lookAt.x + SPEED * Math.cos(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.x + SPEED * Math.cos(Math.toRadians(angleAroundPivot))>0)	
-					lookAt.x += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-				Menu_circulaire_creation.setDraw(false);
-			}
-			if(Mouse.getY()<Display.getHeight() && Mouse.getY()>Display.getHeight()-MARGIN){
-				if(lookAt.z + SPEED * Math.cos(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.z + SPEED * Math.cos(Math.toRadians(angleAroundPivot))>0)
-					lookAt.z += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-				if(lookAt.x + SPEED * Math.sin(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.x + SPEED * Math.sin(Math.toRadians(angleAroundPivot))>0)
-					lookAt.x += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-				Menu_circulaire_creation.setDraw(false);
-			}
-		}
-		if(mouse!=null){
-			if(mouse.x<frame.getWidth() && mouse.x>frame.getWidth()-MARGIN && mouse.y>MARGIN){
-				if(lookAt.z + SPEED * Math.sin(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.z + SPEED * Math.sin(Math.toRadians(angleAroundPivot))>0)
-					lookAt.z += SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-				if(lookAt.x - SPEED * Math.cos(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.x - SPEED * Math.cos(Math.toRadians(angleAroundPivot))>0)
-					lookAt.x -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-				Menu_circulaire_creation.setDraw(false);
-			}
-			if(mouse.x<MARGIN && mouse.x>0 && mouse.y>MARGIN){
-				if(lookAt.z - SPEED * Math.sin(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.z - SPEED * Math.sin(Math.toRadians(angleAroundPivot))>0)
-					lookAt.z -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
-				if(lookAt.x + SPEED * Math.cos(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.x + SPEED * Math.cos(Math.toRadians(angleAroundPivot))>0)	
-					lookAt.x += SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-				Menu_circulaire_creation.setDraw(false);
-			}
-			if( mouse.y<frame.getHeight() && mouse.y>frame.getHeight() - MARGIN){
-				if(lookAt.z - SPEED * Math.cos(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.z - SPEED * Math.cos(Math.toRadians(angleAroundPivot))>0)
-					lookAt.z -= SPEED * Math.cos(Math.toRadians(angleAroundPivot));
-				if(lookAt.x - SPEED * Math.sin(Math.toRadians(angleAroundPivot))<Terrain.TAILLE * Grid.WIDTH_OF_HEXA && lookAt.x - SPEED * Math.sin(Math.toRadians(angleAroundPivot))>0)
-					lookAt.x -= SPEED * Math.sin(Math.toRadians(angleAroundPivot));
 				Menu_circulaire_creation.setDraw(false);
 			}
 		}
@@ -240,16 +199,18 @@ public class Camera {
 	}
 	
 	public void recenter(){
-		float x = 3f/4f*Terrain.CENTRE.y*Grid.HEIGHT_OF_HEXA - Grid.HEIGHT_OF_HEXA/2f;
-		float y = Terrain.TAILLE*Grid.WIDTH_OF_HEXA/2f + Grid.WIDTH_OF_HEXA*2f + Terrain.CENTRE.x * Grid.WIDTH_OF_HEXA/2f;
-		lookAt = new Vector3f(x,0,y);
+		lookAt = new Vector3f(vues[0].lookAt);
 	}
 	
 	public void reset(){
-		recenter();
-		pitch=40;
-		angleAroundPivot=270;
-		distanceFromPivot=100;
+		updateVue(0);
+	}
+	
+	public void updateVue(int num_vue){
+		lookAt = new Vector3f(vues[num_vue].lookAt);
+		pitch = vues[num_vue].pitch;
+		angleAroundPivot = vues[num_vue].angleAroundPivot;
+		distanceFromPivot = vues[num_vue].distanceFromPivot;
 	}
 
 	public float getDistanceFromPivot() {

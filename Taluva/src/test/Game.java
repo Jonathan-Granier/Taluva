@@ -77,6 +77,8 @@ public class Game implements Observer,KeyListener {
 	private boolean[] keys = {false,false,false,false};
 	private Vector2f[] pos;
 	
+	private int num_vue;
+	
 	//Draw all Tile
 	public void drawTile(Renderer renderer,Shader shader){
 		ArrayList<Action_Tuile> listTile = new ArrayList<Action_Tuile> (moteur.getTerrain().getHistoTuiles());
@@ -177,10 +179,12 @@ public class Game implements Observer,KeyListener {
 		Window.createDislay();
 		this.moteur = m;
 		this.canvas = canvas;
-		camera = new Camera(frame);
+		camera = new Camera();
 		loader = new Loader();
 		shader = new Shader();
 		renderer = new Renderer(shader,camera);
+		
+		num_vue = 0;
 		
 		FPS.start(frame);
 		Tile = new GraphicTile(new Tuile(Case.Type.MONTAGNE,Case.Type.SABLE),loader,new Vector3f(0,0,0),90);
@@ -325,12 +329,16 @@ public class Game implements Observer,KeyListener {
 			keys[3] = true;
 			break;
 		case KeyEvent.VK_A:
-			System.out.println("##### AFFICHAGE MANUEL #####");
-			moteur.getTerrain().afficher();
-			System.out.println("############################");
+			num_vue = (num_vue - 1 + Camera.nb_vues) % Camera.nb_vues;
+			camera.updateVue(num_vue);
+			break;
+		case KeyEvent.VK_E:
+			num_vue = (num_vue + 1) % Camera.nb_vues;
+			camera.updateVue(num_vue);
 			break;
 		case KeyEvent.VK_SPACE:
 			camera.reset();
+			num_vue = 0;
 			break;
 		case KeyEvent.VK_ESCAPE:
 			frame.setEnabled(false);
