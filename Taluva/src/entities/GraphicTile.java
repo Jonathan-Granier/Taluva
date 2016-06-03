@@ -97,7 +97,7 @@ public class GraphicTile {
 	}
 	
 	public void rotate_antihoraire(){
-		tile.Tourner_horaire();
+		tile.Tourner_anti_horaire();
 		switch(tile.get_Orientation_Volcan()){
 			case O:
 				object3d.setRotY(90);
