@@ -99,6 +99,10 @@ public class Echap extends JComponent {
 		sauvegarder.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		sauvegarder.setPreferredSize(new Dimension(width_b,height_b));
 		sauvegarder.addActionListener(new Ecouteur_boutons_echap("Sauvegarder",this));
+		File directory = new File("./Save");
+		if(directory.listFiles().length<=1){
+			sauvegarder.setEnabled(false);
+		}
 		pause.add(sauvegarder,c);
 
 		c.gridy = 4;
@@ -107,6 +111,9 @@ public class Echap extends JComponent {
 		charger.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		charger.setPreferredSize(new Dimension(width_b,height_b));
 		charger.addActionListener(new Ecouteur_boutons_echap("Charger",this));
+		if(directory.listFiles().length<=1){
+			charger.setEnabled(false);
+		}
 		pause.add(charger,c);
 		c.insets = new Insets(0,0,0,0);
 
@@ -154,8 +161,9 @@ public class Echap extends JComponent {
 		principal.setEnabled(true);
 	}
 	public void nouveau(){
-		int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder la partie en cours ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
-		if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
+		int result = JOptionPane.showConfirmDialog(m_fenetre, "Etes-vous sur de vouloir quitter ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+		if(result == JOptionPane.YES_OPTION){
+			result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder la partie en cours ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
         	if(result== JOptionPane.YES_OPTION)
         		sauvegarder();
         	principal.remove(m_fenetre);
@@ -174,15 +182,14 @@ public class Echap extends JComponent {
 	}
 	
 	//TODO
-	//On pourrait créer un getter de moteur dans game
-	//Ca implique de modifier la structure Sauvegarde
 	public void sauvegarder(){
-		/*Sauvegarde save = new Sauvegarde(game,null);
+		/*Sauvegarde save = new Sauvegarde(game.getMoteur());
 		save.sauvegarder(save,"./Save");
 		JOptionPane.showMessageDialog(m_fenetre, "Partie sauvegardee !");*/
 	}
-	/*private void restore(final Game game,Moteur moteur){
-		gameF = new JFrame();
+	/*private void restore(Moteur moteur){
+		JFrame gameF = new JFrame();
+		Game game = new Game();
 		gameF.addKeyListener(game);
         gameF.setFocusable(true);
         gameF.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -198,10 +205,18 @@ public class Echap extends JComponent {
                 }
             }
         });
-        fenetre.setVisible(false);
-        ihm = new IHM(moteur, gameF);
+        principal.remove(m_fenetre);
+		m_fenetre.dispose();
+		principal.setEnabled(true);
+		
+		principal.setVisible(false);
+		game.cleanUp();
+		game.timerStop();
+		principal.dispose();
+		
+		IHM ihm = new IHM(moteur, gameF);
         ihm.run();
-        avancement = new Avancement(ihm);
+        Avancement avancement = new Avancement(ihm);
         moteur.addPhaseListener(avancement);
         moteur.getJ1().addBatimentCountListener(avancement);
         moteur.getJ2().addBatimentCountListener(avancement);
@@ -238,39 +253,48 @@ public class Echap extends JComponent {
 	}
 	
 	public void menu_principal(){
-		
 		int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder avant de retourner au menu principal ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
         if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
         	if(result== JOptionPane.YES_OPTION)
         		sauvegarder();
-        	principal.remove(m_fenetre);
-    		m_fenetre.dispose();
-    		principal.setVisible(false);
-    		game.cleanUp();
-    		game.timerStop();
-    		principal.dispose();
-    		
-    		menu.setVisible(true);
-    	}
+        	
+        	result = JOptionPane.showConfirmDialog(m_fenetre, "Etes-vous sur de vouloir quitter la partie en cours ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+	        if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
+	        	if(result== JOptionPane.YES_OPTION)
+	        		sauvegarder();
+	        	principal.remove(m_fenetre);
+	    		m_fenetre.dispose();
+	    		principal.setVisible(false);
+	    		game.cleanUp();
+	    		game.timerStop();
+	    		principal.dispose();
+	    		
+	    		menu.setVisible(true);
+	    	}
+        }
     }
 	
 	public void quitter(){
-		int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder avant de quitter ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+		int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder la partie en cours ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
         if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
         	if(result== JOptionPane.YES_OPTION)
         		sauvegarder();
-        	principal.remove(m_fenetre);
-    		m_fenetre.dispose();
-    		principal.setVisible(false);
-    		game.cleanUp();
-    		game.timerStop();
-    		principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    		principal.dispose();
-    		
-    		menu.setVisible(false);
-    		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    		menu.dispose();
-	    }
+        	
+			result = JOptionPane.showConfirmDialog(m_fenetre, "Etes-vous sur de vouloir quitter ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+	        if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
+	        	principal.remove(m_fenetre);
+	    		m_fenetre.dispose();
+	    		principal.setVisible(false);
+	    		game.cleanUp();
+	    		game.timerStop();
+	    		principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    		principal.dispose();
+	    		
+	    		menu.setVisible(false);
+	    		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    		menu.dispose();
+		    }
+        }
     }
 	
 	/*

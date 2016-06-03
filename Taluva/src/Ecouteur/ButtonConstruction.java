@@ -13,7 +13,7 @@ public class ButtonConstruction extends Button {
 
 	public GraphicType type = GraphicType.NULL;
 	private String label;
-	private GraphicConstruction Construction;
+	//private GraphicConstruction Construction;
 	private Moteur moteur;
 	private static boolean pick;
 	private static boolean clicked;

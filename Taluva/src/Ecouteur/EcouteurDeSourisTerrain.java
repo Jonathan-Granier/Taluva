@@ -29,9 +29,9 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 	private MousePicker picker;
 	private Grid grid;
 	private GraphicTile Tile;
-	private List<GraphicTile> Tiles;
+	//private List<GraphicTile> Tiles;
 	private GraphicConstruction construction;
-	private List<GraphicConstruction> constructions;
+	//private List<GraphicConstruction> constructions;
 	private Menu_circulaire_creation marking_menu;
 	private Coords snap;
 	private Vector3f point;
@@ -46,10 +46,10 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 		this.m = m;
 		this.picker = picker;
 		this.grid = grid;
-		this.Tiles = Tiles;
+		//this.Tiles = Tiles;
 		this.Tile = Tile;
 		this.construction = construction;
-		this.constructions = constructions;
+		//this.constructions = constructions;
 		this.marking_menu = marking_menu;
 		this.Tuile_Pioche = Tuile_Pioche;
 	}

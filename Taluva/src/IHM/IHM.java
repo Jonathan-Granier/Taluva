@@ -117,10 +117,6 @@ public class IHM {
 	private static final String Fichier_Pioche_Fond_Activer = "Assets/IHM/Image-pioche/pioche-pioché.png";
 	private static final String Fichier_Pioche_Fond_Desactiver = "Assets/IHM/Image-pioche/Pioche-inactive.png";
 	
-	//Pioche Fond_Bouton
-	private static final String Fichier_Pioche_Fond_Bouton_Activer = "Assets/IHM/Image-pioche/Pioche-pioché-carre-centre.png";
-	private static final String Fichier_Pioche_Fond_Bouton_Desactiver = "Assets/IHM/Image-pioche/Pioche-inactive-carre-centre.png";
-	
 	
 	//Pioche Bouton
 	private static final String Fichier_Pioche_Bouton_Activer = "Assets/IHM/Image-pioche/Pioche-pre-pioche.png";
@@ -357,7 +353,7 @@ public class IHM {
 	{
 		//TODO
 		int i;
-		Pioche_Tuile = new JPanelPioche(Fichier_Pioche_Fond_Bouton_Activer,Fichier_Pioche_Fond_Bouton_Desactiver);
+		Pioche_Tuile = new JPanelPioche();
 		Pioche_Tuile.setOpaque(false);
 		Bouton_Pioche = FaireJButtonPioche("Piocher",Fichier_Pioche_Bouton_Activer,Fichier_Pioche_Bouton_Desactiver,
 				Fichier_Pioche_Bouton_Cliquer,Fichier_Pioche_Bouton_Passage);
@@ -841,9 +837,9 @@ public class IHM {
 	public void setInfoJoueur(JLabel[] InfoJ,String Faction)
 	{
 		
-		InfoJ[1] = InitStatConstruction(Integer.toString(m.nb_max_Huttes));
-       	InfoJ[3] = InitStatConstruction(Integer.toString(m.nb_max_Tours));
-		InfoJ[5] = InitStatConstruction(Integer.toString(m.nb_max_Temples));
+		InfoJ[1] = InitStatConstruction(Integer.toString(Moteur.nb_max_Huttes));
+       	InfoJ[3] = InitStatConstruction(Integer.toString(Moteur.nb_max_Tours));
+		InfoJ[5] = InitStatConstruction(Integer.toString(Moteur.nb_max_Temples));
 		
 		switch(Faction)
 		{

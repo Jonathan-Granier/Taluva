@@ -15,7 +15,7 @@ public class ButtonExtension extends Button {
 	private static Point p;
 	private Moteur m;
 	private static boolean clicked;
-	private GraphicConstruction Construction;
+	//private GraphicConstruction Construction;
 	
 	public ButtonExtension(int textureId, Vector2f position, Vector2f dimension,Case.Type type,Moteur m,GraphicConstruction Construction) {
 		super(textureId, position, dimension);
