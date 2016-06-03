@@ -30,7 +30,6 @@ public class IA_Heuristique extends IA_Generique {
 
 	public Actions_Tour get_coup_tour(Tuile tuile)
 	{
-		//System.out.println("IA Heuristique : On me demande un coup");
 		Moteur virtuel= m.clone();
 		Moteur reel = m;
 		this.m = virtuel;
@@ -136,7 +135,6 @@ public class IA_Heuristique extends IA_Generique {
 		int score =0;
 		score += (Moteur.nb_max_Temples - c.getTemple()) * score_temple;
 		score += (Moteur.nb_max_Tours - c.getTour()) * score_tour;
-		//score += (Moteur.nb_max_Huttes - c.getHutte()) * score_hutte;
 		// Si le joueur s'est débarassé de toutes ses pièces de 2 catégorie, il a gagné.
 		if((c.getHutte() == 0 && c.getTemple() == 0) || (c.getTemple() ==0 && c.getTour() ==0) || (c.getHutte()==0 && c.getTour()==0))
 		{
@@ -235,7 +233,6 @@ public class IA_Heuristique extends IA_Generique {
 		int score =0;
 		score += (Moteur.nb_max_Temples - c.getTemple()) * score_temple;
 		score += (Moteur.nb_max_Tours - c.getTour()) * score_tour;
-		//score += (Moteur.nb_max_Huttes - c.getHutte()) * score_hutte;
 		// Si le joueur s'est débarassé de toutes ses pièces de 2 catégorie, il a gagné.
 		if((c.getHutte() == 0 && c.getTemple() == 0) || (c.getTemple() ==0 && c.getTour() ==0) || (c.getHutte()==0 && c.getTour()==0))
 		{
