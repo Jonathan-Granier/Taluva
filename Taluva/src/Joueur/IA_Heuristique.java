@@ -168,7 +168,7 @@ public class IA_Heuristique extends IA_Generique {
 		if(c.getNbTemples() == 0 && j.getTemple()>0){
 			score_cite += c.getTaille() * score_taille_cite_sans_temple;
 			if(c.getTaille()>=3){
-				if(cite_non_reductible_sous_3(c,m.getTerrain())){
+				if(cite_non_reductible_sous_3(c,m.getTerrain()) && m.get_nbTuiles()>0){
 					score_cite += score_cite_indestructible_sans_temple;
 				}
 				else{
@@ -265,7 +265,7 @@ public class IA_Heuristique extends IA_Generique {
 
 		if(c.getNbTemples() == 0 && j.getTemple()>0){
 			score_cite += c.getTaille() * score_taille_cite_sans_temple;
-			if(c.getTaille()>=3){
+			if(c.getTaille()>=3 && m.get_nbTuiles()>0){
 				score_cite += score_temple;
 			}
 		}
