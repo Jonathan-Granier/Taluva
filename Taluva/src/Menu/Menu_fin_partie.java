@@ -18,6 +18,7 @@ import Joueur.Joueur_Generique;
 import Moteur.Moteur;
 import test.Game;
 
+@SuppressWarnings("serial")
 public class Menu_fin_partie extends JComponent {
 	private Image backgroundImage;
 	

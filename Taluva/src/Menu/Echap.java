@@ -17,18 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import IHM.Avancement;
-import IHM.IHM;
-import Moteur.Moteur;
 import test.Game;
-import charger_sauvegarder.Charger;
-import charger_sauvegarder.Sauvegarde;
 
 @SuppressWarnings("serial")
 public class Echap extends JComponent {
 
-	//private Image backgroundImage;
-	
 	private JFrame m_fenetre;
 	private JFrame principal;
 	private JFrame menu;
@@ -195,7 +188,7 @@ public class Echap extends JComponent {
 		m_fenetre.add(new Regles(m_fenetre,principal));
 	}
 	
-	//TODO
+	
 	public void sauvegarder(){
 		/*Sauvegarde save = new Sauvegarde(game.getMoteur());
 		save.sauvegarder(save,"./Save");
@@ -311,13 +304,4 @@ public class Echap extends JComponent {
         }
     }
 	
-	/*
-	// Pour rajouter une image en fond
-	public void paintComponent(Graphics g) {
-	    super.paintComponent(g);	
-	
-	    // Draw the background image.
-	    //g.drawImage(backgroundImage, 0, 0, this.getWidth(),this.getHeight(),this);
-	}
-	*/
 }
