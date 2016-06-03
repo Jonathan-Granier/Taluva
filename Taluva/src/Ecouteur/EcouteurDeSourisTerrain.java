@@ -338,6 +338,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 					}
 					else if(e.getButton() == MouseEvent.BUTTON3){
 						Ecouteur_Boutons.setPick(false);
+						m.select_vide();
 					}
 				}
 				

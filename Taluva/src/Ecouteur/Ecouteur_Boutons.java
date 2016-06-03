@@ -26,6 +26,8 @@ public class Ecouteur_Boutons implements ActionListener {
 	private static boolean clicked = false;
 	private static GraphicTile Tile;
 	private static GraphicConstruction Construction;
+
+	
 	
 	public Ecouteur_Boutons(String action,Moteur moteur){
 		this.action = action;
@@ -76,32 +78,51 @@ public class Ecouteur_Boutons implements ActionListener {
 	    		if(moteur.get_etat_jeu() != Phase_Jeu.CONSTRUIRE_BATIMENT)moteur.fin_de_tour();
 	    		break;
 	    	case "Hutte" :
-    			System.out.println("hutte selectionnée");
-    			moteur.select_hutte();
-    			pick = true;
-    			Construction.setType(GraphicType.HUT);
-    			
-    			Construction.setColour(moteur.get_Jcourant().getCouleur());
-    			Construction.setObject3d();
+    			if(moteur.get_bat_choisi() != Case.Type_Batiment.HUTTE)
+    			{
+    				moteur.select_hutte();
+	    			pick = true;
+	    			Construction.setType(GraphicType.HUT);
+	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
+	    			Construction.setObject3d();
+    			}
+    			else
+    			{
+    				moteur.select_vide();
+    				pick = false;
+    			}
 	    		break;	
 	    	
 	    	case "Temple" :
-	    		
-    			moteur.select_temple();
-    			pick = true;
-    			Construction.setType(GraphicType.TEMPLE);
-    			
-    			Construction.setColour(moteur.get_Jcourant().getCouleur());
-    			Construction.setObject3d();
+	    		if(moteur.get_bat_choisi() != Case.Type_Batiment.TEMPLE)
+	    		{
+	    			moteur.select_temple();
+	    			pick = true;
+	    			Construction.setType(GraphicType.TEMPLE);
+	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
+	    			Construction.setObject3d();
+	    		}
+    			else
+    			{
+    				moteur.select_vide();
+    				pick = false;
+    			}
 	    		break;	
 	    	
 	    	case "Tour" :
-    			moteur.select_tour();
-    			pick = true;
-    			Construction.setType(GraphicType.TOWER);
-    			
-    			Construction.setColour(moteur.get_Jcourant().getCouleur());
-    			Construction.setObject3d();
+	    		if(moteur.get_bat_choisi() != Case.Type_Batiment.TOUR)
+	    		{
+		    		moteur.select_tour();
+	    			pick = true;
+	    			Construction.setType(GraphicType.TOWER);
+	    			Construction.setColour(moteur.get_Jcourant().getCouleur());
+	    			Construction.setObject3d();
+	    		}
+	    		else
+    			{
+    				moteur.select_vide();
+    				pick = false;
+	    		}
 	    		break;
 	    	case "Rotation_Horaire":
 	    		moteur.tourner_tuile();
