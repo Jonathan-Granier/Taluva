@@ -226,6 +226,8 @@ public class Nouveau extends JComponent {
 	private void init_m_fenetre(JFrame frame){
 		principal = frame;
 		m_fenetre = new JFrame("Nouveau");
+		m_fenetre.setResizable(false);
+		m_fenetre.setUndecorated(true);
 		m_fenetre.setLayout(new BorderLayout());
 		m_fenetre.setVisible(true);
 		m_fenetre.setLocation(frame.getWidth()*5/22, frame.getHeight()*5/22);
@@ -342,6 +344,8 @@ public class Nouveau extends JComponent {
 	
 	private void lancer_jeu(Joueur_Generique j1,Joueur_Generique j2){
 		gameF = new JFrame();
+		gameF.setResizable(false);
+		gameF.setUndecorated(true);
 		game = new Game();
 		gameF.addKeyListener(game);
         gameF.setFocusable(true);

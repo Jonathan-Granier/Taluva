@@ -25,6 +25,8 @@ public class Fin_de_partie extends JComponent {
 	private void init_m_fenetre(JFrame frame){
 		principal = frame;
 		m_fenetre = new JFrame("PARTIE TERMINEE !");
+		m_fenetre.setResizable(false);
+		m_fenetre.setUndecorated(true);
 		m_fenetre.setLayout(new BorderLayout());
 		m_fenetre.setVisible(true);
 		m_fenetre.setLocation(frame.getWidth()*5/22, frame.getHeight()/11);

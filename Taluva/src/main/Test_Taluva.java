@@ -20,6 +20,8 @@ public class Test_Taluva implements Runnable{
 
 	public void run() {
 		final JFrame frame = new JFrame();
+		frame.setResizable(false);
+		frame.setUndecorated(true);
 		final JFrame gameF = null;
 		final Game game = null;
 		final Moteur moteur = null;

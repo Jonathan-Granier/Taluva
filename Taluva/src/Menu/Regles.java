@@ -31,6 +31,8 @@ public class Regles extends JComponent {
 	private void init_m_fenetre(JFrame frame){
 		principal = frame;
 		m_fenetre = new JFrame("Nouveau");
+		m_fenetre.setResizable(false);
+		m_fenetre.setUndecorated(true);
 		m_fenetre.setLayout(new BorderLayout());
 		m_fenetre.setVisible(true);
 		m_fenetre.setLocation(frame.getWidth()*3/22, frame.getHeight()/11);

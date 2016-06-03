@@ -48,6 +48,7 @@ public class Credits extends JComponent {
 		this.add(panel_vide, BorderLayout.SOUTH);
 		this.add(panel,BorderLayout.EAST);
 		
+		
 	}
 	
 	public void accueil(){

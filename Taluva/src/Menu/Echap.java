@@ -143,6 +143,8 @@ public class Echap extends JComponent {
 		principal = frame;
 		this.menu = menu;
 		m_fenetre = new JFrame("Pause");
+		m_fenetre.setResizable(false);
+		m_fenetre.setUndecorated(true);
 		m_fenetre.setVisible(true);
 		m_fenetre.setSize(frame.getWidth()/4,frame.getHeight()/2);
 		m_fenetre.setLocation(frame.getWidth()*3/8, frame.getHeight()/8);
