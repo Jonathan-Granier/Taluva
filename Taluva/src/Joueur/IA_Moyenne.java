@@ -27,7 +27,6 @@ public class IA_Moyenne extends IA_Generique {
 
 	public Actions_Tour get_coup_tour(Tuile tuile)
 	{
-		//System.out.println("IA Heuristique : On me demande un coup");
 		Moteur virtuel= m.clone();
 		Moteur reel = m;
 		this.m = virtuel;
@@ -66,12 +65,12 @@ public class IA_Moyenne extends IA_Generique {
 				}
 				m.annuler();
 			}
-			else System.out.println("Erreur IA H Tuile");
+			else System.out.println("Erreur IA Moy Tuile");
 			i++;
 		}
 		// on renvoie un coup random parmi les coups optimaux
 		if(AT_retour.isEmpty()){
-			System.out.println("IA Heuristique : Impossible de construire");
+			System.out.println("IA Moyenne : Impossible de construire");
 			return new Actions_Tour(liste_coups_tuile.get(0), null);
 		}
 		else
@@ -101,7 +100,7 @@ public class IA_Moyenne extends IA_Generique {
 				}
 				m.annuler();
 			}
-			else System.out.println("Erreur IA H Construction");
+			else System.out.println("Erreur IA Moy Construction");
 			i++;
 		}
 		// on renvoie un coup parmi les coups optimaux.

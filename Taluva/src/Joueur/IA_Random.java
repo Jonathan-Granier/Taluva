@@ -9,13 +9,6 @@ import Action.Actions_Tour;
 import Moteur.Moteur;
 import terrain.Case.Couleur_Joueur;
 import terrain.Tuile;
-/*
- * IA Random : Hérite de joueur_Générique
- * 	la fonction jouer joue des coups aléatoires parmis tous les coups possible à l'instant t.
- * 
- */
-
-
 
 
 public class IA_Random extends IA_Generique{
@@ -34,7 +27,6 @@ public class IA_Random extends IA_Generique{
 		ArrayList<Action_Tuile> liste_coup = m.getTerrain().liste_coups_tuile_possibles(tuile);
 		Random R = new Random();
 		int index = R.nextInt(liste_coup.size());
-		System.out.println(" IA rand(tuile): on me demande de jouer un coup parmi: "+ liste_coup.size() + ". J'ai roll " + index);
 		Actions_Tour retour = new Actions_Tour(liste_coup.get(index), null);
 		
 		//   On génère la liste des coups CONSTRUCTION possible, et on en choisit un.
@@ -50,7 +42,6 @@ public class IA_Random extends IA_Generique{
 		ArrayList<Action_Tuile> liste_coup = m.getTerrain().liste_coups_tuile_possibles(tuile);
 		Random R = new Random();
 		int index = R.nextInt(liste_coup.size());
-		System.out.println(" IA rand(tuile): on me demande de jouer un coup parmi: "+ liste_coup.size() + ". J'ai roll " + index);
 		for(int i =0; i < liste_coup.size(); i++)
 			liste_coup.get(i).afficher_Action_Tuile();
 		return liste_coup.get(index);

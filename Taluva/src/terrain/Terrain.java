@@ -95,7 +95,6 @@ public class Terrain {
 	public Cite getCite(Point P){
 		int i = getIndexCite(P);
 		if(i < 0 || i >= cites.size()){
-			//System.out.println("Terrain.getCite(" + P.x + "," + P.y + ") : pas de cite ici");
 			return new Cite(P, Case.Couleur_Joueur.NEUTRE, Case.Type_Batiment.VIDE);
 		}
 		return cites.get(i);
@@ -260,8 +259,6 @@ public class Terrain {
 				histo_batiments.set(index_bat_histo,histo_batiments.get(histo_batiments.size()-1).clone());
 				histo_batiments.remove(histo_batiments.size()-1);
 			}
-			//else
-			//	System.out.println("Erreur poser_hexa : gestion de l'historique_batiments");
 			Cite cite = getCite(P);
 			ArrayList<Cite> citesSeparees = citesSeparation(P);
 			// On enleve la cite d'origine
@@ -876,7 +873,6 @@ public class Terrain {
 		for(int i = 0; i<histo_batiments.size();i++){
 			System.out.println(histo_batiments.get(i).getPosition() + " - " + histo_batiments.get(i).getTypeBatiment() + " - " + histo_batiments.get(i).getCouleur());
 		}
-		System.out.println("");
 		System.out.println("");
 	}
 }
