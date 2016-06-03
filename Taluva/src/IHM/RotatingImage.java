@@ -2,13 +2,10 @@ package IHM;
 import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Point;
-import java.awt.Transparency;
+
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
+
 
 /**
 * This class enable image rotations.
@@ -34,11 +31,11 @@ public class RotatingImage extends BufferedImage {
  
 	private int sourceHeight;
  
-	private int rotatedWidth;
+	//private int rotatedWidth;
  
-	private int rotatedHeight;
+	//private int rotatedHeight;
  
-	private HashMap images;
+	//private HashMap images;
  
 	public RotatingImage(BufferedImage sourceImage, boolean preCalc, int numberOfImages) {
 		super((int) Math.sqrt(sourceImage.getWidth() * sourceImage.getWidth() + sourceImage.getHeight() * sourceImage.getHeight()),
@@ -49,7 +46,7 @@ public class RotatingImage extends BufferedImage {
 		this.sourceHeight = sourceImage.getHeight();
 		this.angle = 0;
 		this.numberOfImages = numberOfImages;
-		this.images = new HashMap();
+		//this.images = new HashMap();
 		if (preCalc)
 			preCalculateImages();
  
@@ -61,13 +58,13 @@ public class RotatingImage extends BufferedImage {
 	}
  
 	private void preCalculateImages() {
-		long begin = System.currentTimeMillis();
+	/*	long begin = System.currentTimeMillis();
 		for (int i = 0; i < numberOfImages; i++) {
 			setAngle(i * (2 * Math.PI) / numberOfImages);
 			rotate();
 		}
 		long end = System.currentTimeMillis();
-		long duration = end - begin;
+		//long duration = end - begin;*/
 	}
  
 	public RotatingImage(BufferedImage sourceImage) {
@@ -92,10 +89,10 @@ public class RotatingImage extends BufferedImage {
 		
 		int x = -1;
 		int y = -1;
-		int sector = (int) (Math.round(angle / ((2 * Math.PI) / (double) numberOfImages)));
-		if (images.get(new Integer(sector)) != null) {
+		//int sector = (int) (Math.round(angle / ((2 * Math.PI) / (double) numberOfImages)));
+		/*if (images.get(new Integer(sector)) != null) {
 			rotatedImage = (BufferedImage) images.get(new Integer(sector));
-		} else {
+		} else*/ {
 			for (int xRot = 0; xRot < rotatedWidth; xRot++) {
 				for (int yRot = 0; yRot < rotatedHeight; yRot++) {
 					Point xyCoord = getSourceXY(xRot - (rotatedWidth / 2), yRot - (rotatedHeight / 2));
@@ -112,7 +109,7 @@ public class RotatingImage extends BufferedImage {
 					}
 				}
 			}
-			images.put(new Integer(sector), rotatedImage);
+			//images.put(new Integer(sector), rotatedImage);
 		}
 		Graphics g = getGraphics();
 		((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
@@ -154,13 +151,13 @@ public class RotatingImage extends BufferedImage {
 	 * 
 	 * @return The corresponding (x,y) coordinate in the rotated image
 	 */
-	private Point getRotatedXY(int xSrc, int ySrc) {
+/*	private Point getRotatedXY(int xSrc, int ySrc) {
 		int dx = xSrc;
 		int dy = ySrc;
 		int x = (int) (dx * Math.cos(angle) - dy * Math.sin(angle) + (rotatedWidth / 2));
 		int y = (int) (dy * Math.cos(angle) + dx * Math.sin(angle) + (rotatedHeight / 2));
 		return new Point(x, y);
-	}
+	}*/
  
 	/**
 	 * Get the angle value

@@ -173,7 +173,6 @@ public class Moteur extends Phase{
 	// Creer la pioche dans une pile selon le fichier PIECES , Aléatoirement ou non selon PIOCHE_ALEATOIRE est vrai ou non
 	private void init(Stack<Tuile> pioche){
 		ArrayList<Tuile> pioche_fichier = new ArrayList<Tuile>();
-		int nbElement = 0;
 		try {
 			File file;
 			if (PIOCHE_AUTRE_GROUPE)
