@@ -1,56 +1,24 @@
 package Ecouteur;
 
 
-import java.awt.Color;
-import java.util.ArrayList;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import entities.Camera;
-import entities.GraphicConstruction;
-import entities.GraphicConstruction.GraphicType;
-import entities.GraphicTile;
-import entities.Light;
-import entities.Object3D;
-import gui.Drawable;
-import gui.Texture;
-import loaders.Loader;
-import terrain.Case;
-import terrain.Case.Couleur_Joueur;
-import Action.Action_Tuile;
 import IHM.JPanelPioche;
 import IHM.Menu_circulaire_creation;
-import Moteur.Phase;
-import Moteur.Phase.Phase_Jeu;
 import Moteur.Moteur;
-import terrain.Terrain;
-import terrain.Tuile;
-import renderEngine.Renderer;
-import renderEngine.Window;
-import shaders.Shader;
-import utils.FPS;
+import entities.GraphicConstruction;
+import entities.GraphicTile;
+import terrain.Case;
 import utils.Grid;
 import utils.Grid.Coords;
 import utils.InputHandler;
 import utils.InputHandler.inputType;
 import utils.MousePicker;
 import utils.OSValidator;
-
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-
-import terrain.Case;
-import terrain.Tuile;
 
 
 
