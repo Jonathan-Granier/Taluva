@@ -2,6 +2,7 @@ package IHM;
 
 import java.awt.Color;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import Joueur.BatimentCountListener;
@@ -12,8 +13,15 @@ import Moteur.PhaseListener;
 
 public class Avancement implements PhaseListener, BatimentCountListener {
 	IHM ihm;
+	private JFrame fenetreJeu, menuPrincipale;
+	
 	public Avancement(IHM ihm){
 		this.ihm=ihm;
+	}
+	
+	public Avancement(IHM ihm, JFrame fenetreJeu, JFrame menuPrincipale)
+	{
+		
 	}
 	
 	//actualise l'affichage
