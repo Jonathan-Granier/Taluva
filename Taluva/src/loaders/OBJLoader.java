@@ -37,7 +37,6 @@ public class OBJLoader {
 		List<Vector3f> textureArray = new ArrayList<Vector3f>();
 		int[] indicesArray = null;
 		
-		System.out.println("loadObjModel: Loading "+fileName+".obj ...");
 		
 		try{
 			while(true){
@@ -130,8 +129,7 @@ public class OBJLoader {
 			normalsFinal[currentNorm++] = normal.z;
 		}
 		
-		System.out.println("loadObjModel: Loading successful vertice:"+verticesFinal.length+" texture:"+textureFinal.length+" normal:"+normalsFinal.length+" indices:"+indicesArray.length);
-		
+
 		
 		
 		Material texture = loadMaterial(fileMaterial,loader);
@@ -287,7 +285,6 @@ public class OBJLoader {
 		List<Integer> indices = new ArrayList<Integer>();
 		
 		
-		System.out.println("loadObjModels: Loading "+fileName+".obj ...");
 		int last = 0;
 		Models models = new Models();
 		
@@ -397,7 +394,6 @@ public class OBJLoader {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		System.out.println("loadObjModels: Loading successful");
 		
 		return models;
 	}
