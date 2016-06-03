@@ -212,6 +212,12 @@ public class Camera {
 		angleAroundPivot = vues[num_vue].angleAroundPivot;
 		distanceFromPivot = vues[num_vue].distanceFromPivot;
 	}
+	
+	public void setVueIA(){
+		updateVue(0);
+		pitch = 60;
+		distanceFromPivot = 150;
+	}
 
 	public float getDistanceFromPivot() {
 		return distanceFromPivot;

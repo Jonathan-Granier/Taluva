@@ -4,10 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -34,8 +32,6 @@ import test.Game;
 
 @SuppressWarnings("serial")
 public class Nouveau extends JComponent {
-
-	private Image backgroundImage;
 	
 	private JFrame m_fenetre;
 	private JFrame principal;
@@ -340,7 +336,7 @@ public class Nouveau extends JComponent {
 	        lancer_jeu(j1,j2);
 		}
 		else 
-			JOptionPane.showMessageDialog(m_fenetre, "Les 2 joueurs doivent appartenir a  differentes factions !");
+			JOptionPane.showMessageDialog(m_fenetre, "Les 2 joueurs doivent appartenir aï¿½ differentes factions !");
 		
 	}
 	
@@ -377,17 +373,9 @@ public class Nouveau extends JComponent {
         
         
         game.init(principal,gameF,moteur,ihm.getCanvas(),ihm.getPioche_Tuile());
+        moteur.addGame(game);
         moteur.lancer_partie();
         
-	}
-	
-	
-	// Pour rajouter une image en fond
-	public void paintComponent(Graphics g) {
-	    super.paintComponent(g);	
-	
-	    // Draw the background image.
-	    //g.drawImage(backgroundImage, 0, 0, this.getWidth(),this.getHeight(),this);
 	}
 
 }

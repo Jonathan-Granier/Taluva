@@ -47,6 +47,7 @@ public class Moteur extends Phase{
 	private ArrayList<Joueur_Generique> joueurs_gagnant;
 	private ArrayList<Joueur_Generique> joueurs_elimines;
 	
+	private Game game;
 	
 	protected int nb_Joueur;
 	
@@ -84,6 +85,8 @@ public class Moteur extends Phase{
 		//histo_jeu.add(new Etat_de_jeu(T,this.j1, this.j2, this.j_courant, this.clone_Phase()));
 		nb_Joueur = 2;
 		liste_coup_construction = new Liste_coup_construction();
+		
+		this.game = null;
 	}
 	
 	// Constructeur du moteur sans joueurs
@@ -102,6 +105,8 @@ public class Moteur extends Phase{
 		histo_jeu = new ArrayList<Etat_de_jeu>();
 		nb_Joueur = 0;
 		liste_coup_construction = new Liste_coup_construction();
+		
+		this.game = null;
 	}
 	
 	// Adders de joueurs
@@ -850,8 +855,20 @@ public class Moteur extends Phase{
 	// Fait jouer le tour pour une IA
 	public int jouer_IA()
 	{
+		
+		if(game != null){
+			if(j1 instanceof IA_Generique && j2 instanceof IA_Generique)
+				game.getCamera().setVueIA();
+			else
+				Game.BRIGHT = true;
+			game.update(null, null);
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		Actions_Tour action_tour;
-		Game.BRIGHT = true;
 		piocher();
 		action_tour = j_courant.get_coup_tour(tuile_pioche);
 		
@@ -873,6 +890,17 @@ public class Moteur extends Phase{
 		action_construction.afficher();
 		// SI c'est une extension
 		Point point_construction = action_construction.get_coord();
+		
+
+		if(game != null){
+			game.update(null, null);
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		if(action_construction.get_type() == Action_Construction.Type.EXTENSION)
 		{
 
@@ -1100,6 +1128,10 @@ public class Moteur extends Phase{
 			Stack_edj.push(tmp.pop());
 	}
 	*/
+	
+	public void addGame(Game game){
+		this.game = game;
+	}
 	
 	public Tuile getRandomTuile(){
 		Random R = new Random();
