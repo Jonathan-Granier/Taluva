@@ -75,14 +75,9 @@ public class Moteur extends Phase{
 		j_courant = j1;
 		this.j2 = j2;
 		
-		//prev = new ArrayList<Joueur_Humain>();
-		//prev.add(((Joueur_Humain) j_courant).clone());
-		//next = new ArrayList<Joueur_Humain>();
 		init_phase_jeu();
-		//etat = Etat.DEBUT_DE_TOUR;
 		bat_choisi = Case.Type_Batiment.VIDE;
 		histo_jeu = new ArrayList<Etat_de_jeu>();
-		//histo_jeu.add(new Etat_de_jeu(T,this.j1, this.j2, this.j_courant, this.clone_Phase()));
 		nb_Joueur = 2;
 		liste_coup_construction = new Liste_coup_construction();
 		
@@ -99,7 +94,6 @@ public class Moteur extends Phase{
 		joueurs_elimines = new ArrayList<Joueur_Generique>();
 		this.taille_Pioche_initiale = taille_Pioche_initiale;
 		init(pioche);
-		//etat = Etat.DEBUT_DE_TOUR;
 		init_phase_jeu();
 		bat_choisi = Case.Type_Batiment.VIDE;
 		histo_jeu = new ArrayList<Etat_de_jeu>();
@@ -114,10 +108,6 @@ public class Moteur extends Phase{
 		this.j1 = j1;
 		j_courant = j1;
 		nb_Joueur = 1;
-		/*prev = new Joueur_Humain(j_courant.getCouleur());
-		prev = ((Joueur_Humain) j_courant).clone();
-		next = new Joueur_Humain(j_courant.getCouleur());*/
-		//histo_jeu.add(new Etat_de_jeu(T,j1,j2,j_courant, this.clone_Phase()));
 	}
 		
 	public void add_j2(Joueur_Generique j2){
@@ -483,11 +473,8 @@ public class Moteur extends Phase{
 		{
 			return null;
 		}
-			//annul.add(new Etat_de_jeu(this.T,j1,j2,j_courant, this.get_etat_jeu()));
-			//prev.add(((Joueur_Humain) j_courant).clone());
 		
 		tuile_pioche = pioche.pop();
-		//etat = Etat.POSER_TUILE;
 		Incremente_Phase_Jeu();
 		return tuile_pioche;
 	}
@@ -517,16 +504,10 @@ public class Moteur extends Phase{
 		if(T.placer_tuile(tuile_pioche, P) == 0){
 			annul.push(edj);
 			redo.clear();
-			//histo_jeu.add(this.get_EDJ_courant());
-			//etat = Etat.CONSTRUIRE_BATIMENT;
 			Incremente_Phase_Jeu();
 			if(joueur_elimine()){
 				joueurs_elimines.add(j_courant);
 				fin_de_tour();
-			/*	finir_partie();
-				swap_joueur();
-				j_gagnant = j_courant.clone();
-				swap_joueur();*/
 			}
 			return 0;
 		}
@@ -626,12 +607,9 @@ public class Moteur extends Phase{
 	// Termine le tour du joueur courant, renvoie 0 si la partie est terminée, 1 sinon
 	// Actualise aussi les données et change de joueur
 	public int fin_de_tour(){
-		//T.afficher();
 		if (Victoire())
 			return 0;
 		else{
-		//	annul.clear();
-		//	redo.clear();
 			swap_joueur();
 			init_phase_jeu();
 			bat_choisi = Case.Type_Batiment.VIDE;
@@ -658,140 +636,12 @@ public class Moteur extends Phase{
 		if(nb_Joueur == 4)
 			System.out.println("Score j4 : "+score(j4));
 	}
-	/*
-	public boolean Victoire()
-	{
-		if(victoire_aux_batiments()){
-			System.out.println("ICI");
-			if(Est_joueur_Courant(j1))
-				System.out.println("Le joueur 1 a gagné!!!");
-			else if(Est_joueur_Courant(j2))
-				System.out.println("Le joueur 2 a gagné!!!");
-			else if(Est_joueur_Courant(j3))
-				System.out.println("Le joueur 3 a gagné!!!");
-			else if(Est_joueur_Courant(j4))
-				System.out.println("Le joueur 4 a gagné!!!");
-			
-			afficher_score();
-			j_gagnant = j_courant;
-			finir_partie();
-			return true;
-		}
-		else if(pioche_vide()){
-			if(nb_Joueur == 2)
-			{
-				if(score(j1)>score(j2)){
-					System.out.println("[Fin de tour] Le joueur 1 a gagné!!!");
-					j_gagnant = j1;
-				}
-				else if(score(j1)<score(j2)){
-					System.out.println("[Fin de tour] Le joueur 2 a gagné!!!");
-					j_gagnant = j2;
-				}
-				else {
-					System.out.println("[Fin de tour] Il y a une égalité parfaite, vous avez tous les 2 gagné!!!");
-					j_gagnant = j_courant;
-				}
-			}
-			else if(nb_Joueur == 3)
-			{
-				if(score(j1)>score(j2) && score(j1)>score(j3)){
-					System.out.println("[Fin de tour] Le joueur 1 a gagné!!!");
-					j_gagnant = j1;
-				}
-				else if(score(j2)>score(j1) && score(j2)>score(j3)){
-					System.out.println("[Fin de tour] Le joueur 2 a gagné!!!");
-					j_gagnant = j2;
-				}
-				else if (score(j3)>score(j1) && score(j3)>score(j2)){
-					System.out.println("[Fin de tour] Le joueur 3 a gagné!!!");
-					j_gagnant = j3;
-				}
-				else {
-					if(score(j1) == score(j2) && score(j1) == score(j3))
-						System.out.println("[Fin de tour] Il y a une égalité parfaite, vous avez tous les 3 gagné!!!");
-					else if(score(j1)==score(j2))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1 et le joueur 2, vous avez tous les 2 gagné!!!");
-					else if(score(j1)==score(j3))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1 et le joueur 3, vous avez tous les 2 gagné!!!");
-					else if(score(j2)==score(j3))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 2 et le joueur 3, vous avez tous les 2 gagné!!!");
-					j_gagnant = j_courant;
-				}
-			}
-			else if(nb_Joueur == 4)
-			{
-				if(score(j1)>score(j2) && score(j1)>score(j3) && score(j1) > score(j4)){
-					System.out.println("[Fin de tour] Le joueur 1 a gagné!!!");
-					j_gagnant = j1;
-				}
-				else if(score(j2)>score(j1) && score(j2)>score(j3)&& score(j2) > score(j4)){
-					System.out.println("[Fin de tour] Le joueur 2 a gagné!!!");
-					j_gagnant = j2;
-				}
-				else if (score(j3)>score(j1) && score(j3)>score(j2)&& score(j3) > score(j4)){
-					System.out.println("[Fin de tour] Le joueur 3 a gagné!!!");
-					j_gagnant = j3;
-				}
-				else if (score(j4)>score(j1) && score(j4)>score(j2)&& score(j4) > score(j3)){
-					System.out.println("[Fin de tour] Le joueur 4 a gagné!!!");
-					j_gagnant = j4;
-				}
-				else {
-					if(score(j1) == score(j2) && score(j1) == score(j3) && score(j1) == score(j4))
-						System.out.println("[Fin de tour] Il y a une égalité parfaite, vous avez tous les 4 gagné!!!");
-					else if(score(j1)==score(j2))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1 et le joueur 2, vous avez tous les 2 gagné!!!");
-					else if(score(j1)==score(j3))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1 et le joueur 3, vous avez tous les 2 gagné!!!");
-					else if(score(j1)==score(j4))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1 et le joueur 4, vous avez tous les 2 gagné!!!");
-					else if(score(j2)==score(j3))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 2 et le joueur 3, vous avez tous les 2 gagné!!!");
-					else if(score(j2)==score(j4))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 2 et le joueur 4, vous avez tous les 2 gagné!!!");
-					else if(score(j3)==score(j4))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 3 et le joueur 4, vous avez tous les 2 gagné!!!");
-					else if(score(j1) == score(j2) && score(j1) == score(j3))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1, le joueur 2 et le joueur 3, vous avez tous les 3 gagné!!!");
-					else if(score(j1) == score(j2) && score(j1) == score(j4))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1, le joueur 2 et le joueur 4, vous avez tous les 3 gagné!!!");
-					else if(score(j1) == score(j3) && score(j1) == score(j4))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 1, le joueur 3 et le joueur 4, vous avez tous les 3 gagné!!!");
-					else if(score(j2) == score(j3) && score(j2) == score(j4))
-						System.out.println("[Fin de tour] Il y a une égalité entre le joueur 2, le joueur 3 et le joueur 4, vous avez tous les 3 gagné!!!");
-					//TODO A VOIR pour etre plus préci pour l'IHM
-					j_gagnant = j_courant;
-				}
-			}
-			afficher_score();
-			finir_partie();
-			return true;
-		}
-		return false;
-	}
 	
-	*/
 	public boolean Victoire()
 	{
 		//Cas ou le j_courant a consommé 2 types de batiment
 		if(victoire_aux_batiments()){
-			/*if(Est_joueur_Courant(j1))
-				System.out.println("Le joueur 1 a gagné!!!");
-				
-			else if(Est_joueur_Courant(j2))
-				System.out.println("Le joueur 2 a gagné!!!");
-				
-			else if(Est_joueur_Courant(j3))
-				System.out.println("Le joueur 3 a gagné!!!");
-			
-			else if(Est_joueur_Courant(j4))
-				System.out.println("Le joueur 4 a gagné!!!");
-			
-			*/
 			joueurs_gagnant.add(j_courant);
-			//afficher_score();
-		//	j_gagnant = j_courant;
 			finir_partie();
 			return true;
 		}
@@ -825,7 +675,6 @@ public class Moteur extends Phase{
 				joueurs_gagnant.add(j3);
 			if(nb_Joueur == 4 && ScoreMax(j4))
 				joueurs_gagnant.add(j4);
-		//	afficher_score();
 			finir_partie();
 			return true;
 		}
@@ -871,8 +720,6 @@ public class Moteur extends Phase{
 			System.out.println("[jouer_IA] Impossible de poser la tuile " + action_tour.getAction_tuile().getPosition());
 			return 1;
 		}
-
-		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		
 		Maj_liste_coup_construction();
 		Action_Construction action_construction = action_tour.getAction_construction();
@@ -880,7 +727,6 @@ public class Moteur extends Phase{
 			fin_de_tour();
 			return 1;
 		}
-		action_construction.afficher();
 		// SI c'est une extension
 		Point point_construction = action_construction.get_coord();
 		
@@ -911,10 +757,7 @@ public class Moteur extends Phase{
 				System.out.println("[jouer_IA] Impossible de poser un batiment " + point_construction);
 				return 1;
 			}
-			
-			//Game.initDelay();
 		}
-		//histo_jeu.add(new Etat_de_jeu(T,j1, j2, j_courant, this.clone_Phase()));
 		fin_de_tour();
 		return 0;
 	}
@@ -944,8 +787,6 @@ public class Moteur extends Phase{
 		redo.push(this.get_EDJ_courant());
 		this.set_etat_de_jeu(tmp);
 		this.Decremente_Phase_Jeu();
-		//histo_jeu.remove(histo_jeu.size()-1);
-		//Game.majHistoBatiments();
 		return 0;
 	}
 	
@@ -958,7 +799,6 @@ public class Moteur extends Phase{
 		annul.push(this.get_EDJ_courant());
 		this.Incremente_Phase_Jeu();
 		this.set_etat_de_jeu(tmp);
-		//Game.majHistoBatiments();
 		return 0;
 	}
 	
@@ -984,24 +824,11 @@ public class Moteur extends Phase{
 		
 		Moteur m_copie = new Moteur(T.clone(false),taille_Pioche_initiale);
 		// On instancie chaque joueur_copie en fonction du type de l'original
-		/*
-		j1_copie = copie_type_joueur(j1,j1_copie,m_copie);
-		j2_copie = copie_type_joueur(j1,j1_copie,m_copie);
-		j_courant_copie = copie_type_joueur(j1,j1_copie,m_copie);
-		j_gagnant_copie = copie_type_joueur(j1,j1_copie,m_copie);
-		*/
-		//m_copie.j_gagnant = new Joueur_Humain(j_gagnant.getCouleur());
-		/*
-		for(int i=1;i<this.annul.size();i++)
-			m_copie.annul.add(this.annul.get(i));
-		for(int i=0;i<this.redo.size();i++)
-			m_copie.redo.add(this.redo.get(i));
-		*/
+		
 		m_copie.prev = this.prev;
 		m_copie.next = this.next;
 		m_copie.tuile_pioche = this.tuile_pioche;
 		m_copie.bat_choisi = this.bat_choisi;
-		//m_copie.liste_coup_construction = this.liste_coup_construction.clone();
 		m_copie.add_j1(j1.clone(m_copie));
 		m_copie.add_j2(j2.clone(m_copie));
 		m_copie.getJ1().CleanListeners();
@@ -1025,13 +852,11 @@ public class Moteur extends Phase{
 		bat_choisi = Action_vers_Batiment(action.get_type());
 		if(action.get_type() == Action_Construction.Type.EXTENSION){
 			if((etendre_cite(p,action.get_type_extension()))!= 0){
-				//System.out.println("[jouer_Action] Impossible de construire [EXTENSION]");
 				return 1;
 			}
 		}
 		else {
 			if(placer_batiment(p) != 0){
-				//System.out.println("[jouer_Action] Impossible de construire ["+action.get_type()+"]");
 				return 1;
 			}
 		}
@@ -1044,7 +869,6 @@ public class Moteur extends Phase{
 		tuile_pioche = action.getTuile();
 		Point p = action.getPosition();
 		if(placer_tuile(p) != 0){
-			//System.out.println("[jouer_Action] Impossible de poser la tuile");
 			return 1;
 		}
 		return 0;
@@ -1106,20 +930,6 @@ public class Moteur extends Phase{
 			edj = new Etat_de_jeu(this.T, this.j1, this.j2, this.j3, this.j4, this.j_courant, get_etat_jeu());
 		return edj;
 	}
-	
-	/*
-	private void afficher_pile(Stack<Etat_de_jeu> Stack_edj)
-	{
-		Stack<Etat_de_jeu> tmp = new Stack<Etat_de_jeu>();
-		while(!Stack_edj.isEmpty())
-		{
-			Stack_edj.peek().afficher();
-			tmp.push(Stack_edj.pop());
-		}
-		while(!tmp.isEmpty())
-			Stack_edj.push(tmp.pop());
-	}
-	*/
 	
 	public void addGame(Game game){
 		this.game = game;
