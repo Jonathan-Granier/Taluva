@@ -37,6 +37,7 @@ public class Menu_Demarrage extends JComponent {
 	private Image backgroundImage;
 	private JPanel menu;
 	private JLabel taluva;
+	
 	private JButton continuer,nouveau,charger,comment_jouer,credits,quitter;
 	private JFrame fenetre;
 	private int height,width;
@@ -73,7 +74,7 @@ public class Menu_Demarrage extends JComponent {
 		menu.setLayout(new GridLayout(7,1));
 		menu.setOpaque(false);
 		
-		taluva = new JLabel("Taluva");
+		taluva = new JLabel("");
 		taluva.setFont(new Font("Courier", Font.BOLD+Font.ITALIC,84));
 		taluva.setHorizontalAlignment(SwingConstants.CENTER);
 		taluva.setForeground(Color.BLACK);
