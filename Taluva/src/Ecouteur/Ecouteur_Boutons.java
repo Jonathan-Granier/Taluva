@@ -106,12 +106,12 @@ public class Ecouteur_Boutons implements ActionListener {
 	    	case "Rotation_Horaire":
 	    		moteur.tourner_tuile();
 	    		panelpioche.RotationHoraire();
-	    		Tile.setAngle(moteur.get_tuile_pioche().get_Orientation_Volcan());
+	    		Tile.rotate_horaire();
 	    		break;
 	    	case "Rotation_Anti_Horaire":
 	    		moteur.tourner_tuile_Anti_Horaire();
 	    		panelpioche.RotationAntiHoraire();
-	    		Tile.setAngle(moteur.get_tuile_pioche().get_Orientation_Volcan());
+	    		Tile.rotate_antihoraire();
 	    		break;
 	    	default :
 	    		System.out.println("Bouton non défini");

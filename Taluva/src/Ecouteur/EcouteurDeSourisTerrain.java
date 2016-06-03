@@ -118,7 +118,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 		
 				if(OSValidator.isWindows()){
 					if(InputHandler.reset(InputHandler.isButtonDown(1) == inputType.INSTANT)){
-						Tile.rotate();
+						Tile.rotate_horaire();
 						m.tourner_tuile();
 					}
 				}
@@ -322,7 +322,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 					 }
 				}
 				else if(e.getButton() == MouseEvent.BUTTON3){
-						Tile.rotate();
+						Tile.rotate_horaire();
 						Tuile_Pioche.RotationHoraire();
 						m.tourner_tuile();
 				}
