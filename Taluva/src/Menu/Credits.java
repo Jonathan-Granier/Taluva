@@ -43,7 +43,6 @@ public class Credits extends JComponent {
 		panel.setPreferredSize(new Dimension(fenetre.getWidth()/10,fenetre.getHeight()/10));
 		
 		JPanel panel_vide = new JPanel();
-		panel_vide.add(new JButton(""));
 		panel_vide.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		this.add(panel_vide, BorderLayout.SOUTH);
