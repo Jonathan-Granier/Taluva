@@ -162,6 +162,7 @@ public abstract class Joueur_Generique {
 		clone.setTemple(getTemple());
 		clone.setTour(getTour());
 		clone.setHutteDetruite(getHutteDetruite());
+		clone.setNomFaction(getnomFaction());
 		for(BatimentCountListener listener : getBatimentCountListeners()) 
 		{
 			clone.addBatimentCountListener(listener);
@@ -195,6 +196,7 @@ public abstract class Joueur_Generique {
 		clone.setTemple(getTemple());
 		clone.setTour(getTour());
 		clone.setHutteDetruite(getHutteDetruite());
+		clone.setNomFaction(getnomFaction());
 		for(BatimentCountListener listener : getBatimentCountListeners()) 
 		{
 			clone.addBatimentCountListener(listener);

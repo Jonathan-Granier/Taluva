@@ -44,6 +44,9 @@ public class Moteur extends Phase{
 	protected Joueur_Generique j3;
 	protected Joueur_Generique j4;
 	private Joueur_Generique j_gagnant;
+	private ArrayList<Joueur_Generique> joueurs_gagnant;
+	private ArrayList<Joueur_Generique> joueurs_elimines;
+	
 	
 	protected int nb_Joueur;
 	
@@ -63,6 +66,8 @@ public class Moteur extends Phase{
 		annul = new Stack<Etat_de_jeu>();
 		redo = new Stack<Etat_de_jeu>();
 		pioche = new Stack<Tuile>();
+		joueurs_gagnant = new ArrayList<Joueur_Generique>();
+		joueurs_elimines = new ArrayList<Joueur_Generique>();
 		this.taille_Pioche_initiale = taille_Pioche_initiale;
 		init(pioche);
 		this.j1 = j1;
@@ -87,6 +92,8 @@ public class Moteur extends Phase{
 		annul = new Stack<Etat_de_jeu>();
 		redo = new Stack<Etat_de_jeu>();
 		pioche = new Stack<Tuile>();
+		joueurs_gagnant = new ArrayList<Joueur_Generique>();
+		joueurs_elimines = new ArrayList<Joueur_Generique>();
 		this.taille_Pioche_initiale = taille_Pioche_initiale;
 		init(pioche);
 		//etat = Etat.DEBUT_DE_TOUR;
@@ -111,7 +118,6 @@ public class Moteur extends Phase{
 	public void add_j2(Joueur_Generique j2){
 		this.j2 = j2;
 		nb_Joueur = 2;
-		
 	}
 	
 	public void add_j3(Joueur_Generique j3){
@@ -404,7 +410,9 @@ public class Moteur extends Phase{
 					j_courant = j1;
 			}
 			System.out.println("[SWAP] le joueur courant est :"+this.get_num_Jcourant());
-			
+			//Si le joueurs selectioné est eliminer et qu'il reste au moins 2 joueurs
+			if(joueurs_elimines.contains(j_courant)&& nb_Joueur - joueurs_elimines.size()>=2)
+				swap_joueur();
 		}
 	
 	// Renvoie vrai si la pioche est vide
@@ -510,10 +518,12 @@ public class Moteur extends Phase{
 			Incremente_Phase_Jeu();
 			if(joueur_elimine()){
 				System.out.println("[MOTEUR / Placer_tuile] joueur elimine (marche?)");
-				finir_partie();
+				joueurs_elimines.add(j_courant);
+				fin_de_tour();
+			/*	finir_partie();
 				swap_joueur();
 				j_gagnant = j_courant.clone();
-				swap_joueur();
+				swap_joueur();*/
 			}
 			return 0;
 		}
@@ -607,7 +617,6 @@ public class Moteur extends Phase{
 	// Actualise aussi les données et change de joueur
 	public int fin_de_tour(){
 		//T.afficher();
-		
 		if (Victoire())
 			return 0;
 		else{
@@ -626,13 +635,20 @@ public class Moteur extends Phase{
 	
 	public void afficher_score()
 	{
+		System.out.println("Le(s) gagnant(s) est : ");
+		for(Joueur_Generique j :joueurs_gagnant)
+		{
+			System.out.print(j.getCouleur() + "   ");
+			System.out.print(j.getnomFaction() + "   ");
+		}
+		System.out.println();
 		System.out.println("Score j1 : "+score(j1)+"\nScore j2 : "+score(j2));
 		if(nb_Joueur >=3)
 			System.out.println("Score j3 : "+score(j3));
 		if(nb_Joueur == 4)
 			System.out.println("Score j4 : "+score(j4));
 	}
-	
+	/*
 	public boolean Victoire()
 	{
 		if(victoire_aux_batiments()){
@@ -744,6 +760,80 @@ public class Moteur extends Phase{
 		}
 		return false;
 	}
+	
+	*/
+	public boolean Victoire()
+	{
+		//Cas ou le j_courant a consommé 2 types de batiment
+		if(victoire_aux_batiments()){
+			/*if(Est_joueur_Courant(j1))
+				System.out.println("Le joueur 1 a gagné!!!");
+				
+			else if(Est_joueur_Courant(j2))
+				System.out.println("Le joueur 2 a gagné!!!");
+				
+			else if(Est_joueur_Courant(j3))
+				System.out.println("Le joueur 3 a gagné!!!");
+			
+			else if(Est_joueur_Courant(j4))
+				System.out.println("Le joueur 4 a gagné!!!");
+			
+			*/
+			joueurs_gagnant.add(j_courant);
+			afficher_score();
+		//	j_gagnant = j_courant;
+			finir_partie();
+			return true;
+		}
+		//Cas ou il rest qu'un seul joueur en vie (les autres sont eliminé)
+		else if(nb_Joueur - joueurs_elimines.size()==1)
+		{
+			joueurs_gagnant.add(j1);
+			joueurs_gagnant.add(j2);
+			if(nb_Joueur >= 3)
+			joueurs_gagnant.add(j3);
+			if(nb_Joueur == 4)
+			joueurs_gagnant.add(j4);
+			
+			if(joueurs_elimines.contains(j1))
+				joueurs_gagnant.remove(j1);
+			else if(joueurs_elimines.contains(j2))
+				joueurs_gagnant.remove(j2);
+			else if(nb_Joueur >= 3 && joueurs_elimines.contains(j3))
+				joueurs_gagnant.remove(j3);
+			else if(nb_Joueur == 4 && joueurs_elimines.contains(j4))
+				joueurs_gagnant.remove(j4);
+			return true;
+		}
+		//Cas pioche vide
+		else if(pioche_vide()){
+			if(ScoreMax(j1))
+				joueurs_gagnant.add(j1);
+			if(ScoreMax(j2))
+				joueurs_gagnant.add(j2);
+			if(nb_Joueur >= 3 && ScoreMax(j3))
+				joueurs_gagnant.add(j3);
+			if(nb_Joueur == 4 && ScoreMax(j4))
+				joueurs_gagnant.add(j4);
+			afficher_score();
+			finir_partie();
+			return true;
+		}
+		return false;
+	}
+	
+	
+	//Renvoie vrai si le joueur J à le score le plus haut (il peut etre egal à d'autre score)
+	public boolean ScoreMax(Joueur_Generique j)
+	{
+		 boolean retour = score(j)>= score(j1) && score(j) >= score(j2);
+		if(nb_Joueur >= 3)
+			retour = retour && score(j)>= score(j3);
+		if(nb_Joueur == 4)
+			retour = retour && score(j)>= score(j4);
+		return retour;
+	}
+	
 	
 	// Fait jouer le tour pour une IA
 	public int jouer_IA()
