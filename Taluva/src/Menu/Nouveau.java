@@ -78,17 +78,25 @@ public class Nouveau extends JComponent {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		
-		c.insets = new Insets(height_b*2,-width_b,0,0);
-		JLabel type = new JLabel("Type de joueur");
-		type.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
+		c.insets = new Insets(-height_b,width_b,0,0);
+		JLabel nom_menu = new JLabel("Nouvelle partie");
+		nom_menu.setFont(new Font("", Font.BOLD+Font.ITALIC,30));
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		c.gridheight=1;
 		c.gridwidth=1;
-		c.gridx = 1;
+		c.gridx = 0;
 		c.gridy = 0;
 		c.ipadx = 0;
 		c.ipady = 0;
+		panel.add(nom_menu,c);
+		c.insets = new Insets(0,width_b,0,0);
+		
+		c.insets = new Insets(height_b*2,-width_b,0,0);
+		JLabel type = new JLabel("Type de joueur");
+		type.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
+		c.gridx = 1;
+		c.gridy = 0;
 		panel.add(type,c);
 		c.insets = new Insets(0,0,0,0);
 		
@@ -109,7 +117,7 @@ public class Nouveau extends JComponent {
 		c.insets = new Insets(0,0,0,0);
 		
 		
-		String[] type_joueur = {" Humain", " IA_Facile", " IA_Moyenne", " IA_Difficile"};
+		String[] type_joueur = {" Humain", " IA Facile", " IA Moyenne", " IA Difficile"};
 		String[] factions = {" Occidentaux", " Orientaux", " Babyloniens", " Vikings"};
 		String[] tailles = {" 24 Tuiles" , " 48 Tuiles"};
 		
