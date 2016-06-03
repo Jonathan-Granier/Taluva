@@ -174,7 +174,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 				 }
 				 else
 				 {
-					 System.out.println("Il est impossible de poser une tuille ici");
+					 //System.out.println("Il est impossible de poser une tuille ici");
 				 }
 
 
@@ -200,7 +200,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 				if(point!=null)
 					marking_menu.tuile_vide_cliquer(point);
 				
-				System.out.println("Etat :" + m.get_etat_jeu());
+				//System.out.println("Etat :" + m.get_etat_jeu());
 				if ( m.get_bat_choisi() == Case.Type_Batiment.VIDE)
 				{
 					// 	Menu deroulant
@@ -217,7 +217,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 							m.Maj_liste_coup_construction();
 						}
 						else{
-							System.out.println("Il est impossible de poser un batiment ici");
+							//System.out.println("Il est impossible de poser un batiment ici");
 						}
 					}
 				}
@@ -286,7 +286,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 					 }
 					 else
 					 {
-						 System.out.println("Il est impossible de poser une tuille ici");
+						 //System.out.println("Il est impossible de poser une tuille ici");
 					 }
 				}
 				else if(e.getButton() == MouseEvent.BUTTON3){
@@ -316,7 +316,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 				if(point!=null)
 					marking_menu.tuile_vide_cliquer(point);
 				
-				System.out.println("Etat :" + m.get_etat_jeu());
+				//System.out.println("Etat :" + m.get_etat_jeu());
 				if ( m.get_bat_choisi() == Case.Type_Batiment.VIDE)
 				{
 					// 	Menu deroulant
@@ -332,7 +332,7 @@ public class EcouteurDeSourisTerrain implements MouseListener {
 								m.Maj_liste_coup_construction();
 							}
 							else{
-								System.out.println("Il est impossible de poser un batiment ici");
+								//System.out.println("Il est impossible de poser un batiment ici");
 							}
 						}
 					}
