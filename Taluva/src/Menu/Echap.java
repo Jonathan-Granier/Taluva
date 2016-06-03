@@ -13,6 +13,7 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -59,7 +60,7 @@ public class Echap extends JComponent {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		
-		c.insets = new Insets(height_b*3/5,0,0,0);
+		c.insets = new Insets(0,width_b/3,0,0);
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		c.gridheight=1;
@@ -69,6 +70,15 @@ public class Echap extends JComponent {
 		c.ipadx = 0;
 		c.ipady = 0;
 		
+		JLabel nom_menu = new JLabel("Pause");
+		nom_menu.setFont(new Font("", Font.BOLD+Font.ITALIC,35));
+		nom_menu.setPreferredSize(new Dimension(width_b,height_b));
+		pause.add(nom_menu,c);
+		c.insets = new Insets(0,0,0,0);
+		
+		c.insets = new Insets(0,0,0,0);
+		c.gridy = 1;
+		
 		reprendre = new JButton("Reprendre");
 		reprendre.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
 		reprendre.setPreferredSize(new Dimension(width_b,height_b));
@@ -77,7 +87,7 @@ public class Echap extends JComponent {
 		c.insets = new Insets(0,0,0,0);
 		
 		c.insets = new Insets(-height_b*3/5,0,0,0);
-		c.gridy = 1;
+		c.gridy = 2;
 		
 		nouveau = new JButton("Nouveau");
 		nouveau.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -85,7 +95,7 @@ public class Echap extends JComponent {
 		nouveau.addActionListener(new Ecouteur_boutons_echap("Nouveau",this));
 		pause.add(nouveau,c);
 		
-		c.gridy = 2;
+		c.gridy = 3;
 		
 		comment_jouer = new JButton("Comment jouer");
 		comment_jouer.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -93,7 +103,7 @@ public class Echap extends JComponent {
 		comment_jouer.addActionListener(new Ecouteur_boutons_echap("Comment jouer",this));
 		pause.add(comment_jouer,c);
 		
-		c.gridy = 3;
+		c.gridy = 4;
 		
 		sauvegarder = new JButton("Sauvegarder");
 		sauvegarder.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -105,7 +115,7 @@ public class Echap extends JComponent {
 		}
 		pause.add(sauvegarder,c);
 
-		c.gridy = 4;
+		c.gridy = 5;
 		
 		charger = new JButton("Charger");
 		charger.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -118,7 +128,7 @@ public class Echap extends JComponent {
 		c.insets = new Insets(0,0,0,0);
 
 		c.insets = new Insets(height_b*3/5,0,0,0);
-		c.gridy = 6;
+		c.gridy = 7;
 		
 		menu_principal = new JButton("Menu Principal");
 		menu_principal.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -128,7 +138,7 @@ public class Echap extends JComponent {
 		c.insets = new Insets(0,0,0,0);
 
 		c.insets = new Insets(-height_b*3/5,0,height_b*3/5,0);
-		c.gridy = 7;
+		c.gridy = 8;
 		
 		quitter = new JButton("Quitter");
 		quitter.setFont(new Font("", Font.BOLD+Font.ITALIC,15));
@@ -146,7 +156,7 @@ public class Echap extends JComponent {
 		m_fenetre.setResizable(false);
 		m_fenetre.setUndecorated(true);
 		m_fenetre.setVisible(true);
-		m_fenetre.setSize(frame.getWidth()/4,frame.getHeight()/2);
+		m_fenetre.setSize(frame.getWidth()/5,frame.getHeight()/2);
 		m_fenetre.setLocation(frame.getWidth()*3/8, frame.getHeight()/8);
 		m_fenetre.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		m_fenetre.addWindowListener(new WindowAdapter() {
@@ -163,19 +173,21 @@ public class Echap extends JComponent {
 		principal.setEnabled(true);
 	}
 	public void nouveau(){
-		int result = JOptionPane.showConfirmDialog(m_fenetre, "Etes-vous sur de vouloir quitter ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
-		if(result == JOptionPane.YES_OPTION){
-			result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder la partie en cours ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
-        	if(result== JOptionPane.YES_OPTION)
+		int result = JOptionPane.showConfirmDialog(m_fenetre, "Voulez-vous sauvegarder la partie en cours d'abord ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+		if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
+			result = JOptionPane.showConfirmDialog(m_fenetre, "Etes-vous sur de vouloir quitter la partie en cours ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+        	if(result== JOptionPane.YES_OPTION){
         		sauvegarder();
-        	principal.remove(m_fenetre);
-    		m_fenetre.dispose();
-    		principal.setVisible(false);
-    		game.cleanUp();
-    		game.timerStop();
-    		principal.dispose();
-    		menu.setVisible(true);
-    		menu.add(new Nouveau(menu));
+	        	principal.remove(m_fenetre);
+	    		m_fenetre.dispose();
+	    		principal.setVisible(false);
+	    		game.cleanUp();
+	    		game.timerStop();
+	    		principal.dispose();
+	    		menu.setVisible(true);
+	    		menu.setEnabled(false);
+	    		menu.add(new Nouveau(menu));
+        	}
         }
 	}
 	public void comment_jouer(){

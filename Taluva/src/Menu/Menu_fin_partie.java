@@ -161,6 +161,7 @@ public class Menu_fin_partie extends JComponent {
 		game.timerStop();
 		principal.dispose();
 		menu.setVisible(true);
+		menu.setEnabled(false);
 		menu.add(new Nouveau(menu));
 	}
 	
