@@ -256,19 +256,19 @@ public class Nouveau extends JComponent {
 	private String init_faction(JComboBox<String> faction){
 		switch (faction.getSelectedIndex()){
 		case 0 : 
-			System.out.println("[Nouveau/Init_joueurs] Occidentaux");
+			//System.out.println("[Nouveau/Init_joueurs] Occidentaux");
 			return "Occidentaux";
 		case 1 :
-			System.out.println("[Nouveau/Init_joueurs] Orientaux");
+			//System.out.println("[Nouveau/Init_joueurs] Orientaux");
 			return "Orientaux";
 		case 2 :
-			System.out.println("[Nouveau/Init_joueurs] Bayloniens");
+			//System.out.println("[Nouveau/Init_joueurs] Bayloniens");
 			return "Bayloniens";
 		case 3 :
-			System.out.println("[Nouveau/Init_joueurs] Vikings");
+			//System.out.println("[Nouveau/Init_joueurs] Vikings");
 			return "Vikings";
 		default :
-			System.out.println("[Nouveau/Init_Faction] switch case default");
+			//System.out.println("[Nouveau/Init_Faction] switch case default");
 			return null;
 		}
 	}
@@ -276,19 +276,19 @@ public class Nouveau extends JComponent {
 	private Couleur_Joueur init_faction_couleur(JComboBox<String> faction){
 		switch (faction.getSelectedIndex()){
 		case 0 : 
-			System.out.println("[Nouveau/Init_joueurs] Occidentaux");
+			//System.out.println("[Nouveau/Init_joueurs] Occidentaux");
 			return Couleur_Joueur.BLEU;
 		case 1 :
-			System.out.println("[Nouveau/Init_joueurs] Orientaux");
+			//System.out.println("[Nouveau/Init_joueurs] Orientaux");
 			return Couleur_Joueur.JAUNE;
 		case 2 :
-			System.out.println("[Nouveau/Init_joueurs] Bayloniens");
+			//System.out.println("[Nouveau/Init_joueurs] Bayloniens");
 			return Couleur_Joueur.BLANC;
 		case 3 :
-			System.out.println("[Nouveau/Init_joueurs] Vikings");
+			//System.out.println("[Nouveau/Init_joueurs] Vikings");
 			return Couleur_Joueur.ROSE;
 		default :
-			System.out.println("[Nouveau/Init_Faction] switch case default");
+			//System.out.println("[Nouveau/Init_Faction] switch case default");
 			return null;
 		}
 	}
@@ -297,19 +297,19 @@ public class Nouveau extends JComponent {
 	private Joueur_Generique init_joueurs(Couleur_Joueur couleur,String faction,Moteur moteur,JComboBox<String> humain){
 		switch (humain.getSelectedIndex()){
 			case 0 :
-				System.out.println("[Nouveau/Init_joueurs] HUMAIN");
+				//System.out.println("[Nouveau/Init_joueurs] HUMAIN");
 				return new Joueur_Humain(couleur,faction);
 			case 1 :
-				System.out.println("[Nouveau/Init_joueurs] IA_Random");
+				//System.out.println("[Nouveau/Init_joueurs] IA_Random");
 				return new IA_Random(couleur,moteur,faction);
 			case 2 :
-				System.out.println("[Nouveau/Init_joueurs] IA_Heuristique");
+				//System.out.println("[Nouveau/Init_joueurs] IA_Heuristique");
 				return new IA_Moyenne(couleur,moteur,faction);
 			case 3 :
-				System.out.println("[Nouveau/Init_joueurs] IA_Heuristique");
+				//System.out.println("[Nouveau/Init_joueurs] IA_Heuristique");
 				return new IA_Heuristique(couleur,moteur,faction);
 			default :
-				System.out.println("[Nouveau/Init_joueurs] switch case default");
+				//System.out.println("[Nouveau/Init_joueurs] switch case default");
 				return null;
 		}
 	}
