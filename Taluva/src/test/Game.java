@@ -377,4 +377,11 @@ public class Game implements Observer,KeyListener {
 	public void keyTyped(KeyEvent arg0) {
 	}
 	
+	public Camera getCamera(){
+		return camera;
+	}
+	
+	public Moteur getMoteur(){
+		return moteur;
+	}
 }
