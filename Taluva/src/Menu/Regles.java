@@ -12,18 +12,20 @@ public class Regles extends JComponent {
 	
 	private JFrame m_fenetre;
 	private JFrame principal;
-	private Regle_panel panel;
+	public Regle_panel panel;
 	
 	public Regles(JFrame frame){
 		init_m_fenetre(frame);
 		panel = new Regle_panel(m_fenetre,principal);
 		m_fenetre.add(new Regle_panel(m_fenetre,principal));
+			
 	}
 	public Regles(JFrame frame, JFrame gameF){
 		init_m_fenetre(gameF);
 		principal = frame;
 		panel = new Regle_panel(m_fenetre,principal);
 		m_fenetre.add(panel);
+			
 	}
 
 	private void init_m_fenetre(JFrame frame){
@@ -31,9 +33,8 @@ public class Regles extends JComponent {
 		m_fenetre = new JFrame("Nouveau");
 		m_fenetre.setLayout(new BorderLayout());
 		m_fenetre.setVisible(true);
-		m_fenetre.setLocation(frame.getWidth()*5/22, frame.getHeight()/11);
-		m_fenetre.setSize(frame.getWidth()*6/11,frame.getHeight()*9/11);
-		m_fenetre.addKeyListener(new KeyboardListenerRegles(panel));
+		m_fenetre.setLocation(frame.getWidth()*3/22, frame.getHeight()/11);
+		m_fenetre.setSize(frame.getWidth()*8/11,frame.getHeight()*9/11);
 		m_fenetre.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		m_fenetre.addWindowListener(new WindowAdapter() {
             @Override
