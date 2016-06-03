@@ -200,9 +200,12 @@ public class Menu_Demarrage extends JComponent {
 	
 	public void continuer(){
 		if(this.continuer.isEnabled()){
-			Continuer cont = new Continuer("./Save");
-			cont.getSave().restore(moteur);
-			restore(moteur);
+			Load_save_screen screen = new Load_save_screen();
+			if(screen.getPath()!=null){
+				Continuer cont = new Continuer("./Save");
+				cont.getSave().restore(moteur);
+				restore(moteur);
+			}
 		}
 	}
 	
