@@ -259,7 +259,7 @@ public class Echap extends JComponent {
         		sauvegarder();
         	
         	result = JOptionPane.showConfirmDialog(m_fenetre, "Etes-vous sur de vouloir quitter la partie en cours ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
-	        if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
+	        if(result == JOptionPane.YES_OPTION){
 	        	if(result== JOptionPane.YES_OPTION)
 	        		sauvegarder();
 	        	principal.remove(m_fenetre);
@@ -281,7 +281,7 @@ public class Echap extends JComponent {
         		sauvegarder();
         	
 			result = JOptionPane.showConfirmDialog(m_fenetre, "Etes-vous sur de vouloir quitter ?", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
-	        if(result == JOptionPane.YES_OPTION || result == JOptionPane.NO_OPTION){
+	        if(result == JOptionPane.YES_OPTION){
 	        	principal.remove(m_fenetre);
 	    		m_fenetre.dispose();
 	    		principal.setVisible(false);

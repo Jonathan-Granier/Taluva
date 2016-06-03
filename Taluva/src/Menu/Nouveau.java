@@ -363,7 +363,7 @@ public class Nouveau extends JComponent {
         moteur.add_j2(j2);
         ihm = new IHM(moteur, gameF);
         ihm.run();
-        avancement = new Avancement(ihm);
+        avancement = new Avancement(ihm,gameF,principal,game);
         moteur.addPhaseListener(avancement);
         moteur.getJ1().addBatimentCountListener(avancement);
         moteur.getJ2().addBatimentCountListener(avancement);

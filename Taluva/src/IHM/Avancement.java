@@ -7,21 +7,28 @@ import javax.swing.JLabel;
 
 import Joueur.BatimentCountListener;
 import Joueur.Joueur_Generique;
+import Menu.Fin_de_partie;
 import Moteur.Moteur;
 import Moteur.Phase.Phase_Jeu;
 import Moteur.PhaseListener;
+import test.Game;
 
 public class Avancement implements PhaseListener, BatimentCountListener {
 	IHM ihm;
-	private JFrame fenetreJeu, menuPrincipale;
+	
+	private Game game;
+	private JFrame fenetreJeu, menuPrincipal;
 	
 	public Avancement(IHM ihm){
 		this.ihm=ihm;
 	}
 	
-	public Avancement(IHM ihm, JFrame fenetreJeu, JFrame menuPrincipale)
+	public Avancement(IHM ihm, JFrame fenetreJeu, JFrame menuPrincipal,Game game)
 	{
-		
+		this.ihm=ihm;
+		this.game = game;
+		this.fenetreJeu = fenetreJeu;
+		this.menuPrincipal = menuPrincipal;
 	}
 	
 	//actualise l'affichage
@@ -194,7 +201,11 @@ public class Avancement implements PhaseListener, BatimentCountListener {
 				ihm.getConstruire().setEtat(2);
 				ihm.getFinir().setEtat(2);
 				
-				//Lancer la fream avec la fin de partie
+				//TODO
+				//Lancer la frame avec la fin de partie
+				if(ihm.getM().get_joueurs_gagnant().size() == 1)
+				fenetreJeu.setEnabled(false);
+				fenetreJeu.add(new Fin_de_partie(ihm.getM(),fenetreJeu,menuPrincipal,this.game));
 				break;
 			default:
 				
