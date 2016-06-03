@@ -259,6 +259,11 @@ public class Moteur extends Phase{
 		return nb_Joueur;
 	}
 	
+	public ArrayList<Joueur_Generique> get_joueurs_gagnant()
+	{
+		return joueurs_gagnant;
+	}
+	
 	// Initialise le nombre de joueurs ( de 2 à 4) renvoi 0 si tout est correct, 1 sinon
 	public int set_NbJoueur(int n)
 	{
@@ -531,6 +536,13 @@ public class Moteur extends Phase{
 	}
 	
 	// SELECTEURS DES BATIMENTS DU JOUEUR
+	//Le batiment choisi est le vide
+	public void select_vide()
+	{
+		if(get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
+			bat_choisi = Case.Type_Batiment.VIDE;
+	}
+	
 	// Le batiment choisi est une hutte
 	public void select_hutte(){
 		if(get_etat_jeu() == Phase_Jeu.CONSTRUIRE_BATIMENT)
