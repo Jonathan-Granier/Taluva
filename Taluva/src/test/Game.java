@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 
 import loaders.Loader;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -25,6 +26,7 @@ import terrain.Tuile;
 import utils.FPS;
 import utils.Grid;
 import utils.MousePicker;
+import utils.OSValidator;
 import water.WaterRenderer;
 import water.WaterShader;
 import water.WaterTile;

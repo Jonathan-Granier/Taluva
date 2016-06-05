@@ -19,7 +19,7 @@ uniform bool notAllow;
 uniform vec3 playerColour;
 
 
-void main(void){
+void main(){
 
 
 	vec3 unitNormal = normalize(surfaceNormal);

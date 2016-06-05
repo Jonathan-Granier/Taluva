@@ -1,4 +1,4 @@
-#version 400
+#version 330
 #define N_LIGHTS 4
 
 in vec2 pass_textureCoords;
