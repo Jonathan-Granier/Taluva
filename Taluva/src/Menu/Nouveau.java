@@ -271,7 +271,7 @@ public class Nouveau extends JComponent {
 			return "Orientaux";
 		case 2 :
 			//System.out.println("[Nouveau/Init_joueurs] Bayloniens");
-			return "Bayloniens";
+			return "Babyloniens";
 		case 3 :
 			//System.out.println("[Nouveau/Init_joueurs] Vikings");
 			return "Vikings";
