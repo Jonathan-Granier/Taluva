@@ -6,9 +6,9 @@
 BIZARD Astor  
 BOUVIER-DENOIX Gabriel  
 GRANIER Jonathan  
-LAWSON Thibault
-MARONNIER Dimitri
-WONG Noha
+LAWSON Thibault  
+MARONNIER Dimitri  
+WONG Noha  
 
 ---------------------------  
 ### Exécuter le projet :
